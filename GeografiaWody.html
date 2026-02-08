@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wody okalajace europe</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <style>
+        #map {
+            height:99vmin;
+        }
+        html,body,#map{
+            height:100%;
+            margin:0;
+            padding:0}
+        body{
+            font-family:Inter,Arial,Helvetica,sans-serif;
+            background:#0b1220;
+            color:#e6eef8;
+            overflow:hidden
+        }
+        
+        #panel{
+        position:fixed;
+        right:12px;
+        top:12px;
+        z-index:1200;
+        background:rgba(2,6,23,0.75);
+        backdrop-filter:blur(2px);
+        padding:12px;
+        border-radius:10px;
+        box-shadow:0 6px 20px rgba(2,6,23,0.7);
+        min-width:280px
+        }
+        #panel select,#panel button{
+            width:100%;
+            margin:6px 0;
+            padding:8px;
+            border-radius:8px;
+            border:0;
+            font-size:14px
+        }
+        #panel button{
+        background:#0ea5a4;
+        color:#002;
+        cursor:pointer;
+        font-weight:bold
+        }
+        #status{
+        margin-top:8px;
+        font-size:14px;
+        color:#d1f3ff
+        }
+        .small{
+            font-size:12px;
+            color:#9fb7c9;
+            margin-top:6px
+        }
+    </style>
+</head>
+<body>
+
+    <div id="panel">
+    <label>Tryb:
+      <select id="modeSelect"><option value="nauka">Nauka</option><option value="test">Test</option></select>
+    </label>
+
+    <button id="startBtn">Start</button>
+    <!--
+    <button id="nextBtn" style="display:none; margin-top:6px; background:#7dd3fc; color:#002">Następne pytanie</button>
+    -->
+    <div id="status"><b>Wybierz tryb i naciśnij Start</b></div>
+    <small id="info" style="font-size: 10px; display: none; width:auto;">Pytania zmieniają się 3s po odpowiedzi</small>
+  </div>
+
+    <div id="map"></div>
+
+
+
+
+    <!--Script-->  
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+
+    const PLACES =
+        ["Morze Bartensa","Morze Norweskie","Morze Północne","Morze Bałtyckie","Zatoka Fińska","Zatoka Botnicka","Ocean Atlantycki","Kanał Św.Jerzego","Morze Białe","Morze Karskie",
+        "Cieśnina Kaletańska","Kanał La Manche","Morze Celtyckie","Zatoka Biskajska","Cieśnina Gibraltarska","Morze Śródziemne","Morze Balearskie","Morze Liguryjskie","Morze Tyrreńskie",
+        "Morze Adriatyckie","Morze Jońskie","Morze Egejskie","Cieśnina Bosfor","Morze Czarne","Morze Azowskie","Morze Kaspijskie","Cieśnina Sycylijska","Cieśnina Duńska","Cieśnina Wielki Bełt","Cieśnina Sund",
+        "Cieńsnina Mały Bełt"
+        ];
+    
+
+    const COORDS = {
+        "Morze Bartensa":[70.436799,41.835938],"Morze Norweskie":[67.709445,5.625000],"Morze Północne":[57.136239,2.285156],"Morze Bałtyckie":[56.462490,18.457031],"Zatoka Fińska":[59.910976,26.147461],"Zatoka Botnicka":[62.955223,20.214844],
+        "Ocean Atlantycki":[49.325122,-19.951172],"Kanał Św.Jerzego":[52.749594,-5.449219],"Morze Białe":[65.622023,37.617188],"Morze Karskie":[71.343013,58.579102],"Cieśnina Kaletańska":[51.013755,1.494141],"Kanał La Manche":[50.148746,-1.450195],
+        "Morze Celtyckie":[50.401515,-8.305664],"Zatoka Biskajska":[45.274886,-4.042969],"Cieśnina Gibraltarska":[35.924645,-5.603027],"Morze Śródziemne":[33.824794,18.742676],"Morze Balearskie":[40.363288,1.779785],"Morze Liguryjskie":[43.755225,8.9208980],
+        "Morze Tyrreńskie":[39.850721,13.161621],"Morze Adriatyckie":[42.908160,15.446777],"Morze Jońskie":[37.735969,17.600098],"Morze Egejskie":[38.548165,25.202637],"Cieśnina Bosfor":[41.115573,29.073601],"Morze Czarne":[43.261206,34.145508],
+        "Morze Azowskie":[46.057985,36.738281],"Morze Kaspijskie":[43.117024,49.042969],"Cieśnina Sycylijska":[37.090240,11.898193],"Cieśnina Duńska":[67.692771,-23.730469], "Cieśnina Wielki Bełt":[55.357258,10.956116], "Cieśnina Sund":[56.047164,12.649362],
+        "Cieńsnina Mały Bełt":[55.518500,9.749781]
+    }
+
+
+    
+    //Config mapy
+    const map = L.map('map').setView([55.973798,20.830078], 4);
+
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors',
+        maxZoom: 20,
+        minZoom: 2
+    }).addTo(map);
+
+    map.setMaxBounds([[27.994401,-29.970703], [77.235074,65.390625]])
+
+
+    //rozmieszczenie znaczników
+    const marker = null;
+    PLACES.forEach(function(nazwa) {
+        const coords = COORDS[nazwa];
+        const marker = L.marker(coords).addTo(map);
+        marker.bindPopup(nazwa);
+        marker.on('click', ()=> MarkerClicked(nazwa, marker));
+    });
+
+    let mode = "nauka"
+
+    //tryby 
+
+    function MarkerClicked (nazwa, marker) {
+        if (mode == 'nauka') {
+            //console.log(mode);
+        }
+        else if (mode == 'test') {
+            //sprawdzanie
+            if (nazwa == pytanie) {
+                document.getElementById("status").textContent = 'DOBRZE';
+            }
+            else {
+                document.getElementById("status").textContent = 'Źle';
+            }
+            setTimeout(losujpyt, 1000);
+        }
+    }
+
+    //quiz
+
+    let pytanie = null
+// losowanie pytań
+    function losujpyt(nazwa) {
+        pytanie = PLACES[Math.floor(Math.random() * PLACES.length)];
+        document.getElementById("status").textContent = pytanie;
+        //console.log(pytanie);
+    }
+
+
+
+   //przyciski
+   document.getElementById("startBtn").addEventListener("click", () => {
+    mode = document.getElementById("modeSelect").value;
+    //console.log(mode);
+    if (mode == 'test') {
+            document.getElementById("info").style.display = 'block';
+            losujpyt();
+        }
+    else if (mode == 'nauka') {
+        document.getElementById("info").style.display = 'none';
+        document.getElementById("status").textContent = '';
+    }
+   });
+
+    </script>
+    
+</body>
+</html>
