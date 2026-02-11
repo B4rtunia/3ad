@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS teoria</title>
+</head>
+<body style="background-color: #080C12;">
+  <div id="pyt">
+
+  </div>
+<script>
+const pytania = [
+  {
+    "Pytanie": "Kaskadowe arkusze stylów tworzy się w celu",
+    "A": "ułatwienia formatowania strony",
+    "B": "nadpisywania wartości znaczników już ustawionych na stronie",
+    "C": "połączenia struktury dokumentu strony z właściwą formą jego prezentacji",
+    "D": "blokowania jakichkolwiek zmian w wartościach znaczników już przypisanych w pliku CSS",
+    "Poprawna": "C"
+  },
+  {
+    "Pytanie": "W podanej regule CSS: h1 {color: blue} h1 oznacza",
+    "A": "klasę",
+    "B": "wartość",
+    "C": "selektor",
+    "D": "deklarację",
+    "Poprawna": "C"
+  },
+  {
+    "Pytanie": "Które polecenie w CSS służy do załączenia zewnętrznego arkusza stylów?",
+    "A": "open",
+    "B": "import",
+    "C": "require",
+    "D": "include",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Kod języka CSS można umieścić wewnątrz kodu HTML, posługując się znacznikiem",
+    "A": "<head>",
+    "B": "<style>",
+    "C": "<meta>",
+    "D": "<body>",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Wskaż prawidłową kolejność stylów CSS mając na uwadze ich pierwszeństwo w formatowaniu elementów strony WWW.",
+    "A": "Lokalny, Wewnętrzny, Zewnętrzny",
+    "B": "Zewnętrzny, Wydzielone bloki, Lokalny",
+    "C": "Rozciąganie stylu, Zewnętrzny, Lokalny",
+    "D": "Wewnętrzny, Zewnętrzny, Rozciąganie stylu",
+    "Poprawna": "A"
+  },
+  {
+    "Pytanie": "W folderze www znajdują się podfoldery html i style, w których zapisane są odpowiednio pliki z rozszerzeniem html i pliki z rozszerzeniem css. Chcąc dołączyć styl.css do pliku HTML należy użyć",
+    "A": "<link rel=\"Stylesheet\" type=\"text/css\" href=\"/styl.css\" />",
+    "B": "<link rel=\"Stylesheet\" type=\"text/css\" href=\"/style/styl.css\" />",
+    "C": "<link rel=\"Stylesheet\" type=\"text/css\" href=\"/www/style/styl.css\" />",
+    "D": "<link rel=\"Stylesheet\" type=\"text/css\" href=\"/../style/styl.css\" />",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Dołączenie zewnętrznego arkusza stylów do kodu HTML jest realizowane przy użyciu znacznika",
+    "A": "<css>",
+    "B": "<link>",
+    "C": "<style>",
+    "D": "<meta>",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Który znacznik lub grupa znaczników nie są stosowane do definiowania struktury strony HTML?",
+    "A": "<header>, <footer>",
+    "B": "<i>, <b>, <u>",
+    "C": "<section>",
+    "D": "<div>",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Na potrzeby strony internetowej zdefiniowano styl. Styl będzie przypisany tylko do niektórych znaczników (np. niektórych nagłówków, kilku akapitów). W takim wypadku, aby przypisać styl do kilku konkretnych znaczników, najlepiej jest zastosować",
+    "A": "klasę.",
+    "B": "pseudoklasę.",
+    "C": "identyfikator.",
+    "D": "selektor akapitu.",
+    "Poprawna": "A"
+  },
+  {
+    "Pytanie": "Selektor klasy w kaskadowych arkuszach stylów należy zdefiniować za pomocą symbolu",
+    "A": ". (kropka)",
+    "B": ": (dwukropek)",
+    "C": "#",
+    "D": "*",
+    "Poprawna": "A"
+  },
+  {
+    "Pytanie": "W języku CSS zapisano wspólne formatowanie dla pewnej grupy znaczników. Formatowanie takich znaczników w kodzie HTML nastąpi przez atrybut",
+    "A": "style = \"format1\"",
+    "B": "id = \"format1\"",
+    "C": "div = \"format1\"",
+    "D": "class = \"format1\"",
+    "Poprawna": "D"
+  },
+  {
+    "Pytanie": "W którym z przypadków walidacja fragmentu kodu CSS przebiegnie pomyślnie?",
+    "A": "<p style=\"font-size:bold;\">",
+    "B": "p { font-weight:bold; }",
+    "C": "<p style=\"font-style:bold;\">",
+    "D": "p { text-size:bold; }",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Dla przedstawionego fragmentu dokumentu HTML zdefiniowano formatowanie CSS selektora klasy \"menu\" tak, aby kolor tła bloku był zielony. Która definicja stylu CSS odpowiada temu formatowaniu?",
+    "A": "#menu { background-color: rgb(0,255,0); }",
+    "B": "div:menu { color: green; }",
+    "C": "div.menu { background-color: green; }",
+    "D": "menu { background-color: rgb(0,255,0); }",
+    "Poprawna": "C"
+  },
+  {
+    "Pytanie": "W której części dokumentu HTML należy umieścić wewnętrzny arkusz stylów?",
+    "A": "Wewnątrz znacznika, którego styl dotyczy",
+    "B": "W ciele strony",
+    "C": "W części nagłówkowej strony",
+    "D": "W skrypcie dołączonym do strony",
+    "Poprawna": "C"
+  },
+  {
+    "Pytanie": "Który znacznik pozwala na wewnętrzne dodawanie stylów CSS w kodzie HTML?",
+    "A": "<style>",
+    "B": "<type>",
+    "C": "<css>",
+    "D": "<script>",
+    "Poprawna": "A"
+  },
+  {
+    "Pytanie": "Który styl CSS ma najwyższy priorytet ważności w zastosowaniu do elementów dokumentu HTML?",
+    "A": "Styl importowany do wewnętrznego arkusza.",
+    "B": "Zewnętrzny arkusz stylów.",
+    "C": "Styl lokalny.",
+    "D": "Wewnętrzny arkusz stylów.",
+    "Poprawna": "C"
+  },
+  {
+    "Pytanie": "Witryna internetowa zawiera bardzo rozbudowany system stylów, na który składają się style zewnętrzne, wewnętrzne i lokalne. Aby upewnić się, że dana cecha opisana w zewnętrznym stylu jest zawsze przypisywana do elementu HTML, niezależnie od stylów bardziej priorytetowych, należy ją zdefiniować",
+    "A": "przy pomocy reguły !important",
+    "B": "jako selektor potomka",
+    "C": "przy pomocy pseudoelementu ::after",
+    "D": "jako pseudoklasę :active",
+    "Poprawna": "A"
+  },
+  {
+    "Pytanie": "Selektor CSS a:link {color:red} zawarty w kaskadowych arkuszach stylów definiuje",
+    "A": "klasę",
+    "B": "pseudoklasę",
+    "C": "identyfikator",
+    "D": "pseudoelement",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Chcąc zdefiniować formatowanie tabeli w języku CSS w taki sposób, aby wiersz, który jest aktualnie wskazywany kursorem myszy, został wyróżniony np. innym kolorem, należy zastosować",
+    "A": "pseudoklasę :visited",
+    "B": "pseudoklasę :hover",
+    "C": "pseudoelement :first-line",
+    "D": "nowy selektor klasy dla wiersza tabeli",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "W języku CSS, aby sformatować dowolny element języka HTML w ten sposób, że po najechaniu na niego kursorem zmienia on kolor czcionki, należy zastosować pseudoklasę",
+    "A": ":active",
+    "B": ":hover",
+    "C": ":visited",
+    "D": ":coursor",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "W języku CSS aby zdefiniować odmienne formatowanie dla pierwszej litery akapitu, należy zastosować selektor",
+    "A": "klasy p.first-letter",
+    "B": "dziecka p + first-letter",
+    "C": "atrybutu p [first-letter]",
+    "D": "pseudoelementu p::first-letter",
+    "Poprawna": "D"
+  },
+  {
+    "Pytanie": "Chcąc sformatować w stylach CSS wszystkie obrazy zawarte w akapicie, powinno się użyć selektora",
+    "A": "p img",
+    "B": "p#img",
+    "C": "p+img",
+    "D": "p.img",
+    "Poprawna": "A"
+  },
+  {
+    "Pytanie": "Jak zdefiniować w języku CSS formatowanie hiperłącza, żeby nieodwiedzony link był w kolorze żółtym, a odwiedzony w kolorze zielonym?",
+    "A": "a:visited {color: yellow;} a:link{color: green;}",
+    "B": "a:hover {color: green;} a:link{color: yellow;}",
+    "C": "a:hover {color: yellow;} a:visited{color: green;}",
+    "D": "a:link {color: yellow;} a:visited{color: green;}",
+    "Poprawna": "D"
+  },
+  {
+    "Pytanie": "W języku CSS zdefiniowano formatowanie dla stopki. Aby użyć tego formatowania dla bloku opisanego znacznikiem div, należy zapisać",
+    "A": "<div \"stopka\">",
+    "B": "<div id=\"stopka\">",
+    "C": "<div title=\"stopka\">",
+    "D": "<div class=\"stopka\">",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "W kodzie CSS zastosowano formatowanie elementu listy, przy czym żadne inne formatowanie CSS nie zostało zdefiniowane. Zastosowane formatowanie sprawi, że",
+    "A": "tekst wszystkich elementów, którym przypisano id \"hover\" będzie w kolorze Maroon.",
+    "B": "po najechaniu kursorem na element listy, zmieni się kolor tekstu na Maroon.",
+    "C": "tekst wszystkich elementów listy będzie w kolorze Maroon.",
+    "D": "kolor Maroon będzie obejmował co drugi element listy.",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Który selektor formatuje akapity tekstu o klasie tekst oraz element blokowy o ID obrazki?",
+    "A": "p.tekst, div#obrazki",
+    "B": "p#tekst, div.obrazki",
+    "C": "p.tekst + div#obrazki",
+    "D": "p#tekst + div.obrazki",
+    "Poprawna": "A"
+  },
+  {
+    "Pytanie": "Jak zdefiniować w języku CSS takie formatowanie tabeli, żeby wiersz, na którym aktualnie znajduje się kursor myszy, zmieniał kolor tła na szary",
+    "A": "tr:active { color: gray; }",
+    "B": "tr:active { background-color: gray; }",
+    "C": "tr:hover { background-color: gray; }",
+    "D": "tr:hover { color: gray; }",
+    "Poprawna": "C"
+  },
+  {
+    "Pytanie": "Zapis selektora input[type=number] { background-color: Brown; } oznacza, że tło będzie brązowe dla",
+    "A": "pól edycyjnych, które są typu numerycznego",
+    "B": "wszystkich tekstów na stronie",
+    "C": "wszystkich pól edycyjnych",
+    "D": "pól edycyjnych, gdy użytkownik wpisze do nich dowolną cyfrę",
+    "Poprawna": "A"
+  },
+  {
+    "Pytanie": "tr:nth-child(even) {background-color: #F2F2F2;} Zastosowane formatowanie selektora tr spowoduje",
+    "A": "wypełnienie szarym tłem wierszy nieparzystych tabeli.",
+    "B": "wypełnienie szarym tłem wierszy parzystych tabeli.",
+    "C": "oddzielenie wierszy nieparzystych od parzystych wierszem z szarym tłem.",
+    "D": "wypełnienie wszystkich wierszy tabeli szarym tłem.",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Aby zdefiniować styl akapitu <p>, który występuje bezpośrednio po znaczniku <img>, należy w arkuszu stylów CSS zastosować związek",
+    "A": "img > p",
+    "B": "img p",
+    "C": "img [p]",
+    "D": "img + p",
+    "Poprawna": "D"
+  },
+  {
+    "Pytanie": "Aby ustawić czcionkę Verdana w kodzie CSS, należy wykorzystać właściwość",
+    "A": "font-family: Verdana;",
+    "B": "font-style: Verdana;",
+    "C": "font-name: Verdana;",
+    "D": "font-weight: Verdana;",
+    "Poprawna": "A"
+  },
+  {
+    "Pytanie": "W języku CSS właściwość font-size przyjmuje, według słów kluczowych, wartości",
+    "A": "tylko big i small",
+    "B": "wyłączenie small, medium, large",
+    "C": "jedynie small, smaller, large, larger",
+    "D": "ze zbioru xx-small, x-small, medium, large, x-large, xx-large",
+    "Poprawna": "D"
+  },
+  {
+    "Pytanie": "Dla akapitu zdefiniowano styl CSS. Które właściwości stylu CSS poprawnie opisują dla akapitu krój czcionki: Arial; rozmiar czcionki: 16 pt; styl czcionki: pochylenie?",
+    "A": "p{font-style: Arial; size: 16px; font-weight: normal;}",
+    "B": "p{font-family: Arial; font-size: 16pt; font-style: italic;}",
+    "C": "p{font-style: Arial; font-size: 16pt; font-variant: normal;}",
+    "D": "p{font-family: Arial; font-size: 16px; font-variant: normal;}",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Aby zdefiniować krój czcionki w stylu CSS, należy użyć właściwości",
+    "A": "text-style",
+    "B": "font-style",
+    "C": "text-family",
+    "D": "font-family",
+    "Poprawna": "D"
+  },
+  {
+    "Pytanie": "Pogrubienie tekstu za pomocą znacznika <b> można uzyskać także przy wykorzystaniu właściwości CSS",
+    "A": "text-weight",
+    "B": "font-weight",
+    "C": "font-size",
+    "D": "text-size",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "W języku CSS, aby uzyskać efekt pochylenia tekstu, należy użyć właściwości",
+    "A": "font-size",
+    "B": "font-style",
+    "C": "font-family",
+    "D": "font-variant",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "W stylu CSS aby zadeklarować krój czcionki, należy użyć właściwości",
+    "A": "font-face",
+    "B": "font-style",
+    "C": "font-size",
+    "D": "font-family",
+    "Poprawna": "D"
+  },
+  {
+    "Pytanie": "Zdefiniowany styl dla selektora p: font-family: Arial, Helvetica, sans-serif; spowoduje, że w paragrafie zostanie wyświetlony tekst czcionką",
+    "A": "szeryfową",
+    "B": "bezszeryfową",
+    "C": "dekoracyjną",
+    "D": "maszynową",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Aby uzyskać efekt rozstrzelenia liter w selektorze CSS, należy użyć właściwości",
+    "A": "letter-transform",
+    "B": "text-decoration",
+    "C": "letter-spacing",
+    "D": "text-space",
+    "Poprawna": "C"
+  },
+  {
+    "Pytanie": "W języku CSS, aby formatować tekst poprzez przekreślenie, podkreślenie dolne lub górne, należy zastosować",
+    "A": "text-align",
+    "B": "text-indent",
+    "C": "text-transform",
+    "D": "text-decoration",
+    "Poprawna": "D"
+  },
+  {
+    "Pytanie": "W języku CSS, aby zdefiniować niestandardowe odstępy między wyrazami, stosuje się właściwość",
+    "A": "line-spacing",
+    "B": "white-space",
+    "C": "word-spacing",
+    "D": "letter-space",
+    "Poprawna": "C"
+  },
+  {
+    "Pytanie": "W języku CSS wcięcie pierwszej linii akapitu na 30 pikseli uzyska się za pomocą zapisu",
+    "A": "p { text-indent: 30px; }",
+    "B": "p { text-spacing: 30px; }",
+    "C": "p { line-height: 30px; }",
+    "D": "p { line-indent: 30px; }",
+    "Poprawna": "A"
+  },
+  {
+    "Pytanie": "W języku CSS wartości underline, overline, blink przyjmują atrybut",
+    "A": "text-style",
+    "B": "font-style",
+    "C": "font-weight",
+    "D": "text-decoration",
+    "Poprawna": "D"
+  },
+  {
+    "Pytanie": "Który styl CSS pozwoli zdefiniować wyrównanie tekstu do prawej strony?",
+    "A": "<p style=\"font: right\">tekst</p>",
+    "B": "<p style=\"align: right\">tekst</p>",
+    "C": "<p style=\"position: right\">tekst</p>",
+    "D": "<p style=\"text-align: right\">tekst</p>",
+    "Poprawna": "D"
+  },
+  {
+    "Pytanie": "Tekst paragrafu, wyśrodkowany w pionie, opisuje w CSS reguła",
+    "A": "vertical-align: middle",
+    "B": "vertical-align: center",
+    "C": "text-align: center",
+    "D": "align: middle",
+    "Poprawna": "A"
+  },
+  {
+    "Pytanie": "Transformację w stylach CSS, polegającą na zamianie tylko pierwszych liter wszystkich wyrazów na wielkie, otrzymamy stosując polecenie",
+    "A": "underline",
+    "B": "capitalize",
+    "C": "uppercase",
+    "D": "lowercase",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Która właściwość języka CSS umożliwia zmianę domyślnego koloru czcionki?",
+    "A": "color",
+    "B": "text-decoration",
+    "C": "transform",
+    "D": "font-style",
+    "Poprawna": "A"
+  },
+  {
+    "Pytanie": "Która właściwość języka CSS może przyjmować wartości: underline, overline, line-through?",
+    "A": "text-decoration",
+    "B": "font-weight",
+    "C": "text-style",
+    "D": "font-style",
+    "Poprawna": "A"
+  },
+  {
+    "Pytanie": "Blok deklaracji postaci background-attachment: scroll powoduje, że",
+    "A": "grafika tła będzie powtarzana (kafelki)",
+    "B": "tło strony będzie przewijane razem z tekstem",
+    "C": "tło strony będzie stałe, a tekst będzie się przewijał",
+    "D": "grafika tła będzie wyświetlona w prawym górnym rogu strony",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Który z atrybutów background-attachment w języku CSS należy wybrać, aby tło strony było nieruchome względem okna przeglądarki?",
+    "A": "Scroll",
+    "B": "Fixed",
+    "C": "Local",
+    "D": "Inherit",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "W języku CSS, należy zdefiniować tło dokumentu jako obraz rys.png. Obraz ma powtarzać się jedynie w poziomie. Którą definicję należy przypisać selektorowi body?",
+    "A": "{background-image: url(\"rys.png\"); background-repeat: repeat-x;}",
+    "B": "{background-image: url(\"rys.png\"); background-repeat: round;}",
+    "C": "{background-image: url(\"rys.png\"); background-repeat: repeat-y;}",
+    "D": "{background-image: url(\"rys.png\"); background-repeat: repeat;}",
+    "Poprawna": "A"
+  },
+  {
+    "Pytanie": "Linia kreskowana w stylu obramowania CSS jest określona właściwością",
+    "A": "solid",
+    "B": "double",
+    "C": "dotted",
+    "D": "dashed",
+    "Poprawna": "D"
+  },
+  {
+    "Pytanie": "W stylach CSS, aby ustalić styl linii obramowania jako linię kreskową, należy zastosować wartość",
+    "A": "solid",
+    "B": "dotted",
+    "C": "dashed",
+    "D": "groove",
+    "Poprawna": "C"
+  },
+  {
+    "Pytanie": "Formatowanie CSS akapitu określa styl szarej ramki o cechach:",
+    "A": "linia kropkowa; grubość 2 px; marginesy pomiędzy tekstem a ramką 15 px.",
+    "B": "linia ciągła; grubość 2 px; marginesy pomiędzy tekstem a ramką 15 px.",
+    "C": "linia kreskowa; grubość 2 px; marginesy poza ramką 15 px.",
+    "D": "linia ciągła; grubość 2 px; marginesy poza ramką 15 px.",
+    "Poprawna": "A"
+  },
+  {
+    "Pytanie": "W języku CSS, w celu zdefiniowania wewnętrznego górnego marginesu, czyli odstepu między elementem a otaczającym go obramowaniem, należy użyć polecenia",
+    "A": "padding-top",
+    "B": "outline-top",
+    "C": "border-top",
+    "D": "local-top",
+    "Poprawna": "A"
+  },
+  {
+    "Pytanie": "Chcąc zdefiniować marginesy wewnętrzne dla danych: margines górny 50px, dolny 40px, prawy 20px i lewy 30px należy użyć składni CSS",
+    "A": "padding: 50px, 40px, 20px, 30px;",
+    "B": "padding: 50px, 20px, 40px, 30px;",
+    "C": "padding: 20px, 40px, 30px, 50px;",
+    "D": "padding: 40px, 30px, 50px, 20px;",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Której właściwości CSS należy użyć, aby zdefiniować marginesy wewnętrzne dla elementu?",
+    "A": "hight",
+    "B": "width",
+    "C": "margin",
+    "D": "padding",
+    "Poprawna": "D"
+  },
+  {
+    "Pytanie": "Który styl CSS pozwoli na ustawienie rozmiaru prawego marginesu zewnętrznego dla elementu <div> na 200px?",
+    "A": "div { margin: 100px 200px 150px 80px; }",
+    "B": "div {padding: 200px 150px 100px 80px; }",
+    "C": "div {margin: 100px 80px 200px 250px; }",
+    "D": "div { padding: 80px 200px 150px 100px; }",
+    "Poprawna": "A"
+  },
+  {
+    "Pytanie": "Aby na stronie internetowej wszystkie elementy blokowe były wyśrodkowane w poziomie należy dla nich zdefiniować styl",
+    "A": "text-align: center;",
+    "B": "padding: auto;",
+    "C": "display: block;",
+    "D": "margin: auto;",
+    "Poprawna": "D"
+  },
+  {
+    "Pytanie": "W celu określenia wysokości obrazka wyświetlonego na stronie WWW należy wykorzystać właściwość CSS o nazwie",
+    "A": "width",
+    "B": "padding",
+    "C": "height",
+    "D": "margin",
+    "Poprawna": "C"
+  },
+  {
+    "Pytanie": "Strona HTML definiuje akapit oraz rysunek. Aby rysunek został umieszczony przez przeglądarkę w tej samej linii co akapit po jego lewej stronie, należy w stylu CSS rysunku zawrzeć własność",
+    "A": "float:left;",
+    "B": "align:left;",
+    "C": "style:left;",
+    "D": "alt:left;",
+    "Poprawna": "A"
+  },
+  {
+    "Pytanie": "Wartości: static, relative, fixed, absolute oraz sticky można przypisać do właściwości",
+    "A": "display",
+    "B": "position",
+    "C": "list-style-type",
+    "D": "text-transform",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Aby za pomocą CSS zdefiniować przedstawione opływanie obrazu tekstem należy w stylu obrazu wprowadzić zapis",
+    "A": "float: left;",
+    "B": "table: left;",
+    "C": "clear: both;",
+    "D": "float: right;",
+    "Poprawna": "A"
+  },
+  {
+    "Pytanie": "Na stronie WWW zdefiniowano rysunek, następnie akapit. Aby rysunek został umieszczony przez przeglądarkę w tej samej linii co akapit, po lewej stronie akapitu, należy w stylu CSS dla rysunku zapisać własność:",
+    "A": "float: left;",
+    "B": "style: left;",
+    "C": "align: left;",
+    "D": "alt: left;",
+    "Poprawna": "A"
+  },
+  {
+    "Pytanie": "W języku CSS przypisano regułę: float:left; dla bloku. Reguła ta zostanie wykorzystana do",
+    "A": "wyrównania tekstu do lewej strony",
+    "B": "ustawienia bloków jeden pod drugim",
+    "C": "ustawienia bloku na lewo względem innych",
+    "D": "wyrównanie elementów tabeli do lewej strony",
+    "Poprawna": "C"
+  },
+  {
+    "Pytanie": "W stylu CSS właściwość float pozwala na umieszczenie elementu",
+    "A": "po lewej lub prawej stronie innego elementu",
+    "B": "wyłącznie po prawej stronie innego elementu",
+    "C": "wyłącznie nad innym elementem",
+    "D": "nad lub pod innym elementem",
+    "Poprawna": "A"
+  },
+  {
+    "Pytanie": "Strona internetowa zawiera menu poziome w postaci listy punktowanej. Aby elementy tej listy mogły być wyświetlane w jednej linii, należy ustawić dla selektora li właściwość",
+    "A": "possition",
+    "B": "outline",
+    "C": "text-align",
+    "D": "display",
+    "Poprawna": "D"
+  },
+  {
+    "Pytanie": "W CSS symbolem jednostki miary, wyrażonej w punktach edytorskich, jest",
+    "A": "em",
+    "B": "px",
+    "C": "pt",
+    "D": "in",
+    "Poprawna": "C"
+  },
+  {
+    "Pytanie": "Aby utworzyć styl strony responsywnej dla ekranów o szerokości od 600 px do 800 px należy zastosować regułę CSS",
+    "A": "@media (max-width: 800px) (min-width: 600px){/style css/}",
+    "B": "@media screen and (max-width: 800px) and (min-width: 600px){/style css/}",
+    "C": "@media (min-width: 800px){/style css/}",
+    "D": "@media screen (min-width: 800px) and (max-width: 600px){/style css/}",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Właściwość CSS animation-duration określa",
+    "A": "czas trwania jednego cyklu animacji",
+    "B": "liczba powtórzeń animacji",
+    "C": "kierunek rozpoczęcia animacji",
+    "D": "opóźnienie startu animacji",
+    "Poprawna": "A"
+  },
+  {
+    "Pytanie": "W kaskadowych arkuszach stylów, aby zdefiniować marginesy wewnętrzne (odległość między treścią a obramowaniem), należy użyć właściwości",
+    "A": "margin",
+    "B": "padding",
+    "C": "border",
+    "D": "spacing",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "W języku CSS selektor, którego nazwa została poprzedzona znakiem kropki, to selektor",
+    "A": "id",
+    "B": "klasy",
+    "C": "znacznika",
+    "D": "potomka",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Aby zdefiniować styl CSS dla elementu o unikalnym identyfikatorze 'naglowek', należy w arkuszu użyć znaku",
+    "A": "#",
+    "B": ".",
+    "C": ":",
+    "D": "!",
+    "Poprawna": "A"
+  },
+  {
+    "Pytanie": "Która właściwość CSS odpowiada za zmianę koloru tekstu?",
+    "A": "text-color",
+    "B": "fgcolor",
+    "C": "color",
+    "D": "font-color",
+    "Poprawna": "C"
+  },
+  {
+    "Pytanie": "Który z wymienionych sposobów deklaracji stylów ma najwyższy priorytet (jest najważniejszy)?",
+    "A": "Zewnętrzny arkusz stylów",
+    "B": "Wewnętrzny arkusz stylów w sekcji <head>",
+    "C": "Styl wpisany bezpośrednio w znaczniku (inline)",
+    "D": "Domyślny styl przeglądarki",
+    "Poprawna": "C"
+  },
+  {
+    "Pytanie": "Jednostką miary w CSS, która jest relatywna do rozmiaru czcionki elementu nadrzędnego, jest",
+    "A": "px",
+    "B": "em",
+    "C": "cm",
+    "D": "pt",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Aby ustawić obrazek tła, który nie będzie się powtarzał, należy użyć właściwości",
+    "A": "background-repeat: no-repeat;",
+    "B": "background-image: fixed;",
+    "C": "background-repeat: repeat-none;",
+    "D": "background-style: single;",
+    "Poprawna": "A"
+  },
+  {
+    "Pytanie": "Która właściwość CSS służy do pogrubienia tekstu?",
+    "A": "font-style: bold;",
+    "B": "text-weight: bold;",
+    "C": "font-weight: bold;",
+    "D": "text-style: bold;",
+    "Poprawna": "C"
+  },
+  {
+    "Pytanie": "Właściwość CSS 'text-align: center;' spowoduje",
+    "A": "wyśrodkowanie elementu blokowego na stronie",
+    "B": "wyśrodkowanie tekstu wewnątrz elementu",
+    "C": "ustawienie marginesów na automatyczne",
+    "D": "wyrównanie tekstu do obu marginesów (justowanie)",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Jaką właściwość należy zastosować, aby tekst był wyświetlany wielkimi literami bez względu na to, jak został wpisany w HTML?",
+    "A": "text-transform: uppercase;",
+    "B": "font-variant: small-caps;",
+    "C": "text-decoration: uppercase;",
+    "D": "font-style: uppercase;",
+    "Poprawna": "A"
+  },
+  {
+    "Pytanie": "Selektor 'div p' w arkuszu stylów CSS odnosi się do",
+    "A": "wszystkich znaczników div oraz wszystkich p",
+    "B": "znaczników p znajdujących się wewnątrz znaczników div",
+    "C": "znaczników div znajdujących się wewnątrz znaczników p",
+    "D": "tylko pierwszego znacznika p na stronie",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Aby usunąć podkreślenie z hiperłącza za pomocą CSS, należy użyć",
+    "A": "text-decoration: none;",
+    "B": "text-style: no-underline;",
+    "C": "link-style: none;",
+    "D": "decoration: none;",
+    "Poprawna": "A"
+  },
+  {
+    "Pytanie": "Właściwość 'float: left;' w CSS powoduje",
+    "A": "wyrównanie tekstu do lewej strony",
+    "B": "opływanie elementu przez inne elementy z prawej strony",
+    "C": "przesunięcie elementu o określoną liczbę pikseli w lewo",
+    "D": "ukrycie elementu po lewej stronie ekranu",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Jak zdefiniować kolor tła dla całej strony w zewnętrznym pliku CSS?",
+    "A": "body { background-color: yellow; }",
+    "B": "all { background-color: yellow; }",
+    "C": "document { background-color: yellow; }",
+    "D": "html { bg-color: yellow; }",
+    "Poprawna": "A"
+  },
+  {
+    "Pytanie": "Który z zapisów koloru w CSS jest błędny?",
+    "A": "color: #FF0000;",
+    "B": "color: rgb(255, 0, 0);",
+    "C": "color: red;",
+    "D": "color: #red;",
+    "Poprawna": "D"
+  },
+  {
+    "Pytanie": "Właściwość 'display: none;' spowoduje, że element",
+    "A": "będzie niewidoczny, ale zajmie miejsce na stronie",
+    "B": "zostanie całkowicie usunięty z drzewa DOM i nie zajmie miejsca",
+    "C": "zmieni kolor na przezroczysty",
+    "D": "będzie widoczny tylko dla robotów sieciowych",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Która właściwość określa krój czcionki?",
+    "A": "font-style",
+    "B": "font-family",
+    "C": "font-type",
+    "D": "font-face",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Aby stworzyć obramowanie elementu, które jest kropkowane, należy użyć wartości",
+    "A": "border-style: dotted;",
+    "B": "border-style: dashed;",
+    "C": "border-type: dots;",
+    "D": "border-decoration: dotted;",
+    "Poprawna": "A"
+  },
+  {
+    "Pytanie": "Właściwość 'z-index' w CSS określa",
+    "A": "stopień powiększenia elementu",
+    "B": "poziom przezroczystości",
+    "C": "kolejność nakładania się na siebie elementów pozycjonowanych",
+    "D": "indeks czcionki w systemie",
+    "Poprawna": "C"
+  },
+  {
+    "Pytanie": "Jak za pomocą CSS sprawić, by każdy wyraz w tekście zaczynał się od wielkiej litery?",
+    "A": "text-transform: capitalize;",
+    "B": "text-transform: uppercase;",
+    "C": "font-transform: capitalize;",
+    "D": "text-style: capitalize;",
+    "Poprawna": "A"
+  },
+  {
+    "Pytanie": "Która właściwość służy do ustawienia odstępów między literami?",
+    "A": "word-spacing",
+    "B": "letter-spacing",
+    "C": "character-spacing",
+    "D": "line-height",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "W modelu pudełkowym (box model) obramowanie znajduje się",
+    "A": "pomiędzy marginesem zewnętrznym (margin) a marginesem wewnętrznym (padding)",
+    "B": "wewnątrz marginesu wewnętrznego",
+    "C": "na zewnątrz marginesu zewnętrznego",
+    "D": "pomiędzy treścią a marginesem wewnętrznym",
+    "Poprawna": "A"
+  },
+  {
+    "Pytanie": "Pseudoklasa :hover służy do zdefiniowania stylu elementu w momencie, gdy",
+    "A": "użytkownik kliknie element",
+    "B": "kursor myszy znajdzie się nad elementem",
+    "C": "element zostanie aktywowany klawiszem Tab",
+    "D": "strona zostanie załadowana",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Właściwość 'list-style-type: square;' zastosowana dla listy <ul> spowoduje wyświetlenie",
+    "A": "numeracji rzymskiej",
+    "B": "punktora w kształcie kwadratu",
+    "C": "punktora w kształcie koła",
+    "D": "braku punktora",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Właściwość 'position: fixed;' powoduje, że element jest pozycjonowany względem",
+    "A": "rodzica",
+    "B": "okna przeglądarki i nie przesuwa się podczas przewijania",
+    "C": "najbliższego elementu pozycjonowanego",
+    "D": "miejsca, w którym pierwotnie znajdował się w kodzie",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Aby ustawić szerokość elementu na połowę dostępnego miejsca, należy użyć zapisu",
+    "A": "width: 50%;",
+    "B": "width: 50px;",
+    "C": "width: 0.5;",
+    "D": "width: half;",
+    "Poprawna": "A"
+  },
+  {
+    "Pytanie": "Właściwość 'clear: both;' jest stosowana, aby",
+    "A": "wyczyścić zawartość formularza",
+    "B": "wyłączyć opływanie elementu z obu stron",
+    "C": "usunąć wszystkie style CSS z elementu",
+    "D": "wyczyścić tło elementu",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Zapis 'margin: 10px 20px 30px 40px;' ustawia margines górny o wartości",
+    "A": "10px",
+    "B": "20px",
+    "C": "30px",
+    "D": "40px",
+    "Poprawna": "A"
+  },
+  {
+    "Pytanie": "Jak zdefiniować styl CSS, który będzie dotyczył wszystkich nagłówków od h1 do h6 jednocześnie?",
+    "A": "h1-h6 { color: blue; }",
+    "B": "h1, h2, h3, h4, h5, h6 { color: blue; }",
+    "C": "h* { color: blue; }",
+    "D": "all-headers { color: blue; }",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Właściwość 'opacity: 0.5;' ustawia",
+    "A": "rozmycie elementu",
+    "B": "przezroczystość elementu na 50%",
+    "C": "jasność elementu na 50%",
+    "D": "szerokość elementu na 50 pikseli",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Atrybut 'media=\"print\"' w znaczniku <link> dołączającym arkusz stylów oznacza, że",
+    "A": "arkusz będzie używany tylko podczas wyświetlania na ekranach",
+    "B": "arkusz będzie używany tylko podczas drukowania strony",
+    "C": "arkusz służy do formatowania plików wideo",
+    "D": "arkusz jest przeznaczony dla urządzeń mobilnych",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Aby wymusić interpretację danej właściwości CSS nad wszystkimi innymi regułami, należy użyć frazy",
+    "A": "!important",
+    "B": "!priority",
+    "C": "!force",
+    "D": "!main",
+    "Poprawna": "A"
+  },
+  {
+    "Pytanie": "Właściwość 'visibility: hidden;' sprawia, że",
+    "A": "element znika, a miejsce po nim jest zwalniane",
+    "B": "element staje się niewidoczny, ale nadal zajmuje swoje miejsce w układzie",
+    "C": "element jest usuwany z kodu HTML",
+    "D": "element zmienia kolor na kolor tła",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Który selektor CSS wybierze wszystkie elementy <a> posiadające atrybut 'title'?",
+    "A": "a[title]",
+    "B": "a.title",
+    "C": "a#title",
+    "D": "a:title",
+    "Poprawna": "A"
+  },
+  {
+    "Pytanie": "Właściwość 'overflow: scroll;' spowoduje",
+    "A": "automatyczne powiększenie elementu do rozmiaru treści",
+    "B": "dodanie pasków przewijania do elementu, gdy treść wychodzi poza jego obszar",
+    "C": "ukrycie treści wychodzącej poza element",
+    "D": "wyłączenie możliwości przewijania strony",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Jak w CSS zakomentować fragment kodu?",
+    "A": "// komentarz //",
+    "B": "/* komentarz */",
+    "C": "",
+    "D": "# komentarz #",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Właściwość 'line-height' odpowiada za",
+    "A": "wysokość całego akapitu",
+    "B": "odstęp między liniami tekstu (interlinię)",
+    "C": "maksymalną wysokość czcionki",
+    "D": "wysokość obramowania",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Wartość 'auto' dla właściwości 'margin-left' i 'margin-right' przy ustawionej szerokości elementu blokowego spowoduje",
+    "A": "wyrównanie elementu do lewej",
+    "B": "wyrównanie elementu do prawej",
+    "C": "wyśrodkowanie elementu w poziomie",
+    "D": "rozciągnięcie elementu na całą stronę",
+    "Poprawna": "C"
+  },
+  {
+    "Pytanie": "Która pseudoklasa odnosi się do linków, które nie zostały jeszcze odwiedzone?",
+    "A": ":link",
+    "B": ":visited",
+    "C": ":active",
+    "D": ":hover",
+    "Poprawna": "A"
+  },
+  {
+    "Pytanie": "Właściwość 'box-sizing: border-box;' sprawia, że",
+    "A": "padding i border są wliczane do całkowitej szerokości i wysokości elementu",
+    "B": "padding i border są dodawane na zewnątrz zadeklarowanej szerokości",
+    "C": "marginesy są wliczane do szerokości elementu",
+    "D": "obramowanie staje się niewidoczne",
+    "Poprawna": "A"
+  },
+  {
+    "Pytanie": "Jak zdefiniować styl dla elementu o klasie 'tekst', który znajduje się tylko wewnątrz elementu o id 'kontener'?",
+    "A": ".tekst #kontener { ... }",
+    "B": "#kontener .tekst { ... }",
+    "C": "#kontener tekst { ... }",
+    "D": ".kontener #tekst { ... }",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Właściwość 'font-style: italic;' powoduje",
+    "A": "pogrubienie tekstu",
+    "B": "pochylenie tekstu (kursywę)",
+    "C": "podkreślenie tekstu",
+    "D": "zmianę koloru tekstu",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Który atrybut znacznika <link> wskazuje ścieżkę do pliku CSS?",
+    "A": "src",
+    "B": "href",
+    "C": "rel",
+    "D": "type",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Jednostka 'vh' w CSS odnosi się do",
+    "A": "1% wysokości okna przeglądarki (viewport height)",
+    "B": "1% wysokości całego dokumentu HTML",
+    "C": "10 pikseli w orientacji pionowej",
+    "D": "wysokości czcionki bazowej",
+    "Poprawna": "A"
+  },
+  {
+    "Pytanie": "Właściwość 'background-attachment: fixed;' powoduje, że",
+    "A": "obraz tła przesuwa się razem z treścią strony",
+    "B": "obraz tła pozostaje nieruchomy podczas przewijania strony",
+    "C": "obraz tła jest rozciągany na całą szerokość",
+    "D": "obraz tła jest wyświetlany tylko raz",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Aby krawędzie obramowania były zaokrąglone, należy użyć",
+    "A": "border-radius",
+    "B": "border-round",
+    "C": "border-style: circle;",
+    "D": "border-curve",
+    "Poprawna": "A"
+  },
+  {
+    "Pytanie": "Która właściwość CSS służy do zarządzania elastycznym układem elementów (tzw. Flexible Box)?",
+    "A": "display: grid;",
+    "B": "display: flex;",
+    "C": "display: block;",
+    "D": "display: inline-flex;",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Wartość 'hidden' dla właściwości 'overflow' oznacza, że",
+    "A": "element zostanie ukryty",
+    "B": "treść wystająca poza ramy elementu zostanie przycięta i będzie niewidoczna",
+    "C": "tekst wewnątrz elementu zostanie zamieniony na gwiazdki",
+    "D": "element nie będzie reagował na kliknięcia",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Który selektor CSS wybierze wszystkie elementy <p>, które są bezpośrednimi dziećmi elementu <div>?",
+    "A": "div p",
+    "B": "div > p",
+    "C": "div + p",
+    "D": "div ~ p",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Właściwość 'white-space: nowrap;' powoduje",
+    "A": "usunięcie wszystkich spacji z tekstu",
+    "B": "zablokowanie automatycznego zawijania tekstu do nowej linii",
+    "C": "zamianę koloru tła na biały",
+    "D": "wyświetlenie tekstu białą czcionką",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Selektor uniwersalny, który pasuje do każdego elementu na stronie, to",
+    "A": "*",
+    "B": "#",
+    "C": ".",
+    "D": "all",
+    "Poprawna": "A"
+  },
+  {
+    "Pytanie": "Aby tekst był wyjustowany (wyrównany do obu krawędzi), należy ustawić",
+    "A": "text-align: justify;",
+    "B": "text-align: center;",
+    "C": "text-justify: all;",
+    "D": "text-align: both;",
+    "Poprawna": "A"
+  },
+  {
+    "Pytanie": "Właściwość 'cursor: pointer;' sprawia, że po najechaniu na element kursor myszy",
+    "A": "zmienia się w ikonę tekstu",
+    "B": "zmienia się w ikonę 'rączki' (wskaźnika)",
+    "C": "znika",
+    "D": "zmienia się w ikonę ładowania",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Która właściwość pozwala na dodanie cienia do tekstu?",
+    "A": "box-shadow",
+    "B": "text-shadow",
+    "C": "font-shadow",
+    "D": "shadow-effect",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Jeśli w CSS zdefiniujemy 'padding: 10px 20px;', to margines wewnętrzny wyniesie",
+    "A": "10px z każdej strony",
+    "B": "10px góra/dół i 20px lewo/prawo",
+    "C": "20px góra/dół i 10px lewo/prawo",
+    "D": "10px góra i 20px pozostałe strony",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Właściwość 'min-height: 200px;' oznacza, że element",
+    "A": "zawsze będzie miał dokładnie 200px wysokości",
+    "B": "będzie miał co najmniej 200px wysokości, ale może się powiększyć",
+    "C": "nie może być wyższy niż 200px",
+    "D": "zostanie pomniejszony do 200px",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Atrybut 'rel=\"stylesheet\"' w znaczniku <link> służy do",
+    "A": "wskazania ścieżki do pliku",
+    "B": "określenia relacji (typu) dołączanego dokumentu",
+    "C": "podania nazwy arkusza",
+    "D": "ustawienia kodowania znaków",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Aby element blokowy był wyświetlany jak element liniowy, należy użyć",
+    "A": "display: inline;",
+    "B": "display: block-inline;",
+    "C": "display: list-item;",
+    "D": "display: none;",
+    "Poprawna": "A"
+  },
+  {
+    "Pytanie": "Który zapis CSS poprawnie ustawia czcionkę Arial, a jeśli jej nie ma, to dowolną czcionkę bezszeryfową?",
+    "A": "font-family: Arial, sans-serif;",
+    "B": "font-family: Arial, serif;",
+    "C": "font-style: Arial, sans-serif;",
+    "D": "font-name: Arial;",
+    "Poprawna": "A"
+  },
+  {
+    "Pytanie": "Właściwość 'background-size: cover;' powoduje",
+    "A": "powielenie obrazu tła tak, aby wypełnił element",
+    "B": "skalowanie obrazu tła tak, aby całkowicie zakrył obszar elementu bez zniekształceń",
+    "C": "ukrycie tła",
+    "D": "wyśrodkowanie tła",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Która właściwość służy do ustalenia kolejności warstw elementów pozycjonowanych?",
+    "A": "layer-index",
+    "B": "z-index",
+    "C": "position-index",
+    "D": "stack-order",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Właściwość 'vertical-align' działa najczęściej w odniesieniu do",
+    "A": "elementów blokowych <div>",
+    "B": "komórek tabeli <td> oraz elementów liniowych",
+    "C": "całego dokumentu body",
+    "D": "wyłącznie nagłówków",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Co oznacza skrót CSS?",
+    "A": "Creative Style Sheets",
+    "B": "Cascading Style Sheets",
+    "C": "Computer Style Sheets",
+    "D": "Colorful Style Sheets",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Aby zmienić kolor lewego obramowania elementu, należy użyć",
+    "A": "border-left-color",
+    "B": "left-border-color",
+    "C": "border-color-left",
+    "D": "border-left-style",
+    "Poprawna": "A"
+  },
+  {
+    "Pytanie": "Właściwość 'list-style-position: inside;' powoduje",
+    "A": "ukrycie wypunktowania",
+    "B": "umieszczenie punktora wewnątrz obszaru elementu listy",
+    "C": "przesunięcie listy do środka strony",
+    "D": "pogrubienie punktora",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Który selektor CSS odnosi się do każdego elementu, który jest pierwszym dzieckiem swojego rodzica?",
+    "A": ":first-child",
+    "B": ":first-element",
+    "C": ":child(1)",
+    "D": ":initial-child",
+    "Poprawna": "A"
+  },
+  {
+    "Pytanie": "W CSS jednostka 'rem' różni się od 'em' tym, że",
+    "A": "odnosi się zawsze do rozmiaru czcionki elementu głównego (root - html)",
+    "B": "odnosi się do wysokości okna",
+    "C": "jest jednostką absolutną (jak piksele)",
+    "D": "rem nie istnieje w CSS",
+    "Poprawna": "A"
+  },
+  {
+    "Pytanie": "Właściwość 'text-indent' służy do",
+    "A": "ustawienia wcięcia pierwszego wiersza tekstu",
+    "B": "ustawienia odstępu między akapitami",
+    "C": "pogrubienia tekstu",
+    "D": "wyrównania tekstu do prawej",
+    "Poprawna": "A"
+  },
+  {
+    "Pytanie": "Reguła '@media' jest wykorzystywana głównie do",
+    "A": "wstawiania plików wideo",
+    "B": "tworzenia stron responsywnych (RWD)",
+    "C": "definiowania kolorów linków",
+    "D": "łączenia z bazą danych",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Właściwość 'border-collapse: collapse;' jest używana przy formatowaniu",
+    "A": "list",
+    "B": "tabel",
+    "C": "obrazów",
+    "D": "tekstu w kolumnach",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Aby ustawić odstęp między kolumnami w układzie wielokolumnowym CSS, należy użyć",
+    "A": "column-gap",
+    "B": "column-spacing",
+    "C": "column-margin",
+    "D": "column-padding",
+    "Poprawna": "A"
+  },
+  {
+    "Pytanie": "Jak zdefiniować kolor czcionki jako przezroczysty w CSS?",
+    "A": "color: transparent;",
+    "B": "color: invisible;",
+    "C": "color: none;",
+    "D": "color: alpha(0);",
+    "Poprawna": "A"
+  },
+  {
+    "Pytanie": "Właściwość 'transition' w CSS pozwala na",
+    "A": "przejście do innej strony",
+    "B": "stworzenie płynnej animacji zmiany wartości właściwości",
+    "C": "dodanie cienia pod elementem",
+    "D": "zmianę czcionki na ozdobną",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Która wartość właściwości 'position' sprawia, że element jest pozycjonowany względem swojego pierwotnego położenia?",
+    "A": "absolute",
+    "B": "relative",
+    "C": "static",
+    "D": "fixed",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Właściwość 'flex-direction: column;' spowoduje, że elementy wewnątrz flexboxa zostaną ułożone",
+    "A": "poziomo jeden obok drugiego",
+    "B": "pionowo jeden pod drugim",
+    "C": "na ukos",
+    "D": "w odwrotnej kolejności",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Co robi reguła CSS 'img { max-width: 100%; height: auto; }'?",
+    "A": "Powiększa obrazek dwukrotnie",
+    "B": "Zapewnia responsywność obrazka, by nie wystawał poza kontener",
+    "C": "Usuwa obrazek ze strony",
+    "D": "Zmienia format obrazka na PNG",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Który selektor CSS wybierze co drugi element listy <li>?",
+    "A": "li:nth-child(2n)",
+    "B": "li:every-second",
+    "C": "li:half",
+    "D": "li:nth-element(2)",
+    "Poprawna": "A"
+  },
+  {
+    "Pytanie": "Wartość 'none' dla właściwości 'border' spowoduje",
+    "A": "ustawienie czarnego obramowania",
+    "B": "całkowite usunięcie obramowania",
+    "C": "ustawienie bardzo cienkiego obramowania",
+    "D": "błąd w arkuszu stylów",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Która właściwość określa odstępy między komórkami tabeli (jeśli nie użyto collapse)?",
+    "A": "border-spacing",
+    "B": "cell-padding",
+    "C": "cell-spacing",
+    "D": "table-gap",
+    "Poprawna": "A"
+  },
+  {
+    "Pytanie": "Właściwość 'text-decoration: line-through;' spowoduje",
+    "A": "podkreślenie tekstu",
+    "B": "przekreślenie tekstu",
+    "C": "nadkreślenie tekstu",
+    "D": "migotanie tekstu",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Aby zmienić wielkość czcionki, należy użyć właściwości",
+    "A": "font-size",
+    "B": "text-size",
+    "C": "font-weight",
+    "D": "size",
+    "Poprawna": "A"
+  },
+  {
+    "Pytanie": "Wartość 'uppercase' właściwości 'text-transform' zamieni tekst",
+    "A": "na małe litery",
+    "B": "na wielkie litery",
+    "C": "na tekst z kapitalikami",
+    "D": "na tekst pogrubiony",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "W modelu polowym (box model), która właściwość tworzy przestrzeń NA ZEWNĄTRZ elementu?",
+    "A": "padding",
+    "B": "margin",
+    "C": "border",
+    "D": "outline",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Który selektor ID jest poprawny w CSS?",
+    "A": ".moj-id",
+    "B": "#moj-id",
+    "C": "id(moj-id)",
+    "D": "$moj-id",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Właściwość 'display: grid;' służy do",
+    "A": "tworzenia układów opartych na siatce",
+    "B": "ukrywania elementów",
+    "C": "tworzenia list punktowanych",
+    "D": "wyświetlania elementów w jednej linii",
+    "Poprawna": "A"
+  },
+  {
+    "Pytanie": "Atrybut 'scoped' w znaczniku <style> (używany w starszych specyfikacjach lub niektórych frameworkach) oznaczał, że",
+    "A": "style dotyczą tylko bieżącego elementu i jego dzieci",
+    "B": "style są globalne dla całego dokumentu",
+    "C": "style są ładowane z opóźnieniem",
+    "D": "style są zapisane w formacie binarnym",
+    "Poprawna": "A"
+  },
+  {
+    "Pytanie": "Właściwość 'word-wrap: break-word;' pozwala na",
+    "A": "automatyczne tłumaczenie słów",
+    "B": "łamanie bardzo długich słów, aby nie wystawały poza kontener",
+    "C": "usunięcie spacji między słowami",
+    "D": "pogrubienie każdego pierwszego słowa",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "Która pseudoklasa odnosi się do elementu formularza, który jest obecnie wybrany przez użytkownika?",
+    "A": ":active",
+    "B": ":focus",
+    "C": ":hover",
+    "D": ":checked",
+    "Poprawna": "B"
+  },
+  {
+    "Pytanie": "W CSS kolor tła elementu o przezroczystości 50% można zapisać jako",
+    "A": "background-color: rgba(255, 0, 0, 0.5);",
+    "B": "background-color: rgb(255, 0, 0, 50%);",
+    "C": "background-color: #FF0000 50%;",
+    "D": "background-color: half-red;",
+    "Poprawna": "A"
+  }
+];
+
+function pytania() {
+  pytania.array.forEach(element => {
+    document.getElementById("pyt").textContent(element.Pytanie + element.Poprawna);
+  });
+}
+
+
+
+</script>
+</html>
