@@ -1,11 +1,185 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CSS teoria</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS teoria</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+
+    :root {
+    --bg-color: #0f172a;
+    --card-bg: #1e293b;
+    --text-main: #f8fafc;
+    --text-dim: #94a3b8;
+    --accent: #38bdf8;
+    --accent-hover: #0ea5e9;
+    --success: #22c55e;
+    }
+
+    body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 40px 20px;
+    }
+
+    .container {
+    max-width: 900px;
+    margin: 0 auto;
+    }
+
+    code {
+    background: #334155;
+    padding: 3px 8px;
+    border-radius: 6px;
+    color: var(--accent);
+    font-family: 'Consolas', monospace;
+    }
+
+    /* Karty pytań */
+    .question-card {
+    background: var(--card-bg);
+    padding: 24px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+    border: 1px solid #334155;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    .question-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+    }
+
+    .question-text {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--accent);
+    display: block;
+    margin-bottom: 15px;
+    }
+
+    .answer-box {
+    background: rgba(34, 197, 94, 0.1);
+    border-left: 4px solid var(--success);
+    padding: 12px 16px;
+    border-radius: 4px;
+    color: var(--success);
+    font-weight: 500;
+    }
+
+    /* Wyszukiwarka */
+    #searchbar {
+    position: sticky;
+    top: 20px;
+    z-index: 100;
+    background: var(--bg-color);
+    padding: 20px 0;
+    display: flex;
+    gap: 12px;
+    border-radius: 0.5em;
+    }
+
+    input#searchInput {
+    flex: 1;
+    padding: 14px 20px;
+    border-radius: 12px;
+    border: 2px solid #334155;
+    background: var(--card-bg);
+    color: white;
+    font-size: 1rem;
+    }
+
+    input#searchInput:focus {
+    outline: none;
+    border-color: var(--accent);
+    }
+
+    button#clearSearch {
+    padding: 0 24px;
+    border-radius: 12px;
+    border: none;
+    background: var(--accent);
+    font-weight: 600;
+    cursor: pointer;
+    }
+  </style>
 </head>
-<body style="background-color: #080C12;">
+<body style="background-color: #080C12; color: #ffffff;">
+  <div id="zdjecia">
+  <img src="obrazyCSS/test.png" alt="sprawdzian" height="1024" width="768">
+  <p>
+  1. <span class="question-text">Zastosowanie definicji stylu CSS sprawi, że nagłówki drugiego stopnia będą zapisane:</span>
+  <br><code>h2 { text-decoration: overline; font-style: italic; line-height: 60px; }</code>
+  <br>
+  <br><span class="answer-box">czcionką pochyloną, z linią nad tekstem, wysokość wiersza na 60 px</span>
+</p>
+ 
+<p>
+  2. <span class="question-text">Jak zdefiniować w języku CSS takie formatowanie tabeli, żeby wiersz, na którym aktualnie znajduje się kursor myszy, zmieniał kolor tła na szary?</span>
+  <br><span class="answer-box">tr:hover { background-color: gray; }</span>
+</p>
+ 
+<p>
+  3. <span class="question-text">W języku CSS zapisano wspólne formatowanie dla pewnej grupy znaczników. Formatowanie takich znaczników w kodzie HTML nastąpi przez atrybut:</span>
+  <br><span class="answer-box">class = "format1"</span>
+</p>
+ 
+<p>
+  4. <span class="question-text">Dla przedstawionego fragmentu dokumentu HTML zdefiniowano formatowanie CSS selektora klasy „menu" tak, aby kolor tła bloku był zielony. Która definicja stylu CSS odpowiada temu formatowaniu?</span> <code>&lt;div class="menu"&gt; &lt;/div&gt;</code>
+    <br>
+  <br><span class="answer-box">.menu { background-color: green; }</span>
+</p>
+ 
+<p>
+  5. <span class="question-text">W podanym kodzie HTML przedstawiony styl CSS jest stylem:</span>
+  <br><code>&lt;p style="color: red;"&gt;To jest przykładowy akapit.&lt;/p&gt;</code>
+      <br>
+  <br><span class="answer-box">lokalnym.</span>
+</p>
+ 
+<p>
+  6. <span class="question-text">W kodzie HTML kolor biały można zapisać za pomocą wartości:</span>
+  <br><span class="answer-box">rgb(255, 255, 255)</span>
+</p>
+ 
+<p>
+  7. <span class="question-text">Na podstawie fragmentu dokumentu HTML, określ co należy wpisać w miejsce kropek w odnośniku w menu, aby przenosił on do rozdziału 2.</span>
+  <br><code>&lt;a href="#r2"&gt;Rozdział 2&lt;/a&gt;</code>
+</p>
+ 
+<p>
+  8. <span class="question-text">Zapis selektora oznacza, że tło będzie brązowe dla:</span>
+  <br><code>input[type=number] { background-color: Brown; }</code>
+      <br>
+  <br><span class="answer-box">pól edycyjnych, które są typu numerycznego.</span>
+</p>
+ 
+<p>
+  9. <span class="question-text">W języku CSS zapis selektora <code>p &gt; i { color: red; }</code> oznacza, że kolorem czerwonym zostanie sformatowany:</span>
+  <br><span class="answer-box">jedynie ten tekst w znaczniku &lt;i&gt;, który jest umieszczony bezpośrednio wewnątrz znacznika &lt;p&gt;</span>
+</p>
+ 
+<p>
+  10. <span class="question-text">Formatowanie CSS akapitu określa styl szarej ramki o cechach:</span>
+  <br><code>p { padding: 15px; border: 2px dotted gray; }</code>
+      <br>
+  <br><span class="answer-box">linia kropkowa; grubość 2 px; marginesy pomiędzy tekstem a ramką 15 px.</span>
+</p>
+    <br>
+    <br>
+
+    </p>
+  </div>
+  <div id="searchbar" style="margin:12px 0;">
+    <input id="searchInput" type="search" placeholder="Szukaj pytań..." style="padding:6px; width:60%;" />
+    <button id="clearSearch" style="padding:6px; margin-left:6px;">Wyczyść</button>
+  </div>
   <div id="pyt">
 
   </div>
@@ -90,14 +264,6 @@ const pytania = [
     "C": "#",
     "D": "*",
     "Poprawna": "A"
-  },
-  {
-    "Pytanie": "W języku CSS zapisano wspólne formatowanie dla pewnej grupy znaczników. Formatowanie takich znaczników w kodzie HTML nastąpi przez atrybut",
-    "A": "style = \"format1\"",
-    "B": "id = \"format1\"",
-    "C": "div = \"format1\"",
-    "D": "class = \"format1\"",
-    "Poprawna": "D"
   },
   {
     "Pytanie": "W którym z przypadków walidacja fragmentu kodu CSS przebiegnie pomyślnie?",
@@ -218,14 +384,6 @@ const pytania = [
     "C": "p.tekst + div#obrazki",
     "D": "p#tekst + div.obrazki",
     "Poprawna": "A"
-  },
-  {
-    "Pytanie": "Jak zdefiniować w języku CSS takie formatowanie tabeli, żeby wiersz, na którym aktualnie znajduje się kursor myszy, zmieniał kolor tła na szary",
-    "A": "tr:active { color: gray; }",
-    "B": "tr:active { background-color: gray; }",
-    "C": "tr:hover { background-color: gray; }",
-    "D": "tr:hover { color: gray; }",
-    "Poprawna": "C"
   },
   {
     "Pytanie": "Zapis selektora input[type=number] { background-color: Brown; } oznacza, że tło będzie brązowe dla",
@@ -434,14 +592,6 @@ const pytania = [
     "C": "dashed",
     "D": "groove",
     "Poprawna": "C"
-  },
-  {
-    "Pytanie": "Formatowanie CSS akapitu określa styl szarej ramki o cechach:",
-    "A": "linia kropkowa; grubość 2 px; marginesy pomiędzy tekstem a ramką 15 px.",
-    "B": "linia ciągła; grubość 2 px; marginesy pomiędzy tekstem a ramką 15 px.",
-    "C": "linia kreskowa; grubość 2 px; marginesy poza ramką 15 px.",
-    "D": "linia ciągła; grubość 2 px; marginesy poza ramką 15 px.",
-    "Poprawna": "A"
   },
   {
     "Pytanie": "W języku CSS, w celu zdefiniowania wewnętrznego górnego marginesu, czyli odstepu między elementem a otaczającym go obramowaniem, należy użyć polecenia",
@@ -1285,13 +1435,49 @@ const pytania = [
   }
 ];
 
-function pytania() {
-  pytania.array.forEach(element => {
-    document.getElementById("pyt").textContent(element.Pytanie + element.Poprawna);
-  });
-}
+function lista() {
+  const container = document.getElementById("pyt");
+  container.innerHTML = '';
+  pytania.forEach((element, idx) => {
+    const wrapper = document.createElement('div');
+    wrapper.style.marginBottom = '12px';
 
+    const q = document.createElement('strong');
+    q.textContent = (idx + 1) + '. ' + element.Pytanie;
 
+    const br = document.createElement('br');
 
-</script>
-</html>
+    const ansPrefix = document.createTextNode('Poprawna odpowiedź: ');
+    const ansLetter = document.createElement('strong');
+    ansLetter.textContent = element.Poprawna;
+    const ansSuffix = document.createTextNode(' — ' + (element[element.Poprawna] || ''));
+
+    wrapper.appendChild(q);
+    wrapper.appendChild(br);
+    wrapper.appendChild(ansPrefix);
+    wrapper.appendChild(ansLetter);
+    wrapper.appendChild(ansSuffix);
+
+      container.appendChild(wrapper);
+    });
+  }
+
+  lista();
+
+  const searchInput = document.getElementById('searchInput');
+  const clearBtn = document.getElementById('clearSearch');
+
+  function filterQuestions() {
+    const q = (searchInput && searchInput.value || '').toLowerCase();
+    const container = document.getElementById('pyt');
+    Array.from(container.children).forEach(child => {
+      const text = (child.textContent || '').toLowerCase();
+      child.style.display = q ? (text.includes(q) ? '' : 'none') : '';
+    });
+  }
+
+  if (searchInput) searchInput.addEventListener('input', filterQuestions);
+  if (clearBtn) clearBtn.addEventListener('click', () => { if (searchInput) { searchInput.value = ''; filterQuestions(); } });
+
+  </script>
+  </html>
