@@ -1363,9 +1363,9 @@ const pytania = [
             document.getElementById("sprawdzenie").textContent = "Error";
         }
       if (czytest) {
-        setTimeout(losujtest, 1000);
+        setTimeout(losujtest, 2000);
       } else if (noRepeatMode) {
-        setTimeout(nextNoRepeat, 1000);
+        setTimeout(nextNoRepelist 2000);
       }
     }
 
@@ -1428,7 +1428,7 @@ const pytania = [
         // automatyczny restart kolejki po krótkim opóźnieniu
         setTimeout(() => {
           startNoRepeat();
-        }, 1500);
+        }, 2000);
         return;
       }
       const idx = noRepeatQueue.pop();
