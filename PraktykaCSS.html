@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS praktyczny</title>
+    <style>
+        body {
+            background-color: rgb(197, 197, 197);
+        }
+        #naglowek {
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 2em;
+            font-weight: 400;
+            letter-spacing: -0.5px;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            text-align: center;
+        }
+        h2, h3 {
+            font-family:Arial, Helvetica, sans-serif;
+        }
+        .sekcja {
+            background-color: rgb(240, 240, 240);
+            border-radius: 0.50rem;
+            margin: 3em auto;
+            width: 50rem;
+            max-width: 900px;
+            padding: 0.75rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+        #step {
+            background-color: rgb(255, 255, 255);
+            border-radius: 0.50rem;
+            margin: 1em auto;
+            width: 45em;
+            padding: 0.75rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            /*padding-bottom: 7rem;*/
+        }
+        code pre{
+            font-family: Courier, monospace;
+            background-color: rgb(153, 153, 153);
+            margin: 1em auto;
+            padding: 1.2em;
+            border-radius: 0.5em;
+
+        }
+
+
+
+
+        /*MENU POZIOME*/
+
+
+
+
+        .podglad {
+            padding-bottom: 7em;
+        }
+        .k0 .podglad {
+            padding-bottom: .1em;
+        }
+        .k3 .podglad {
+            padding-bottom: 8em;
+        }
+        .k4 .podglad {
+            padding-bottom: 11em;
+        }
+        .k5 .podglad, .k6 .podglad {
+            padding-bottom: 3em;
+        }
+        .k1 .podglad nav {
+            width: 45em;
+            display: inline;
+            position: absolute;
+            background-color: #2F7C8A;
+        }
+        .k2 .podglad nav {
+            width: 45em;
+            display: inline;
+            position: absolute;
+            background-color: #2F7C8A;
+        }
+        .k2 .podglad ul {
+            position: relative;
+            top: -7px;
+        }
+        .k3 .podglad nav {
+            width: 45em;
+            display: inline;
+            position: absolute;
+            background-color: #2F7C8A;
+        }
+        .k3 .podglad ul {
+            position: relative;
+            top: -7px;
+        }
+        .k3 .podglad li {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: 1.2em;
+            text-transform: uppercase;
+            letter-spacing: 0.01em;
+            color: #00AECD;
+        }
+        .k4 .podglad nav {
+            width: 45em;
+            display: inline;
+            position: absolute;
+            background-color: #2F7C8A;
+        }
+        .k4 .podglad ul {
+            position: relative;
+            top: -7px;
+        }
+        .k4 .podglad li {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: 1.2em;
+            text-transform: uppercase;
+            letter-spacing: 0.01em;
+            color: #00AECD;
+            border: 1px solid #00D2F7;
+            border-radius: 0.5em;
+            margin: auto 5px;
+            padding: 5px;
+        }
+        .k5 .podglad nav {
+            width: 45em;
+            display: inline;
+            position: absolute;
+            background-color: #2F7C8A;
+        }
+        .k5 .podglad ul {
+            position: relative;
+            top: -7px;
+        }
+        .k5 .podglad li {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: 1.2em;
+            text-transform: uppercase;
+            letter-spacing: 0.01em;
+            color: #00AECD;
+            border: 1px solid #00D2F7;
+            border-radius: 0.5em;
+            margin: auto 5px;
+            padding: 5px;
+            float: left;
+            list-style-type: none;
+        }
+        .k6 .podglad nav {
+            width: 45em;
+            display: inline;
+            position: absolute;
+            background-color: #2F7C8A;
+        }
+        .k6 .podglad ul {
+            position: relative;
+            top: -7px;
+        }
+        .k6 .podglad li {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: 1.2em;
+            text-transform: uppercase;
+            letter-spacing: 0.01em;
+            color: #00AECD;
+            border: 1px solid #00D2F7;
+            border-radius: 0.5em;
+            margin: auto 5px;
+            padding: 5px;
+            float: left;
+            list-style-type: none;
+        }
+        .k6 .podglad li:hover {
+            color: white;
+            border-color: white;
+        }
+
+
+
+        /*KONIEC MENU POZIOMEGO*/
+
+
+
+
+    </style>
+</head>
+<body>
+    <section class="sekcja menupoziome">
+        <h1 id="naglowek">Menu Poziome</h1>
+        <div id="step" class="k0">
+            <h2>Krok 0 - przygotowanie HTML</h2>
+            <code>
+                <pre>
+                [...]
+                    &lt;nav&gt;
+                        &lt;ul&gt;
+                            &lt;li&gt;Menu&lt;/li&gt;
+                            &lt;li&gt;Aktualności&lt;/li&gt;
+                            &lt;li&gt;O piekarni&lt;/li&gt;
+                            &lt;li&gt;Kontakt&lt;/li&gt;
+                        &lt;/ul&gt;
+                    &lt;/nav&gt;
+                [...]
+                </pre>
+            </code>
+            <h3>Podgląd: </h3>
+            <div class="podglad">
+                <nav>
+                    <ul>
+                        <li>Menu</li>
+                        <li>Aktualnosci</li>
+                        <li>O piekarni</li>
+                        <li>Kontakt</li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div id="step" class="k1">
+            <h2>Krok 1 - Ustawienie pozycji i koloru &lt;nav&gt;</h2>
+            <code>
+                <pre>
+                    &lt;style&gt;
+                        nav {
+                            display: inline;
+                            position: absolute;
+                            width: 100%;
+                            background-color: #2F7C8A;
+                        } 
+                    &lt;/style&gt;
+                </pre>
+            </code>
+            <h3>Podgląd: </h3>
+            <div class="podglad">
+                <nav>
+                    <ul>
+                        <li>Menu</li>
+                        <li>Aktualnosci</li>
+                        <li>O piekarni</li>
+                        <li>Kontakt</li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div id="step" class="k2">
+            <h2>Krok 2 - Pozycjonowanie listy (&lt;ul&gt;)</h2>
+            <code>
+                <pre>
+                    &lt;style&gt;
+                    [...]
+                        ul {
+                            position: relative;
+                            top: -7px;
+                        } 
+                    &lt;/style&gt;
+                </pre>
+            </code>
+            <h3>Podgląd: </h3>
+            <div class="podglad">
+                <nav>
+                    <ul>
+                        <li>Menu</li>
+                        <li>Aktualnosci</li>
+                        <li>O piekarni</li>
+                        <li>Kontakt</li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div id="step" class="k3">
+            <h2>Krok 3 - Ustawienie czcionki &lt;li&gt;</h2>
+            <code>
+                <pre>
+                    &lt;style&gt;
+                    [...]
+                        li {
+                            font-family: Verdana, Geneva, Tahoma, sans-serif;
+                            font-size: 1.2em;
+                            text-transform: uppercase;
+                            letter-spacing: 0.2em;
+                            color: #00AECD;
+                        } 
+                    &lt;/style&gt;
+                </pre>
+            </code>
+            <h3>Podgląd: </h3>
+            <div class="podglad">
+                <nav>
+                    <ul>
+                        <li>Menu</li>
+                        <li>Aktualnosci</li>
+                        <li>O piekarni</li>
+                        <li>Kontakt</li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div id="step" class="k4">
+            <h2>Krok 4 - Ustawienie marginesu i obramowania &lt;li&gt;</h2>
+            <code>
+                <pre>
+                    &lt;style&gt;
+                    [...]
+                        li {
+                            [...]
+                            border: 1px solid #00D2F7;
+                            border-radius: 0.5em;
+                            margin: auto 5px;
+                            padding: 5px;
+                        } 
+                    &lt;/style&gt;
+                </pre>
+            </code>
+            <h3>Podgląd: </h3>
+            <div class="podglad">
+                <nav>
+                    <ul>
+                        <li>Menu</li>
+                        <li>Aktualnosci</li>
+                        <li>O piekarni</li>
+                        <li>Kontakt</li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div id="step" class="k5">
+            <h2>Krok 5 - Ustawienie punktorów i pozycjonowania &lt;li&gt;</h2>
+            <code>
+                <pre>
+                    &lt;style&gt;
+                    [...]
+                        li {
+                            [...]
+                            float: left;
+                            list-style-type: none;
+                        } 
+                    &lt;/style&gt;
+                </pre>
+            </code>
+            <h3>Podgląd: </h3>
+            <div class="podglad">
+                <nav>
+                    <ul>
+                        <li>Menu</li>
+                        <li>Aktualnosci</li>
+                        <li>O piekarni</li>
+                        <li>Kontakt</li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div id="step" class="k6">
+            <h2>Krok 6 - Ustawienie reakcji na hover dla &lt;li&gt;</h2>
+            <code>
+                <pre>
+                    &lt;style&gt;
+                    [...]
+                        li:hover {
+                            color: white;
+                            border-color: white;
+                        } 
+                    &lt;/style&gt;
+                </pre>
+            </code>
+            <h3>Podgląd: </h3>
+            <div class="podglad">
+                <nav>
+                    <ul>
+                        <li>Menu</li>
+                        <li>Aktualnosci</li>
+                        <li>O piekarni</li>
+                        <li>Kontakt</li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div id="step" class="k7">
+            <h2>Finalny styl:</h2>
+            <code>
+                <pre>
+         &lt;style&gt;
+            nav {
+                width: 100%;
+                display: inline;
+                position: absolute;
+                background-color: #2F7C8A;
+            }
+            ul {
+               position: relative;
+                top: -7px;
+            }
+            li {
+                font-family: Verdana, Geneva, Tahoma, sans-serif;
+                font-size: 1.2em;
+                text-transform: uppercase;
+                letter-spacing: 0.01em;
+                color: #00AECD;
+                border: 1px solid #00D2F7;
+                border-radius: 0.5em;
+                margin: auto 5px;
+                padding: 5px;
+                float: left;
+                list-style-type: none;
+            }
+            li:hover {
+                color: white;
+                border-color: white;
+            }
+         &lt;/style&gt;
+                </pre>
+            </code>
+        </div>
+    </section>
+    <!--<section class="sekcja formularz">
+
+    </section>-->
+</body>
+</html>
