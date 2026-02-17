@@ -275,6 +275,16 @@
         }
 
 
+        /*KONIEC TABELI*/
+
+
+        /*FORMULARZ*/
+
+
+        .f1 label {
+            position: relative;
+            left: 50px;
+        }
     </style>
 </head>
 <body>
@@ -847,6 +857,85 @@
             </code>
         </div>
     </section>
-    
+    <section class="sekcja formularz">
+        <h1 id="naglowek">Formularz</h1>
+        <div id="step" class="f0">
+            <h2>Krok 0 - przygotowanie HTML</h2>
+            <code>
+                <pre>
+&lt;p&gt;Formularz&lt;/p&gt;
+&lt;form&gt;
+    &lt;label for="imie"&gt;Imię&lt;/label&gt;&lt;br&gt;
+    &lt;input type="text" name="imie" placeholder="Wpisz imie" id="imie"&gt;
+    &lt;br&gt;
+    &lt;label for="nazwisko"&gt;Imię&lt;/label&gt;&lt;br&gt;
+    &lt;input type="text" name="nazwisko" placeholder="Wpisz nazwisko" 
+    id="nazwisko"&gt;&lt;br&gt;
+    &lt;label for="email"&gt;Imię&lt;/label&gt;&lt;br&gt;
+    &lt;input type="email" name="email" placeholder="Wpisz adres email" 
+    id="email"&gt;&lt;br&gt;
+    &lt;label for="komentarz"&gt;Imię&lt;/label&gt;&lt;br&gt;
+    &lt;textarea name="komentarz" id="komentarz"&gt;&lt;/textarea&gt;&lt;br&gt;
+    &lt;input type="submit" value="Wyślij"&gt;
+    &lt;input type="reset" value="Resetuj"&gt;
+&lt;/form&gt;</pre>
+            </code>
+
+            <h3>Podgląd: </h3>
+            <div id="podglad">
+                <p>Formularz</p>
+                <form>
+                    <label for="imie">Imię</label><br>
+                    <input type="text" name="imie" placeholder="Wpisz imie" id="imie"><br>
+                    <label for="nazwisko">Nazwisko</label><br>
+                    <input type="text" name="nazwisko" placeholder="Wpisz nazwisko" id="nazwisko"><br>
+                    <label for="email">Email</label><br>
+                    <input type="email" name="email" placeholder="Wpisz adres email" id="email"><br>
+                    <label for="komentarz">Komentarz</label><br>
+                    <textarea name="komentarz" id="komentarz"></textarea><br>
+                    <input type="submit" value="Wyślij"><br>
+                    <input type="reset" value="Resetuj">
+                </form>
+            </div>
+        </div>
+        <div id="step" class="f1">
+            <h2>Krok 1 - Ustawienie opisów pól formularza</h2>
+            <code>
+                <pre>
+                    &lt;style&gt;
+                        label {
+                            position: relative;
+                            left: 50px;
+                        }
+                    &lt;/style&gt;</pre>
+            </code>
+
+            <h3>Podgląd: </h3>
+            <div id="podglad">
+                <p>Formularz</p>
+                <form>
+                    <label for="imie">Imię</label><br>
+                    <input type="text" name="imie" placeholder="Wpisz imie" id="imie"><br>
+                    <label for="nazwisko">Nazwisko</label><br>
+                    <input type="text" name="nazwisko" placeholder="Wpisz nazwisko" id="nazwisko"><br>
+                    <label for="email">Email</label><br>
+                    <input type="email" name="email" placeholder="Wpisz adres email" id="email"><br>
+                    <label for="komentarz">Komentarz</label><br>
+                    <textarea name="komentarz" id="komentarz"></textarea><br>
+                    <input type="submit" value="Wyślij"><br>
+                    <input type="reset" value="Resetuj">
+                </form>
+            </div>
+        </div>
+        <div id="step" class="f2">
+            ...
+        </div>
+        <div id="step" class="f3"></div>
+        <div id="step" class="f4"></div>
+        <div id="step" class="f5"></div>
+        <div id="step" class="f6"></div>
+        <div id="step" class="f7"></div>
+        <div id="step" class="f8"></div>
+    </section>
 </body>
 </html>
