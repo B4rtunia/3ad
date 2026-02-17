@@ -42,17 +42,15 @@
             font-family: Courier, monospace;
             background-color: rgb(153, 153, 153);
             margin: 1em auto;
-            padding: 1.2em;
+            padding: 1em;
             border-radius: 0.5em;
-
         }
 
 
 
 
-        /*MENU POZIOME*/
-
-
+        
+        /*PODGLĄD*/
 
 
         .podglad {
@@ -70,6 +68,16 @@
         .k5 .podglad, .k6 .podglad {
             padding-bottom: 3em;
         }
+        .formularz .podglad {
+            padding-bottom: .1em;
+        }
+
+
+
+        /*MENU POZIOME*/
+
+
+
         .k1 .podglad nav {
             width: 45em;
             display: inline;
@@ -180,6 +188,91 @@
         /*KONIEC MENU POZIOMEGO*/
 
 
+        /*TABELA*/
+
+
+
+        .t1 caption {
+            caption-side: bottom;
+            font-size: larger;
+        }
+
+        .t2 caption {
+            caption-side: bottom;
+            font-size: larger;
+        }
+        .t2 span {
+            font-weight: bold;
+        }
+        
+        .t3 caption {
+            caption-side: bottom;
+            font-size: larger;
+        }
+        .t3 span {
+            font-weight: bold;
+        }
+        .t3 th {
+            background-color: #5b5b5b;
+            color: white;
+        }
+
+       .t4 caption {
+            caption-side: bottom;
+            font-size: larger;
+        }
+        .t4 span {
+            font-weight: bold;
+        }
+        .t4 th {
+            background-color: #5b5b5b;
+            color: white;
+        }
+        .t4 table {
+            position: relative;
+            width: 600px;
+        }
+
+        .t5 caption {
+            caption-side: bottom;
+            font-size: larger;
+        }
+        .t5 span {
+            font-weight: bold;
+        }
+        .t5 th {
+            background-color: #5b5b5b;
+            color: white;
+        }
+        .t5 table {
+            position: relative;
+            width: 600px;
+            border: 5px solid #5b5b5b;
+            border-spacing: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .t6 caption {
+            caption-side: bottom;
+            font-size: larger;
+        }
+        .t6 span {
+            font-weight: bold;
+        }
+        .t6 th {
+            background-color: #5b5b5b;
+            color: white;
+        }
+        .t6 table {
+            position: relative;
+            width: 600px;
+            border: 5px solid #5b5b5b;
+            border-spacing: 0;
+            font-family: Arial, sans-serif;
+        }
+        .t6 tr:nth-child(even) {
+            background-color: #eaeaea;
+        }
 
 
     </style>
@@ -374,7 +467,7 @@
             </div>
         </div>
         <div id="step" class="k7">
-            <h2>Finalny styl:</h2>
+            <h2>Cały styl:</h2>
             <code>
                 <pre>
          &lt;style&gt;
@@ -410,8 +503,350 @@
             </code>
         </div>
     </section>
-    <!--<section class="sekcja formularz">
-
-    </section>-->
+    <section class="sekcja formularz">
+        <h1 id="naglowek">Tabela</h1>
+        <div id="step" class="t0">
+            <h2>Krok 0 - przygotowanie HTML</h2>
+            <code>
+                <pre>
+        [...]
+&lt;table&gt;
+    &lt;caption&gt;
+        &lt;span&gt;Tabela&lt;/span&gt;
+        Lorem ipsum dolor sit, amet
+    &lt;/caption&gt;
+    &lt;tr&gt;
+        &lt;th&gt;Lorem&lt;/th&gt;
+        &lt;th&gt;ipsum&lt;/th&gt;
+        &lt;th&gt;dolor&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;lorem&lt;/td&gt;
+        &lt;td&gt;ipsum dolor sit amet consectetur adipisicing elit...&lt;/td&gt;
+        &lt;td&gt;ex.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;Lorem&lt;/td&gt;
+        &lt;td&gt;, ipsum dolor sit amet consectetur adipisicing elit...&lt;/td&gt;
+        &lt;td&gt;accusamus?&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;Lorem &lt;/td&gt;
+        &lt;td&gt;ipsum dolor, sit amet consectetur adipisicing elit...&lt;/td&gt;
+        &lt;td&gt; magnam?&lt;/td&gt;
+    &lt;/tr&gt;
+&lt;/table&gt;
+        [...]</pre>
+            </code>
+            <h3>Podgląd: </h3>
+            <div class="podglad">
+                <table>
+                    <caption>
+                        <span>Tabela 1.</span>
+                        Lorem ipsum dolor sit, amet
+                    </caption>
+                    <tr>
+                        <th>Lorem</th>
+                        <th>ipsum</th>
+                        <th>dolor</th>
+                    </tr>
+                    <tr>
+                        <td>lorem</td>
+                        <td>ipsum dolor sit amet consectetur adipisicing elit. Sint sapiente, aut corporis velit vitae quaerat asperiores accusamus in id doloremque vel possimus magnam, qui dignissimos quasi deleniti, suscipit sunt</td>
+                        <td>ex.</td>
+                    </tr>
+                    <tr>
+                        <td>Lorem</td>
+                        <td>, ipsum dolor sit amet consectetur adipisicing elit. Dolores qui iste aliquid rem sapiente modi dolorum animi, eveniet sunt doloremque eum optio ullam quasi cum assumenda aspernatur inventore vitae </td>
+                        <td>accusamus?</td>
+                    </tr>
+                    <tr>
+                        <td>Lorem </td>
+                        <td>ipsum dolor, sit amet consectetur adipisicing elit. Reprehenderit iusto provident saepe voluptates facere repudiandae omnis minus ad soluta obcaecati repellat nihil sequi, nobis ducimus laborum corporis! Magni, fugit</td>
+                        <td> magnam?</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div id="step" class="t1">
+            <h2>Krok 1 - Ustawienie &lt;caption&gt;</h2>
+            <code>
+                <pre>
+                    &lt;style&gt;
+                    caption {
+                        caption-side: bottom;
+                        font-size: larger;
+                    } 
+                    &lt;/style&gt;</pre>
+            </code>
+            <h3>Podgląd: </h3>
+            <div class="podglad">
+                <table>
+                    <caption>
+                        <span>Tabela 1.</span>
+                        Lorem ipsum dolor sit, amet
+                    </caption>
+                    <tr>
+                        <th>Lorem</th>
+                        <th>ipsum</th>
+                        <th>dolor</th>
+                    </tr>
+                    <tr>
+                        <td>lorem</td>
+                        <td>ipsum dolor sit amet consectetur adipisicing elit. Sint sapiente, aut corporis velit vitae quaerat asperiores accusamus in id doloremque vel possimus magnam, qui dignissimos quasi deleniti, suscipit sunt</td>
+                        <td>ex.</td>
+                    </tr>
+                    <tr>
+                        <td>Lorem</td>
+                        <td>, ipsum dolor sit amet consectetur adipisicing elit. Dolores qui iste aliquid rem sapiente modi dolorum animi, eveniet sunt doloremque eum optio ullam quasi cum assumenda aspernatur inventore vitae </td>
+                        <td>accusamus?</td>
+                    </tr>
+                    <tr>
+                        <td>Lorem </td>
+                        <td>ipsum dolor, sit amet consectetur adipisicing elit. Reprehenderit iusto provident saepe voluptates facere repudiandae omnis minus ad soluta obcaecati repellat nihil sequi, nobis ducimus laborum corporis! Magni, fugit</td>
+                        <td> magnam?</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div id="step" class="t2">
+            <h2>Krok 2 - Ustawienie &lt;span&gt;</h2>
+            <code>
+                <pre>
+                    &lt;style&gt;
+                   [...]
+                    span {
+                        font-weight: bold;
+                    } 
+                    &lt;/style&gt;</pre>
+            </code>
+            <h3>Podgląd: </h3>
+            <div class="podglad">
+                <table>
+                    <caption>
+                        <span>Tabela 1.</span>
+                        Lorem ipsum dolor sit, amet
+                    </caption>
+                    <tr>
+                        <th>Lorem</th>
+                        <th>ipsum</th>
+                        <th>dolor</th>
+                    </tr>
+                    <tr>
+                        <td>lorem</td>
+                        <td>ipsum dolor sit amet consectetur adipisicing elit. Sint sapiente, aut corporis velit vitae quaerat asperiores accusamus in id doloremque vel possimus magnam, qui dignissimos quasi deleniti, suscipit sunt</td>
+                        <td>ex.</td>
+                    </tr>
+                    <tr>
+                        <td>Lorem</td>
+                        <td>, ipsum dolor sit amet consectetur adipisicing elit. Dolores qui iste aliquid rem sapiente modi dolorum animi, eveniet sunt doloremque eum optio ullam quasi cum assumenda aspernatur inventore vitae </td>
+                        <td>accusamus?</td>
+                    </tr>
+                    <tr>
+                        <td>Lorem </td>
+                        <td>ipsum dolor, sit amet consectetur adipisicing elit. Reprehenderit iusto provident saepe voluptates facere repudiandae omnis minus ad soluta obcaecati repellat nihil sequi, nobis ducimus laborum corporis! Magni, fugit</td>
+                        <td> magnam?</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div id="step" class="t3">
+            <h2>Krok 3 - Ustawienie komórek nagłówkowych &lt;th&gt;</h2>
+            <code>
+                <pre>
+                    &lt;style&gt;
+                   [...]
+                    th {
+                        background-color #5b5b5b;
+                        color: white;
+                    } 
+                    &lt;/style&gt;</pre>
+            </code>
+            <h3>Podgląd: </h3>
+            <div class="podglad">
+                <table>
+                    <caption>
+                        <span>Tabela 1.</span>
+                        Lorem ipsum dolor sit, amet
+                    </caption>
+                    <tr>
+                        <th>Lorem</th>
+                        <th>ipsum</th>
+                        <th>dolor</th>
+                    </tr>
+                    <tr>
+                        <td>lorem</td>
+                        <td>ipsum dolor sit amet consectetur adipisicing elit. Sint sapiente, aut corporis velit vitae quaerat asperiores accusamus in id doloremque vel possimus magnam, qui dignissimos quasi deleniti, suscipit sunt</td>
+                        <td>ex.</td>
+                    </tr>
+                    <tr>
+                        <td>Lorem</td>
+                        <td>, ipsum dolor sit amet consectetur adipisicing elit. Dolores qui iste aliquid rem sapiente modi dolorum animi, eveniet sunt doloremque eum optio ullam quasi cum assumenda aspernatur inventore vitae </td>
+                        <td>accusamus?</td>
+                    </tr>
+                    <tr>
+                        <td>Lorem </td>
+                        <td>ipsum dolor, sit amet consectetur adipisicing elit. Reprehenderit iusto provident saepe voluptates facere repudiandae omnis minus ad soluta obcaecati repellat nihil sequi, nobis ducimus laborum corporis! Magni, fugit</td>
+                        <td> magnam?</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div id="step" class="t4">
+            <h2>Krok 4 - Ustawienie pozycjonowania i rozmiaru tabeli &lt;table&gt;</h2>
+            <code>
+                <pre>
+                    &lt;style&gt;
+                   [...]
+                    table {
+                        position: relative;
+                        width: 600px;
+                    } 
+                    &lt;/style&gt;</pre>
+            </code>
+            <h3>Podgląd: </h3>
+            <div class="podglad">
+                <table>
+                    <caption>
+                        <span>Tabela 1.</span>
+                        Lorem ipsum dolor sit, amet
+                    </caption>
+                    <tr>
+                        <th>Lorem</th>
+                        <th>ipsum</th>
+                        <th>dolor</th>
+                    </tr>
+                    <tr>
+                        <td>lorem</td>
+                        <td>ipsum dolor sit amet consectetur adipisicing elit. Sint sapiente, aut corporis velit vitae quaerat asperiores accusamus in id doloremque vel possimus magnam, qui dignissimos quasi deleniti, suscipit sunt</td>
+                        <td>ex.</td>
+                    </tr>
+                    <tr>
+                        <td>Lorem</td>
+                        <td>, ipsum dolor sit amet consectetur adipisicing elit. Dolores qui iste aliquid rem sapiente modi dolorum animi, eveniet sunt doloremque eum optio ullam quasi cum assumenda aspernatur inventore vitae </td>
+                        <td>accusamus?</td>
+                    </tr>
+                    <tr>
+                        <td>Lorem </td>
+                        <td>ipsum dolor, sit amet consectetur adipisicing elit. Reprehenderit iusto provident saepe voluptates facere repudiandae omnis minus ad soluta obcaecati repellat nihil sequi, nobis ducimus laborum corporis! Magni, fugit</td>
+                        <td> magnam?</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div id="step" class="t5">
+            <h2>Krok 5 - Ustawienie obramowania i czcionki w tabeli &lt;table&gt;</h2>
+            <code>
+                <pre>
+                    &lt;style&gt;
+                   [...]
+                    th {
+                        [...]
+                        border: 5px solid #5b5b5b;
+                        border-spacing: 0;
+                        font-family: Arial, sans-serif;
+                    } 
+                    &lt;/style&gt;</pre>
+            </code>
+            <h3>Podgląd: </h3>
+            <div class="podglad">
+                <table>
+                    <caption>
+                        <span>Tabela 1.</span>
+                        Lorem ipsum dolor sit, amet
+                    </caption>
+                    <tr>
+                        <th>Lorem</th>
+                        <th>ipsum</th>
+                        <th>dolor</th>
+                    </tr>
+                    <tr>
+                        <td>lorem</td>
+                        <td>ipsum dolor sit amet consectetur adipisicing elit. Sint sapiente, aut corporis velit vitae quaerat asperiores accusamus in id doloremque vel possimus magnam, qui dignissimos quasi deleniti, suscipit sunt</td>
+                        <td>ex.</td>
+                    </tr>
+                    <tr>
+                        <td>Lorem</td>
+                        <td>, ipsum dolor sit amet consectetur adipisicing elit. Dolores qui iste aliquid rem sapiente modi dolorum animi, eveniet sunt doloremque eum optio ullam quasi cum assumenda aspernatur inventore vitae </td>
+                        <td>accusamus?</td>
+                    </tr>
+                    <tr>
+                        <td>Lorem </td>
+                        <td>ipsum dolor, sit amet consectetur adipisicing elit. Reprehenderit iusto provident saepe voluptates facere repudiandae omnis minus ad soluta obcaecati repellat nihil sequi, nobis ducimus laborum corporis! Magni, fugit</td>
+                        <td> magnam?</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div id="step" class="t6">
+            <h2>Krok 6 - Ustawienie innego tła dla parzystych wierszy</h2>
+            <code>
+                <pre>
+                    &lt;style&gt;
+                   [...]
+                    tr:nth-child(even) {
+                        background-color: #eaeaea;
+                    } 
+                    &lt;/style&gt;</pre>
+            </code>
+            <h3>Podgląd: </h3>
+            <div class="podglad">
+                <table>
+                    <caption>
+                        <span>Tabela 1.</span>
+                        Lorem ipsum dolor sit, amet
+                    </caption>
+                    <tr>
+                        <th>Lorem</th>
+                        <th>ipsum</th>
+                        <th>dolor</th>
+                    </tr>
+                    <tr>
+                        <td>lorem</td>
+                        <td>ipsum dolor sit amet consectetur adipisicing elit. Sint sapiente, aut corporis velit vitae quaerat asperiores accusamus in id doloremque vel possimus magnam, qui dignissimos quasi deleniti, suscipit sunt</td>
+                        <td>ex.</td>
+                    </tr>
+                    <tr>
+                        <td>Lorem</td>
+                        <td>, ipsum dolor sit amet consectetur adipisicing elit. Dolores qui iste aliquid rem sapiente modi dolorum animi, eveniet sunt doloremque eum optio ullam quasi cum assumenda aspernatur inventore vitae </td>
+                        <td>accusamus?</td>
+                    </tr>
+                    <tr>
+                        <td>Lorem </td>
+                        <td>ipsum dolor, sit amet consectetur adipisicing elit. Reprehenderit iusto provident saepe voluptates facere repudiandae omnis minus ad soluta obcaecati repellat nihil sequi, nobis ducimus laborum corporis! Magni, fugit</td>
+                        <td> magnam?</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div id="step" class="t7">
+            <h2>Cały styl: </h2>
+            <code>
+                <pre>
+        .t6 caption {
+            caption-side: bottom;
+            font-size: larger;
+        }
+        .t6 span {
+            font-weight: bold;
+        }
+        .t6 th {
+            background-color: #5b5b5b;
+            color: white;
+        }
+        .t6 table {
+            position: relative;
+            width: 600px;
+            border: 5px solid #5b5b5b;
+            border-spacing: 0;
+            font-family: Arial, sans-serif;
+        }
+        .t6 tr:nth-child(even) {
+            background-color: #eaeaea;
+        }</pre>
+            </code>
+        </div>
+    </section>
+    
 </body>
 </html>
