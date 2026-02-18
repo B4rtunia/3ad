@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -285,6 +286,76 @@
             position: relative;
             left: 50px;
         }
+
+        .f2 label {
+            position: relative;
+            left: 50px;
+        }
+        .f2 input, .f2 textarea {
+            border:2px solid black;
+            border-radius: .25em;
+        }
+
+        .f3 label {
+            position: relative;
+            left: 50px;
+        }
+        .f3 input, .f3 textarea {
+            border:1px solid black;
+            border-radius: .25em;
+            box-shadow: 0 0 0 rgba(0,0,0,0);
+        }
+        .f3 input:hover, .f3 textarea:hover{
+            border:1px solid black;
+            border-radius: .25em;
+            background-color: #f0f0f0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.5)
+        }
+
+        .f4 label {
+            position: relative;
+            left: 50px;
+        }
+        .f4 input, .f4 textarea {
+            border:1px solid black;
+            border-radius: .25em;
+            box-shadow: 0 0 0 rgba(0,0,0,0);
+        }
+        .f4 input:hover, .f4 textarea:hover{
+            border:1px solid black;
+            border-radius: .25em;
+            background-color: #f0f0f0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.5)
+        }
+        .f4 input:focus, .f4 textarea:focus{
+            background-color: #bebebe;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.25)
+        }
+
+        .f5 label {
+            position: relative;
+            left: 50px;
+        }
+        .f5 input, .f5 textarea {
+            border:1px solid black;
+            border-radius: .25em;
+            box-shadow: 0 0 0 rgba(0,0,0,0);
+        }
+        .f5 input:hover, .f5 textarea:hover{
+            border:1px solid black;
+            border-radius: .25em;
+            background-color: #f0f0f0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.5)
+        }
+        .f5 input:focus, .f5 textarea:focus{
+            background-color: #bebebe;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.25)
+        }
+        .f5 input[type='submit'] {
+            background-color: #9bff9b;
+            width:5em;
+            height:2em;
+        }
     </style>
 </head>
 <body>
@@ -314,6 +385,7 @@
                         <li>Aktualnosci</li>
                         <li>O piekarni</li>
                         <li>Kontakt</li>
+                        <!--<ii>pozdro od dyzia</ii>-->
                     </ul>
                 </nav>
             </div>
@@ -833,25 +905,25 @@
             <h2>Cały styl: </h2>
             <code>
                 <pre>
-        .t6 caption {
+        caption {
             caption-side: bottom;
             font-size: larger;
         }
-        .t6 span {
+        span {
             font-weight: bold;
         }
-        .t6 th {
+        th {
             background-color: #5b5b5b;
             color: white;
         }
-        .t6 table {
+        table {
             position: relative;
             width: 600px;
             border: 5px solid #5b5b5b;
             border-spacing: 0;
             font-family: Arial, sans-serif;
         }
-        .t6 tr:nth-child(even) {
+        tr:nth-child(even) {
             background-color: #eaeaea;
         }</pre>
             </code>
@@ -928,14 +1000,155 @@
             </div>
         </div>
         <div id="step" class="f2">
-            ...
+            <h2>Krok 2 - Ustawienie stylów pól formularza</h2>
+            <code>
+                <pre>
+                    &lt;style&gt;
+                        input, textarea{
+                            border:1px solid black;
+                            border-radius: .25em;
+                            box-shadow: 0 0px 0px rgba(0,0,0,0)
+                        }
+                    &lt;/style&gt;</pre>
+            </code>
+
+            <h3>Podgląd: </h3>
+            <div id="podglad">
+                <p>Formularz</p>
+                <form>
+                    <label for="imie">Imię</label><br>
+                    <input type="text" name="imie" placeholder="Wpisz imie" id="imie"><br>
+                    <label for="nazwisko">Nazwisko</label><br>
+                    <input type="text" name="nazwisko" placeholder="Wpisz nazwisko" id="nazwisko"><br>
+                    <label for="email">Email</label><br>
+                    <input type="email" name="email" placeholder="Wpisz adres email" id="email"><br>
+                    <label for="komentarz">Komentarz</label><br>
+                    <textarea name="komentarz" id="komentarz"></textarea><br>
+                    <input type="submit" value="Wyślij"><br>
+                    <input type="reset" value="Resetuj">
+                </form>
+            </div>
         </div>
-        <div id="step" class="f3"></div>
-        <div id="step" class="f4"></div>
-        <div id="step" class="f5"></div>
-        <div id="step" class="f6"></div>
-        <div id="step" class="f7"></div>
-        <div id="step" class="f8"></div>
+        <div id="step" class="f3">
+            <h2>Krok 3 - Ustawienie stylów pól formularza po najechaniu</h2>
+            <code>
+                <pre>                   
+                &lt;style&gt;
+                    input:hover, textarea:hover{
+                        border:1px solid black;
+                        border-radius: .25em;
+                        background-color: #f0f0f0;
+                        box-shadow: 0 4px 8px rgba(0,0,0,0.5)
+                    }
+                &lt;/style&gt;</pre>
+            </code>
+
+            <h3>Podgląd: </h3>
+            <div id="podglad">
+                <p>Formularz</p>
+                <form>
+                    <label for="imie">Imię</label><br>
+                    <input type="text" name="imie" placeholder="Wpisz imie" id="imie"><br>
+                    <label for="nazwisko">Nazwisko</label><br>
+                    <input type="text" name="nazwisko" placeholder="Wpisz nazwisko" id="nazwisko"><br>
+                    <label for="email">Email</label><br>
+                    <input type="email" name="email" placeholder="Wpisz adres email" id="email"><br>
+                    <label for="komentarz">Komentarz</label><br>
+                    <textarea name="komentarz" id="komentarz"></textarea><br>
+                    <input type="submit" value="Wyślij"><br>
+                    <input type="reset" value="Resetuj">
+                </form>
+            </div>
+        </div>
+        <div id="step" class="f4">
+            <h2>Krok 3 - Ustawienie stylów pól formularza po kliknięcu</h2>
+            <code>
+                <pre>                   
+                &lt;style&gt;
+                    input:focus, textarea:focus{
+                        background-color: #bebebe;
+                        box-shadow: 0 4px 8px rgba(0,0,0,0.25)
+                    }
+                &lt;/style&gt;</pre>
+            </code>
+
+            <h3>Podgląd: </h3>
+            <div id="podglad">
+                <p>Formularz</p>
+                <form>
+                    <label for="imie">Imię</label><br>
+                    <input type="text" name="imie" placeholder="Wpisz imie" id="imie"><br>
+                    <label for="nazwisko">Nazwisko</label><br>
+                    <input type="text" name="nazwisko" placeholder="Wpisz nazwisko" id="nazwisko"><br>
+                    <label for="email">Email</label><br>
+                    <input type="email" name="email" placeholder="Wpisz adres email" id="email"><br>
+                    <label for="komentarz">Komentarz</label><br>
+                    <textarea name="komentarz" id="komentarz"></textarea><br>
+                    <input type="submit" value="Wyślij"><br>
+                    <input type="reset" value="Resetuj">
+                </form>
+            </div>
+        </div>
+        <div id="step" class="f5">
+            <h2>Krok 5 - Ustawienie stylu przycisku</h2>
+            <code>
+                <pre>                   
+                &lt;style&gt;
+                    input[type='submit'] {
+                        background-color: #9bff9b;
+                        width:5em;
+                        height:2em;
+                    }
+                &lt;/style&gt;</pre>
+            </code>
+
+            <h3>Podgląd: </h3>
+            <div id="podglad">
+                <p>Formularz</p>
+                <form>
+                    <label for="imie">Imię</label><br>
+                    <input type="text" name="imie" placeholder="Wpisz imie" id="imie"><br>
+                    <label for="nazwisko">Nazwisko</label><br>
+                    <input type="text" name="nazwisko" placeholder="Wpisz nazwisko" id="nazwisko"><br>
+                    <label for="email">Email</label><br>
+                    <input type="email" name="email" placeholder="Wpisz adres email" id="email"><br>
+                    <label for="komentarz">Komentarz</label><br>
+                    <textarea name="komentarz" id="komentarz"></textarea><br>
+                    <input type="submit" value="Wyślij"><br>
+                    <input type="reset" value="Resetuj">
+                </form>
+            </div>
+        </div>
+        <div id="step" class="f6">
+            <h2>Cały styl: </h2>
+            <code>
+                <pre>
+        label {
+            position: relative;
+            left: 50px;
+        }
+        input, textarea {
+            border:1px solid black;
+            border-radius: .25em;
+            box-shadow: 0 0 0 rgba(0,0,0,0);
+        }
+        input:hover, textarea:hover{
+            border:1px solid black;
+            border-radius: .25em;
+            background-color: #f0f0f0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.5)
+        }
+        input:focus, textarea:focus{
+            background-color: #bebebe;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.25)
+        }
+        input[type='submit'] {
+            background-color: #9bff9b;
+            width:5em;
+            height:2em;
+        }</pre>
+            </code>
+        </div>
     </section>
 </body>
 </html>
