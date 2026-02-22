@@ -1,0 +1,1769 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slowka - Dom</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .quiz-section {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        #pyt {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-align: center;
+            min-height: 40px;
+        }
+
+        #odpowiedz {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            transition: border-color 0.3s;
+        }
+
+        #odpowiedz:focus {
+            outline: none;
+            border-color: #333;
+        }
+
+        .ctrls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            flex: 1;
+            padding: 12px 16px;
+            font-size: 14px;
+            font-weight: 600;
+            border: none;
+            border-radius: 4px;
+            background: #333;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background: #555;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        #wynik {
+            font-size: 16px;
+            font-weight: 600;
+            min-height: 20px;
+            text-align: center;
+        }
+
+        .wszystkie {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        #searchBox {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+
+        #searchBox:focus {
+            outline: none;
+            border-color: #333;
+        }
+
+        #lista {
+            list-style: none;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        #lista li {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+        }
+
+        #lista li:hover {
+            background: #fafafa;
+        }
+
+        #lista li:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="pyt" class="pyt">---</div>
+    <input type="text" name="odpowiedz" id="odpowiedz">
+    <div class="ctrls">
+        <button id="start">Start</button>
+        <button id="spr">Sprawdź</button>
+        <button id="next">Następne</button>
+    </div>
+    <div id="wynik"> </div>
+    <div class="wszystkie">
+        <input type="text" id="searchBox" placeholder="Szukaj słówka">
+        <ul id="lista">
+
+        </ul>
+    </div>
+
+    <script>
+        const slowka = [
+            [
+                "cegła",
+                "brick"
+            ],
+            [
+                "krzak",
+                "bush"
+            ],
+            [
+                "sufit",
+                "ceiling"
+            ],
+            [
+                "komin",
+                "chimney"
+            ],
+            [
+                "drzwi",
+                "door"
+            ],
+            [
+                "tylne drzwi",
+                "back door"
+            ],
+            [
+                "drzwi frontowe",
+                "front door"
+            ],
+            [
+                "na dole",
+                "downstairs"
+            ],
+            [
+                "płot",
+                "fence"
+            ],
+            [
+                "piętro/podłoga",
+                "floor"
+            ],
+            [
+                "pierwsze piętro",
+                "first floor"
+            ],
+            [
+                "parter",
+                "ground floor"
+            ],
+            [
+                "drewniana podłoga",
+                "wooden floor"
+            ],
+            [
+                "ogród",
+                "garden"
+            ],
+            [
+                "ogród z przodu budynku",
+                "front garden"
+            ],
+            [
+                "ogród z tyłu budynku",
+                "rear garden"
+            ],
+            [
+                "ogród na dachu",
+                "roof garden"
+            ],
+            [
+                "ogród warzywny",
+                "vegetable garden"
+            ],
+            [
+                "brama/furtka",
+                "gate"
+            ],
+            [
+                "żelazny/żelazo",
+                "iron"
+            ],
+            [
+                "drabina",
+                "ladder"
+            ],
+            [
+                "trawnik",
+                "lawn"
+            ],
+            [
+                "winda",
+                "lift"
+            ],
+            [
+                "chodnik",
+                "pavement"
+            ],
+            [
+                "ganek/weranda",
+                "porch"
+            ],
+            [
+                "dach",
+                "roof"
+            ],
+            [
+                "ochrona",
+                "security"
+            ],
+            [
+                "panel słoneczny",
+                "solar panel"
+            ],
+            [
+                "klatka schodowa",
+                "staircase"
+            ],
+            [
+                "schody",
+                "stairs"
+            ],
+            [
+                "schodek",
+                "step"
+            ],
+            [
+                "taras do opalania",
+                "sun terrace"
+            ],
+            [
+                "drzewo",
+                "tree"
+            ],
+            [
+                "drzewo owocowe",
+                "fruit tree"
+            ],
+            [
+                "na górze",
+                "upstairs"
+            ],
+            [
+                "ściana",
+                "wall"
+            ],
+            [
+                "okno",
+                "window"
+            ],
+            [
+                "parapet",
+                "windowsill"
+            ],
+            [
+                "ławka",
+                "bench"
+            ],
+            [
+                "drabinka gimnastyczna",
+                "climbing frame"
+            ],
+            [
+                "ścieżka żwirowa",
+                "gravel path"
+            ],
+            [
+                "ogrzewacz ogrodowy",
+                "outdoor heater"
+            ],
+            [
+                "piaskownica",
+                "sandbox"
+            ],
+            [
+                "huśtawka",
+                "swing"
+            ],
+            [
+                "domek na drzewie",
+                "treehouse"
+            ],
+            [
+                "grządka warzywna",
+                "vegetable plot/patch"
+            ],
+            [
+                "mieszkanie",
+                "apartment"
+            ],
+            [
+                "blok mieszkalny",
+                "block of flats"
+            ],
+            [
+                "budynek",
+                "building"
+            ],
+            [
+                "bungalow/parterowy dom",
+                "bungalow"
+            ],
+            [
+                "zamek",
+                "castle"
+            ],
+            [
+                "domek wiejski/chata",
+                "cottage"
+            ],
+            [
+                "mieszkanie",
+                "flat"
+            ],
+            [
+                "łódź mieszkalna",
+                "houseboat"
+            ],
+            [
+                "luksusowa rezydencja",
+                "mansion"
+            ],
+            [
+                "mieszkanie z jedną sypialnią",
+                "one-bedroom flat"
+            ],
+            [
+                "dom bliźniak",
+                "semi-detached house"
+            ],
+            [
+                "drapacz chmur/wieżowiec",
+                "skyscraper"
+            ],
+            [
+                "kawalerka",
+                "studio (flat)"
+            ],
+            [
+                "dom szeregowy",
+                "terraced house"
+            ],
+            [
+                "mieszkanie dwupokojowe",
+                "two-room flat"
+            ],
+            [
+                "mieszkanie w suterenie",
+                "basement flat"
+            ],
+            [
+                "wynajęty pokój/kawalerka",
+                "bedsit"
+            ],
+            [
+                "budynek komunalny",
+                "council house"
+            ],
+            [
+                "dwór",
+                "manor house"
+            ],
+            [
+                "luksusowy apartament na ostatnim piętrze budynku",
+                "penthouse"
+            ],
+            [
+                "działka",
+                "allotment"
+            ],
+            [
+                "okolica",
+                "area"
+            ],
+            [
+                "stolica",
+                "capital (city)"
+            ],
+            [
+                "duże miasto",
+                "city"
+            ],
+            [
+                "dogodnie położony",
+                "conveniently located"
+            ],
+            [
+                "wieś/okolica wiejska",
+                "country(side)"
+            ],
+            [
+                "dzielnica",
+                "district"
+            ],
+            [
+                "łatwy dostęp do czegoś",
+                "easy access to sth"
+            ],
+            [
+                "miasto rodzinne",
+                "home town"
+            ],
+            [
+                "mieszkaniec/mieszkanka",
+                "inhabitant"
+            ],
+            [
+                "sąsiad/sąsiadka",
+                "neighbour"
+            ],
+            [
+                "okolica",
+                "neighbourhood"
+            ],
+            [
+                "starówka",
+                "old town"
+            ],
+            [
+                "miejsce parkingowe",
+                "parking space"
+            ],
+            [
+                "mieszkaniec/mieszkanka",
+                "resident"
+            ],
+            [
+                "dzielnica mieszkaniowa",
+                "residential area"
+            ],
+            [
+                "wiejski",
+                "rural"
+            ],
+            [
+                "slumsy",
+                "slums"
+            ],
+            [
+                "przedmieścia",
+                "suburbs"
+            ],
+            [
+                "kurort",
+                "tourist resort"
+            ],
+            [
+                "małe miasto",
+                "town"
+            ],
+            [
+                "turysta/turystka",
+                "tourist"
+            ],
+            [
+                "miejski",
+                "urban"
+            ],
+            [
+                "stacja metra",
+                "underground station"
+            ],
+            [
+                "wieś/miasteczko",
+                "village"
+            ],
+            [
+                "po drugiej stronie ulicy",
+                "across the street"
+            ],
+            [
+                "na ostatnim piętrze (budynku)",
+                "at the top (of a building)"
+            ],
+            [
+                "nad morzem",
+                "by the sea"
+            ],
+            [
+                "wejść do środka",
+                "go inside"
+            ],
+            [
+                "przed czymś",
+                "in front of sth"
+            ],
+            [
+                "w centrum miasta",
+                "in the city centre"
+            ],
+            [
+                "na wsi",
+                "in the countryside"
+            ],
+            [
+                "na przedmieściach",
+                "in the suburbs"
+            ],
+            [
+                "czuj się jak u siebie w domu",
+                "make yourself at home"
+            ],
+            [
+                "obok czegoś",
+                "next to sth"
+            ],
+            [
+                "na rogu",
+                "on the corner"
+            ],
+            [
+                "na (pierwszym) piętrze",
+                "on the (first) floor"
+            ],
+            [
+                "na ostatnim piętrze",
+                "on the top floor"
+            ],
+            [
+                "naprzeciwko czegoś",
+                "opposite sth"
+            ],
+            [
+                "w bliskiej odległości od czegoś",
+                "within walking distance of sth"
+            ],
+            [
+                "starożytny/wiekowy/bardzo stary",
+                "ancient"
+            ],
+            [
+                "jasny",
+                "bright"
+            ],
+            [
+                "wygodny/niewygodny",
+                "comfortable/uncomfortable"
+            ],
+            [
+                "przytulny",
+                "cosy"
+            ],
+            [
+                "pusty",
+                "empty"
+            ],
+            [
+                "w złym stanie",
+                "in bad condition"
+            ],
+            [
+                "nieuporządkowany/zabalaganiowy",
+                "messy"
+            ],
+            [
+                "schludny",
+                "neat"
+            ],
+            [
+                "staroświecki/staromodny",
+                "old-fashioned"
+            ],
+            [
+                "niedawno odnowiony/po remoncie",
+                "recently renovated"
+            ],
+            [
+                "przestronny",
+                "roomy"
+            ],
+            [
+                "przestronny",
+                "spacious"
+            ],
+            [
+                "stylowy",
+                "stylish"
+            ],
+            [
+                "uporządkowany",
+                "tidy"
+            ],
+            [
+                "malutki",
+                "tiny"
+            ],
+            [
+                "tradycyjny",
+                "traditional"
+            ],
+            [
+                "strych/poddasze",
+                "attic"
+            ],
+            [
+                "balkon",
+                "balcony"
+            ],
+            [
+                "piwnica",
+                "basement"
+            ],
+            [
+                "łazienka",
+                "bathroom"
+            ],
+            [
+                "sypialnia",
+                "bedroom"
+            ],
+            [
+                "kotłownia",
+                "boiler room"
+            ],
+            [
+                "piwnica",
+                "cellar"
+            ],
+            [
+                "korytarz",
+                "corridor"
+            ],
+            [
+                "pomieszczenie rekreacyjne",
+                "games room"
+            ],
+            [
+                "garaż",
+                "garage"
+            ],
+            [
+                "garaż podziemny",
+                "underground garage"
+            ],
+            [
+                "przedpokój/hol",
+                "hall"
+            ],
+            [
+                "kuchnia",
+                "kitchen"
+            ],
+            [
+                "pralnia",
+                "laundry (room/area)"
+            ],
+            [
+                "pokój dzienny/salon",
+                "living room"
+            ],
+            [
+                "pokój dzienny/salon",
+                "sitting room"
+            ],
+            [
+                "gabinet",
+                "study"
+            ],
+            [
+                "toaleta/WC",
+                "toilet"
+            ],
+            [
+                "roleta/żaluzja",
+                "blind"
+            ],
+            [
+                "zegar",
+                "clock"
+            ],
+            [
+                "zasłona",
+                "curtain"
+            ],
+            [
+                "firanka",
+                "net curtain"
+            ],
+            [
+                "klamka",
+                "door handle"
+            ],
+            [
+                "dzwonek",
+                "doorbell"
+            ],
+            [
+                "wycieraczka do butów",
+                "doormat"
+            ],
+            [
+                "urządzenia elektryczne",
+                "electrical appliances"
+            ],
+            [
+                "grzejnik/kaloryfer",
+                "heater"
+            ],
+            [
+                "światło",
+                "light"
+            ],
+            [
+                "żarówka",
+                "light bulb"
+            ],
+            [
+                "roślina",
+                "plant"
+            ],
+            [
+                "roślina doniczkowa",
+                "house plant"
+            ],
+            [
+                "odkurzacz",
+                "vacuum cleaner"
+            ],
+            [
+                "klimatyzacja",
+                "air conditioning"
+            ],
+            [
+                "budzik",
+                "alarm clock"
+            ],
+            [
+                "zabytkowe meble",
+                "antique furniture"
+            ],
+            [
+                "alarm antywłamaniowy",
+                "burglar alarm"
+            ],
+            [
+                "centralne ogrzewanie",
+                "central heating"
+            ],
+            [
+                "sprzęt AGD",
+                "household appliances"
+            ],
+            [
+                "pukać do drzwi",
+                "knock on the door"
+            ],
+            [
+                "tapeta",
+                "wallpaper"
+            ],
+            [
+                "wanna",
+                "bath"
+            ],
+            [
+                "lustro",
+                "mirror"
+            ],
+            [
+                "rura",
+                "pipe"
+            ],
+            [
+                "prysznic",
+                "shower"
+            ],
+            [
+                "kabina prysznicowa",
+                "shower cabin"
+            ],
+            [
+                "mydło",
+                "soap"
+            ],
+            [
+                "kran",
+                "tap"
+            ],
+            [
+                "deska sedesowa",
+                "toilet seat"
+            ],
+            [
+                "szczoteczka do zębów",
+                "toothbrush"
+            ],
+            [
+                "pasta do zębów",
+                "toothpaste"
+            ],
+            [
+                "ręcznik",
+                "towel"
+            ],
+            [
+                "umywalka",
+                "washbasin"
+            ],
+            [
+                "pralka",
+                "washing machine"
+            ],
+            [
+                "łóżko",
+                "bed"
+            ],
+            [
+                "łóżko piętrowe",
+                "bunk bed"
+            ],
+            [
+                "łóżko dwuosobowe",
+                "double bed"
+            ],
+            [
+                "koc",
+                "blanket"
+            ],
+            [
+                "półka na książki",
+                "bookshelf"
+            ],
+            [
+                "krzesło",
+                "chair"
+            ],
+            [
+                "biurko",
+                "desk"
+            ],
+            [
+                "komoda",
+                "drawer"
+            ],
+            [
+                "lampa",
+                "lamp"
+            ],
+            [
+                "poduszka",
+                "pillow"
+            ],
+            [
+                "dywanik",
+                "rug"
+            ],
+            [
+                "prześcieradło",
+                "sheet"
+            ],
+            [
+                "półka",
+                "shelf"
+            ],
+            [
+                "szafa",
+                "wardrobe"
+            ],
+            [
+                "szafa wnękowa",
+                "fitted wardrobe"
+            ],
+            [
+                "szafa na wymiar",
+                "made-to-order wardrobe"
+            ],
+            [
+                "materac",
+                "mattress"
+            ],
+            [
+                "fotel",
+                "armchair"
+            ],
+            [
+                "biblioteczka",
+                "bookcase"
+            ],
+            [
+                "dywan/wykładzina",
+                "carpet"
+            ],
+            [
+                "odtwarzacz płyt CD",
+                "CD player"
+            ],
+            [
+                "stolik kawowy",
+                "coffee table"
+            ],
+            [
+                "kanapa",
+                "couch"
+            ],
+            [
+                "poduszka dekoracyjna",
+                "cushion"
+            ],
+            [
+                "stół jadalny",
+                "dining table"
+            ],
+            [
+                "kominek",
+                "fireplace"
+            ],
+            [
+                "kanapa",
+                "sofa"
+            ],
+            [
+                "sprzęt audio",
+                "stereo"
+            ],
+            [
+                "telewizor",
+                "TV set"
+            ],
+            [
+                "miska",
+                "bowl"
+            ],
+            [
+                "ekspres do kawy",
+                "coffeemaker"
+            ],
+            [
+                "kuchenka",
+                "cooker"
+            ],
+            [
+                "kuchenka elektryczna",
+                "electric cooker"
+            ],
+            [
+                "kuchenka gazowa",
+                "gas cooker"
+            ],
+            [
+                "filiżanka",
+                "cup"
+            ],
+            [
+                "szafka kuchenna",
+                "cupboard"
+            ],
+            [
+                "sztućce",
+                "cutlery"
+            ],
+            [
+                "zmywarka",
+                "dishwasher"
+            ],
+            [
+                "widelec",
+                "fork"
+            ],
+            [
+                "zamrażarka",
+                "freezer"
+            ],
+            [
+                "lodówka",
+                "fridge"
+            ],
+            [
+                "czajnik",
+                "kettle"
+            ],
+            [
+                "czajnik elektryczny",
+                "electric kettle"
+            ],
+            [
+                "stół kuchenny",
+                "kitchen table"
+            ],
+            [
+                "nóż",
+                "knife"
+            ],
+            [
+                "kuchenka mikrofalowa",
+                "microwave oven"
+            ],
+            [
+                "kubek",
+                "mug"
+            ],
+            [
+                "piekarnik",
+                "oven"
+            ],
+            [
+                "rondel",
+                "pan"
+            ],
+            [
+                "talerz",
+                "plate"
+            ],
+            [
+                "garnek",
+                "pot"
+            ],
+            [
+                "zlew",
+                "sink"
+            ],
+            [
+                "łyżka",
+                "spoon"
+            ],
+            [
+                "dzbanek do herbaty",
+                "teapot"
+            ],
+            [
+                "toster",
+                "toaster"
+            ],
+            [
+                "blat kuchenny",
+                "worktop"
+            ],
+            [
+                "być w domu",
+                "be at home"
+            ],
+            [
+                "być w domu",
+                "be in"
+            ],
+            [
+                "wymienić żarówkę",
+                "change a light bulb"
+            ],
+            [
+                "sprzątać łazienkę",
+                "clean the bathroom"
+            ],
+            [
+                "czyścić dywan",
+                "clean the carpet"
+            ],
+            [
+                "myć podłogi",
+                "clean the floors"
+            ],
+            [
+                "myć okna",
+                "clean the windows"
+            ],
+            [
+                "sprzątać ze stołu",
+                "clear up the table"
+            ],
+            [
+                "gotować",
+                "cook"
+            ],
+            [
+                "wykonywać prace domowe",
+                "do household jobs/chores"
+            ],
+            [
+                "sprzątać",
+                "do the cleaning"
+            ],
+            [
+                "gotować",
+                "do the cooking"
+            ],
+            [
+                "wykonywać prace domowe",
+                "do the housework"
+            ],
+            [
+                "prasować",
+                "do the ironing"
+            ],
+            [
+                "robić zakupy",
+                "do the shopping"
+            ],
+            [
+                "prać",
+                "do the washing"
+            ],
+            [
+                "myć naczynia",
+                "do the washing-up"
+            ],
+            [
+                "zaciągać zasłony",
+                "draw the curtains"
+            ],
+            [
+                "wycierać naczynia",
+                "dry the dishes"
+            ],
+            [
+                "ścierać kurze",
+                "dust the surfaces"
+            ],
+            [
+                "wyjmować naczynia ze zmywarki",
+                "empty the dishwasher"
+            ],
+            [
+                "nakarmić kota",
+                "feed the cat"
+            ],
+            [
+                "naprawić coś",
+                "fix sth"
+            ],
+            [
+                "składać pranie",
+                "fold the washing"
+            ],
+            [
+                "dotrzeć do domu",
+                "get home"
+            ],
+            [
+                "wieszać pranie",
+                "hang (up) the washing"
+            ],
+            [
+                "prasować ubrania",
+                "iron clothes"
+            ],
+            [
+                "wychodzić z domu",
+                "leave the house"
+            ],
+            [
+                "leżeć na łóżku",
+                "lie on the bed"
+            ],
+            [
+                "napełnić zmywarkę",
+                "load the dishwasher"
+            ],
+            [
+                "zamknąć drzwi na klucz",
+                "lock the door"
+            ],
+            [
+                "ścielić łóżko",
+                "make the bed"
+            ],
+            [
+                "ugotować obiad",
+                "make/cook dinner"
+            ],
+            [
+                "naprawić coś",
+                "mend sth"
+            ],
+            [
+                "myć podłogę mopem",
+                "mop the floor"
+            ],
+            [
+                "kosić trawę",
+                "mow the lawn"
+            ],
+            [
+                "odkładać na miejsce",
+                "put away"
+            ],
+            [
+                "spuścić rolety",
+                "roll down the blinds"
+            ],
+            [
+                "odprowadzić kogoś do domu",
+                "see sb home"
+            ],
+            [
+                "dzielić się pracami domowymi",
+                "share the housework"
+            ],
+            [
+                "zostać w domu",
+                "stay in"
+            ],
+            [
+                "przebywać poza domem",
+                "stay out"
+            ],
+            [
+                "włączyć (światło/zmywarkę)",
+                "switch on (the light/dishwasher)"
+            ],
+            [
+                "robić coś na zmianę",
+                "take it in turns to do sth"
+            ],
+            [
+                "wynosić śmieci",
+                "take out the rubbish"
+            ],
+            [
+                "wyprowadzać psa na spacer",
+                "take the dog for a walk"
+            ],
+            [
+                "wyrzucać",
+                "throw away"
+            ],
+            [
+                "posprzątać pokój",
+                "tidy your room"
+            ],
+            [
+                "odkurzyć dywan",
+                "vacuum the carpet"
+            ],
+            [
+                "prać ubrania",
+                "wash clothes"
+            ],
+            [
+                "myć naczynia",
+                "wash the dishes"
+            ],
+            [
+                "podlewać rośliny",
+                "water the plants"
+            ],
+            [
+                "czyścić (rynny) z liści",
+                "clean leaves (out of the gutter)"
+            ],
+            [
+                "posprzątać (bałagan)",
+                "clean up (the mess)"
+            ],
+            [
+                "przerobić (strych na sypialnię)",
+                "convert (an attic into a bedroom)"
+            ],
+            [
+                "zajmować się hydrauliką",
+                "do your own plumbing"
+            ],
+            [
+                "wpaść do kogoś",
+                "drop in"
+            ],
+            [
+                "naprawić antenę",
+                "fix an aerial"
+            ],
+            [
+                "utrzymywać czystość i porządek",
+                "keep things neat and tidy"
+            ],
+            [
+                "pomalować sufit",
+                "paint the ceiling"
+            ],
+            [
+                "powiesić półki",
+                "put up some shelves"
+            ],
+            [
+                "wymienić (pęknięty kafelek)",
+                "replace (a broken tile)"
+            ],
+            [
+                "wyrzucać (śmieci)",
+                "throw out (rubbish)"
+            ],
+            [
+                "zakwaterowanie",
+                "accommodation"
+            ],
+            [
+                "mieszkanie studenckie/akademik",
+                "student accommodation"
+            ],
+            [
+                "ogłoszenie",
+                "ad/advert/advertisement"
+            ],
+            [
+                "udogodnienia/infrastruktura",
+                "amenities"
+            ],
+            [
+                "rachunek",
+                "bill"
+            ],
+            [
+                "rachunek za prąd",
+                "electricity bill"
+            ],
+            [
+                "rachunek za telefon",
+                "telephone bill"
+            ],
+            [
+                "dojeżdżać do pracy",
+                "commute"
+            ],
+            [
+                "łazienka przy sypialni",
+                "en-suite bathroom"
+            ],
+            [
+                "udogodnienia/infrastruktura",
+                "facilities"
+            ],
+            [
+                "współlokator (w mieszkaniu)",
+                "flatmate"
+            ],
+            [
+                "do wynajęcia",
+                "for rent"
+            ],
+            [
+                "na sprzedaż",
+                "for sale"
+            ],
+            [
+                "w pełni wyposażona kuchnia",
+                "fully fitted kitchen"
+            ],
+            [
+                "umeblowany/nieumeblowany",
+                "furnished/unfurnished"
+            ],
+            [
+                "zasady panujące w domu",
+                "house rules"
+            ],
+            [
+                "miesięcznie",
+                "per month"
+            ],
+            [
+                "tygodniowo",
+                "per week"
+            ],
+            [
+                "prywatny ogród",
+                "private garden"
+            ],
+            [
+                "transport publiczny",
+                "public transport"
+            ],
+            [
+                "rozsądna cena",
+                "reasonable price"
+            ],
+            [
+                "odnowić dom",
+                "redecorate a house"
+            ],
+            [
+                "odnowić dom",
+                "renovate a house"
+            ],
+            [
+                "czynsz",
+                "rent"
+            ],
+            [
+                "współlokator (w pokoju)",
+                "roommate"
+            ],
+            [
+                "pokój gościnny/pokój pościelowy",
+                "spare room"
+            ],
+            [
+                "do wynajęcia",
+                "to let"
+            ],
+            [
+                "widok",
+                "view"
+            ],
+            [
+                "z widokiem na coś",
+                "with a view of sth"
+            ],
+            [
+                "prowizja/dla pośrednika",
+                "commission"
+            ],
+            [
+                "podatek komunalny",
+                "council tax"
+            ],
+            [
+                "kaucja",
+                "deposit"
+            ],
+            [
+                "agent/agentka nieruchomości",
+                "estate agent"
+            ],
+            [
+                "rata",
+                "instalment"
+            ],
+            [
+                "właściciel/właścicielka wynajmowanego domu",
+                "landlord/landlady"
+            ],
+            [
+                "do negocjacji",
+                "negotiable"
+            ],
+            [
+                "okres wypowiedzenia",
+                "notice period"
+            ],
+            [
+                "podpisać umowę najmu",
+                "sign the lease"
+            ],
+            [
+                "rachunki za media (gaz, prąd, wodę)",
+                "utility bills"
+            ],
+            [
+                "móc sobie pozwolić na coś",
+                "can afford sth"
+            ],
+            [
+                "zamienić się mieszkaniami",
+                "exchange flats"
+            ],
+            [
+                "znaleźć swój kąt",
+                "find a place of your own"
+            ],
+            [
+                "płacić z góry",
+                "pay in advance"
+            ],
+            [
+                "płacić rachunki/czynsz",
+                "pay the bills/rent"
+            ],
+            [
+                "wynająć mieszkanie (od kogoś)",
+                "rent a flat"
+            ],
+            [
+                "dzielić mieszkanie/pokój z kimś",
+                "share a flat/room/house with sb"
+            ],
+            [
+                "dzielić się kosztami",
+                "split the costs"
+            ],
+            [
+                "umówić się na oglądanie domu/mieszkania",
+                "book a viewing (of a house/flat)"
+            ],
+            [
+                "odchodzić od ścian (farbie/tapecie)",
+                "come off the walls"
+            ],
+            [
+                "wynająć komuś mieszkanie",
+                "let out a flat"
+            ],
+            [
+                "wziąć pożyczkę/kredyt hipoteczny",
+                "take out a loan/mortgage"
+            ],
+            [
+                "karton",
+                "carton"
+            ],
+            [
+                "rozpaść się",
+                "fall apart"
+            ],
+            [
+                "przewrócić się/zawalić się",
+                "fall down"
+            ],
+            [
+                "parapetówka",
+                "house-warming party"
+            ],
+            [
+                "burzyć/wyburzyć",
+                "knock down"
+            ],
+            [
+                "remont",
+                "makeover"
+            ],
+            [
+                "wprowadzać się (do)/wyprowadzać się",
+                "move in(to)/move out"
+            ],
+            [
+                "stałe zameldowanie",
+                "permanent address"
+            ],
+            [
+                "przeprowadzka/przenoszenie się",
+                "removal"
+            ],
+            [
+                "zabezpieczony/zamocowany",
+                "secure"
+            ],
+            [
+                "taśma",
+                "tape"
+            ],
+            [
+                "adres tymczasowy",
+                "temporary address"
+            ],
+            [
+                "przeprowadzka/transport",
+                "transfer"
+            ],
+            [
+                "składać meble",
+                "assemble furniture"
+            ],
+            [
+                "folia bąbelkowa",
+                "bubble wrap"
+            ],
+            [
+                "karton z tektury falistej",
+                "cardboard box"
+            ],
+            [
+                "rozkładać meble",
+                "dismantle furniture"
+            ],
+            [
+                "delikatne kruche przedmioty",
+                "fragile items"
+            ],
+            [
+                "instalować/zakładać",
+                "install"
+            ],
+            [
+                "zapełnić/załadować samochód",
+                "load a van"
+            ],
+            [
+                "przeprowadzić się/przenieść się",
+                "move house"
+            ],
+            [
+                "wyprowadzić się",
+                "move out"
+            ],
+            [
+                "pracownik/pracownica firmy przeprowadzkowej",
+                "mover"
+            ],
+            [
+                "firma przeprowadzkowa",
+                "removal company"
+            ],
+            [
+                "samochód do przeprowadzek",
+                "removal van"
+            ],
+            [
+                "zaaklimatyzować się/zaadaptować",
+                "settle in"
+            ],
+            [
+                "posiąść/nabyć nieruchomość",
+                "mienie/dobytek"
+            ],
+            [
+                "oranżeria",
+                "conservatory"
+            ],
+            [
+                "wejście/drzwi wejściowe",
+                "doorway"
+            ],
+            [
+                "rynna",
+                "drainpipe"
+            ],
+            [
+                "rozbudować",
+                "extend"
+            ],
+            [
+                "fasada",
+                "facade"
+            ],
+            [
+                "okno od podłogi do sufitu",
+                "floor-to-ceiling windows"
+            ],
+            [
+                "okna otwierane na zewnątrz",
+                "French windows"
+            ],
+            [
+                "rynna",
+                "guttering"
+            ],
+            [
+                "lądowanie/półpiętro",
+                "landing"
+            ],
+            [
+                "antresola/półpiętro",
+                "mezzanine"
+            ],
+            [
+                "patio/taras",
+                "patio"
+            ],
+            [
+                "okiennice",
+                "shutters"
+            ],
+            [
+                "świetlik (w dachu)",
+                "skylight"
+            ]
+        ]
+        let baza = [];
+
+        const pytanie = document.getElementById("pyt");
+        const uAns = document.getElementById("odpowiedz");
+        const wynik = document.getElementById("wynik");
+        let pyt = null
+
+        function start() {
+            slowka.forEach(element => {
+                baza.push(element);
+            });
+            baza.sort(() => Math.random() - 0.5);
+            losujpyt();
+        }
+
+        function losujpyt() {
+            if (baza.length == 0) {
+                start()
+            };
+            pyt = baza.pop();
+            console.log(pyt)
+            pytanie.textContent = pyt[0];
+            wynik.textContent = "";
+            uAns.value = null;
+
+        }
+
+        function sprawdzenie(pytanie) {
+            let odp =  uAns.value.trim().toLowerCase();
+            let poprawna = pytanie[1].toLowerCase();
+            if (odp == poprawna) {
+                wynik.style = 'color: green; font-size: 20px; font-family: sans-serif;';
+                wynik.textContent = "DOBRZE";
+                uAns.value = null;
+                setTimeout(() => {
+                    losujpyt();
+                }, 1500);
+            }
+            else {
+                wynik.style = 'color: red; font-size: 20px; font-family: sans-serif;';
+                wynik.style.whiteSpace = "pre-line";
+                wynik.textContent = 'ŹLE, poprawna odpowiedź to: \n' + pytanie[1] + '\n' + 'Naciśnij "następne", żeby przejść dalej';
+            }
+        }
+
+        function lista() {
+            document.getElementById("lista").innerHTML = '';
+            slowka.forEach(element => {
+                const li = document.createElement('li');
+                li.textContent = element[0] + ' - ' + element[1];
+                li.dataset.search = (element[0] + ' ' + element[1]).toLowerCase();
+                document.getElementById("lista").appendChild(li);
+            });
+        }
+
+        function wyszukaj() {
+            const szukaj = searchBox.value.toLowerCase();
+            const listaItems = document.getElementById("lista").querySelectorAll('li');
+            
+            listaItems.forEach(item => {
+                if (item.dataset.search.includes(szukaj)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+
+        document.getElementById("searchBox").addEventListener('input', wyszukaj);
+        document.getElementById("start").addEventListener('click', ()=>{start(); });
+        document.getElementById("next").addEventListener("click", ()=>{losujpyt(); });
+        document.getElementById("spr").addEventListener("click", ()=>{sprawdzenie(pyt); });
+        lista();
+    </script>
+</body>
+</html>
