@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flexbox i responsywność</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Asap+Condensed:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: "Asap Condensed", sans-serif;
+            font-weight: 600;
+            font-style: normal;
+        }
+        p {
+            font-weight: 400;
+        }
+        code {
+            font-weight: 200;
+            font-style: italic;
+            line-height: 1.5em;
+            display: block;
+            background-color: #f5f5f5;
+            padding: 1em;
+            border-radius: 0.5em;
+            margin: 1em 0;
+            white-space: pre;
+        }
+        .wrapper {
+            width: 80%;
+            background-color: #ffffff;
+            border-radius: 0.5em;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            margin: 1em auto;
+            padding: 1em;
+        }
+        @media (min-width: 1220px) {
+            .wrapper {
+                width: 50%;
+            }
+        }
+        .wrapper nav li {
+            list-style-type: none;
+            max-width: 200px;
+            display: inline-flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        li {
+            list-style-type: none;
+        }
+        li a {
+            padding: 1.5em;   
+            margin: 0.5em;
+            background-color: #a6eaff;
+            border-radius: 0.75em;
+            text-decoration: none;
+            color: #1ab6ff;
+        }
+        li a:hover {
+            background-color: #1ab6ff;
+            color: white;
+        }
+        .flex-example {
+            display: flex;
+            border: 2px solid #1ab6ff;
+            margin: 1em auto;
+            padding: 1em;
+            min-height: 120px;
+            background-color: #f0f8ff;
+            border-radius: 0.5em;
+            width: auto;
+        }
+        .flex-item {
+            background-color: #a6eaff;
+            padding: 0.5em;
+            margin: 0.25em;
+            border-radius: 0.25em;
+            text-align: center;
+            min-width: 50px;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+        .media-example {
+            border: 2px solid #ff6b6b;
+            margin: 1em auto;
+            padding: 1em;
+            background-color: #ffe0e0;
+            border-radius: 0.5em;
+            min-height: 100px;
+        }
+        .responsive-box {
+            background-color: #ff6b6b;
+            color: white;
+            padding: 1em;
+            border-radius: 0.5em;
+            margin: 0.5em;
+            text-align: center;
+            font-weight: 700;
+        }
+        .demo-container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <header class="wrapper">
+        <h1>Flexbox i Zapytania o media</h1>
+    </header>
+    <div class="wrapper">
+        <nav>
+            <ul>
+                <p style="font-size: 150%;">Flexbox - podstawowe właściwości:</p>
+                <li><a href="#display">display</a></li>
+                <li><a href="#flex-direction">flex-direction</a></li>
+                <li><a href="#flex-wrap">flex-wrap</a></li>
+                <li><a href="#flex-flow">flex-flow</a></li>
+                <li><a href="#justify-content">justify-content</a></li>
+                <li><a href="#align-items">align-items</a></li>
+                <li><a href="#align-content">align-content</a></li>
+                <p style="font-size: 150%; margin-top: 1em;">Responsywność: </p>
+                <li><a href="#media-queries">Zapytania o media</a></li>
+
+            </ul>
+        </nav>
+    </div>
+    
+    <div class="wrapper" id="display">
+        <h2>Display</h2>
+        <p>Display posiada 2 wartości pozwalające na utworzenie flexboxa.</p>
+        <code>.container {
+    display: flex;
+}</code>
+        <p><b>flex</b>: Zachowuje się jak element blokowy, zajmuje całą szerokość strony, elementy ustawiają się pod nim.</p>
+        <div class="flex-example">
+            <div class="flex-item">1</div>
+            <div class="flex-item">2</div>
+            <div class="flex-item">3</div>
+        </div>
+        <code>.container {
+    display: inline-flex;
+}</code>
+        <p><b>inline-flex</b>: Zachowuje się jak element liniowy (inline), nie zajmuje całej szerokości.</p>
+        <div class="flex-example" style="display: inline-flex; min-height: auto;">
+            <div class="flex-item">1</div>
+            <div class="flex-item">2</div>
+            <div class="flex-item">3</div>
+        </div>
+    </div>
+    
+    <div class="wrapper" id="flex-direction">
+        <h2>Flex-direction</h2>
+        <p>Flex-direction określa kierunek głównej osi flexboxa.</p>
+        <code>.container {
+    flex-direction: row;
+}</code>
+        <p><b>row</b> (domyślna): Elementy są układane w rzędzie od lewej do prawej.</p>
+        <div class="flex-example">
+            <div class="flex-item">1</div>
+            <div class="flex-item">2</div>
+            <div class="flex-item">3</div>
+        </div>
+        <code>.container {
+    flex-direction: row-reverse;
+}</code>
+        <p><b>row-reverse</b>: Elementy są układane w rzędzie od prawej do lewej.</p>
+        <div class="flex-example" style="flex-direction: row-reverse;">
+            <div class="flex-item">1</div>
+            <div class="flex-item">2</div>
+            <div class="flex-item">3</div>
+        </div>
+        <code>.container {
+    flex-direction: column;
+}</code>
+        <p><b>column</b>: Elementy są układane w kolumnie od góry do dołu.</p>
+        <div class="flex-example" style="flex-direction: column;">
+            <div class="flex-item">1</div>
+            <div class="flex-item">2</div>
+            <div class="flex-item">3</div>
+        </div>
+        <code>.container {
+    flex-direction: column-reverse;
+}</code>
+        <p><b>column-reverse</b>: Elementy są układane w kolumnie od dołu do góry.</p>
+        <div class="flex-example" style="flex-direction: column-reverse;">
+            <div class="flex-item">1</div>
+            <div class="flex-item">2</div>
+            <div class="flex-item">3</div>
+        </div>
+    </div>
+    
+    <div class="wrapper" id="flex-wrap">
+        <h2>Flex-wrap</h2>
+        <p>Flex-wrap określa, czy elementy flex mogą się zawijać na następne linie.</p>
+        <code>.container {
+    flex-wrap: nowrap;
+}</code>
+        <p><b>nowrap</b> (domyślna): Elementy nie zawijają się i pozostają w jednej linii.</p>
+        <div class="flex-example demo-container" style="flex-wrap: nowrap; overflow-x: auto;">
+            <div class="flex-item">1</div>
+            <div class="flex-item">2</div>
+            <div class="flex-item">3</div>
+            <div class="flex-item">4</div>
+            <div class="flex-item">5</div>
+        </div>
+        <code>.container {
+    flex-wrap: wrap;
+}</code>
+        <p><b>wrap</b>: Elementy mogą się zawijać na następne linie od góry do dołu.</p>
+        <div class="flex-example demo-container" style="flex-wrap: wrap;">
+            <div class="flex-item">1</div>
+            <div class="flex-item">2</div>
+            <div class="flex-item">3</div>
+            <div class="flex-item">4</div>
+            <div class="flex-item">5</div>
+        </div>
+        <code>.container {
+    flex-wrap: wrap-reverse;
+}</code>
+        <p><b>wrap-reverse</b>: Elementy mogą się zawijać na następne linie od dołu do góry.</p>
+        <div class="flex-example demo-container" style="flex-wrap: wrap-reverse;">
+            <div class="flex-item">1</div>
+            <div class="flex-item">2</div>
+            <div class="flex-item">3</div>
+            <div class="flex-item">4</div>
+            <div class="flex-item">5</div>
+        </div>
+    </div>
+    
+    <div class="wrapper" id="flex-flow">
+        <h2>Flex-flow</h2>
+        <p>Flex-flow jest skrótem dla flex-direction i flex-wrap.</p>
+        <code>.container {
+    flex-flow: row nowrap;
+}</code>
+        <p><b>row nowrap</b>: Elementy w rzędzie bez zawijania.</p>
+        <div class="flex-example">
+            <div class="flex-item">1</div>
+            <div class="flex-item">2</div>
+            <div class="flex-item">3</div>
+        </div>
+        <code>.container {
+    flex-flow: column wrap;
+}</code>
+        <p><b>column wrap</b>: Elementy w kolumnie z zawijaniem.</p>
+        <div class="flex-example demo-container" style="flex-flow: column wrap; height: 200px;">
+            <div class="flex-item">1</div>
+            <div class="flex-item">2</div>
+            <div class="flex-item">3</div>
+            <div class="flex-item">4</div>
+        </div>
+    </div>
+    
+    <div class="wrapper" id="justify-content">
+        <h2>Justify-content</h2>
+        <p>Justify-content wyrównuje elementy wzdłuż głównej osi.</p>
+        <code>.container {
+    justify-content: flex-start;
+}</code>
+        <p><b>flex-start</b> (domyślna): Elementy są wyrównane do początku głównej osi.</p>
+        <div class="flex-example">
+            <div class="flex-item">1</div>
+            <div class="flex-item">2</div>
+            <div class="flex-item">3</div>
+        </div>
+        <code>.container {
+    justify-content: flex-end;
+}</code>
+        <p><b>flex-end</b>: Elementy są wyrównane do końca głównej osi.</p>
+        <div class="flex-example" style="justify-content: flex-end;">
+            <div class="flex-item">1</div>
+            <div class="flex-item">2</div>
+            <div class="flex-item">3</div>
+        </div>
+        <code>.container {
+    justify-content: center;
+}</code>
+        <p><b>center</b>: Elementy są wycentrowane wzdłuż głównej osi.</p>
+        <div class="flex-example" style="justify-content: center;">
+            <div class="flex-item">1</div>
+            <div class="flex-item">2</div>
+            <div class="flex-item">3</div>
+        </div>
+        <code>.container {
+    justify-content: space-between;
+}</code>
+        <p><b>space-between</b>: Elementy są rozłożone równomiernie; pierwszy element przy początku, ostatni przy końcu.</p>
+        <div class="flex-example" style="justify-content: space-between;">
+            <div class="flex-item">1</div>
+            <div class="flex-item">2</div>
+            <div class="flex-item">3</div>
+        </div>
+        <code>.container {
+    justify-content: space-around;
+}</code>
+        <p><b>space-around</b>: Elementy mają równy odstęp wokół siebie.</p>
+        <div class="flex-example" style="justify-content: space-around;">
+            <div class="flex-item">1</div>
+            <div class="flex-item">2</div>
+            <div class="flex-item">3</div>
+        </div>
+        <code>.container {
+    justify-content: space-evenly;
+}</code>
+        <p><b>space-evenly</b>: Odstępy między elementami i krawędziami kontenera są równe.</p>
+        <div class="flex-example" style="justify-content: space-evenly;">
+            <div class="flex-item">1</div>
+            <div class="flex-item">2</div>
+            <div class="flex-item">3</div>
+        </div>
+    </div>
+    
+    <div class="wrapper" id="align-items">
+        <h2>Align-items</h2>
+        <p>Align-items wyrównuje elementy w poprzek głównej osi.</p>
+        <code>.container {
+    align-items: stretch;
+}</code>
+        <p><b>stretch</b> (domyślna): Elementy rozciągają się, aby wypełnić kontener w poprzek osi.</p>
+        <div class="flex-example" style="align-items: stretch; min-height: 150px;">
+            <div class="flex-item" style="height: auto;">1</div>
+            <div class="flex-item" style="height: auto;">2</div>
+            <div class="flex-item" style="height: auto;">3</div>
+        </div>
+        <code>.container {
+    align-items: flex-start;
+}</code>
+        <p><b>flex-start</b>: Elementy są wyrównane do początku poprzecznej osi.</p>
+        <div class="flex-example" style="align-items: flex-start; min-height: 150px;">
+            <div class="flex-item">1</div>
+            <div class="flex-item">2</div>
+            <div class="flex-item">3</div>
+        </div>
+        <code>.container {
+    align-items: flex-end;
+}</code>
+        <p><b>flex-end</b>: Elementy są wyrównane do końca poprzecznej osi.</p>
+        <div class="flex-example" style="align-items: flex-end; min-height: 150px;">
+            <div class="flex-item">1</div>
+            <div class="flex-item">2</div>
+            <div class="flex-item">3</div>
+        </div>
+        <code>.container {
+    align-items: center;
+}</code>
+        <p><b>center</b>: Elementy są wycentrowane w poprzek osi.</p>
+        <div class="flex-example" style="align-items: center; min-height: 150px;">
+            <div class="flex-item">1</div>
+            <div class="flex-item">2</div>
+            <div class="flex-item">3</div>
+        </div>
+        <code>.container {
+    align-items: baseline;
+}</code>
+        <p><b>baseline</b>: Elementy są wyrównane do linii bazowej pierwszego wiersza tekstu.</p>
+        <div class="flex-example" style="align-items: baseline; min-height: 150px;">
+            <div class="flex-item" style="font-size: 1em;">A</div>
+            <div class="flex-item" style="font-size: 1.5em;">B</div>
+            <div class="flex-item" style="font-size: 2em;">C</div>
+        </div>
+    </div>
+    
+    <div class="wrapper" id="align-content">
+        <h2>Align-content</h2>
+        <p>Align-content wyrównuje linie flex w poprzek głównej osi, gdy jest więcej niż jedna linia.</p>
+        <code>.container {
+    align-content: stretch;
+    flex-wrap: wrap;
+}</code>
+        <p><b>stretch</b> (domyślna): Linie rozciągają się, aby wypełnić kontener.</p>
+        <div class="flex-example" style="flex-wrap: wrap; align-content: stretch; height: 300px; width: 300px; margin: 1em auto;">
+            <div class="flex-item" style="flex: 0 0 80px;">1</div>
+            <div class="flex-item" style="flex: 0 0 80px;">2</div>
+            <div class="flex-item" style="flex: 0 0 80px;">3</div>
+            <div class="flex-item" style="flex: 0 0 80px;">4</div>
+            <div class="flex-item" style="flex: 0 0 80px;">5</div>
+            <div class="flex-item" style="flex: 0 0 80px;">6</div>
+        </div>
+        <code>.container {
+    align-content: flex-start;
+    flex-wrap: wrap;
+}</code>
+        <p><b>flex-start</b>: Linie są wyrównane do początku poprzecznej osi.</p>
+        <div class="flex-example" style="flex-wrap: wrap; align-content: flex-start; height: 300px; width: 300px; margin: 1em auto;">
+            <div class="flex-item" style="flex: 0 0 80px;">1</div>
+            <div class="flex-item" style="flex: 0 0 80px;">2</div>
+            <div class="flex-item" style="flex: 0 0 80px;">3</div>
+            <div class="flex-item" style="flex: 0 0 80px;">4</div>
+            <div class="flex-item" style="flex: 0 0 80px;">5</div>
+            <div class="flex-item" style="flex: 0 0 80px;">6</div>
+        </div>
+        <code>.container {
+    align-content: flex-end;
+    flex-wrap: wrap;
+}</code>
+        <p><b>flex-end</b>: Linie są wyrównane do końca poprzecznej osi.</p>
+        <div class="flex-example" style="flex-wrap: wrap; align-content: flex-end; height: 300px; width: 300px; margin: 1em auto;">
+            <div class="flex-item" style="flex: 0 0 80px;">1</div>
+            <div class="flex-item" style="flex: 0 0 80px;">2</div>
+            <div class="flex-item" style="flex: 0 0 80px;">3</div>
+            <div class="flex-item" style="flex: 0 0 80px;">4</div>
+            <div class="flex-item" style="flex: 0 0 80px;">5</div>
+            <div class="flex-item" style="flex: 0 0 80px;">6</div>
+        </div>
+        <code>.container {
+    align-content: center;
+    flex-wrap: wrap;
+}</code>
+        <p><b>center</b>: Linie są wycentrowane w poprzek osi.</p>
+        <div class="flex-example" style="flex-wrap: wrap; align-content: center; height: 300px; width: 300px; margin: 1em auto;">
+            <div class="flex-item" style="flex: 0 0 80px;">1</div>
+            <div class="flex-item" style="flex: 0 0 80px;">2</div>
+            <div class="flex-item" style="flex: 0 0 80px;">3</div>
+            <div class="flex-item" style="flex: 0 0 80px;">4</div>
+            <div class="flex-item" style="flex: 0 0 80px;">5</div>
+            <div class="flex-item" style="flex: 0 0 80px;">6</div>
+        </div>
+        <code>.container {
+    align-content: space-between;
+    flex-wrap: wrap;
+}</code>
+        <p><b>space-between</b>: Linie są rozłożone równomiernie; pierwsza linia przy początku, ostatnia przy końcu.</p>
+        <div class="flex-example" style="flex-wrap: wrap; align-content: space-between; height: 300px; width: 300px; margin: 1em auto;">
+            <div class="flex-item" style="flex: 0 0 80px;">1</div>
+            <div class="flex-item" style="flex: 0 0 80px;">2</div>
+            <div class="flex-item" style="flex: 0 0 80px;">3</div>
+            <div class="flex-item" style="flex: 0 0 80px;">4</div>
+            <div class="flex-item" style="flex: 0 0 80px;">5</div>
+            <div class="flex-item" style="flex: 0 0 80px;">6</div>
+        </div>
+        <code>.container {
+    align-content: space-around;
+    flex-wrap: wrap;
+}</code>
+        <p><b>space-around</b>: Linie mają równy odstęp wokół siebie.</p>
+        <div class="flex-example" style="flex-wrap: wrap; align-content: space-around; height: 300px; width: 300px; margin: 1em auto;">
+            <div class="flex-item" style="flex: 0 0 80px;">1</div>
+            <div class="flex-item" style="flex: 0 0 80px;">2</div>
+            <div class="flex-item" style="flex: 0 0 80px;">3</div>
+            <div class="flex-item" style="flex: 0 0 80px;">4</div>
+            <div class="flex-item" style="flex: 0 0 80px;">5</div>
+            <div class="flex-item" style="flex: 0 0 80px;">6</div>
+        </div>
+        <code>.container {
+    align-content: space-evenly;
+    flex-wrap: wrap;
+}</code>
+        <p><b>space-evenly</b>: Odstępy między liniami i krawędziami kontenera są równe.</p>
+        <div class="flex-example" style="flex-wrap: wrap; align-content: space-evenly; height: 300px; width: 300px; margin: 1em auto;">
+            <div class="flex-item" style="flex: 0 0 80px;">1</div>
+            <div class="flex-item" style="flex: 0 0 80px;">2</div>
+            <div class="flex-item" style="flex: 0 0 80px;">3</div>
+            <div class="flex-item" style="flex: 0 0 80px;">4</div>
+            <div class="flex-item" style="flex: 0 0 80px;">5</div>
+            <div class="flex-item" style="flex: 0 0 80px;">6</div>
+        </div>
+    </div>
+
+    <div class="wrapper" id="media-queries">
+        <h2>Zapytania o media</h2>
+        <p>Zapytania o media pozwalają na tworzenie responsywnych stron, które dostosowują się do różnych rozmiarów ekranu.</p>
+        <code>@media (max-width: 768px) {
+    .element {
+        width: 100%;
+    }
+}</code>
+        <p><b>max-width</b>: Stosuje style, gdy szerokość ekranu jest mniejsza lub równa podanej wartości.</p>
+        <div class="media-example">
+            <style>
+                .demo-max {
+                    background-color: #ff6b6b;
+                    color: white;
+                    padding: 1em;
+                    border-radius: 0.5em;
+                    text-align: center;
+                }
+                @media (max-width: 768px) {
+                    .demo-max {
+                        background-color: #51cf66;
+                    }
+                }
+            </style>
+            <div class="demo-max">
+                Ekran > 768px: Czerwony | Ekran ≤ 768px: Zielony
+            </div>
+        </div>
+        <code>@media (min-width: 769px) {
+    .element {
+        width: 80%;
+    }
+}</code>
+        <p><b>min-width</b>: Stosuje style, gdy szerokość ekranu jest większa lub równa podanej wartości.</p>
+        <div class="media-example">
+            <style>
+                .demo-min {
+                    background-color: #339af0;
+                    color: white;
+                    padding: 1em;
+                    border-radius: 0.5em;
+                    text-align: center;
+                }
+                @media (min-width: 769px) {
+                    .demo-min {
+                        background-color: #9775fa;
+                    }
+                }
+            </style>
+            <div class="demo-min">
+                Ekran < 769px: Niebieski | Ekran ≥ 769px: Purpurowy
+            </div>
+        </div>
+        <code>@media (min-width: 768px) and (max-width: 1024px) {
+    .element {
+        width: 750px;
+    }
+}</code>
+        <p><b>Zakresowa media query</b>: Stosuje style w określonym zakresie szerokości ekranu.</p>
+        <div class="media-example">
+            <style>
+                .demo-range {
+                    background-color: #ff6b6b;
+                    color: white;
+                    padding: 1em;
+                    border-radius: 0.5em;
+                    text-align: center;
+                }
+                @media (min-width: 768px) and (max-width: 1024px) {
+                    .demo-range {
+                        background-color: #51cf66;
+                    }
+                }
+                @media (min-width: 1025px) {
+                    .demo-range {
+                        background-color: #339af0;
+                    }
+                }
+            </style>
+            <div class="demo-range">
+                Ekran < 768px: Czerwony | Ekran 768-1024px: Zielony | Ekran > 1024px: Niebieski
+            </div>
+        </div>
+    </div>
+</body>
+</html>
