@@ -14,6 +14,7 @@
   --accent:#1a5c38; --accent-bg:#e3f2ea; --accent2:#b8ddc6;
   --red:#b83228; --red-bg:#fdf0ee;
   --amber:#a85d08; --amber-bg:#fef5e4;
+  --blue:#1d4ed8; --blue-bg:#dbeafe;
   --r:10px;
   --shadow:0 1px 3px rgba(0,0,0,.07),0 4px 14px rgba(0,0,0,.05);
 }
@@ -25,11 +26,13 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:1
 /* START */
 #startScreen{align-items:center;padding:28px 18px 48px;background:var(--bg);overflow-y:auto}
 .start-inner{width:100%;max-width:400px}
-.brand{text-align:center;margin-bottom:28px}
+.brand{text-align:center;margin-bottom:20px}
 .brand-logo{display:inline-flex;align-items:center;gap:10px;margin-bottom:6px}
 .brand-sq{width:42px;height:42px;background:var(--accent);border-radius:10px;display:grid;place-items:center;font-family:var(--mono);font-size:.62rem;font-weight:600;color:#fff;line-height:1.2;text-align:center}
 .brand-name{font-size:1.75rem;font-weight:700;letter-spacing:-.02em}
 .brand-sub{font-size:.85rem;color:var(--muted)}
+.guide-link{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:10px;margin-bottom:20px;background:var(--blue-bg);color:var(--blue);border:1px solid #b6cdfb;border-radius:var(--r);font-size:.85rem;font-weight:600;cursor:pointer;font-family:var(--sans)}
+.guide-link:hover{background:#cfe0fd}
 .section-label{font-family:var(--mono);font-size:.63rem;font-weight:600;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;margin-bottom:9px}
 .topic-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px}
 .topic-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:11px 13px;cursor:pointer;transition:all .15s;position:relative;user-select:none}
@@ -64,19 +67,42 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:1
 .pick-sub{font-size:.85rem;color:var(--muted);margin-bottom:22px}
 .mode-card{background:var(--surface);border:2px solid var(--border);border-radius:13px;padding:18px;cursor:pointer;transition:all .15s;margin-bottom:10px;display:flex;gap:14px;align-items:flex-start;user-select:none}
 .mode-card:hover{border-color:var(--border2);box-shadow:var(--shadow)}
-.mode-card:active{transform:scale(.98)}
 .mode-card.selected{border-color:var(--accent);background:var(--accent-bg)}
 .mode-card-icon{width:42px;height:42px;border-radius:9px;display:grid;place-items:center;font-size:1.25rem;background:var(--surface2);flex-shrink:0}
 .mode-card.selected .mode-card-icon{background:#fff}
-.mode-card-body{flex:1}
+.mode-card-body{flex:1;min-width:0}
 .mode-card-name{font-size:.93rem;font-weight:700;margin-bottom:4px}
 .mode-card-desc{font-size:.8rem;color:var(--muted);line-height:1.55}
 .mode-card.selected .mode-card-desc{color:#1a5c38;opacity:.85}
 .mode-card-check{width:20px;height:20px;border:2px solid var(--border);border-radius:50%;flex-shrink:0;margin-top:1px;display:grid;place-items:center;font-size:.7rem;transition:all .15s}
 .mode-card.selected .mode-card-check{background:var(--accent);border-color:var(--accent);color:#fff}
-.mode-confirm-btn{width:100%;margin-top:6px;padding:13px;background:var(--accent);color:#fff;border:none;border-radius:var(--r);font-size:.93rem;font-weight:700;cursor:pointer;transition:all .15s;font-family:var(--sans)}
+.key-panel{display:none;margin-top:14px;padding-top:14px;border-top:1px dashed var(--border2)}
+.key-panel.show{display:block}
+.key-panel label{font-family:var(--mono);font-size:.63rem;font-weight:600;letter-spacing:.06em;color:var(--muted);text-transform:uppercase;display:block;margin-bottom:6px}
+.key-row{display:flex;gap:6px;margin-bottom:10px}
+.key-select{font-family:var(--sans);font-size:.8rem;padding:8px 9px;border-radius:7px;border:1.5px solid var(--border);background:#fff;color:var(--text)}
+.key-input{flex:1;font-family:var(--mono);font-size:.78rem;padding:8px 10px;border-radius:7px;border:1.5px solid var(--border);background:#fff;color:var(--text);min-width:0}
+.key-input:focus{border-color:var(--accent);outline:none}
+.key-note{font-size:.74rem;color:var(--muted);line-height:1.5}
+.key-note a{color:var(--accent)}
+.mode-confirm-btn{width:100%;margin-top:14px;padding:13px;background:var(--accent);color:#fff;border:none;border-radius:var(--r);font-size:.93rem;font-weight:700;cursor:pointer;transition:all .15s;font-family:var(--sans)}
 .mode-confirm-btn:hover{background:#134a2d}
 .mode-confirm-btn:active{transform:scale(.98)}
+
+/* GUIDE */
+#guideScreen{align-items:center;padding:28px 18px 60px;background:var(--bg);overflow-y:auto}
+.guide-inner{width:100%;max-width:520px}
+.guide-title{font-size:1.4rem;font-weight:700;letter-spacing:-.02em;margin-bottom:4px}
+.guide-sub{font-size:.85rem;color:var(--muted);margin-bottom:20px}
+.guide-card{background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:16px 18px;margin-bottom:12px;box-shadow:var(--shadow)}
+.guide-card-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.guide-badge{font-family:var(--mono);font-size:.68rem;font-weight:700;padding:4px 9px;border-radius:6px;letter-spacing:.05em}
+.guide-card h3{font-size:1rem;font-weight:700}
+.guide-explain{font-size:.87rem;line-height:1.65;color:var(--text);margin-bottom:12px}
+.guide-pattern-label,.guide-example-label{font-family:var(--mono);font-size:.6rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:5px;margin-top:10px}
+.guide-pattern,.guide-example-code{background:#1a1916;border-radius:7px;padding:10px 12px;font-family:var(--mono);font-size:.75rem;color:#c8ddc8;line-height:1.65;white-space:pre-wrap;overflow-x:auto}
+.guide-example-note{font-size:.82rem;color:var(--muted);margin-top:6px;line-height:1.5}
+.guide-tip{margin-top:10px;background:var(--amber-bg);border:1px solid #f0cc80;border-radius:7px;padding:8px 11px;font-size:.8rem;color:#6b3a00;line-height:1.5}
 
 /* QUIZ HEADER */
 .quiz-header{background:var(--surface);border-bottom:1px solid var(--border);padding:11px 14px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:50}
@@ -99,7 +125,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:1
 .qb-CREATE{background:#dbeafe;color:#1d4ed8}.qb-DROP{background:#fee2e2;color:#b91c1c}
 .qb-ALTER{background:#fef9c3;color:#a16207}.qb-INSERT{background:#dcfce7;color:#15803d}
 .qb-DELETE{background:#ffe4e6;color:#be123c}.qb-UPDATE{background:#ede9fe;color:#7c3aed}
-.qb-SELECT{background:#e0f2fe;color:#0369a1}
+.qb-SELECT{background:#e0f2fe;color:#0369a1}.qb-JOIN{background:#fae8ff;color:#a21caf}
 .q-meta{flex:1;min-width:0}
 .q-topic-tag{font-family:var(--mono);font-size:.61rem;color:var(--muted);margin-bottom:4px;display:flex;align-items:center;gap:5px;flex-wrap:wrap}
 .q-title{font-size:.95rem;font-weight:700;line-height:1.35}
@@ -113,12 +139,13 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:1
 .sql-textarea:focus{border-color:var(--accent);background:#fff}
 .sql-textarea.st-ok{border-color:#22c55e;background:#f0fdf4}
 .sql-textarea.st-err{border-color:var(--red);background:var(--red-bg)}
-.action-row{display:flex;gap:8px;margin-top:10px}
-.btn-hint-sm{padding:9px 13px;border-radius:8px;border:1.5px solid #f0cc80;background:var(--amber-bg);color:var(--amber);font-size:.82rem;font-weight:600;cursor:pointer;white-space:nowrap;font-family:var(--sans)}
-.btn-check{flex:1;padding:10px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:.9rem;font-weight:700;cursor:pointer;transition:all .15s;font-family:var(--sans)}
+.action-row{display:flex;gap:7px;margin-top:10px;flex-wrap:wrap}
+.btn-hint-sm{padding:9px 12px;border-radius:8px;border:1.5px solid #f0cc80;background:var(--amber-bg);color:var(--amber);font-size:.8rem;font-weight:600;cursor:pointer;white-space:nowrap;font-family:var(--sans)}
+.btn-reveal-sm{padding:9px 12px;border-radius:8px;border:1.5px solid var(--border2);background:var(--surface2);color:var(--muted);font-size:.8rem;font-weight:600;cursor:pointer;white-space:nowrap;font-family:var(--sans)}
+.btn-check{flex:1;min-width:110px;padding:10px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:.9rem;font-weight:700;cursor:pointer;transition:all .15s;font-family:var(--sans)}
 .btn-check:active{transform:scale(.97)}
 .btn-check:disabled{background:var(--border2);color:var(--muted);cursor:default}
-.btn-next{flex:1;padding:10px;background:var(--text);color:#fff;border:none;border-radius:8px;font-size:.9rem;font-weight:700;cursor:pointer;display:none;transition:transform .1s;font-family:var(--sans)}
+.btn-next{flex:1;min-width:110px;padding:10px;background:var(--text);color:#fff;border:none;border-radius:8px;font-size:.9rem;font-weight:700;cursor:pointer;display:none;transition:transform .1s;font-family:var(--sans)}
 .btn-next.show{display:block}
 .btn-next:active{transform:scale(.97)}
 .ai-loading{display:none;align-items:center;gap:8px;font-family:var(--mono);font-size:.7rem;color:var(--muted);margin-top:9px}
@@ -132,6 +159,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:1
 .feedback-box.show{display:block;animation:slideIn .18s ease}
 .fb-ok{background:var(--accent-bg);border:1px solid var(--accent2);color:#0d3320}
 .fb-err{background:var(--red-bg);border:1px solid #f0b0a4;color:#6e1910}
+.fb-reveal{background:var(--surface2);border:1px solid var(--border2);color:var(--text)}
 .fb-title{font-weight:700;margin-bottom:4px;font-size:.88rem}
 .fb-tip{margin-top:6px;color:var(--muted);font-size:.8rem}
 .fb-answer-label{font-family:var(--mono);font-size:.62rem;color:#666;margin-top:9px;margin-bottom:4px;letter-spacing:.05em}
@@ -167,6 +195,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:1
       </div>
       <div class="brand-sub">Nauka SQL — jedno pytanie na raz</div>
     </div>
+    <button class="guide-link" onclick="showScreen('guideScreen')">📖 Poradnik — jak pisać zapytania SQL</button>
     <div id="savedBanner" class="saved-banner" style="display:none">
       <span id="savedText">📌 Zapisany postęp</span>
       <button onclick="clearSave()">Wyczyść</button>
@@ -194,19 +223,53 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:1
       <div class="mode-card-icon">🤖</div>
       <div class="mode-card-body">
         <div class="mode-card-name">AI — ocena elastyczna</div>
-        <div class="mode-card-desc">Claude ocenia Twoją odpowiedź i akceptuje różne poprawne warianty składni, aliasy i kolejność klauzul. Wymaga połączenia z internetem.</div>
+        <div class="mode-card-desc">Model językowy ocenia Twoją odpowiedź i akceptuje różne poprawne warianty składni, aliasy i kolejność klauzul.</div>
+        <div class="key-panel" id="keyPanel">
+          <label>Dostawca</label>
+          <div class="key-row">
+            <select class="key-select" id="apiProvider" onchange="onProviderChange()">
+              <option value="anthropic">Anthropic (bez klucza w claude.ai)</option>
+              <option value="custom">Własny endpoint (darmowy router / lokalny model)</option>
+            </select>
+          </div>
+          <div id="customUrlRow" style="display:none;margin-bottom:10px">
+            <label>Adres API (base URL, zgodny z OpenAI)</label>
+            <input class="key-input" id="apiBaseUrl" type="text" placeholder="np. https://router.requesty.ai/v1" style="width:100%;margin-bottom:8px" onchange="onBaseUrlChange()" onclick="event.stopPropagation()">
+            <label>Model</label>
+            <input class="key-input" id="apiModel" type="text" placeholder="np. gpt-4o-mini albo nazwa darmowego modelu" style="width:100%" onchange="onModelChange()" onclick="event.stopPropagation()">
+          </div>
+          <label>Klucz API (opcjonalnie, jeśli endpoint go wymaga)</label>
+          <div class="key-row">
+            <input class="key-input" id="apiKey" type="password" placeholder="Wklej klucz — zostaw puste, jeśli endpoint go nie wymaga" onchange="onKeyChange()" onclick="event.stopPropagation()">
+          </div>
+          <div class="key-note">
+            Wewnątrz claude.ai z ustawieniem "Anthropic" klucz <strong>nie jest potrzebny</strong> — działa automatycznie i za darmo.<br>
+            Poza claude.ai wybierz "Własny endpoint" i podaj adres darmowego routera (np. Requesty, OpenRouter z darmowym modelem) — klucz zapisze się tylko w Twojej przeglądarce (localStorage) i będzie wysyłany bezpośrednio do podanego adresu, nigdy nigdzie indziej.<br>
+            ⚠️ Ta aplikacja nie oferuje płatnych dostawców (np. bezpośrednio OpenAI) — nie wpisuj tu klucza, za który sam płacisz od zapytania, żeby przypadkiem nie narazić się na koszty. Szukaj darmowych routerów/modeli.
+          </div>
+        </div>
       </div>
       <div class="mode-card-check" id="checkAI"></div>
     </div>
     <div class="mode-card" id="modeCardStrict" onclick="pickMode('strict')">
       <div class="mode-card-icon">📴</div>
       <div class="mode-card-body">
-        <div class="mode-card-name">Offline — inteligentna normalizacja</div>
-        <div class="mode-card-desc">Działa bez internetu. Ignoruje białe znaki, wielkość liter i kolejność kolumn. Akceptuje równoważne zapytania. Wskazuje czego brakuje.</div>
+        <div class="mode-card-name">Offline — analiza struktury</div>
+        <div class="mode-card-desc">Działa bez internetu. Rozbija zapytanie na klauzule (SELECT/FROM/WHERE/JOIN…) i porównuje je osobno, ignorując kolejność kolumn, wielkość liter i białe znaki. Dokładniejsze niż proste porównanie tekstu.</div>
       </div>
       <div class="mode-card-check" id="checkStrict"></div>
     </div>
     <button class="mode-confirm-btn" onclick="confirmMode()">Zapisz i wróć →</button>
+  </div>
+</div>
+
+<!-- GUIDE -->
+<div id="guideScreen" class="screen">
+  <div class="guide-inner">
+    <button class="screen-back" onclick="showScreen('startScreen')">← Wróć</button>
+    <div class="guide-title">Poradnik SQL</div>
+    <div class="guide-sub">Jak zbudowane jest każde polecenie — wzorzec i przykłady</div>
+    <div id="guideBody"></div>
   </div>
 </div>
 
@@ -245,6 +308,9 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:1
 </div>
 
 <script>
+/* ══════════════════════════════════════════════════════
+   TEMATY I KOMENDY
+══════════════════════════════════════════════════════ */
 const TOPICS={
   zwierzeta:{name:"Zwierzęta",emoji:"🐾"},
   ekstraklasa:{name:"Ekstraklasa",emoji:"⚽"},
@@ -253,192 +319,240 @@ const TOPICS={
   biblioteka:{name:"Biblioteka",emoji:"📚"},
   restauracja:{name:"Restauracja",emoji:"🍽️"},
   sklep:{name:"Sklep online",emoji:"🛒"},
+  szkola:{name:"Szkoła",emoji:"🎓"},
+  lotnisko:{name:"Lotnisko",emoji:"✈️"},
+  silownia:{name:"Siłownia",emoji:"🏋️"},
 };
-const ALL_CMDS=["CREATE","DROP","ALTER","INSERT","DELETE","UPDATE","SELECT"];
+const ALL_CMDS=["CREATE","DROP","ALTER","INSERT","DELETE","UPDATE","SELECT","JOIN"];
 
+/* ══════════════════════════════════════════════════════
+   PORADNIK — treść
+══════════════════════════════════════════════════════ */
+const GUIDE=[
+{cmd:"SELECT",color:"qb-SELECT",
+ explain:"SELECT służy do odczytywania danych. Mówisz jakie kolumny chcesz zobaczyć (albo wszystkie przez *), z jakiej tabeli, opcjonalnie jak je przefiltrować (WHERE), pogrupować (GROUP BY), posortować (ORDER BY) i ile wierszy zwrócić (LIMIT).",
+ pattern:"SELECT kolumna1, kolumna2\nFROM tabela\nWHERE warunek\nORDER BY kolumna\nLIMIT liczba;",
+ examples:[
+  {code:"SELECT imie, wiek\nFROM uczniowie\nWHERE klasa = '3A';",note:"Pokaż imię i wiek uczniów z klasy 3A. WHERE filtruje wiersze — zostają tylko te, które spełniają warunek."},
+  {code:"SELECT nazwa, cena\nFROM produkty\nWHERE cena > 100\nORDER BY cena DESC\nLIMIT 5;",note:"5 najdroższych produktów powyżej 100 zł. ORDER BY ... DESC sortuje malejąco, LIMIT ogranicza liczbę wyników."}
+ ],
+ tip:"Kolejność klauzul jest zawsze taka sama: SELECT → FROM → WHERE → GROUP BY → HAVING → ORDER BY → LIMIT. Nie da się jej zmienić."},
+
+{cmd:"INSERT",color:"qb-INSERT",
+ explain:"INSERT dodaje nowy wiersz (rekord) do tabeli. Podajesz nazwy kolumn, które wypełniasz, a potem — w tej samej kolejności — wartości.",
+ pattern:"INSERT INTO tabela (kolumna1, kolumna2)\nVALUES (wartosc1, wartosc2);",
+ examples:[
+  {code:"INSERT INTO uczniowie (imie, klasa)\nVALUES ('Ala', '2B');",note:"Dodaje nowego ucznia. Tekst zawsze w apostrofach, liczby bez."},
+  {code:"INSERT INTO produkty (nazwa, cena)\nVALUES\n  ('Chleb', 4.50),\n  ('Mleko', 3.20);",note:"Jednym zapytaniem można dodać kilka wierszy naraz — po prostu oddziel zestawy wartości przecinkiem."}
+ ],
+ tip:"Kolumny, których nie wymienisz, otrzymają wartość domyślną (DEFAULT) albo NULL, jeśli nie mają wartości domyślnej."},
+
+{cmd:"UPDATE",color:"qb-UPDATE",
+ explain:"UPDATE zmienia wartości w istniejących wierszach. SET mówi co zmienić, WHERE — które wiersze mają zostać zmienione.",
+ pattern:"UPDATE tabela\nSET kolumna = nowa_wartosc\nWHERE warunek;",
+ examples:[
+  {code:"UPDATE produkty\nSET cena = 19.99\nWHERE id = 4;",note:"Zmienia cenę tylko jednego produktu — tego o id=4."},
+  {code:"UPDATE uczniowie\nSET klasa = '3A', aktywny = TRUE\nWHERE id = 12;",note:"Można zmienić kilka kolumn naraz — rozdziel je przecinkiem w SET."}
+ ],
+ tip:"⚠️ Bardzo ważne: jeśli pominiesz WHERE, zmiana obejmie WSZYSTKIE wiersze w tabeli!"},
+
+{cmd:"DELETE",color:"qb-DELETE",
+ explain:"DELETE usuwa całe wiersze z tabeli (nie pojedyncze wartości — cały rekord). WHERE decyduje, które wiersze znikną.",
+ pattern:"DELETE FROM tabela\nWHERE warunek;",
+ examples:[
+  {code:"DELETE FROM zamowienia\nWHERE id = 12;",note:"Usuwa jedno konkretne zamówienie."},
+  {code:"DELETE FROM produkty\nWHERE stan_magazynu = 0;",note:"Usuwa wszystkie produkty, których nie ma już w magazynie."}
+ ],
+ tip:"⚠️ Tak jak w UPDATE — bez WHERE usuniesz wszystkie wiersze z tabeli. Zawsze sprawdź warunek przed uruchomieniem."},
+
+{cmd:"CREATE",color:"qb-CREATE",
+ explain:"CREATE TABLE zakłada nową tabelę. Dla każdej kolumny podajesz nazwę, typ danych i opcjonalne ograniczenia (np. że nie może być pusta, że musi być unikalna, albo że jest kluczem głównym).",
+ pattern:"CREATE TABLE nazwa_tabeli (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  kolumna typ ograniczenia,\n  ...\n);",
+ examples:[
+  {code:"CREATE TABLE ksiazki (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  tytul VARCHAR(200) NOT NULL,\n  rok_wydania YEAR\n);",note:"id to klucz główny — unikalny identyfikator każdego wiersza, generowany automatycznie."},
+  {code:"CREATE TABLE wypozyczenia (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  id_ksiazki INT,\n  FOREIGN KEY (id_ksiazki) REFERENCES ksiazki(id)\n);",note:"FOREIGN KEY łączy tę tabelę z inną — id_ksiazki musi odpowiadać istniejącemu id w tabeli ksiazki."}
+ ],
+ tip:"Najczęstsze typy: INT (liczby całkowite), VARCHAR(n) (tekst do n znaków), DATE (data), DECIMAL(x,y) (liczby z przecinkiem), BOOLEAN (prawda/fałsz)."},
+
+{cmd:"ALTER",color:"qb-ALTER",
+ explain:"ALTER TABLE modyfikuje strukturę już istniejącej tabeli — możesz dodać kolumnę, usunąć ją, zmienić jej typ albo nazwę.",
+ pattern:"ALTER TABLE tabela ADD COLUMN nazwa typ;\nALTER TABLE tabela DROP COLUMN nazwa;\nALTER TABLE tabela MODIFY COLUMN nazwa nowy_typ;\nALTER TABLE tabela RENAME COLUMN stara TO nowa;",
+ examples:[
+  {code:"ALTER TABLE produkty\nADD COLUMN opis TEXT;",note:"Dodaje nową kolumnę do istniejącej tabeli."},
+  {code:"ALTER TABLE produkty\nMODIFY COLUMN nazwa VARCHAR(300);",note:"Zwiększa maksymalną długość tekstu w kolumnie nazwa."}
+ ],
+ tip:"Warianty ALTER TABLE różnią się w zależności od bazy danych (MySQL, PostgreSQL). W tym trenerze używamy składni MySQL."},
+
+{cmd:"DROP",color:"qb-DROP",
+ explain:"DROP TABLE usuwa całą tabelę razem z danymi — nieodwracalnie. Dodanie IF EXISTS sprawia, że zapytanie nie zwróci błędu, jeśli tabeli już nie ma.",
+ pattern:"DROP TABLE nazwa_tabeli;\nDROP TABLE IF EXISTS nazwa_tabeli;",
+ examples:[
+  {code:"DROP TABLE archiwum;",note:"Usuwa tabelę — jeśli nie istnieje, zapytanie zakończy się błędem."},
+  {code:"DROP TABLE IF EXISTS archiwum;",note:"Bezpieczniejszy wariant — nie wywali błędu, gdy tabeli nie ma."}
+ ],
+ tip:"To nie to samo co DELETE! DELETE usuwa wiersze, DROP usuwa całą tabelę razem z jej strukturą."},
+
+{cmd:"JOIN",color:"qb-JOIN",
+ explain:"JOIN łączy wiersze z dwóch (lub więcej) tabel na podstawie wspólnej wartości — najczęściej klucza głównego jednej tabeli i klucza obcego drugiej. Dzięki temu możesz np. pokazać imię zwierzęcia razem z nazwiskiem jego opiekuna, mimo że te dane siedzą w dwóch różnych tabelach.",
+ pattern:"SELECT kolumny\nFROM tabela1\nJOIN tabela2 ON tabela1.klucz = tabela2.klucz;",
+ examples:[
+  {code:"SELECT z.imie, o.nazwisko\nFROM zwierzeta z\nJOIN opiekunowie o ON z.id_opiekuna = o.id;",note:"z i o to aliasy (skróty) nazw tabel — ułatwiają pisanie i czytanie zapytania. ON mówi, po czym łączymy wiersze."},
+  {code:"SELECT k.nazwa, COUNT(zw.id) AS ile\nFROM kluby k\nLEFT JOIN zawodnicy zw ON k.id = zw.id_klubu\nGROUP BY k.id, k.nazwa;",note:"LEFT JOIN pokazuje też kluby, które nie mają żadnego zawodnika (zwykły JOIN by je pominął)."}
+ ],
+ tip:"Zwykły JOIN (albo INNER JOIN) pokazuje tylko wiersze, które mają dopasowanie w obu tabelach. LEFT JOIN dodatkowo pokazuje wszystkie wiersze z lewej tabeli, nawet bez dopasowania."},
+];
+
+/* ══════════════════════════════════════════════════════
+   BANK PYTAŃ
+══════════════════════════════════════════════════════ */
 const Q=[
 /* ZWIERZĘTA */
 {id:1,t:"zwierzeta",c:"CREATE",title:"Tabela zwierząt",
  desc:`Utwórz tabelę <code>zwierzeta</code> z kolumnami:<br>• <code>id</code> INT — klucz główny, AUTO_INCREMENT<br>• <code>imie</code> VARCHAR(50) NOT NULL<br>• <code>gatunek</code> VARCHAR(100)<br>• <code>id_opiekuna</code> INT — klucz obcy do tabeli <em>opiekunowie(id)</em><br>• <code>data_urodzenia</code> DATE`,
  hint:`Klucz obcy na końcu: <code>FOREIGN KEY (id_opiekuna) REFERENCES opiekunowie(id)</code>`,
  ans:`CREATE TABLE zwierzeta (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  imie VARCHAR(50) NOT NULL,\n  gatunek VARCHAR(100),\n  id_opiekuna INT,\n  data_urodzenia DATE,\n  FOREIGN KEY (id_opiekuna) REFERENCES opiekunowie(id)\n);`},
-
 {id:2,t:"zwierzeta",c:"CREATE",title:"Tabela opiekunów",
  desc:`Utwórz tabelę <code>opiekunowie</code>:<br>• <code>id</code> INT — klucz główny, AUTO_INCREMENT<br>• <code>imie</code> VARCHAR(60) NOT NULL<br>• <code>nazwisko</code> VARCHAR(80) NOT NULL<br>• <code>email</code> VARCHAR(120) — musi być unikalny`,
- hint:`<code>email VARCHAR(120) UNIQUE</code> — oba ograniczenia w jednej linii`,
+ hint:`<code>email VARCHAR(120) UNIQUE</code>`,
  ans:`CREATE TABLE opiekunowie (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  imie VARCHAR(60) NOT NULL,\n  nazwisko VARCHAR(80) NOT NULL,\n  email VARCHAR(120) UNIQUE\n);`},
-
 {id:3,t:"zwierzeta",c:"INSERT",title:"Dodaj jedno zwierzę",
- desc:`Do tabeli <code>zwierzeta</code> dodaj wiersz:<br>imie = <em>Burek</em>, gatunek = <em>pies</em>, id_opiekuna = <em>1</em>, data_urodzenia = <em>2019-03-15</em>`,
- hint:`<code>INSERT INTO zwierzeta (kolumny) VALUES (wartości);</code> — daty i teksty w apostrofach`,
+ desc:`Do tabeli <code>zwierzeta</code> dodaj wiersz: imie = <em>Burek</em>, gatunek = <em>pies</em>, id_opiekuna = <em>1</em>, data_urodzenia = <em>2019-03-15</em>`,
+ hint:`Daty i teksty w apostrofach`,
  ans:`INSERT INTO zwierzeta (imie, gatunek, id_opiekuna, data_urodzenia)\nVALUES ('Burek', 'pies', 1, '2019-03-15');`},
-
 {id:4,t:"zwierzeta",c:"INSERT",title:"Dodaj kilka zwierząt naraz",
  desc:`Do tabeli <code>zwierzeta</code> jednym zapytaniem dodaj dwa wiersze:<br>• <em>Mruczek</em>, gatunek <em>kot</em>, id_opiekuna <em>2</em><br>• <em>Reksio</em>, gatunek <em>pies</em>, id_opiekuna <em>1</em>`,
- hint:`<code>VALUES (...), (...);</code> — dwa zestawy wartości po przecinku`,
+ hint:`<code>VALUES (...), (...);</code>`,
  ans:`INSERT INTO zwierzeta (imie, gatunek, id_opiekuna)\nVALUES ('Mruczek', 'kot', 2), ('Reksio', 'pies', 1);`},
-
 {id:5,t:"zwierzeta",c:"SELECT",title:"Wszystkie wiersze",
  desc:`Z tabeli <code>zwierzeta</code> pobierz wszystkie kolumny i wszystkie wiersze.`,
- hint:`Gwiazdka <code>*</code> oznacza wszystkie kolumny`,
+ hint:`<code>SELECT *</code>`,
  ans:`SELECT * FROM zwierzeta;`},
-
 {id:6,t:"zwierzeta",c:"SELECT",title:"Tylko psy — posortowane",
- desc:`Z tabeli <code>zwierzeta</code> pobierz kolumny <code>imie</code> i <code>data_urodzenia</code>, ale tylko dla gatunku <em>pies</em>. Posortuj rosnąco po dacie urodzenia.`,
+ desc:`Z tabeli <code>zwierzeta</code> pobierz <code>imie</code> i <code>data_urodzenia</code>, tylko dla gatunku <em>pies</em>. Posortuj rosnąco po dacie urodzenia.`,
  hint:`<code>WHERE gatunek = 'pies' ORDER BY data_urodzenia ASC</code>`,
  ans:`SELECT imie, data_urodzenia\nFROM zwierzeta\nWHERE gatunek = 'pies'\nORDER BY data_urodzenia ASC;`},
-
 {id:7,t:"zwierzeta",c:"SELECT",title:"Ile zwierząt ma każdy opiekun?",
- desc:`Z tabeli <code>zwierzeta</code> policz ile zwierząt przypisano do każdego opiekuna. Zwróć <code>id_opiekuna</code> i <code>liczba</code>. Pokaż tylko opiekunów z więcej niż 1 zwierzęciem.`,
+ desc:`Z tabeli <code>zwierzeta</code> policz ile zwierząt ma każdy opiekun. Zwróć <code>id_opiekuna</code> i <code>liczba</code>. Pokaż tylko opiekunów z więcej niż 1 zwierzęciem.`,
  hint:`<code>COUNT(*) AS liczba GROUP BY id_opiekuna HAVING COUNT(*) > 1</code>`,
  ans:`SELECT id_opiekuna, COUNT(*) AS liczba\nFROM zwierzeta\nGROUP BY id_opiekuna\nHAVING COUNT(*) > 1;`},
-
 {id:8,t:"zwierzeta",c:"SELECT",title:"Imiona zaczynające się na B",
  desc:`Z tabeli <code>zwierzeta</code> pobierz <code>imie</code> i <code>gatunek</code> zwierząt, których imię zaczyna się na literę <em>B</em>.`,
- hint:`<code>WHERE imie LIKE 'B%'</code> — % zastępuje dowolny ciąg znaków`,
+ hint:`<code>WHERE imie LIKE 'B%'</code>`,
  ans:`SELECT imie, gatunek\nFROM zwierzeta\nWHERE imie LIKE 'B%';`},
-
 {id:9,t:"zwierzeta",c:"SELECT",title:"Najstarsze zwierzę",
- desc:`Z tabeli <code>zwierzeta</code> pobierz <code>imie</code> i <code>data_urodzenia</code> jednego zwierzęcia z najwcześniejszą datą urodzenia.`,
+ desc:`Z tabeli <code>zwierzeta</code> pobierz <code>imie</code> i <code>data_urodzenia</code> zwierzęcia z najwcześniejszą datą urodzenia.`,
  hint:`<code>ORDER BY data_urodzenia ASC LIMIT 1</code>`,
  ans:`SELECT imie, data_urodzenia\nFROM zwierzeta\nORDER BY data_urodzenia ASC\nLIMIT 1;`},
-
 {id:10,t:"zwierzeta",c:"SELECT",title:"Zwierzęta bez daty urodzenia",
- desc:`Z tabeli <code>zwierzeta</code> pobierz kolumnę <code>imie</code> zwierząt, dla których nie podano daty urodzenia.`,
- hint:`<code>WHERE data_urodzenia IS NULL</code> — nie używaj = NULL`,
+ desc:`Z tabeli <code>zwierzeta</code> pobierz <code>imie</code> zwierząt, dla których nie podano daty urodzenia.`,
+ hint:`<code>WHERE data_urodzenia IS NULL</code>`,
  ans:`SELECT imie\nFROM zwierzeta\nWHERE data_urodzenia IS NULL;`},
-
-{id:11,t:"zwierzeta",c:"SELECT",title:"Zwierzęta z opiekunami — JOIN",
+{id:11,t:"zwierzeta",c:"JOIN",title:"Zwierzęta z opiekunami",
  desc:`Połącz tabelę <code>zwierzeta</code> z tabelą <code>opiekunowie</code> po kluczu obcym. Wyświetl <code>imie</code> i <code>gatunek</code> zwierzęcia oraz <code>imie</code> i <code>nazwisko</code> opiekuna.`,
  hint:`<code>FROM zwierzeta z JOIN opiekunowie o ON z.id_opiekuna = o.id</code>`,
  ans:`SELECT z.imie, z.gatunek, o.imie, o.nazwisko\nFROM zwierzeta z\nJOIN opiekunowie o ON z.id_opiekuna = o.id;`},
-
 {id:12,t:"zwierzeta",c:"SELECT",title:"Koty i psy razem",
- desc:`Z tabeli <code>zwierzeta</code> pobierz <code>imie</code> i <code>gatunek</code> zwierząt, których gatunek to <em>kot</em> lub <em>pies</em>.`,
+ desc:`Z tabeli <code>zwierzeta</code> pobierz <code>imie</code> i <code>gatunek</code>, gdzie gatunek to <em>kot</em> lub <em>pies</em>.`,
  hint:`<code>WHERE gatunek IN ('kot', 'pies')</code>`,
  ans:`SELECT imie, gatunek\nFROM zwierzeta\nWHERE gatunek IN ('kot', 'pies');`},
-
 {id:13,t:"zwierzeta",c:"SELECT",title:"Unikalne gatunki",
  desc:`Z tabeli <code>zwierzeta</code> pobierz listę unikalnych gatunków — bez powtórzeń.`,
- hint:`<code>SELECT DISTINCT gatunek FROM zwierzeta;</code>`,
+ hint:`<code>SELECT DISTINCT gatunek</code>`,
  ans:`SELECT DISTINCT gatunek\nFROM zwierzeta;`},
-
 {id:14,t:"zwierzeta",c:"UPDATE",title:"Zmień gatunek jednego zwierzęcia",
- desc:`W tabeli <code>zwierzeta</code> zmień kolumnę <code>gatunek</code> na wartość <em>kot domowy</em> dla wiersza z <code>id = 3</code>.`,
+ desc:`W tabeli <code>zwierzeta</code> zmień <code>gatunek</code> na <em>kot domowy</em> dla wiersza z <code>id = 3</code>.`,
  hint:`<code>UPDATE zwierzeta SET gatunek = '...' WHERE id = 3;</code>`,
  ans:`UPDATE zwierzeta\nSET gatunek = 'kot domowy'\nWHERE id = 3;`},
-
 {id:15,t:"zwierzeta",c:"UPDATE",title:"Przypisz opiekuna wszystkim bez opiekuna",
- desc:`W tabeli <code>zwierzeta</code> ustaw <code>id_opiekuna = 3</code> dla wszystkich wierszy, gdzie opiekun jeszcze nie jest przypisany (NULL).`,
+ desc:`W tabeli <code>zwierzeta</code> ustaw <code>id_opiekuna = 3</code> dla wierszy, gdzie opiekun jeszcze nie jest przypisany (NULL).`,
  hint:`<code>WHERE id_opiekuna IS NULL</code>`,
  ans:`UPDATE zwierzeta\nSET id_opiekuna = 3\nWHERE id_opiekuna IS NULL;`},
-
 {id:16,t:"zwierzeta",c:"DELETE",title:"Usuń jedno zwierzę",
- desc:`Z tabeli <code>zwierzeta</code> usuń wiersz, gdzie <code>id = 7</code>.`,
+ desc:`Z tabeli <code>zwierzeta</code> usuń wiersz z <code>id = 7</code>.`,
  hint:`<code>DELETE FROM zwierzeta WHERE id = 7;</code>`,
  ans:`DELETE FROM zwierzeta WHERE id = 7;`},
-
 {id:17,t:"zwierzeta",c:"ALTER",title:"Dodaj kolumnę waga",
- desc:`Do tabeli <code>zwierzeta</code> dodaj nową kolumnę <code>waga</code> typu <code>DECIMAL(5,2)</code>.`,
- hint:`<code>ALTER TABLE zwierzeta ADD COLUMN waga DECIMAL(5,2);</code>`,
+ desc:`Do tabeli <code>zwierzeta</code> dodaj kolumnę <code>waga</code> typu <code>DECIMAL(5,2)</code>.`,
+ hint:`<code>ADD COLUMN waga DECIMAL(5,2)</code>`,
  ans:`ALTER TABLE zwierzeta\nADD COLUMN waga DECIMAL(5,2);`},
-
 {id:18,t:"zwierzeta",c:"DROP",title:"Usuń tabelę opiekunów",
- desc:`Usuń tabelę <code>opiekunowie</code> — tylko jeśli istnieje, żeby uniknąć błędu gdy jej nie ma.`,
+ desc:`Usuń tabelę <code>opiekunowie</code> — tylko jeśli istnieje.`,
  hint:`<code>DROP TABLE IF EXISTS opiekunowie;</code>`,
  ans:`DROP TABLE IF EXISTS opiekunowie;`},
 
 /* EKSTRAKLASA */
 {id:19,t:"ekstraklasa",c:"CREATE",title:"Tabela klubów",
- desc:`Utwórz tabelę <code>kluby</code>:<br>• <code>id</code> INT — klucz główny, AUTO_INCREMENT<br>• <code>nazwa</code> VARCHAR(100) NOT NULL — musi być unikalna<br>• <code>miasto</code> VARCHAR(80)<br>• <code>rok_zalozenia</code> INT`,
- hint:`Oba ograniczenia razem: <code>nazwa VARCHAR(100) NOT NULL UNIQUE</code>`,
+ desc:`Utwórz tabelę <code>kluby</code>:<br>• <code>id</code> INT — klucz główny, AUTO_INCREMENT<br>• <code>nazwa</code> VARCHAR(100) NOT NULL — unikalna<br>• <code>miasto</code> VARCHAR(80)<br>• <code>rok_zalozenia</code> INT`,
+ hint:`<code>nazwa VARCHAR(100) NOT NULL UNIQUE</code>`,
  ans:`CREATE TABLE kluby (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  nazwa VARCHAR(100) NOT NULL UNIQUE,\n  miasto VARCHAR(80),\n  rok_zalozenia INT\n);`},
-
 {id:20,t:"ekstraklasa",c:"CREATE",title:"Tabela zawodników",
- desc:`Utwórz tabelę <code>zawodnicy</code>:<br>• <code>id</code> INT — klucz główny, AUTO_INCREMENT<br>• <code>imie_nazwisko</code> VARCHAR(120) NOT NULL<br>• <code>pozycja</code> VARCHAR(30)<br>• <code>id_klubu</code> INT — klucz obcy do tabeli <em>kluby(id)</em><br>• <code>numer</code> TINYINT`,
- hint:`TINYINT mieści 0–127. Klucz obcy na końcu CREATE TABLE.`,
+ desc:`Utwórz tabelę <code>zawodnicy</code>:<br>• <code>id</code> INT — klucz główny, AUTO_INCREMENT<br>• <code>imie_nazwisko</code> VARCHAR(120) NOT NULL<br>• <code>pozycja</code> VARCHAR(30)<br>• <code>id_klubu</code> INT — klucz obcy do <em>kluby(id)</em><br>• <code>numer</code> TINYINT`,
+ hint:`Klucz obcy na końcu`,
  ans:`CREATE TABLE zawodnicy (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  imie_nazwisko VARCHAR(120) NOT NULL,\n  pozycja VARCHAR(30),\n  id_klubu INT,\n  numer TINYINT,\n  FOREIGN KEY (id_klubu) REFERENCES kluby(id)\n);`},
-
 {id:21,t:"ekstraklasa",c:"INSERT",title:"Dodaj jeden klub",
- desc:`Do tabeli <code>kluby</code> dodaj wiersz:<br>nazwa = <em>Legia Warszawa</em>, miasto = <em>Warszawa</em>, rok_zalozenia = <em>1916</em>`,
- hint:`Tekst w apostrofach, liczby bez cudzysłowów`,
+ desc:`Do tabeli <code>kluby</code> dodaj wiersz: nazwa = <em>Legia Warszawa</em>, miasto = <em>Warszawa</em>, rok_zalozenia = <em>1916</em>`,
+ hint:`Tekst w apostrofach`,
  ans:`INSERT INTO kluby (nazwa, miasto, rok_zalozenia)\nVALUES ('Legia Warszawa', 'Warszawa', 1916);`},
-
 {id:22,t:"ekstraklasa",c:"INSERT",title:"Dodaj zawodnika",
- desc:`Do tabeli <code>zawodnicy</code> dodaj wiersz:<br>imie_nazwisko = <em>Jan Kowalski</em>, pozycja = <em>napastnik</em>, id_klubu = <em>1</em>, numer = <em>9</em>`,
- hint:`<code>INSERT INTO zawodnicy (imie_nazwisko, pozycja, id_klubu, numer) VALUES (...);</code>`,
+ desc:`Do tabeli <code>zawodnicy</code> dodaj wiersz: imie_nazwisko = <em>Jan Kowalski</em>, pozycja = <em>napastnik</em>, id_klubu = <em>1</em>, numer = <em>9</em>`,
+ hint:`<code>INSERT INTO zawodnicy (...) VALUES (...);</code>`,
  ans:`INSERT INTO zawodnicy (imie_nazwisko, pozycja, id_klubu, numer)\nVALUES ('Jan Kowalski', 'napastnik', 1, 9);`},
-
 {id:23,t:"ekstraklasa",c:"INSERT",title:"Dodaj kilka klubów naraz",
  desc:`Do tabeli <code>kluby</code> jednym INSERT dodaj 3 wiersze:<br>• <em>Wisła Kraków</em>, Kraków, rok <em>1906</em><br>• <em>Lech Poznań</em>, Poznań, rok <em>1922</em><br>• <em>Śląsk Wrocław</em>, Wrocław, rok <em>1947</em>`,
- hint:`<code>VALUES (...), (...), (...);</code> — trzy zestawy`,
+ hint:`<code>VALUES (...), (...), (...);</code>`,
  ans:`INSERT INTO kluby (nazwa, miasto, rok_zalozenia)\nVALUES\n  ('Wisła Kraków', 'Kraków', 1906),\n  ('Lech Poznań', 'Poznań', 1922),\n  ('Śląsk Wrocław', 'Wrocław', 1947);`},
-
 {id:24,t:"ekstraklasa",c:"SELECT",title:"Zawodnicy danego klubu",
- desc:`Z tabeli <code>zawodnicy</code> pobierz <code>imie_nazwisko</code> i <code>numer</code> zawodników z <code>id_klubu = 2</code>. Posortuj rosnąco po numerze koszulki.`,
+ desc:`Z tabeli <code>zawodnicy</code> pobierz <code>imie_nazwisko</code> i <code>numer</code> zawodników z <code>id_klubu = 2</code>. Posortuj rosnąco po numerze.`,
  hint:`<code>WHERE id_klubu = 2 ORDER BY numer ASC</code>`,
  ans:`SELECT imie_nazwisko, numer\nFROM zawodnicy\nWHERE id_klubu = 2\nORDER BY numer;`},
-
 {id:25,t:"ekstraklasa",c:"SELECT",title:"Kluby z Krakowa",
  desc:`Z tabeli <code>kluby</code> pobierz <code>nazwa</code> i <code>rok_zalozenia</code> klubów z miasta <em>Kraków</em>.`,
  hint:`<code>WHERE miasto = 'Kraków'</code>`,
  ans:`SELECT nazwa, rok_zalozenia\nFROM kluby\nWHERE miasto = 'Kraków';`},
-
-{id:26,t:"ekstraklasa",c:"SELECT",title:"Ile zawodników ma każdy klub?",
+{id:26,t:"ekstraklasa",c:"JOIN",title:"Ile zawodników ma każdy klub?",
  desc:`Połącz tabelę <code>kluby</code> z tabelą <code>zawodnicy</code>. Wyświetl <code>nazwa</code> klubu i liczbę zawodników jako <code>liczba_zawodnikow</code>. Uwzględnij też kluby bez zawodników (LEFT JOIN).`,
- hint:`<code>FROM kluby k LEFT JOIN zawodnicy z ON k.id = z.id_klubu GROUP BY k.id, k.nazwa</code>`,
+ hint:`<code>LEFT JOIN zawodnicy z ON k.id = z.id_klubu GROUP BY k.id, k.nazwa</code>`,
  ans:`SELECT k.nazwa, COUNT(z.id) AS liczba_zawodnikow\nFROM kluby k\nLEFT JOIN zawodnicy z ON k.id = z.id_klubu\nGROUP BY k.id, k.nazwa;`},
-
 {id:27,t:"ekstraklasa",c:"SELECT",title:"Zawodnicy bez numeru koszulki",
- desc:`Z tabeli <code>zawodnicy</code> pobierz <code>imie_nazwisko</code> zawodników, którym nie przypisano numeru koszulki (<code>numer</code> jest NULL).`,
+ desc:`Z tabeli <code>zawodnicy</code> pobierz <code>imie_nazwisko</code> zawodników bez przypisanego numeru (<code>numer</code> jest NULL).`,
  hint:`<code>WHERE numer IS NULL</code>`,
  ans:`SELECT imie_nazwisko\nFROM zawodnicy\nWHERE numer IS NULL;`},
-
 {id:28,t:"ekstraklasa",c:"SELECT",title:"Kluby założone przed 1950",
- desc:`Z tabeli <code>kluby</code> pobierz <code>nazwa</code> i <code>rok_zalozenia</code> klubów założonych przed rokiem <em>1950</em>. Posortuj rosnąco po roku.`,
+ desc:`Z tabeli <code>kluby</code> pobierz <code>nazwa</code> i <code>rok_zalozenia</code> klubów założonych przed <em>1950</em>. Posortuj rosnąco po roku.`,
  hint:`<code>WHERE rok_zalozenia < 1950 ORDER BY rok_zalozenia ASC</code>`,
  ans:`SELECT nazwa, rok_zalozenia\nFROM kluby\nWHERE rok_zalozenia < 1950\nORDER BY rok_zalozenia ASC;`},
-
 {id:29,t:"ekstraklasa",c:"SELECT",title:"Napastnicy",
- desc:`Z tabeli <code>zawodnicy</code> pobierz <code>imie_nazwisko</code> i <code>numer</code> zawodników grających na pozycji <em>napastnik</em>.`,
+ desc:`Z tabeli <code>zawodnicy</code> pobierz <code>imie_nazwisko</code> i <code>numer</code> zawodników na pozycji <em>napastnik</em>.`,
  hint:`<code>WHERE pozycja = 'napastnik'</code>`,
  ans:`SELECT imie_nazwisko, numer\nFROM zawodnicy\nWHERE pozycja = 'napastnik';`},
-
 {id:30,t:"ekstraklasa",c:"SELECT",title:"Zawodnicy z numerem 1–11",
- desc:`Z tabeli <code>zawodnicy</code> pobierz <code>imie_nazwisko</code> i <code>numer</code> zawodników, których numer koszulki mieści się w zakresie od <em>1 do 11</em> włącznie.`,
+ desc:`Z tabeli <code>zawodnicy</code> pobierz <code>imie_nazwisko</code> i <code>numer</code> zawodników, których numer mieści się od <em>1 do 11</em> włącznie.`,
  hint:`<code>WHERE numer BETWEEN 1 AND 11</code>`,
  ans:`SELECT imie_nazwisko, numer\nFROM zawodnicy\nWHERE numer BETWEEN 1 AND 11;`},
-
 {id:31,t:"ekstraklasa",c:"UPDATE",title:"Zmień numer koszulki",
  desc:`W tabeli <code>zawodnicy</code> zmień <code>numer</code> na <em>10</em> dla wiersza z <code>id = 5</code>.`,
- hint:`<code>UPDATE zawodnicy SET numer = 10 WHERE id = 5;</code>`,
+ hint:`<code>SET numer = 10 WHERE id = 5;</code>`,
  ans:`UPDATE zawodnicy\nSET numer = 10\nWHERE id = 5;`},
-
 {id:32,t:"ekstraklasa",c:"UPDATE",title:"Przenieś zawodnika do innego klubu",
- desc:`W tabeli <code>zawodnicy</code> dla wiersza z <code>id = 3</code>: zmień <code>id_klubu</code> na <em>4</em> i wyzeruj numer koszulki (NULL).`,
- hint:`<code>SET id_klubu = 4, numer = NULL</code> — kilka kolumn rozdziela przecinek`,
+ desc:`W tabeli <code>zawodnicy</code> dla wiersza z <code>id = 3</code>: zmień <code>id_klubu</code> na <em>4</em> i wyzeruj numer (NULL).`,
+ hint:`<code>SET id_klubu = 4, numer = NULL</code>`,
  ans:`UPDATE zawodnicy\nSET id_klubu = 4, numer = NULL\nWHERE id = 3;`},
-
 {id:33,t:"ekstraklasa",c:"DELETE",title:"Usuń jeden klub",
  desc:`Z tabeli <code>kluby</code> usuń wiersz z <code>id = 6</code>.`,
  hint:`<code>DELETE FROM kluby WHERE id = 6;</code>`,
  ans:`DELETE FROM kluby WHERE id = 6;`},
-
 {id:34,t:"ekstraklasa",c:"DELETE",title:"Usuń zawodników bez klubu",
- desc:`Z tabeli <code>zawodnicy</code> usuń wszystkie wiersze, w których <code>id_klubu</code> ma wartość NULL.`,
+ desc:`Z tabeli <code>zawodnicy</code> usuń wiersze, w których <code>id_klubu</code> ma wartość NULL.`,
  hint:`<code>WHERE id_klubu IS NULL</code>`,
  ans:`DELETE FROM zawodnicy\nWHERE id_klubu IS NULL;`},
-
 {id:35,t:"ekstraklasa",c:"ALTER",title:"Dodaj kolumnę stadion",
  desc:`Do tabeli <code>kluby</code> dodaj kolumnę <code>pojemnosc_stadionu</code> typu INT.`,
- hint:`<code>ALTER TABLE kluby ADD COLUMN pojemnosc_stadionu INT;</code>`,
+ hint:`<code>ADD COLUMN pojemnosc_stadionu INT</code>`,
  ans:`ALTER TABLE kluby\nADD COLUMN pojemnosc_stadionu INT;`},
-
 {id:36,t:"ekstraklasa",c:"ALTER",title:"Usuń kolumnę pojemność",
  desc:`Z tabeli <code>kluby</code> usuń kolumnę <code>pojemnosc_stadionu</code>.`,
- hint:`<code>ALTER TABLE kluby DROP COLUMN pojemnosc_stadionu;</code>`,
+ hint:`<code>DROP COLUMN pojemnosc_stadionu</code>`,
  ans:`ALTER TABLE kluby\nDROP COLUMN pojemnosc_stadionu;`},
-
 {id:37,t:"ekstraklasa",c:"DROP",title:"Usuń tabelę wyników meczu",
  desc:`Usuń tabelę <code>wyniki_meczu</code> — tylko jeśli istnieje.`,
  hint:`<code>DROP TABLE IF EXISTS wyniki_meczu;</code>`,
@@ -447,428 +561,421 @@ const Q=[
 /* SAMOCHODY */
 {id:38,t:"samochody",c:"CREATE",title:"Tabela aut",
  desc:`Utwórz tabelę <code>auta</code>:<br>• <code>id</code> INT — klucz główny, AUTO_INCREMENT<br>• <code>marka</code> VARCHAR(60) NOT NULL<br>• <code>model</code> VARCHAR(80) NOT NULL<br>• <code>rok_produkcji</code> YEAR<br>• <code>cena</code> DECIMAL(10,2)<br>• <code>przebieg_km</code> INT — domyślnie 0`,
- hint:`<code>DECIMAL(10,2)</code> — maks. 99999999.99. DEFAULT 0 dla przebiegu.`,
+ hint:`DEFAULT 0 dla przebiegu`,
  ans:`CREATE TABLE auta (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  marka VARCHAR(60) NOT NULL,\n  model VARCHAR(80) NOT NULL,\n  rok_produkcji YEAR,\n  cena DECIMAL(10,2),\n  przebieg_km INT DEFAULT 0\n);`},
-
 {id:39,t:"samochody",c:"INSERT",title:"Dodaj jedno auto",
- desc:`Do tabeli <code>auta</code> dodaj wiersz:<br>marka = <em>Toyota</em>, model = <em>Corolla</em>, rok_produkcji = <em>2020</em>, cena = <em>65000.00</em>, przebieg_km = <em>45000</em>`,
- hint:`Rok jako liczba (2020), tekst w apostrofach`,
+ desc:`Do tabeli <code>auta</code> dodaj wiersz: marka = <em>Toyota</em>, model = <em>Corolla</em>, rok_produkcji = <em>2020</em>, cena = <em>65000.00</em>, przebieg_km = <em>45000</em>`,
+ hint:`Rok jako liczba`,
  ans:`INSERT INTO auta (marka, model, rok_produkcji, cena, przebieg_km)\nVALUES ('Toyota', 'Corolla', 2020, 65000.00, 45000);`},
-
 {id:40,t:"samochody",c:"INSERT",title:"Dodaj kilka aut naraz",
  desc:`Do tabeli <code>auta</code> jednym zapytaniem dodaj 3 wiersze:<br>• BMW M3, rok 2021, cena 220000<br>• Skoda Octavia, rok 2019, cena 75000<br>• Ford Focus, rok 2018, cena 55000`,
- hint:`<code>INSERT INTO auta (marka, model, rok_produkcji, cena) VALUES (...), (...), (...);</code>`,
+ hint:`<code>VALUES (...), (...), (...);</code>`,
  ans:`INSERT INTO auta (marka, model, rok_produkcji, cena)\nVALUES\n  ('BMW', 'M3', 2021, 220000),\n  ('Skoda', 'Octavia', 2019, 75000),\n  ('Ford', 'Focus', 2018, 55000);`},
-
 {id:41,t:"samochody",c:"SELECT",title:"Auta tańsze niż 50 000 zł",
- desc:`Z tabeli <code>auta</code> pobierz <code>marka</code>, <code>model</code> i <code>cena</code> samochodów z ceną poniżej <em>50000</em>. Posortuj malejąco po cenie.`,
+ desc:`Z tabeli <code>auta</code> pobierz <code>marka</code>, <code>model</code> i <code>cena</code> aut poniżej <em>50000</em>. Posortuj malejąco po cenie.`,
  hint:`<code>WHERE cena < 50000 ORDER BY cena DESC</code>`,
  ans:`SELECT marka, model, cena\nFROM auta\nWHERE cena < 50000\nORDER BY cena DESC;`},
-
 {id:42,t:"samochody",c:"SELECT",title:"Średnia cena per marka",
  desc:`Z tabeli <code>auta</code> policz średnią cenę dla każdej marki. Zwróć <code>marka</code> i <code>srednia_cena</code>.`,
  hint:`<code>AVG(cena) AS srednia_cena GROUP BY marka</code>`,
  ans:`SELECT marka, AVG(cena) AS srednia_cena\nFROM auta\nGROUP BY marka;`},
-
 {id:43,t:"samochody",c:"SELECT",title:"Auta z lat 2018–2022",
  desc:`Z tabeli <code>auta</code> pobierz wszystkie dane samochodów wyprodukowanych w latach <em>2018 do 2022</em> włącznie.`,
  hint:`<code>WHERE rok_produkcji BETWEEN 2018 AND 2022</code>`,
  ans:`SELECT *\nFROM auta\nWHERE rok_produkcji BETWEEN 2018 AND 2022;`},
-
 {id:44,t:"samochody",c:"SELECT",title:"Unikalne marki",
- desc:`Z tabeli <code>auta</code> pobierz listę unikalnych marek samochodów (bez powtórzeń).`,
- hint:`<code>SELECT DISTINCT marka FROM auta;</code>`,
+ desc:`Z tabeli <code>auta</code> pobierz listę unikalnych marek samochodów.`,
+ hint:`<code>SELECT DISTINCT marka</code>`,
  ans:`SELECT DISTINCT marka\nFROM auta;`},
-
 {id:45,t:"samochody",c:"SELECT",title:"Toyota lub BMW",
- desc:`Z tabeli <code>auta</code> pobierz <code>marka</code>, <code>model</code> i <code>rok_produkcji</code> samochodów marki <em>Toyota</em> lub <em>BMW</em>.`,
+ desc:`Z tabeli <code>auta</code> pobierz <code>marka</code>, <code>model</code>, <code>rok_produkcji</code> aut marki <em>Toyota</em> lub <em>BMW</em>.`,
  hint:`<code>WHERE marka IN ('Toyota', 'BMW')</code>`,
  ans:`SELECT marka, model, rok_produkcji\nFROM auta\nWHERE marka IN ('Toyota', 'BMW');`},
-
-{id:46,t:"samochody",c:"SELECT",title:"Najtańszy i najdroższy",
- desc:`Z tabeli <code>auta</code> pobierz minimalną i maksymalną cenę. Nazwij kolumny <code>min_cena</code> i <code>max_cena</code>.`,
- hint:`<code>SELECT MIN(cena) AS min_cena, MAX(cena) AS max_cena FROM auta;</code>`,
- ans:`SELECT MIN(cena) AS min_cena, MAX(cena) AS max_cena\nFROM auta;`},
-
-{id:47,t:"samochody",c:"SELECT",title:"Najnowszy rocznik",
- desc:`Z tabeli <code>auta</code> pobierz <code>marka</code>, <code>model</code> i <code>rok_produkcji</code> jednego samochodu z najnowszym rocznikiem.`,
- hint:`<code>ORDER BY rok_produkcji DESC LIMIT 1</code>`,
- ans:`SELECT marka, model, rok_produkcji\nFROM auta\nORDER BY rok_produkcji DESC\nLIMIT 1;`},
-
-{id:48,t:"samochody",c:"UPDATE",title:"Obniż cenę jednego auta",
+{id:46,t:"samochody",c:"SELECT",title:"Auta droższe niż średnia — podzapytanie",
+ desc:`Z tabeli <code>auta</code> pobierz <code>marka</code>, <code>model</code> i <code>cena</code> samochodów, których cena jest wyższa niż średnia cena wszystkich aut. Użyj podzapytania.`,
+ hint:`<code>WHERE cena > (SELECT AVG(cena) FROM auta)</code>`,
+ ans:`SELECT marka, model, cena\nFROM auta\nWHERE cena > (SELECT AVG(cena) FROM auta);`},
+{id:47,t:"samochody",c:"UPDATE",title:"Obniż cenę jednego auta",
  desc:`W tabeli <code>auta</code> zmniejsz <code>cena</code> o 5000 dla wiersza z <code>id = 4</code>.`,
  hint:`<code>SET cena = cena - 5000</code>`,
  ans:`UPDATE auta\nSET cena = cena - 5000\nWHERE id = 4;`},
-
-{id:49,t:"samochody",c:"UPDATE",title:"Ustaw przebieg dla całej marki",
- desc:`W tabeli <code>auta</code> ustaw <code>przebieg_km = 120000</code> dla wszystkich samochodów marki <em>BMW</em>.`,
+{id:48,t:"samochody",c:"UPDATE",title:"Ustaw przebieg dla całej marki",
+ desc:`W tabeli <code>auta</code> ustaw <code>przebieg_km = 120000</code> dla wszystkich aut marki <em>BMW</em>.`,
  hint:`<code>WHERE marka = 'BMW'</code>`,
  ans:`UPDATE auta\nSET przebieg_km = 120000\nWHERE marka = 'BMW';`},
-
-{id:50,t:"samochody",c:"DELETE",title:"Usuń stare auta",
- desc:`Z tabeli <code>auta</code> usuń wszystkie wiersze, w których rok produkcji jest wcześniejszy niż <em>2000</em>.`,
+{id:49,t:"samochody",c:"DELETE",title:"Usuń stare auta",
+ desc:`Z tabeli <code>auta</code> usuń wiersze, w których rok produkcji jest wcześniejszy niż <em>2000</em>.`,
  hint:`<code>WHERE rok_produkcji < 2000</code>`,
  ans:`DELETE FROM auta\nWHERE rok_produkcji < 2000;`},
-
-{id:51,t:"samochody",c:"ALTER",title:"Dodaj kolumnę rodzaj paliwa",
+{id:50,t:"samochody",c:"ALTER",title:"Dodaj kolumnę rodzaj paliwa",
  desc:`Do tabeli <code>auta</code> dodaj kolumnę <code>rodzaj_paliwa</code> VARCHAR(20) z wartością domyślną <em>'benzyna'</em>.`,
- hint:`<code>ADD COLUMN rodzaj_paliwa VARCHAR(20) DEFAULT 'benzyna'</code>`,
+ hint:`<code>DEFAULT 'benzyna'</code>`,
  ans:`ALTER TABLE auta\nADD COLUMN rodzaj_paliwa VARCHAR(20) DEFAULT 'benzyna';`},
-
-{id:52,t:"samochody",c:"ALTER",title:"Zmień nazwę kolumny",
- desc:`W tabeli <code>auta</code> zmień nazwę kolumny <code>przebieg_km</code> na <code>przebieg</code>.`,
- hint:`MySQL 8+: <code>RENAME COLUMN przebieg_km TO przebieg</code>`,
- ans:`ALTER TABLE auta\nRENAME COLUMN przebieg_km TO przebieg;`},
-
-{id:53,t:"samochody",c:"ALTER",title:"Dodaj indeks na markę",
- desc:`Do tabeli <code>auta</code> dodaj indeks o nazwie <code>idx_marka</code> na kolumnie <code>marka</code>, żeby przyspieszyć wyszukiwanie po marce.`,
- hint:`<code>ALTER TABLE auta ADD INDEX idx_marka (marka);</code>`,
+{id:51,t:"samochody",c:"ALTER",title:"Dodaj indeks na markę",
+ desc:`Do tabeli <code>auta</code> dodaj indeks o nazwie <code>idx_marka</code> na kolumnie <code>marka</code>.`,
+ hint:`<code>ADD INDEX idx_marka (marka)</code>`,
  ans:`ALTER TABLE auta\nADD INDEX idx_marka (marka);`},
-
-{id:54,t:"samochody",c:"DROP",title:"Usuń tabelę właścicieli",
+{id:52,t:"samochody",c:"DROP",title:"Usuń tabelę właścicieli",
  desc:`Usuń tabelę <code>wlasciciele</code> z bazy danych.`,
  hint:`<code>DROP TABLE wlasciciele;</code>`,
  ans:`DROP TABLE wlasciciele;`},
 
 /* PESEL */
-{id:55,t:"pesel",c:"CREATE",title:"Tabela obywateli",
- desc:`Utwórz tabelę <code>obywatele</code>:<br>• <code>id</code> INT — klucz główny, AUTO_INCREMENT<br>• <code>pesel</code> CHAR(11) NOT NULL — musi być unikalny<br>• <code>imie</code> VARCHAR(50) NOT NULL<br>• <code>nazwisko</code> VARCHAR(80) NOT NULL<br>• <code>data_urodzenia</code> DATE<br>• <code>plec</code> CHAR(1) — wartość M lub K`,
- hint:`CHAR(11) — stała długość 11 znaków. CHAR(1) dla płci.`,
+{id:53,t:"pesel",c:"CREATE",title:"Tabela obywateli",
+ desc:`Utwórz tabelę <code>obywatele</code>:<br>• <code>id</code> INT — klucz główny, AUTO_INCREMENT<br>• <code>pesel</code> CHAR(11) NOT NULL — unikalny<br>• <code>imie</code> VARCHAR(50) NOT NULL<br>• <code>nazwisko</code> VARCHAR(80) NOT NULL<br>• <code>data_urodzenia</code> DATE<br>• <code>plec</code> CHAR(1)`,
+ hint:`CHAR(11) — stała długość`,
  ans:`CREATE TABLE obywatele (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  pesel CHAR(11) NOT NULL UNIQUE,\n  imie VARCHAR(50) NOT NULL,\n  nazwisko VARCHAR(80) NOT NULL,\n  data_urodzenia DATE,\n  plec CHAR(1)\n);`},
-
-{id:56,t:"pesel",c:"CREATE",title:"Tabela adresów",
- desc:`Utwórz tabelę <code>adresy</code>:<br>• <code>id</code> INT — klucz główny, AUTO_INCREMENT<br>• <code>id_obywatela</code> INT — klucz obcy do tabeli <em>obywatele(id)</em><br>• <code>ulica</code> VARCHAR(120)<br>• <code>miasto</code> VARCHAR(80)<br>• <code>kod_pocztowy</code> CHAR(6)`,
- hint:`CHAR(6) dla kodu "00-001" — stała długość 6 znaków`,
+{id:54,t:"pesel",c:"CREATE",title:"Tabela adresów",
+ desc:`Utwórz tabelę <code>adresy</code>:<br>• <code>id</code> INT — klucz główny, AUTO_INCREMENT<br>• <code>id_obywatela</code> INT — klucz obcy do <em>obywatele(id)</em><br>• <code>ulica</code> VARCHAR(120)<br>• <code>miasto</code> VARCHAR(80)<br>• <code>kod_pocztowy</code> CHAR(6)`,
+ hint:`CHAR(6) dla "00-001"`,
  ans:`CREATE TABLE adresy (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  id_obywatela INT,\n  ulica VARCHAR(120),\n  miasto VARCHAR(80),\n  kod_pocztowy CHAR(6),\n  FOREIGN KEY (id_obywatela) REFERENCES obywatele(id)\n);`},
-
-{id:57,t:"pesel",c:"INSERT",title:"Dodaj obywatela",
- desc:`Do tabeli <code>obywatele</code> dodaj wiersz:<br>pesel = <em>90010112345</em>, imie = <em>Adam</em>, nazwisko = <em>Wiśniewski</em>, data_urodzenia = <em>1990-01-01</em>, plec = <em>M</em>`,
- hint:`PESEL i płeć to tekst — używaj apostrofów: <code>'90010112345'</code>`,
+{id:55,t:"pesel",c:"INSERT",title:"Dodaj obywatela",
+ desc:`Do tabeli <code>obywatele</code> dodaj wiersz: pesel = <em>90010112345</em>, imie = <em>Adam</em>, nazwisko = <em>Wiśniewski</em>, data_urodzenia = <em>1990-01-01</em>, plec = <em>M</em>`,
+ hint:`PESEL i płeć w apostrofach`,
  ans:`INSERT INTO obywatele (pesel, imie, nazwisko, data_urodzenia, plec)\nVALUES ('90010112345', 'Adam', 'Wiśniewski', '1990-01-01', 'M');`},
-
-{id:58,t:"pesel",c:"SELECT",title:"Szukaj po nazwisku",
- desc:`Z tabeli <code>obywatele</code> pobierz <code>pesel</code>, <code>imie</code> i <code>nazwisko</code> wszystkich osób o nazwisku <em>Nowak</em>.`,
+{id:56,t:"pesel",c:"SELECT",title:"Szukaj po nazwisku",
+ desc:`Z tabeli <code>obywatele</code> pobierz <code>pesel</code>, <code>imie</code>, <code>nazwisko</code> osób o nazwisku <em>Nowak</em>.`,
  hint:`<code>WHERE nazwisko = 'Nowak'</code>`,
  ans:`SELECT pesel, imie, nazwisko\nFROM obywatele\nWHERE nazwisko = 'Nowak';`},
-
-{id:59,t:"pesel",c:"SELECT",title:"Kobiety urodzone po 1990",
+{id:57,t:"pesel",c:"SELECT",title:"Kobiety urodzone po 1990",
  desc:`Z tabeli <code>obywatele</code> pobierz <code>imie</code> i <code>nazwisko</code> kobiet (<code>plec = 'K'</code>) urodzonych po <em>31 grudnia 1990</em>.`,
  hint:`<code>WHERE plec = 'K' AND data_urodzenia > '1990-12-31'</code>`,
  ans:`SELECT imie, nazwisko\nFROM obywatele\nWHERE plec = 'K'\n  AND data_urodzenia > '1990-12-31';`},
-
-{id:60,t:"pesel",c:"SELECT",title:"Obywatel z adresem — JOIN",
- desc:`Połącz tabelę <code>obywatele</code> z tabelą <code>adresy</code> po kluczu obcym. Wyświetl <code>imie</code>, <code>nazwisko</code> i <code>miasto</code> zamieszkania.`,
+{id:58,t:"pesel",c:"JOIN",title:"Obywatel z adresem",
+ desc:`Połącz tabelę <code>obywatele</code> z tabelą <code>adresy</code> po kluczu obcym. Wyświetl <code>imie</code>, <code>nazwisko</code> i <code>miasto</code>.`,
  hint:`<code>FROM obywatele o JOIN adresy a ON o.id = a.id_obywatela</code>`,
  ans:`SELECT o.imie, o.nazwisko, a.miasto\nFROM obywatele o\nJOIN adresy a ON o.id = a.id_obywatela;`},
-
-{id:61,t:"pesel",c:"SELECT",title:"Ile osób mieszka w każdym mieście?",
+{id:59,t:"pesel",c:"JOIN",title:"Ile osób mieszka w każdym mieście?",
  desc:`Połącz tabele <code>obywatele</code> i <code>adresy</code>. Policz ile osób mieszka w każdym mieście. Zwróć <code>miasto</code> i <code>liczba</code>. Posortuj malejąco.`,
  hint:`<code>COUNT(*) AS liczba GROUP BY a.miasto ORDER BY liczba DESC</code>`,
  ans:`SELECT a.miasto, COUNT(*) AS liczba\nFROM obywatele o\nJOIN adresy a ON o.id = a.id_obywatela\nGROUP BY a.miasto\nORDER BY liczba DESC;`},
-
-{id:62,t:"pesel",c:"SELECT",title:"Ile kobiet i mężczyzn?",
- desc:`Z tabeli <code>obywatele</code> policz osobno ile jest kobiet i mężczyzn. Zwróć <code>plec</code> i <code>liczba</code>.`,
+{id:60,t:"pesel",c:"SELECT",title:"Ile kobiet i mężczyzn?",
+ desc:`Z tabeli <code>obywatele</code> policz osobno kobiety i mężczyzn. Zwróć <code>plec</code> i <code>liczba</code>.`,
  hint:`<code>COUNT(*) AS liczba GROUP BY plec</code>`,
  ans:`SELECT plec, COUNT(*) AS liczba\nFROM obywatele\nGROUP BY plec;`},
-
-{id:63,t:"pesel",c:"SELECT",title:"Obywatele posortowani alfabetycznie",
- desc:`Z tabeli <code>obywatele</code> pobierz <code>imie</code>, <code>nazwisko</code> i <code>data_urodzenia</code>. Posortuj po nazwisku A→Z, przy równych nazwiskach — po imieniu A→Z.`,
+{id:61,t:"pesel",c:"SELECT",title:"Obywatele posortowani alfabetycznie",
+ desc:`Z tabeli <code>obywatele</code> pobierz <code>imie</code>, <code>nazwisko</code>, <code>data_urodzenia</code>. Posortuj po nazwisku A→Z, przy remisie po imieniu A→Z.`,
  hint:`<code>ORDER BY nazwisko ASC, imie ASC</code>`,
  ans:`SELECT imie, nazwisko, data_urodzenia\nFROM obywatele\nORDER BY nazwisko ASC, imie ASC;`},
-
-{id:64,t:"pesel",c:"SELECT",title:"Urodzeni w latach 80. i 90.",
- desc:`Z tabeli <code>obywatele</code> pobierz <code>imie</code>, <code>nazwisko</code> i <code>data_urodzenia</code> osób urodzonych między <em>1980-01-01</em> a <em>1999-12-31</em> włącznie.`,
+{id:62,t:"pesel",c:"SELECT",title:"Urodzeni w latach 80. i 90.",
+ desc:`Z tabeli <code>obywatele</code> pobierz <code>imie</code>, <code>nazwisko</code>, <code>data_urodzenia</code> osób urodzonych między <em>1980-01-01</em> a <em>1999-12-31</em> włącznie.`,
  hint:`<code>WHERE data_urodzenia BETWEEN '1980-01-01' AND '1999-12-31'</code>`,
  ans:`SELECT imie, nazwisko, data_urodzenia\nFROM obywatele\nWHERE data_urodzenia BETWEEN '1980-01-01' AND '1999-12-31';`},
-
-{id:65,t:"pesel",c:"UPDATE",title:"Aktualizuj adres",
+{id:63,t:"pesel",c:"UPDATE",title:"Aktualizuj adres",
  desc:`W tabeli <code>adresy</code> dla wiersza z <code>id = 3</code> zmień <code>miasto</code> na <em>Gdańsk</em> i <code>kod_pocztowy</code> na <em>80-001</em>.`,
- hint:`<code>SET miasto = '...', kod_pocztowy = '...' WHERE id = 3</code>`,
+ hint:`<code>SET miasto = '...', kod_pocztowy = '...'</code>`,
  ans:`UPDATE adresy\nSET miasto = 'Gdańsk', kod_pocztowy = '80-001'\nWHERE id = 3;`},
-
-{id:66,t:"pesel",c:"UPDATE",title:"Dezaktywuj obywatela po PESEL",
+{id:64,t:"pesel",c:"UPDATE",title:"Dezaktywuj obywatela po PESEL",
  desc:`W tabeli <code>obywatele</code> ustaw <code>aktywny = FALSE</code> dla osoby o PESEL = <em>90010112345</em>.`,
  hint:`<code>WHERE pesel = '90010112345'</code>`,
  ans:`UPDATE obywatele\nSET aktywny = FALSE\nWHERE pesel = '90010112345';`},
-
-{id:67,t:"pesel",c:"DELETE",title:"Usuń jeden adres",
+{id:65,t:"pesel",c:"DELETE",title:"Usuń jeden adres",
  desc:`Z tabeli <code>adresy</code> usuń wiersz z <code>id = 10</code>.`,
  hint:`<code>DELETE FROM adresy WHERE id = 10;</code>`,
  ans:`DELETE FROM adresy WHERE id = 10;`},
-
-{id:68,t:"pesel",c:"DELETE",title:"Usuń nieaktywnych obywateli",
- desc:`Z tabeli <code>obywatele</code> usuń wszystkie wiersze, gdzie kolumna <code>aktywny</code> ma wartość FALSE.`,
+{id:66,t:"pesel",c:"DELETE",title:"Usuń nieaktywnych obywateli",
+ desc:`Z tabeli <code>obywatele</code> usuń wiersze, gdzie <code>aktywny = FALSE</code>.`,
  hint:`<code>WHERE aktywny = FALSE</code>`,
  ans:`DELETE FROM obywatele\nWHERE aktywny = FALSE;`},
-
-{id:69,t:"pesel",c:"ALTER",title:"Dodaj kolumnę aktywny",
+{id:67,t:"pesel",c:"ALTER",title:"Dodaj kolumnę aktywny",
  desc:`Do tabeli <code>obywatele</code> dodaj kolumnę <code>aktywny</code> BOOLEAN z wartością domyślną TRUE.`,
- hint:`<code>ADD COLUMN aktywny BOOLEAN DEFAULT TRUE</code>`,
+ hint:`<code>DEFAULT TRUE</code>`,
  ans:`ALTER TABLE obywatele\nADD COLUMN aktywny BOOLEAN DEFAULT TRUE;`},
-
-{id:70,t:"pesel",c:"ALTER",title:"Dodaj indeks na PESEL",
- desc:`Do tabeli <code>obywatele</code> dodaj indeks o nazwie <code>idx_pesel</code> na kolumnie <code>pesel</code>.`,
- hint:`<code>ALTER TABLE obywatele ADD INDEX idx_pesel (pesel);</code>`,
- ans:`ALTER TABLE obywatele\nADD INDEX idx_pesel (pesel);`},
-
-{id:71,t:"pesel",c:"DROP",title:"Usuń tabelę adresów",
+{id:68,t:"pesel",c:"DROP",title:"Usuń tabelę adresów",
  desc:`Usuń tabelę <code>adresy</code> z bazy danych.`,
  hint:`<code>DROP TABLE adresy;</code>`,
  ans:`DROP TABLE adresy;`},
 
 /* BIBLIOTEKA */
-{id:72,t:"biblioteka",c:"CREATE",title:"Tabela książek",
- desc:`Utwórz tabelę <code>ksiazki</code>:<br>• <code>id</code> INT — klucz główny, AUTO_INCREMENT<br>• <code>tytul</code> VARCHAR(200) NOT NULL<br>• <code>autor</code> VARCHAR(120)<br>• <code>isbn</code> VARCHAR(17) — musi być unikalny<br>• <code>rok_wydania</code> YEAR<br>• <code>dostepna</code> BOOLEAN — domyślnie TRUE`,
- hint:`YEAR przechowuje roczniki. BOOLEAN DEFAULT TRUE.`,
+{id:69,t:"biblioteka",c:"CREATE",title:"Tabela książek",
+ desc:`Utwórz tabelę <code>ksiazki</code>:<br>• <code>id</code> INT — klucz główny, AUTO_INCREMENT<br>• <code>tytul</code> VARCHAR(200) NOT NULL<br>• <code>autor</code> VARCHAR(120)<br>• <code>isbn</code> VARCHAR(17) — unikalny<br>• <code>rok_wydania</code> YEAR<br>• <code>dostepna</code> BOOLEAN — domyślnie TRUE`,
+ hint:`BOOLEAN DEFAULT TRUE`,
  ans:`CREATE TABLE ksiazki (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  tytul VARCHAR(200) NOT NULL,\n  autor VARCHAR(120),\n  isbn VARCHAR(17) UNIQUE,\n  rok_wydania YEAR,\n  dostepna BOOLEAN DEFAULT TRUE\n);`},
-
-{id:73,t:"biblioteka",c:"INSERT",title:"Dodaj jedną książkę",
- desc:`Do tabeli <code>ksiazki</code> dodaj wiersz:<br>tytul = <em>Pan Tadeusz</em>, autor = <em>Adam Mickiewicz</em>, isbn = <em>978-83-000-0001-0</em>, rok_wydania = <em>1834</em>`,
- hint:`Rok jako liczba (1834), isbn jako tekst w apostrofach`,
+{id:70,t:"biblioteka",c:"INSERT",title:"Dodaj jedną książkę",
+ desc:`Do tabeli <code>ksiazki</code> dodaj wiersz: tytul = <em>Pan Tadeusz</em>, autor = <em>Adam Mickiewicz</em>, isbn = <em>978-83-000-0001-0</em>, rok_wydania = <em>1834</em>`,
+ hint:`Rok jako liczba`,
  ans:`INSERT INTO ksiazki (tytul, autor, isbn, rok_wydania)\nVALUES ('Pan Tadeusz', 'Adam Mickiewicz', '978-83-000-0001-0', 1834);`},
-
-{id:74,t:"biblioteka",c:"INSERT",title:"Dodaj kilka książek naraz",
+{id:71,t:"biblioteka",c:"INSERT",title:"Dodaj kilka książek naraz",
  desc:`Do tabeli <code>ksiazki</code> jednym INSERT dodaj 2 wiersze:<br>• <em>Solaris</em>, autor <em>Stanisław Lem</em>, rok <em>1961</em><br>• <em>Quo Vadis</em>, autor <em>Henryk Sienkiewicz</em>, rok <em>1896</em>`,
  hint:`<code>VALUES (...), (...);</code>`,
  ans:`INSERT INTO ksiazki (tytul, autor, rok_wydania)\nVALUES\n  ('Solaris', 'Stanisław Lem', 1961),\n  ('Quo Vadis', 'Henryk Sienkiewicz', 1896);`},
-
-{id:75,t:"biblioteka",c:"SELECT",title:"Dostępne książki",
- desc:`Z tabeli <code>ksiazki</code> pobierz <code>tytul</code> i <code>autor</code> wszystkich książek oznaczonych jako dostępne (<code>dostepna = TRUE</code>).`,
+{id:72,t:"biblioteka",c:"SELECT",title:"Dostępne książki",
+ desc:`Z tabeli <code>ksiazki</code> pobierz <code>tytul</code> i <code>autor</code> książek dostępnych (<code>dostepna = TRUE</code>).`,
  hint:`<code>WHERE dostepna = TRUE</code>`,
  ans:`SELECT tytul, autor\nFROM ksiazki\nWHERE dostepna = TRUE;`},
-
-{id:76,t:"biblioteka",c:"SELECT",title:"Szukaj po autorze — LIKE",
- desc:`Z tabeli <code>ksiazki</code> pobierz wszystkie dane (<code>*</code>) książek, których autor zawiera słowo <em>Mickiewicz</em> gdziekolwiek w polu autor.`,
+{id:73,t:"biblioteka",c:"SELECT",title:"Szukaj po autorze — LIKE",
+ desc:`Z tabeli <code>ksiazki</code> pobierz wszystkie dane (<code>*</code>) książek, których autor zawiera słowo <em>Mickiewicz</em>.`,
  hint:`<code>WHERE autor LIKE '%Mickiewicz%'</code>`,
  ans:`SELECT *\nFROM ksiazki\nWHERE autor LIKE '%Mickiewicz%';`},
-
-{id:77,t:"biblioteka",c:"SELECT",title:"Książki wydane po 2000",
- desc:`Z tabeli <code>ksiazki</code> pobierz <code>tytul</code> i <code>rok_wydania</code> książek wydanych po roku <em>2000</em>. Posortuj malejąco po roku.`,
+{id:74,t:"biblioteka",c:"SELECT",title:"Książki wydane po 2000",
+ desc:`Z tabeli <code>ksiazki</code> pobierz <code>tytul</code> i <code>rok_wydania</code> książek wydanych po <em>2000</em>. Posortuj malejąco po roku.`,
  hint:`<code>WHERE rok_wydania > 2000 ORDER BY rok_wydania DESC</code>`,
  ans:`SELECT tytul, rok_wydania\nFROM ksiazki\nWHERE rok_wydania > 2000\nORDER BY rok_wydania DESC;`},
-
-{id:78,t:"biblioteka",c:"SELECT",title:"Ile książek ma każdy autor?",
+{id:75,t:"biblioteka",c:"SELECT",title:"Ile książek ma każdy autor?",
  desc:`Z tabeli <code>ksiazki</code> policz ile książek napisał każdy autor. Zwróć <code>autor</code> i <code>liczba_ksiazek</code>. Posortuj malejąco.`,
  hint:`<code>COUNT(*) AS liczba_ksiazek GROUP BY autor ORDER BY liczba_ksiazek DESC</code>`,
  ans:`SELECT autor, COUNT(*) AS liczba_ksiazek\nFROM ksiazki\nGROUP BY autor\nORDER BY liczba_ksiazek DESC;`},
-
-{id:79,t:"biblioteka",c:"SELECT",title:"3 pierwsze książki alfabetycznie",
+{id:76,t:"biblioteka",c:"SELECT",title:"3 pierwsze książki alfabetycznie",
  desc:`Z tabeli <code>ksiazki</code> pobierz <code>tytul</code> i <code>autor</code> pierwszych 3 książek posortowanych alfabetycznie po tytule.`,
  hint:`<code>ORDER BY tytul ASC LIMIT 3</code>`,
  ans:`SELECT tytul, autor\nFROM ksiazki\nORDER BY tytul ASC\nLIMIT 3;`},
-
-{id:80,t:"biblioteka",c:"SELECT",title:"Tytuły zawierające słowo",
- desc:`Z tabeli <code>ksiazki</code> pobierz <code>tytul</code> i <code>autor</code> książek, których tytuł zawiera słowo <em>Wiedźmin</em> gdziekolwiek w tytule.`,
+{id:77,t:"biblioteka",c:"SELECT",title:"Tytuły zawierające słowo",
+ desc:`Z tabeli <code>ksiazki</code> pobierz <code>tytul</code> i <code>autor</code> książek, których tytuł zawiera słowo <em>Wiedźmin</em>.`,
  hint:`<code>WHERE tytul LIKE '%Wiedźmin%'</code>`,
  ans:`SELECT tytul, autor\nFROM ksiazki\nWHERE tytul LIKE '%Wiedźmin%';`},
-
-{id:81,t:"biblioteka",c:"UPDATE",title:"Oznacz jako wypożyczoną",
+{id:78,t:"biblioteka",c:"UPDATE",title:"Oznacz jako wypożyczoną",
  desc:`W tabeli <code>ksiazki</code> ustaw <code>dostepna = FALSE</code> dla wiersza z <code>id = 5</code>.`,
- hint:`<code>UPDATE ksiazki SET dostepna = FALSE WHERE id = 5;</code>`,
+ hint:`<code>SET dostepna = FALSE WHERE id = 5;</code>`,
  ans:`UPDATE ksiazki\nSET dostepna = FALSE\nWHERE id = 5;`},
-
-{id:82,t:"biblioteka",c:"UPDATE",title:"Zwróć wszystkie książki",
- desc:`W tabeli <code>ksiazki</code> ustaw <code>dostepna = TRUE</code> dla wszystkich wierszy (bez klauzuli WHERE — zmiana dotyczy całej tabeli).`,
- hint:`<code>UPDATE ksiazki SET dostepna = TRUE;</code> — brak WHERE = wszystkie wiersze`,
+{id:79,t:"biblioteka",c:"UPDATE",title:"Zwróć wszystkie książki",
+ desc:`W tabeli <code>ksiazki</code> ustaw <code>dostepna = TRUE</code> dla wszystkich wierszy (bez WHERE).`,
+ hint:`brak WHERE = wszystkie wiersze`,
  ans:`UPDATE ksiazki\nSET dostepna = TRUE;`},
-
-{id:83,t:"biblioteka",c:"DELETE",title:"Usuń jedno wypożyczenie",
+{id:80,t:"biblioteka",c:"DELETE",title:"Usuń jedno wypożyczenie",
  desc:`Z tabeli <code>wypozyczenia</code> usuń wiersz z <code>id = 8</code>.`,
  hint:`<code>DELETE FROM wypozyczenia WHERE id = 8;</code>`,
  ans:`DELETE FROM wypozyczenia WHERE id = 8;`},
-
-{id:84,t:"biblioteka",c:"ALTER",title:"Dodaj kolumnę gatunek",
+{id:81,t:"biblioteka",c:"ALTER",title:"Dodaj kolumnę gatunek",
  desc:`Do tabeli <code>ksiazki</code> dodaj kolumnę <code>gatunek</code> VARCHAR(60).`,
- hint:`<code>ALTER TABLE ksiazki ADD COLUMN gatunek VARCHAR(60);</code>`,
+ hint:`<code>ADD COLUMN gatunek VARCHAR(60)</code>`,
  ans:`ALTER TABLE ksiazki\nADD COLUMN gatunek VARCHAR(60);`},
-
-{id:85,t:"biblioteka",c:"ALTER",title:"Ustaw NOT NULL na autorze",
- desc:`W tabeli <code>ksiazki</code> zmień kolumnę <code>autor</code> — ustaw typ VARCHAR(120) NOT NULL.`,
- hint:`MySQL: <code>MODIFY COLUMN autor VARCHAR(120) NOT NULL</code>`,
- ans:`ALTER TABLE ksiazki\nMODIFY COLUMN autor VARCHAR(120) NOT NULL;`},
-
-{id:86,t:"biblioteka",c:"DROP",title:"Usuń tabelę katalogów",
+{id:82,t:"biblioteka",c:"DROP",title:"Usuń tabelę katalogów",
  desc:`Usuń tabelę <code>katalogi</code> — tylko jeśli istnieje.`,
  hint:`<code>DROP TABLE IF EXISTS katalogi;</code>`,
  ans:`DROP TABLE IF EXISTS katalogi;`},
 
 /* RESTAURACJA */
-{id:87,t:"restauracja",c:"CREATE",title:"Tabela menu",
+{id:83,t:"restauracja",c:"CREATE",title:"Tabela menu",
  desc:`Utwórz tabelę <code>menu</code>:<br>• <code>id</code> INT — klucz główny, AUTO_INCREMENT<br>• <code>nazwa_dania</code> VARCHAR(150) NOT NULL<br>• <code>kategoria</code> VARCHAR(50)<br>• <code>cena</code> DECIMAL(6,2) NOT NULL<br>• <code>dostepne</code> BOOLEAN — domyślnie TRUE`,
- hint:`DECIMAL(6,2) — maks 9999.99 zł`,
+ hint:`DECIMAL(6,2)`,
  ans:`CREATE TABLE menu (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  nazwa_dania VARCHAR(150) NOT NULL,\n  kategoria VARCHAR(50),\n  cena DECIMAL(6,2) NOT NULL,\n  dostepne BOOLEAN DEFAULT TRUE\n);`},
-
-{id:88,t:"restauracja",c:"CREATE",title:"Tabela zamówień",
- desc:`Utwórz tabelę <code>zamowienia</code>:<br>• <code>id</code> INT — klucz główny, AUTO_INCREMENT<br>• <code>stolik</code> INT NOT NULL<br>• <code>data_zamowienia</code> DATETIME — domyślnie bieżąca data i czas<br>• <code>suma</code> DECIMAL(8,2) — domyślnie 0.00<br>• <code>oplacone</code> BOOLEAN — domyślnie FALSE`,
- hint:`Bieżący czas: <code>DEFAULT CURRENT_TIMESTAMP</code>`,
- ans:`CREATE TABLE zamowienia (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  stolik INT NOT NULL,\n  data_zamowienia DATETIME DEFAULT CURRENT_TIMESTAMP,\n  suma DECIMAL(8,2) DEFAULT 0.00,\n  oplacone BOOLEAN DEFAULT FALSE\n);`},
-
-{id:89,t:"restauracja",c:"INSERT",title:"Dodaj danie do menu",
- desc:`Do tabeli <code>menu</code> dodaj wiersz:<br>nazwa_dania = <em>Barszcz czerwony</em>, kategoria = <em>zupy</em>, cena = <em>18.50</em>`,
- hint:`Pomiń <code>id</code> i <code>dostepne</code> — baza uzupełni DEFAULT automatycznie`,
+{id:84,t:"restauracja",c:"INSERT",title:"Dodaj danie do menu",
+ desc:`Do tabeli <code>menu</code> dodaj wiersz: nazwa_dania = <em>Barszcz czerwony</em>, kategoria = <em>zupy</em>, cena = <em>18.50</em>`,
+ hint:`Pomiń kolumny z DEFAULT`,
  ans:`INSERT INTO menu (nazwa_dania, kategoria, cena)\nVALUES ('Barszcz czerwony', 'zupy', 18.50);`},
-
-{id:90,t:"restauracja",c:"INSERT",title:"Nowe zamówienie",
- desc:`Do tabeli <code>zamowienia</code> dodaj wiersz tylko z numerem stolika = <em>5</em>. Pozostałe kolumny wypełnią się domyślnymi wartościami.`,
- hint:`<code>INSERT INTO zamowienia (stolik) VALUES (5);</code>`,
- ans:`INSERT INTO zamowienia (stolik)\nVALUES (5);`},
-
-{id:91,t:"restauracja",c:"SELECT",title:"Dostępne zupy",
- desc:`Z tabeli <code>menu</code> pobierz <code>nazwa_dania</code> i <code>cena</code> dań z kategorii <em>zupy</em>, które są dostępne (<code>dostepne = TRUE</code>). Posortuj rosnąco po cenie.`,
+{id:85,t:"restauracja",c:"SELECT",title:"Dostępne zupy",
+ desc:`Z tabeli <code>menu</code> pobierz <code>nazwa_dania</code> i <code>cena</code> dań z kategorii <em>zupy</em>, dostępnych (<code>dostepne = TRUE</code>). Posortuj rosnąco po cenie.`,
  hint:`<code>WHERE kategoria = 'zupy' AND dostepne = TRUE ORDER BY cena</code>`,
  ans:`SELECT nazwa_dania, cena\nFROM menu\nWHERE kategoria = 'zupy'\n  AND dostepne = TRUE\nORDER BY cena;`},
-
-{id:92,t:"restauracja",c:"SELECT",title:"Nieopłacone zamówienia",
- desc:`Z tabeli <code>zamowienia</code> pobierz <code>id</code>, <code>stolik</code> i <code>suma</code> zamówień, które jeszcze nie zostały opłacone (<code>oplacone = FALSE</code>).`,
- hint:`<code>WHERE oplacone = FALSE</code>`,
- ans:`SELECT id, stolik, suma\nFROM zamowienia\nWHERE oplacone = FALSE;`},
-
-{id:93,t:"restauracja",c:"SELECT",title:"Najdroższe danie",
- desc:`Z tabeli <code>menu</code> pobierz <code>nazwa_dania</code> i <code>cena</code> dania z najwyższą ceną w całym menu.`,
+{id:86,t:"restauracja",c:"SELECT",title:"Najdroższe danie",
+ desc:`Z tabeli <code>menu</code> pobierz <code>nazwa_dania</code> i <code>cena</code> dania z najwyższą ceną.`,
  hint:`<code>ORDER BY cena DESC LIMIT 1</code>`,
  ans:`SELECT nazwa_dania, cena\nFROM menu\nORDER BY cena DESC\nLIMIT 1;`},
-
-{id:94,t:"restauracja",c:"SELECT",title:"Ile zamówień złożono per stolik?",
+{id:87,t:"restauracja",c:"SELECT",title:"Ile zamówień per stolik?",
  desc:`Z tabeli <code>zamowienia</code> policz ile zamówień złożono na każdym stoliku. Zwróć <code>stolik</code> i <code>liczba_zamowien</code>.`,
  hint:`<code>COUNT(*) AS liczba_zamowien GROUP BY stolik</code>`,
  ans:`SELECT stolik, COUNT(*) AS liczba_zamowien\nFROM zamowienia\nGROUP BY stolik;`},
-
-{id:95,t:"restauracja",c:"SELECT",title:"Suma przychodów dziś",
- desc:`Z tabeli <code>zamowienia</code> oblicz sumę kolumny <code>suma</code> dla opłaconych zamówień złożonych dziś (<code>DATE(data_zamowienia) = CURDATE()</code>). Nazwij wynik <code>przychod_dzis</code>.`,
- hint:`<code>SUM(suma) WHERE oplacone = TRUE AND DATE(data_zamowienia) = CURDATE()</code>`,
- ans:`SELECT SUM(suma) AS przychod_dzis\nFROM zamowienia\nWHERE oplacone = TRUE\n  AND DATE(data_zamowienia) = CURDATE();`},
-
-{id:96,t:"restauracja",c:"SELECT",title:"Unikalne kategorie dań",
- desc:`Z tabeli <code>menu</code> pobierz listę unikalnych kategorii dań (bez powtórzeń).`,
- hint:`<code>SELECT DISTINCT kategoria FROM menu;</code>`,
+{id:88,t:"restauracja",c:"SELECT",title:"Unikalne kategorie dań",
+ desc:`Z tabeli <code>menu</code> pobierz listę unikalnych kategorii dań.`,
+ hint:`<code>SELECT DISTINCT kategoria</code>`,
  ans:`SELECT DISTINCT kategoria\nFROM menu;`},
-
-{id:97,t:"restauracja",c:"UPDATE",title:"Oznacz zamówienie jako opłacone",
+{id:89,t:"restauracja",c:"UPDATE",title:"Oznacz zamówienie jako opłacone",
  desc:`W tabeli <code>zamowienia</code> ustaw <code>oplacone = TRUE</code> dla wiersza z <code>id = 3</code>.`,
- hint:`<code>UPDATE zamowienia SET oplacone = TRUE WHERE id = 3;</code>`,
+ hint:`<code>SET oplacone = TRUE WHERE id = 3;</code>`,
  ans:`UPDATE zamowienia\nSET oplacone = TRUE\nWHERE id = 3;`},
-
-{id:98,t:"restauracja",c:"UPDATE",title:"Wycofaj całą kategorię z menu",
- desc:`W tabeli <code>menu</code> ustaw <code>dostepne = FALSE</code> dla wszystkich dań z kategorii <em>desery</em>.`,
- hint:`<code>WHERE kategoria = 'desery'</code>`,
- ans:`UPDATE menu\nSET dostepne = FALSE\nWHERE kategoria = 'desery';`},
-
-{id:99,t:"restauracja",c:"DELETE",title:"Usuń jedno danie",
+{id:90,t:"restauracja",c:"UPDATE",title:"Zmień cenę jednego dania",
+ desc:`W tabeli <code>menu</code> zmień <code>cena</code> na <em>24.90</em> dla wiersza z <code>id = 7</code>.`,
+ hint:`<code>SET cena = 24.90 WHERE id = 7;</code>`,
+ ans:`UPDATE menu\nSET cena = 24.90\nWHERE id = 7;`},
+{id:91,t:"restauracja",c:"DELETE",title:"Usuń jedno danie",
  desc:`Z tabeli <code>menu</code> usuń wiersz z <code>id = 12</code>.`,
  hint:`<code>DELETE FROM menu WHERE id = 12;</code>`,
  ans:`DELETE FROM menu WHERE id = 12;`},
-
-{id:100,t:"restauracja",c:"DELETE",title:"Usuń stare nieopłacone zamówienia",
- desc:`Z tabeli <code>zamowienia</code> usuń wszystkie nieopłacone zamówienia złożone przed <em>2023-01-01</em>.`,
- hint:`<code>WHERE oplacone = FALSE AND data_zamowienia < '2023-01-01'</code>`,
- ans:`DELETE FROM zamowienia\nWHERE oplacone = FALSE\n  AND data_zamowienia < '2023-01-01';`},
-
-{id:101,t:"restauracja",c:"ALTER",title:"Powiększ pole nazwy dania",
+{id:92,t:"restauracja",c:"ALTER",title:"Powiększ pole nazwy dania",
  desc:`W tabeli <code>menu</code> zmień typ kolumny <code>nazwa_dania</code> z VARCHAR(150) na VARCHAR(250).`,
- hint:`MySQL: <code>MODIFY COLUMN nazwa_dania VARCHAR(250)</code>`,
+ hint:`<code>MODIFY COLUMN nazwa_dania VARCHAR(250)</code>`,
  ans:`ALTER TABLE menu\nMODIFY COLUMN nazwa_dania VARCHAR(250);`},
-
-{id:102,t:"restauracja",c:"DROP",title:"Usuń tabelę promocji",
+{id:93,t:"restauracja",c:"DROP",title:"Usuń tabelę promocji",
  desc:`Usuń tabelę <code>promocje</code> — tylko jeśli istnieje.`,
  hint:`<code>DROP TABLE IF EXISTS promocje;</code>`,
  ans:`DROP TABLE IF EXISTS promocje;`},
 
 /* SKLEP ONLINE */
-{id:103,t:"sklep",c:"CREATE",title:"Tabela produktów",
- desc:`Utwórz tabelę <code>produkty</code>:<br>• <code>id</code> INT — klucz główny, AUTO_INCREMENT<br>• <code>nazwa</code> VARCHAR(200) NOT NULL<br>• <code>ean</code> VARCHAR(13) — musi być unikalny<br>• <code>cena_netto</code> DECIMAL(10,2)<br>• <code>vat</code> TINYINT — domyślnie 23<br>• <code>stan_magazynu</code> INT — domyślnie 0`,
- hint:`EAN — 13-cyfrowy kod kreskowy. TINYINT DEFAULT 23 dla VAT.`,
+{id:94,t:"sklep",c:"CREATE",title:"Tabela produktów",
+ desc:`Utwórz tabelę <code>produkty</code>:<br>• <code>id</code> INT — klucz główny, AUTO_INCREMENT<br>• <code>nazwa</code> VARCHAR(200) NOT NULL<br>• <code>ean</code> VARCHAR(13) — unikalny<br>• <code>cena_netto</code> DECIMAL(10,2)<br>• <code>vat</code> TINYINT — domyślnie 23<br>• <code>stan_magazynu</code> INT — domyślnie 0`,
+ hint:`TINYINT DEFAULT 23`,
  ans:`CREATE TABLE produkty (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  nazwa VARCHAR(200) NOT NULL,\n  ean VARCHAR(13) UNIQUE,\n  cena_netto DECIMAL(10,2),\n  vat TINYINT DEFAULT 23,\n  stan_magazynu INT DEFAULT 0\n);`},
-
-{id:104,t:"sklep",c:"CREATE",title:"Tabela klientów",
- desc:`Utwórz tabelę <code>klienci</code>:<br>• <code>id</code> INT — klucz główny, AUTO_INCREMENT<br>• <code>email</code> VARCHAR(150) NOT NULL — musi być unikalny<br>• <code>imie</code> VARCHAR(60)<br>• <code>nazwisko</code> VARCHAR(80)`,
- hint:`<code>email VARCHAR(150) NOT NULL UNIQUE</code>`,
- ans:`CREATE TABLE klienci (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  email VARCHAR(150) NOT NULL UNIQUE,\n  imie VARCHAR(60),\n  nazwisko VARCHAR(80)\n);`},
-
-{id:105,t:"sklep",c:"INSERT",title:"Dodaj produkt",
- desc:`Do tabeli <code>produkty</code> dodaj wiersz:<br>nazwa = <em>Kawa ziarnista 1kg</em>, ean = <em>5901234567890</em>, cena_netto = <em>45.00</em>, vat = <em>8</em>, stan_magazynu = <em>100</em>`,
- hint:`EAN jako tekst (apostrofy), liczby bez cudzysłowów`,
+{id:95,t:"sklep",c:"INSERT",title:"Dodaj produkt",
+ desc:`Do tabeli <code>produkty</code> dodaj wiersz: nazwa = <em>Kawa ziarnista 1kg</em>, ean = <em>5901234567890</em>, cena_netto = <em>45.00</em>, vat = <em>8</em>, stan_magazynu = <em>100</em>`,
+ hint:`EAN jako tekst`,
  ans:`INSERT INTO produkty (nazwa, ean, cena_netto, vat, stan_magazynu)\nVALUES ('Kawa ziarnista 1kg', '5901234567890', 45.00, 8, 100);`},
-
-{id:106,t:"sklep",c:"INSERT",title:"Zarejestruj klienta",
- desc:`Do tabeli <code>klienci</code> dodaj wiersz:<br>email = <em>jan@example.com</em>, imie = <em>Jan</em>, nazwisko = <em>Kowalski</em>`,
- hint:`Pomiń <code>id</code> — uzupełni się przez AUTO_INCREMENT`,
- ans:`INSERT INTO klienci (email, imie, nazwisko)\nVALUES ('jan@example.com', 'Jan', 'Kowalski');`},
-
-{id:107,t:"sklep",c:"SELECT",title:"Produkty dostępne w magazynie",
- desc:`Z tabeli <code>produkty</code> pobierz <code>nazwa</code> i <code>stan_magazynu</code> produktów, których stan jest większy niż 0. Posortuj malejąco po stanie.`,
+{id:96,t:"sklep",c:"SELECT",title:"Produkty dostępne w magazynie",
+ desc:`Z tabeli <code>produkty</code> pobierz <code>nazwa</code> i <code>stan_magazynu</code> produktów ze stanem większym niż 0. Posortuj malejąco.`,
  hint:`<code>WHERE stan_magazynu > 0 ORDER BY stan_magazynu DESC</code>`,
  ans:`SELECT nazwa, stan_magazynu\nFROM produkty\nWHERE stan_magazynu > 0\nORDER BY stan_magazynu DESC;`},
-
-{id:108,t:"sklep",c:"SELECT",title:"Cena brutto produktów",
- desc:`Z tabeli <code>produkty</code> pobierz <code>nazwa</code> i wyliczoną cenę brutto jako <code>cena_brutto</code>. Wzór: cena_netto × (1 + vat / 100), zaokrąglij do 2 miejsc.`,
+{id:97,t:"sklep",c:"SELECT",title:"Cena brutto produktów",
+ desc:`Z tabeli <code>produkty</code> pobierz <code>nazwa</code> i wyliczoną cenę brutto jako <code>cena_brutto</code>: cena_netto × (1 + vat/100), zaokrągloną do 2 miejsc.`,
  hint:`<code>ROUND(cena_netto * (1 + vat / 100.0), 2) AS cena_brutto</code>`,
  ans:`SELECT nazwa,\n       ROUND(cena_netto * (1 + vat / 100.0), 2) AS cena_brutto\nFROM produkty;`},
-
-{id:109,t:"sklep",c:"SELECT",title:"5 najtańszych produktów",
- desc:`Z tabeli <code>produkty</code> pobierz <code>id</code>, <code>nazwa</code> i <code>cena_netto</code> pierwszych 5 produktów posortowanych rosnąco po cenie netto.`,
+{id:98,t:"sklep",c:"SELECT",title:"5 najtańszych produktów",
+ desc:`Z tabeli <code>produkty</code> pobierz <code>id</code>, <code>nazwa</code>, <code>cena_netto</code> pierwszych 5 produktów posortowanych rosnąco po cenie.`,
  hint:`<code>ORDER BY cena_netto ASC LIMIT 5</code>`,
  ans:`SELECT id, nazwa, cena_netto\nFROM produkty\nORDER BY cena_netto ASC\nLIMIT 5;`},
-
-{id:110,t:"sklep",c:"SELECT",title:"Łączna wartość magazynu",
- desc:`Z tabeli <code>produkty</code> oblicz łączną wartość magazynową: sumę iloczynu cena_netto × stan_magazynu dla wszystkich wierszy. Nazwij wynik <code>wartosc_magazynu</code>.`,
- hint:`<code>SELECT SUM(cena_netto * stan_magazynu) AS wartosc_magazynu FROM produkty;</code>`,
- ans:`SELECT SUM(cena_netto * stan_magazynu) AS wartosc_magazynu\nFROM produkty;`},
-
-{id:111,t:"sklep",c:"SELECT",title:"Produkty w przedziale cenowym",
- desc:`Z tabeli <code>produkty</code> pobierz <code>nazwa</code> i <code>cena_netto</code> produktów, których cena netto jest między <em>20</em> a <em>100</em> zł włącznie.`,
- hint:`<code>WHERE cena_netto BETWEEN 20 AND 100</code>`,
- ans:`SELECT nazwa, cena_netto\nFROM produkty\nWHERE cena_netto BETWEEN 20 AND 100;`},
-
-{id:112,t:"sklep",c:"UPDATE",title:"Zmniejsz stan magazynu",
+{id:99,t:"sklep",c:"SELECT",title:"Produkty droższe niż średnia — podzapytanie",
+ desc:`Z tabeli <code>produkty</code> pobierz <code>nazwa</code> i <code>cena_netto</code> produktów droższych niż średnia cena_netto wszystkich produktów.`,
+ hint:`<code>WHERE cena_netto > (SELECT AVG(cena_netto) FROM produkty)</code>`,
+ ans:`SELECT nazwa, cena_netto\nFROM produkty\nWHERE cena_netto > (SELECT AVG(cena_netto) FROM produkty);`},
+{id:100,t:"sklep",c:"UPDATE",title:"Zmniejsz stan magazynu",
  desc:`W tabeli <code>produkty</code> zmniejsz <code>stan_magazynu</code> o 5 dla wiersza z <code>id = 2</code>.`,
  hint:`<code>SET stan_magazynu = stan_magazynu - 5</code>`,
  ans:`UPDATE produkty\nSET stan_magazynu = stan_magazynu - 5\nWHERE id = 2;`},
-
-{id:113,t:"sklep",c:"UPDATE",title:"Podwyżka cen o 10%",
- desc:`W tabeli <code>produkty</code> zwiększ <code>cena_netto</code> o 10% dla wszystkich produktów z VAT = <em>23</em>.`,
- hint:`<code>SET cena_netto = cena_netto * 1.1 WHERE vat = 23</code>`,
- ans:`UPDATE produkty\nSET cena_netto = cena_netto * 1.1\nWHERE vat = 23;`},
-
-{id:114,t:"sklep",c:"DELETE",title:"Usuń produkty z zerowym stanem",
- desc:`Z tabeli <code>produkty</code> usuń wszystkie wiersze, w których <code>stan_magazynu = 0</code>.`,
- hint:`<code>DELETE FROM produkty WHERE stan_magazynu = 0;</code>`,
+{id:101,t:"sklep",c:"DELETE",title:"Usuń produkty z zerowym stanem",
+ desc:`Z tabeli <code>produkty</code> usuń wiersze, w których <code>stan_magazynu = 0</code>.`,
+ hint:`<code>WHERE stan_magazynu = 0</code>`,
  ans:`DELETE FROM produkty\nWHERE stan_magazynu = 0;`},
-
-{id:115,t:"sklep",c:"DELETE",title:"Usuń klientów bez emaila",
- desc:`Z tabeli <code>klienci</code> usuń wszystkie wiersze, gdzie kolumna <code>email</code> ma wartość NULL.`,
- hint:`<code>WHERE email IS NULL</code>`,
- ans:`DELETE FROM klienci\nWHERE email IS NULL;`},
-
-{id:116,t:"sklep",c:"ALTER",title:"Dodaj kolumnę opis",
+{id:102,t:"sklep",c:"ALTER",title:"Dodaj kolumnę opis",
  desc:`Do tabeli <code>produkty</code> dodaj kolumnę <code>opis</code> typu TEXT.`,
- hint:`<code>ALTER TABLE produkty ADD COLUMN opis TEXT;</code>`,
+ hint:`<code>ADD COLUMN opis TEXT</code>`,
  ans:`ALTER TABLE produkty\nADD COLUMN opis TEXT;`},
-
-{id:117,t:"sklep",c:"ALTER",title:"Zmień nazwę kolumny email",
- desc:`W tabeli <code>klienci</code> zmień nazwę kolumny <code>email</code> na <code>adres_email</code>.`,
- hint:`MySQL 8+: <code>RENAME COLUMN email TO adres_email</code>`,
- ans:`ALTER TABLE klienci\nRENAME COLUMN email TO adres_email;`},
-
-{id:118,t:"sklep",c:"DROP",title:"Usuń tabelę koszyków",
+{id:103,t:"sklep",c:"DROP",title:"Usuń tabelę koszyków",
  desc:`Usuń tabelę <code>koszyki</code> — tylko jeśli istnieje.`,
  hint:`<code>DROP TABLE IF EXISTS koszyki;</code>`,
  ans:`DROP TABLE IF EXISTS koszyki;`},
 
-/* DODATKOWE */
-{id:119,t:"restauracja",c:"UPDATE",title:"Zmień cenę jednego dania",
- desc:`W tabeli <code>menu</code> zmień <code>cena</code> na <em>24.90</em> dla wiersza z <code>id = 7</code>.`,
- hint:`<code>UPDATE menu SET cena = 24.90 WHERE id = 7;</code>`,
- ans:`UPDATE menu\nSET cena = 24.90\nWHERE id = 7;`},
+/* SZKOŁA */
+{id:104,t:"szkola",c:"CREATE",title:"Tabela uczniów",
+ desc:`Utwórz tabelę <code>uczniowie</code>:<br>• <code>id</code> INT — klucz główny, AUTO_INCREMENT<br>• <code>imie</code> VARCHAR(50) NOT NULL<br>• <code>nazwisko</code> VARCHAR(80) NOT NULL<br>• <code>klasa</code> VARCHAR(10)<br>• <code>data_urodzenia</code> DATE`,
+ hint:`Prosta tabela, brak kluczy obcych`,
+ ans:`CREATE TABLE uczniowie (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  imie VARCHAR(50) NOT NULL,\n  nazwisko VARCHAR(80) NOT NULL,\n  klasa VARCHAR(10),\n  data_urodzenia DATE\n);`},
+{id:105,t:"szkola",c:"CREATE",title:"Tabela ocen",
+ desc:`Utwórz tabelę <code>oceny</code>:<br>• <code>id</code> INT — klucz główny, AUTO_INCREMENT<br>• <code>id_ucznia</code> INT — klucz obcy do <em>uczniowie(id)</em><br>• <code>przedmiot</code> VARCHAR(60)<br>• <code>ocena</code> TINYINT<br>• <code>data</code> DATE`,
+ hint:`TINYINT wystarczy na oceny 1-6`,
+ ans:`CREATE TABLE oceny (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  id_ucznia INT,\n  przedmiot VARCHAR(60),\n  ocena TINYINT,\n  data DATE,\n  FOREIGN KEY (id_ucznia) REFERENCES uczniowie(id)\n);`},
+{id:106,t:"szkola",c:"INSERT",title:"Dodaj ucznia",
+ desc:`Do tabeli <code>uczniowie</code> dodaj wiersz: imie = <em>Zosia</em>, nazwisko = <em>Kowalska</em>, klasa = <em>4B</em>`,
+ hint:`Pomiń niepodane kolumny`,
+ ans:`INSERT INTO uczniowie (imie, nazwisko, klasa)\nVALUES ('Zosia', 'Kowalska', '4B');`},
+{id:107,t:"szkola",c:"INSERT",title:"Dodaj ocenę",
+ desc:`Do tabeli <code>oceny</code> dodaj wiersz: id_ucznia = <em>1</em>, przedmiot = <em>matematyka</em>, ocena = <em>5</em>, data = <em>2026-01-15</em>`,
+ hint:`<code>INSERT INTO oceny (...) VALUES (...);</code>`,
+ ans:`INSERT INTO oceny (id_ucznia, przedmiot, ocena, data)\nVALUES (1, 'matematyka', 5, '2026-01-15');`},
+{id:108,t:"szkola",c:"SELECT",title:"Uczniowie z klasy 4B",
+ desc:`Z tabeli <code>uczniowie</code> pobierz <code>imie</code> i <code>nazwisko</code> uczniów z klasy <em>4B</em>.`,
+ hint:`<code>WHERE klasa = '4B'</code>`,
+ ans:`SELECT imie, nazwisko\nFROM uczniowie\nWHERE klasa = '4B';`},
+{id:109,t:"szkola",c:"SELECT",title:"Piątki i szóstki",
+ desc:`Z tabeli <code>oceny</code> pobierz <code>id_ucznia</code>, <code>przedmiot</code>, <code>ocena</code> dla ocen <em>5</em> lub <em>6</em>.`,
+ hint:`<code>WHERE ocena IN (5, 6)</code>`,
+ ans:`SELECT id_ucznia, przedmiot, ocena\nFROM oceny\nWHERE ocena IN (5, 6);`},
+{id:110,t:"szkola",c:"SELECT",title:"Średnia ocen ucznia",
+ desc:`Z tabeli <code>oceny</code> policz średnią ocenę dla każdego ucznia. Zwróć <code>id_ucznia</code> i <code>srednia</code>.`,
+ hint:`<code>AVG(ocena) AS srednia GROUP BY id_ucznia</code>`,
+ ans:`SELECT id_ucznia, AVG(ocena) AS srednia\nFROM oceny\nGROUP BY id_ucznia;`},
+{id:111,t:"szkola",c:"JOIN",title:"Oceny razem z imieniem ucznia",
+ desc:`Połącz tabelę <code>oceny</code> z tabelą <code>uczniowie</code>. Wyświetl <code>imie</code>, <code>nazwisko</code>, <code>przedmiot</code> i <code>ocena</code>.`,
+ hint:`<code>FROM oceny o JOIN uczniowie u ON o.id_ucznia = u.id</code>`,
+ ans:`SELECT u.imie, u.nazwisko, o.przedmiot, o.ocena\nFROM oceny o\nJOIN uczniowie u ON o.id_ucznia = u.id;`},
+{id:112,t:"szkola",c:"UPDATE",title:"Zmień klasę ucznia",
+ desc:`W tabeli <code>uczniowie</code> zmień <code>klasa</code> na <em>5A</em> dla wiersza z <code>id = 8</code>.`,
+ hint:`<code>SET klasa = '5A' WHERE id = 8;</code>`,
+ ans:`UPDATE uczniowie\nSET klasa = '5A'\nWHERE id = 8;`},
+{id:113,t:"szkola",c:"DELETE",title:"Usuń ocenę",
+ desc:`Z tabeli <code>oceny</code> usuń wiersz z <code>id = 20</code>.`,
+ hint:`<code>DELETE FROM oceny WHERE id = 20;</code>`,
+ ans:`DELETE FROM oceny WHERE id = 20;`},
+{id:114,t:"szkola",c:"ALTER",title:"Dodaj kolumnę email rodzica",
+ desc:`Do tabeli <code>uczniowie</code> dodaj kolumnę <code>email_rodzica</code> VARCHAR(150).`,
+ hint:`<code>ADD COLUMN email_rodzica VARCHAR(150)</code>`,
+ ans:`ALTER TABLE uczniowie\nADD COLUMN email_rodzica VARCHAR(150);`},
+{id:115,t:"szkola",c:"DROP",title:"Usuń tabelę obecności",
+ desc:`Usuń tabelę <code>obecnosci</code> — tylko jeśli istnieje.`,
+ hint:`<code>DROP TABLE IF EXISTS obecnosci;</code>`,
+ ans:`DROP TABLE IF EXISTS obecnosci;`},
 
-{id:120,t:"zwierzeta",c:"DROP",title:"Usuń tabelę zwierząt",
- desc:`Usuń tabelę <code>zwierzeta</code> z bazy danych (bez sprawdzania czy istnieje).`,
- hint:`<code>DROP TABLE zwierzeta;</code>`,
- ans:`DROP TABLE zwierzeta;`},
+/* LOTNISKO */
+{id:116,t:"lotnisko",c:"CREATE",title:"Tabela lotów",
+ desc:`Utwórz tabelę <code>loty</code>:<br>• <code>id</code> INT — klucz główny, AUTO_INCREMENT<br>• <code>numer_lotu</code> VARCHAR(10) NOT NULL<br>• <code>miasto_docelowe</code> VARCHAR(80)<br>• <code>godzina_odlotu</code> DATETIME<br>• <code>cena</code> DECIMAL(8,2)`,
+ hint:`DATETIME dla daty i godziny razem`,
+ ans:`CREATE TABLE loty (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  numer_lotu VARCHAR(10) NOT NULL,\n  miasto_docelowe VARCHAR(80),\n  godzina_odlotu DATETIME,\n  cena DECIMAL(8,2)\n);`},
+{id:117,t:"lotnisko",c:"CREATE",title:"Tabela pasażerów",
+ desc:`Utwórz tabelę <code>pasazerowie</code>:<br>• <code>id</code> INT — klucz główny, AUTO_INCREMENT<br>• <code>imie_nazwisko</code> VARCHAR(120) NOT NULL<br>• <code>id_lotu</code> INT — klucz obcy do <em>loty(id)</em><br>• <code>miejsce</code> VARCHAR(4)`,
+ hint:`miejsce np. "14A" — stąd VARCHAR(4)`,
+ ans:`CREATE TABLE pasazerowie (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  imie_nazwisko VARCHAR(120) NOT NULL,\n  id_lotu INT,\n  miejsce VARCHAR(4),\n  FOREIGN KEY (id_lotu) REFERENCES loty(id)\n);`},
+{id:118,t:"lotnisko",c:"INSERT",title:"Dodaj lot",
+ desc:`Do tabeli <code>loty</code> dodaj wiersz: numer_lotu = <em>LO123</em>, miasto_docelowe = <em>Londyn</em>, godzina_odlotu = <em>2026-06-01 08:30:00</em>, cena = <em>450.00</em>`,
+ hint:`Data i godzina razem w apostrofach`,
+ ans:`INSERT INTO loty (numer_lotu, miasto_docelowe, godzina_odlotu, cena)\nVALUES ('LO123', 'Londyn', '2026-06-01 08:30:00', 450.00);`},
+{id:119,t:"lotnisko",c:"SELECT",title:"Loty do Londynu",
+ desc:`Z tabeli <code>loty</code> pobierz <code>numer_lotu</code> i <code>godzina_odlotu</code> lotów do <em>Londyn</em>.`,
+ hint:`<code>WHERE miasto_docelowe = 'Londyn'</code>`,
+ ans:`SELECT numer_lotu, godzina_odlotu\nFROM loty\nWHERE miasto_docelowe = 'Londyn';`},
+{id:120,t:"lotnisko",c:"SELECT",title:"Najtańszy lot",
+ desc:`Z tabeli <code>loty</code> pobierz <code>numer_lotu</code> i <code>cena</code> najtańszego lotu.`,
+ hint:`<code>ORDER BY cena ASC LIMIT 1</code>`,
+ ans:`SELECT numer_lotu, cena\nFROM loty\nORDER BY cena ASC\nLIMIT 1;`},
+{id:121,t:"lotnisko",c:"JOIN",title:"Pasażerowie z numerem lotu",
+ desc:`Połącz tabelę <code>pasazerowie</code> z tabelą <code>loty</code>. Wyświetl <code>imie_nazwisko</code>, <code>miejsce</code> i <code>numer_lotu</code>.`,
+ hint:`<code>FROM pasazerowie p JOIN loty l ON p.id_lotu = l.id</code>`,
+ ans:`SELECT p.imie_nazwisko, p.miejsce, l.numer_lotu\nFROM pasazerowie p\nJOIN loty l ON p.id_lotu = l.id;`},
+{id:122,t:"lotnisko",c:"UPDATE",title:"Zmień cenę lotu",
+ desc:`W tabeli <code>loty</code> zmień <code>cena</code> na <em>399.00</em> dla wiersza z <code>id = 4</code>.`,
+ hint:`<code>SET cena = 399.00 WHERE id = 4;</code>`,
+ ans:`UPDATE loty\nSET cena = 399.00\nWHERE id = 4;`},
+{id:123,t:"lotnisko",c:"DELETE",title:"Usuń pasażera",
+ desc:`Z tabeli <code>pasazerowie</code> usuń wiersz z <code>id = 15</code>.`,
+ hint:`<code>DELETE FROM pasazerowie WHERE id = 15;</code>`,
+ ans:`DELETE FROM pasazerowie WHERE id = 15;`},
+{id:124,t:"lotnisko",c:"ALTER",title:"Dodaj kolumnę status lotu",
+ desc:`Do tabeli <code>loty</code> dodaj kolumnę <code>status</code> VARCHAR(20) z wartością domyślną <em>'planowany'</em>.`,
+ hint:`<code>DEFAULT 'planowany'</code>`,
+ ans:`ALTER TABLE loty\nADD COLUMN status VARCHAR(20) DEFAULT 'planowany';`},
+{id:125,t:"lotnisko",c:"DROP",title:"Usuń tabelę bagaży",
+ desc:`Usuń tabelę <code>bagaze</code> — tylko jeśli istnieje.`,
+ hint:`<code>DROP TABLE IF EXISTS bagaze;</code>`,
+ ans:`DROP TABLE IF EXISTS bagaze;`},
+
+/* SIŁOWNIA */
+{id:126,t:"silownia",c:"CREATE",title:"Tabela członków",
+ desc:`Utwórz tabelę <code>czlonkowie</code>:<br>• <code>id</code> INT — klucz główny, AUTO_INCREMENT<br>• <code>imie</code> VARCHAR(50) NOT NULL<br>• <code>nazwisko</code> VARCHAR(80) NOT NULL<br>• <code>data_dolaczenia</code> DATE<br>• <code>aktywny</code> BOOLEAN — domyślnie TRUE`,
+ hint:`BOOLEAN DEFAULT TRUE`,
+ ans:`CREATE TABLE czlonkowie (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  imie VARCHAR(50) NOT NULL,\n  nazwisko VARCHAR(80) NOT NULL,\n  data_dolaczenia DATE,\n  aktywny BOOLEAN DEFAULT TRUE\n);`},
+{id:127,t:"silownia",c:"CREATE",title:"Tabela treningów",
+ desc:`Utwórz tabelę <code>treningi</code>:<br>• <code>id</code> INT — klucz główny, AUTO_INCREMENT<br>• <code>id_czlonka</code> INT — klucz obcy do <em>czlonkowie(id)</em><br>• <code>typ</code> VARCHAR(50)<br>• <code>data_treningu</code> DATE<br>• <code>czas_min</code> INT`,
+ hint:`czas_min to minuty trwania treningu`,
+ ans:`CREATE TABLE treningi (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  id_czlonka INT,\n  typ VARCHAR(50),\n  data_treningu DATE,\n  czas_min INT,\n  FOREIGN KEY (id_czlonka) REFERENCES czlonkowie(id)\n);`},
+{id:128,t:"silownia",c:"INSERT",title:"Dodaj członka",
+ desc:`Do tabeli <code>czlonkowie</code> dodaj wiersz: imie = <em>Marek</em>, nazwisko = <em>Zieliński</em>, data_dolaczenia = <em>2026-01-10</em>`,
+ hint:`Data w apostrofach`,
+ ans:`INSERT INTO czlonkowie (imie, nazwisko, data_dolaczenia)\nVALUES ('Marek', 'Zieliński', '2026-01-10');`},
+{id:129,t:"silownia",c:"INSERT",title:"Dodaj trening",
+ desc:`Do tabeli <code>treningi</code> dodaj wiersz: id_czlonka = <em>1</em>, typ = <em>siłowy</em>, data_treningu = <em>2026-02-01</em>, czas_min = <em>60</em>`,
+ hint:`<code>INSERT INTO treningi (...) VALUES (...);</code>`,
+ ans:`INSERT INTO treningi (id_czlonka, typ, data_treningu, czas_min)\nVALUES (1, 'siłowy', '2026-02-01', 60);`},
+{id:130,t:"silownia",c:"SELECT",title:"Aktywni członkowie",
+ desc:`Z tabeli <code>czlonkowie</code> pobierz <code>imie</code> i <code>nazwisko</code> aktywnych członków (<code>aktywny = TRUE</code>).`,
+ hint:`<code>WHERE aktywny = TRUE</code>`,
+ ans:`SELECT imie, nazwisko\nFROM czlonkowie\nWHERE aktywny = TRUE;`},
+{id:131,t:"silownia",c:"SELECT",title:"Łączny czas treningów per członek",
+ desc:`Z tabeli <code>treningi</code> policz łączny czas treningów (<code>czas_min</code>) dla każdego członka. Zwróć <code>id_czlonka</code> i <code>suma_minut</code>.`,
+ hint:`<code>SUM(czas_min) AS suma_minut GROUP BY id_czlonka</code>`,
+ ans:`SELECT id_czlonka, SUM(czas_min) AS suma_minut\nFROM treningi\nGROUP BY id_czlonka;`},
+{id:132,t:"silownia",c:"JOIN",title:"Treningi razem z imieniem członka",
+ desc:`Połącz tabelę <code>treningi</code> z tabelą <code>czlonkowie</code>. Wyświetl <code>imie</code>, <code>nazwisko</code>, <code>typ</code> i <code>data_treningu</code>.`,
+ hint:`<code>FROM treningi t JOIN czlonkowie c ON t.id_czlonka = c.id</code>`,
+ ans:`SELECT c.imie, c.nazwisko, t.typ, t.data_treningu\nFROM treningi t\nJOIN czlonkowie c ON t.id_czlonka = c.id;`},
+{id:133,t:"silownia",c:"UPDATE",title:"Dezaktywuj członka",
+ desc:`W tabeli <code>czlonkowie</code> ustaw <code>aktywny = FALSE</code> dla wiersza z <code>id = 9</code>.`,
+ hint:`<code>SET aktywny = FALSE WHERE id = 9;</code>`,
+ ans:`UPDATE czlonkowie\nSET aktywny = FALSE\nWHERE id = 9;`},
+{id:134,t:"silownia",c:"DELETE",title:"Usuń trening",
+ desc:`Z tabeli <code>treningi</code> usuń wiersz z <code>id = 30</code>.`,
+ hint:`<code>DELETE FROM treningi WHERE id = 30;</code>`,
+ ans:`DELETE FROM treningi WHERE id = 30;`},
+{id:135,t:"silownia",c:"ALTER",title:"Dodaj kolumnę numer karnetu",
+ desc:`Do tabeli <code>czlonkowie</code> dodaj kolumnę <code>numer_karnetu</code> VARCHAR(20) — unikalną.`,
+ hint:`<code>ADD COLUMN numer_karnetu VARCHAR(20) UNIQUE</code>`,
+ ans:`ALTER TABLE czlonkowie\nADD COLUMN numer_karnetu VARCHAR(20) UNIQUE;`},
+{id:136,t:"silownia",c:"DROP",title:"Usuń tabelę karnetów",
+ desc:`Usuń tabelę <code>karnety</code> — tylko jeśli istnieje.`,
+ hint:`<code>DROP TABLE IF EXISTS karnety;</code>`,
+ ans:`DROP TABLE IF EXISTS karnety;`},
 ];
 
-/* ── STATE ── */
-const SAVE_KEY='sql_trener_v4';
-let app={mode:'strict',selectedTopics:Object.keys(TOPICS),selectedCmds:[...ALL_CMDS],totalScore:0,totalSolved:0};
+/* ══════════════════════════════════════════════════════
+   STATE
+══════════════════════════════════════════════════════ */
+const SAVE_KEY='sql_trener_v5';
+let app={mode:'strict',apiProvider:'anthropic',apiKey:'',apiBaseUrl:'',apiModel:'',selectedTopics:Object.keys(TOPICS),selectedCmds:[...ALL_CMDS],totalScore:0,totalSolved:0};
 let sess={queue:[],cur:0,score:0,correct:0,streak:0};
 
 function saveApp(){try{localStorage.setItem(SAVE_KEY,JSON.stringify(app))}catch(e){}}
@@ -890,9 +997,10 @@ function initStart(){
   });
   const cg=document.getElementById('cmdGrid');cg.innerHTML='';
   ALL_CMDS.forEach(cmd=>{
+    const cnt=Q.filter(q=>q.c===cmd).length;
     const ch=document.createElement('div');
     ch.className='cmd-chip'+(app.selectedCmds.includes(cmd)?' selected':'');
-    ch.textContent=cmd;
+    ch.textContent=`${cmd} (${cnt})`;
     ch.onclick=()=>{const s=app.selectedCmds;if(s.includes(cmd)){if(s.length>1)s.splice(s.indexOf(cmd),1)}else s.push(cmd);ch.classList.toggle('selected',s.includes(cmd));saveApp()};
     cg.appendChild(ch);
   });
@@ -903,14 +1011,28 @@ function initStart(){
 function updateModeSummary(){
   const el=document.getElementById('modeSummary');if(!el)return;
   if(app.mode==='ai'){
-    el.innerHTML=`<span style="font-size:1.1rem">🤖</span><div><strong>AI – elastyczny</strong><small>akceptuje warianty, wymaga internetu</small></div>`;
+    let keyNote;
+    if(app.apiProvider==='custom'){
+      keyNote=app.apiBaseUrl?'własny endpoint: '+app.apiBaseUrl.replace(/^https?:\/\//,'').slice(0,28):'brak adresu endpointu — uzupełnij w ustawieniach';
+    }else{
+      keyNote=app.apiKey?'Anthropic, własny klucz zapisany':'Anthropic, bez klucza — działa tylko w claude.ai';
+    }
+    el.innerHTML=`<span style="font-size:1.1rem">🤖</span><div><strong>AI – elastyczny</strong><small>${keyNote}</small></div>`;
   }else{
-    el.innerHTML=`<span style="font-size:1.1rem">📴</span><div><strong>Offline – normalizacja</strong><small>działa bez internetu, ignoruje kolejność</small></div>`;
+    el.innerHTML=`<span style="font-size:1.1rem">📴</span><div><strong>Offline – analiza struktury</strong><small>działa zawsze, bez internetu</small></div>`;
   }
 }
 
 /* ── MODE ── */
-function showModeScreen(){refreshModeCards();showScreen('modeScreen')}
+function showModeScreen(){
+  document.getElementById('apiProvider').value=app.apiProvider||'anthropic';
+  document.getElementById('apiKey').value=app.apiKey||'';
+  document.getElementById('apiBaseUrl').value=app.apiBaseUrl||'';
+  document.getElementById('apiModel').value=app.apiModel||'';
+  document.getElementById('customUrlRow').style.display=(app.apiProvider==='custom')?'block':'none';
+  refreshModeCards();
+  showScreen('modeScreen');
+}
 function refreshModeCards(){
   ['ai','strict'].forEach(m=>{
     const card=document.getElementById(m==='ai'?'modeCardAI':'modeCardStrict');
@@ -918,9 +1040,40 @@ function refreshModeCards(){
     card.classList.toggle('selected',app.mode===m);
     check.textContent=app.mode===m?'✓':'';
   });
+  document.getElementById('keyPanel').classList.toggle('show',app.mode==='ai');
 }
 function pickMode(m){app.mode=m;refreshModeCards()}
+function onProviderChange(){
+  app.apiProvider=document.getElementById('apiProvider').value;
+  document.getElementById('customUrlRow').style.display=(app.apiProvider==='custom')?'block':'none';
+  saveApp();
+}
+function onKeyChange(){app.apiKey=document.getElementById('apiKey').value.trim();saveApp()}
+function onBaseUrlChange(){app.apiBaseUrl=document.getElementById('apiBaseUrl').value.trim().replace(/\/+$/,'');saveApp()}
+function onModelChange(){app.apiModel=document.getElementById('apiModel').value.trim();saveApp()}
 function confirmMode(){saveApp();updateModeSummary();showScreen('startScreen')}
+
+/* ── GUIDE ── */
+function renderGuide(){
+  const body=document.getElementById('guideBody');
+  body.innerHTML=GUIDE.map(g=>`
+    <div class="guide-card">
+      <div class="guide-card-head">
+        <span class="q-cmd-badge ${g.color}" style="margin-top:0">${g.cmd}</span>
+        <h3>${g.cmd}</h3>
+      </div>
+      <div class="guide-explain">${g.explain}</div>
+      <div class="guide-pattern-label">Wzorzec</div>
+      <div class="guide-pattern">${esc(g.pattern)}</div>
+      ${g.examples.map(ex=>`
+        <div class="guide-example-label">Przykład</div>
+        <div class="guide-example-code">${esc(ex.code)}</div>
+        <div class="guide-example-note">${ex.note}</div>
+      `).join('')}
+      <div class="guide-tip">💡 ${g.tip}</div>
+    </div>
+  `).join('');
+}
 
 /* ── QUIZ ── */
 function startQuiz(){
@@ -956,6 +1109,7 @@ function renderQ(){
         <div class="feedback-box" id="fbBox"></div>
         <div class="action-row">
           <button class="btn-hint-sm" onclick="toggleHint()">💡 Podpowiedź</button>
+          <button class="btn-reveal-sm" onclick="showAnswer()">👁️ Odpowiedź</button>
           <button class="btn-check" id="btnCheck" onclick="checkAnswer()">Sprawdź →</button>
           <button class="btn-next" id="btnNext" onclick="nextQ()">Dalej →</button>
         </div>
@@ -968,6 +1122,17 @@ function renderQ(){
 }
 
 function toggleHint(){document.getElementById('hintBox').classList.toggle('show')}
+
+function showAnswer(){
+  const q=sess.queue[sess.cur];
+  const fb=document.getElementById('fbBox');
+  fb.className='feedback-box show fb-reveal';
+  fb.innerHTML=`<div class="fb-title">👁️ Podgląd odpowiedzi</div>Ta odpowiedź nie liczy się jako poprawna — to podgląd, żeby zobaczyć wzorzec.<div class="fb-answer-label">WZORZEC:</div><div class="fb-answer">${esc(q.ans)}</div>`;
+  document.getElementById('btnCheck').disabled=true;
+  document.getElementById('btnNext').classList.add('show');
+  sess.streak=0;document.getElementById('qStreakLabel').textContent='Seria: 0';
+  document.getElementById('streakStrip').style.display='none';
+}
 
 async function checkAnswer(){
   const q=sess.queue[sess.cur];
@@ -997,7 +1162,7 @@ function applyResult(r,q,inp,fb,bC,bN){
   }else{
     inp.className='sql-textarea st-err';
     fb.className='feedback-box show fb-err';
-    fb.innerHTML=`<div class="fb-title">❌ Nie tym razem</div>${r.msg}${r.tip?`<div class="fb-tip">💡 ${r.tip}</div>`:''}<div class="fb-answer-label">WZORZEC ODPOWIEDZI:</div><div class="fb-answer">${esc(q.ans)}</div>`;
+    fb.innerHTML=`<div class="fb-title">❌ Nie tym razem</div>${r.msg}${r.tip?`<div class="fb-tip">💡 ${r.tip}</div>`:''}`;
     sess.streak=0;document.getElementById('qStreakLabel').textContent='Seria: 0';
     document.getElementById('streakStrip').style.display='none';bC.disabled=false;
   }
@@ -1017,89 +1182,268 @@ function showResults(){
 }
 
 /* ══════════════════════════════════════════════════════
-   EVAL OFFLINE — inteligentna normalizacja
-   Akceptuje: różne białe znaki, wielkość liter,
-   kolejność kolumn, drobne różnice w aliasach.
-   Porównanie przez podobieństwo tokenów (Jaccard).
+   EVAL OFFLINE — v2: rozbicie na klauzule
+   Zamiast porównywać całe zapytanie jako worek słów,
+   rozbijamy je na klauzule (SELECT/FROM/WHERE/JOIN/ON/...)
+   i porównujemy je osobno. To eliminuje większość
+   fałszywych trafień i fałszywych odrzuceń z poprzedniej wersji.
 ══════════════════════════════════════════════════════ */
+const CLAUSE_KEYS=['create table','drop table','alter table','insert into','delete from',
+  'left join','right join','inner join','group by','order by','add column','drop column',
+  'modify column','rename column','add index','select','update','values','where','having',
+  'limit','set','join','on','from'];
+
+function buildClauseRegex(){
+  const sorted=[...CLAUSE_KEYS].sort((a,b)=>b.length-a.length);
+  const pat=sorted.map(k=>k.replace(/ /g,'\\s+')).join('|');
+  return new RegExp('\\b('+pat+')\\b','g');
+}
+function extractClauses(sql){
+  const re=buildClauseRegex();
+  const marks=[];let m;
+  while((m=re.exec(sql))){marks.push({kw:m[1].replace(/\s+/g,' '),start:m.index,end:re.lastIndex})}
+  const map={};
+  for(let i=0;i<marks.length;i++){
+    const end=i+1<marks.length?marks[i+1].start:sql.length;
+    const content=sql.slice(marks[i].end,end).trim();
+    (map[marks[i].kw]=map[marks[i].kw]||[]).push(content);
+  }
+  return map;
+}
+function splitTopLevel(str,sepRegex){
+  const parts=[];let depth=0,cur='';
+  for(let i=0;i<str.length;i++){
+    const ch=str[i];
+    if(ch==='(')depth++;
+    if(ch===')')depth--;
+    if(depth===0&&sepRegex.test(str.slice(i))){
+      const match=str.slice(i).match(sepRegex);
+      if(match&&match.index===0){parts.push(cur.trim());cur='';i+=match[0].length-1;continue}
+    }
+    cur+=ch;
+  }
+  if(cur.trim())parts.push(cur.trim());
+  return parts.filter(Boolean);
+}
+function splitComma(str){return splitTopLevel(str,/^,/)}
+function splitAnd(str){return splitTopLevel(str,/^\s*and\s+/)}
+function tokenSort(str){return str.split(/\s+/).filter(Boolean).sort().join(' ')}
+function multisetEq(a,b){if(a.length!==b.length)return false;const sa=[...a].sort(),sb=[...b].sort();return sa.every((v,i)=>v===sb[i])}
+function stripAliasTok(tok){return tok.replace(/\b[a-z_][a-z0-9_]*\./g,'')}
+// strip "alias." prefix from EVERY word in the string, then sort tokens
+function stripAlias(str){return str.split(/\s+/).map(stripAliasTok).join(' ')}
+function tokenSortStripAlias(str){return str.split(/\s+/).filter(Boolean).map(stripAliasTok).sort().join(' ')}
+function firstWord(str){return (str.trim().split(/\s+/)[0]||'').replace(/[();,]/g,'')}
+
 function evalOffline(q,raw){
-  const norm=s=>s
-    .toLowerCase()
+  const norm=s=>s.toLowerCase()
     .replace(/\s+/g,' ')
-    .replace(/\s*,\s*/g,',')
+    .replace(/\s*,\s*/g,', ')
     .replace(/\s*\(\s*/g,'(')
     .replace(/\s*\)\s*/g,')')
+    .replace(/\s*(<=|>=|<>|!=|=|<|>)\s*/g,' $1 ')
+    .replace(/\s+/g,' ')
     .replace(/;$/,'')
     .trim();
 
   const u=norm(raw),a=norm(q.ans);
   if(u===a)return{ok:true,msg:'Idealne dopasowanie!',tip:''};
 
-  // Sprawdź czy zaczyna się od właściwej komendy
-  const cmd=q.c.toLowerCase();
+  const cmd=q.c==='JOIN'?'select':q.c.toLowerCase();
   if(!u.startsWith(cmd))
-    return{ok:false,msg:`Zapytanie powinno zaczynać się od <code>${q.c}</code>.`,tip:''};
+    return{ok:false,msg:`Zapytanie powinno zaczynać się od <code>${cmd.toUpperCase()}</code>.`,tip:''};
 
-  // Zbuduj zbiory tokenów
-  const toSet=s=>new Set(
-    s.replace(/[()]/g,' ')
-     .split(/[\s,]+/)
-     .map(t=>t.replace(/['"]/g,'').trim())
-     .filter(t=>t.length>0)
-  );
-  const uSet=toSet(u),aSet=toSet(a);
+  const uMap=extractClauses(u),aMap=extractClauses(a);
 
-  // Podobieństwo Jaccard
-  const inter=[...aSet].filter(t=>uSet.has(t)).length;
-  const union=new Set([...aSet,...uSet]).size;
-  const sim=inter/union;
+  // brakujące klauzule wymagane przez wzorzec
+  const missingClauses=Object.keys(aMap).filter(k=>!uMap[k]);
+  if(missingClauses.length){
+    return{ok:false,msg:`W zapytaniu brakuje klauzuli: <code>${missingClauses[0].toUpperCase()}</code>.`,tip:''};
+  }
 
-  // Bardzo podobne — akceptuj
-  if(sim>=0.82)return{ok:true,msg:'Poprawnie! Kolejność kolumn lub drobna różnica w składni — zapytanie jest równoważne.',tip:'Konwencja: w CREATE TABLE kolumny podaje się: PK → NOT NULL → opcjonalne.'};
+  const problems=[];
 
-  // Wskaż czego brakuje / co jest błędne
-  const SQL_KW=new Set(['select','from','where','insert','into','values','update','set','delete',
-    'create','table','drop','alter','add','modify','rename','column','index','primary','key',
-    'foreign','references','not','null','unique','default','auto_increment','join','left','right',
-    'inner','on','group','by','having','order','asc','desc','limit','distinct','as','and','or',
-    'is','in','like','between','if','exists','count','sum','avg','min','max','round','year',
-    'date','datetime','varchar','char','int','tinyint','decimal','boolean','text','true','false',
-    'current_timestamp','curdate','current_date','serial','now']);
+  for(const kw of Object.keys(aMap)){
+    const aContents=aMap[kw], uContents=uMap[kw]||[];
+    // porównujemy zawartości jako multiset (kolejność wielu JOIN/ON nie ma znaczenia)
+    const cmpOne=(uc,ac)=>{
+      if(['select','group by','order by'].includes(kw)){
+        const aItems=splitComma(ac).map(tokenSortStripAlias);
+        const uItems=splitComma(uc).map(tokenSortStripAlias);
+        return multisetEq(aItems,uItems);
+      }
+      if(kw==='from'||kw==='update'||kw==='delete from'||kw==='alter table'||kw==='drop table'||kw==='join'||kw==='left join'||kw==='right join'||kw==='inner join'){
+        return firstWord(uc)===firstWord(ac);
+      }
+      if(kw==='insert into'){
+        // "tabela (kol1, kol2)"
+        const aTab=firstWord(ac),uTab=firstWord(uc);
+        const aCols=(ac.match(/\(([^)]*)\)/)||['',''])[1];
+        const uCols=(uc.match(/\(([^)]*)\)/)||['',''])[1];
+        return aTab===uTab && multisetEq(splitComma(aCols).map(tokenSort),splitComma(uCols).map(tokenSort));
+      }
+      if(kw==='values'){
+        const aTuples=splitComma(ac).map(t=>tokenSort(t.replace(/[()]/g,' ')));
+        const uTuples=splitComma(uc).map(t=>tokenSort(t.replace(/[()]/g,' ')));
+        return multisetEq(aTuples,uTuples);
+      }
+      if(kw==='set'){
+        const aAssign=splitComma(ac).map(x=>x.replace(/\s*=\s*/,'=').trim());
+        const uAssign=splitComma(uc).map(x=>x.replace(/\s*=\s*/,'=').trim());
+        return multisetEq(aAssign,uAssign);
+      }
+      if(kw==='where'||kw==='having'){
+        // WHERE/HAVING rarely compare two aliased columns to each other,
+        // so alias-stripping here is safe and helps with alias-letter differences.
+        const aPred=splitAnd(ac).map(tokenSortStripAlias);
+        const uPred=splitAnd(uc).map(tokenSortStripAlias);
+        return multisetEq(aPred,uPred);
+      }
+      if(kw==='on'){
+        // ON compares two aliased columns to each other (e.g. z.id = o.id) —
+        // stripping aliases from BOTH sides would make "z.id=o.id" indistinguishable
+        // from the wrong "z.id=z.id", hiding real errors. Instead, remap each
+        // alias in the user's query to whichever alias plays the "same role"
+        // in the answer (by matching alias->table declared in FROM/JOIN),
+        // and only THEN compare — this still tolerates different alias letters
+        // while still catching a genuinely wrong join column.
+        const aliasMapFor=(fullSql)=>{
+          const map={};
+          const re=/\b(?:from|join|left join|right join|inner join)\s+([a-z_][a-z0-9_]*)\s+([a-z_][a-z0-9_]*)\b/g;
+          let mm;
+          while((mm=re.exec(fullSql))){ map[mm[2]]=mm[1]; } // alias -> table
+          return map;
+        };
+        const aAliasMap=aliasMapFor(a), uAliasMap=aliasMapFor(u);
+        const remapToTable=(tok,map)=>{
+          const parts=tok.split('.');
+          if(parts.length===2 && map[parts[0]]) return map[parts[0]]+'.'+parts[1];
+          return tok;
+        };
+        const canon=(str,map)=>tokenSort(str.split(/\s+/).map(t=>remapToTable(t,map)).join(' '));
+        const aPred=splitAnd(ac).map(x=>canon(x,aAliasMap));
+        const uPred=splitAnd(uc).map(x=>canon(x,uAliasMap));
+        return multisetEq(aPred,uPred);
+      }
+      if(kw==='create table'){
+        const aTab=firstWord(ac),uTab=firstWord(uc);
+        const aInner=(ac.match(/\(([\s\S]*)\)/)||['',''])[1];
+        const uInner=(uc.match(/\(([\s\S]*)\)/)||['',''])[1];
+        const aDefs=splitComma(aInner).map(tokenSort);
+        const uDefs=splitComma(uInner).map(tokenSort);
+        return aTab===uTab && multisetEq(aDefs,uDefs);
+      }
+      // add column / drop column / modify column / rename column / add index / limit — porównanie tokenów posortowanych
+      return tokenSort(uc)===tokenSort(ac);
+    };
 
-  const aIdents=[...aSet].filter(t=>!SQL_KW.has(t)&&/^[a-z_0-9.'%\-]+$/.test(t));
-  const missing=aIdents.filter(t=>!uSet.has(t));
-  const uIdents=[...uSet].filter(t=>!SQL_KW.has(t)&&/^[a-z_0-9.'%\-]+$/.test(t));
-  const extra=uIdents.filter(t=>!aSet.has(t));
+    // multiset porównanie kilku wystąpień tej samej klauzuli (np. dwa JOIN)
+    if(aContents.length!==uContents.length){
+      problems.push(kw);
+      continue;
+    }
+    const usedIdx=new Set();
+    let allMatched=true;
+    for(const ac of aContents){
+      let found=false;
+      for(let i=0;i<uContents.length;i++){
+        if(usedIdx.has(i))continue;
+        if(cmpOne(uContents[i],ac)){usedIdx.add(i);found=true;break}
+      }
+      if(!found){allMatched=false;break}
+    }
+    if(!allMatched)problems.push(kw);
+  }
 
-  const msgs=[];
-  if(missing.length)msgs.push(`Brakuje: <code>${missing.slice(0,3).join(', ')}</code>`);
-  if(extra.length)msgs.push(`Niepotrzebne lub błędne: <code>${extra.slice(0,2).join(', ')}</code>`);
-  if(!msgs.length)msgs.push('Sprawdź typy danych, ograniczenia (NOT NULL, UNIQUE) lub wartości');
-  return{ok:false,msg:msgs.join(' · '),tip:''};
+  if(!problems.length){
+    return{ok:true,msg:'Poprawnie! Struktura zapytania zgadza się ze wzorcem.',tip:''};
+  }
+
+  // Loose fallback: jeśli mimo wykrytych różnic ogólne podobieństwo tekstu jest bardzo wysokie, i tak zaliczamy
+  const bag=s=>new Set(s.replace(/[(),;]/g,' ').split(/\s+/).filter(Boolean));
+  const uBag=bag(u),aBag=bag(a);
+  const inter=[...aBag].filter(x=>uBag.has(x)).length;
+  const union=new Set([...aBag,...uBag]).size;
+  const sim=union?inter/union:1;
+  if(sim>=0.9){
+    return{ok:true,msg:'Poprawnie! Drobne różnice w zapisie, ale zapytanie jest równoważne.',tip:''};
+  }
+
+  const KW_LABELS={'select':'kolumny w SELECT','from':'tabela we FROM','where':'warunek WHERE',
+    'group by':'GROUP BY','having':'HAVING','order by':'ORDER BY','limit':'LIMIT',
+    'insert into':'tabela/kolumny w INSERT INTO','values':'wartości w VALUES','update':'tabela w UPDATE',
+    'set':'przypisania w SET','delete from':'tabela w DELETE FROM','create table':'definicja tabeli',
+    'alter table':'tabela w ALTER TABLE','drop table':'tabela w DROP TABLE','add column':'ADD COLUMN',
+    'drop column':'DROP COLUMN','modify column':'MODIFY COLUMN','rename column':'RENAME COLUMN',
+    'add index':'ADD INDEX','join':'tabela w JOIN','left join':'tabela w LEFT JOIN',
+    'right join':'tabela w RIGHT JOIN','inner join':'tabela w INNER JOIN','on':'warunek ON'};
+  const labels=problems.map(p=>KW_LABELS[p]||p).slice(0,2);
+  return{ok:false,msg:`Sprawdź: ${labels.join(', ')}. Kliknij 👁️ Odpowiedź, żeby zobaczyć wzorzec.`,tip:''};
 }
 
-/* ── EVAL AI ── */
+/* ══════════════════════════════════════════════════════
+   EVAL AI — Anthropic (darmowe wewnątrz claude.ai) albo
+   własny endpoint zgodny z OpenAI /chat/completions
+   (np. darmowy router typu Requesty/OpenRouter).
+   Celowo NIE ma tu wpisanego na sztywno żadnego płatnego
+   dostawcy (np. api.openai.com) — użytkownik sam podaje
+   adres, więc nikt nie zostanie wciągnięty w koszty
+   przez pomyłkę.
+══════════════════════════════════════════════════════ */
 async function evalAI(q,user){
-  const prompt=`Jesteś nauczycielem SQL. Oceń odpowiedź studenta.
+  const key=(app.apiKey||'').trim();
+  const provider=app.apiProvider||'anthropic';
+  const baseUrl=(app.apiBaseUrl||'').trim();
+  const model=(app.apiModel||'').trim();
+  const promptText=`Jesteś nauczycielem SQL. Oceń odpowiedź studenta.
 ZADANIE: ${q.desc.replace(/<[^>]+>/g,'')}
 WZORZEC:\n${q.ans}
 ODPOWIEDŹ STUDENTA:\n${user}
 Oceń ELASTYCZNIE: akceptuj różne warianty składni, aliasy, inną kolejność klauzul lub kolumn, SERIAL zamiast AUTO_INCREMENT itp.
-Odpowiedz TYLKO jako JSON bez markdown: {"ok":true/false,"msg":"po polsku max 2 zdania wyjaśnienia","tip":"1 krótka wskazówka lub pusty string"}`;
+Odpowiedz TYLKO jako czysty JSON bez markdown: {"ok":true/false,"msg":"po polsku max 2 zdania wyjaśnienia","tip":"1 krótka wskazówka lub pusty string"}`;
+
   try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:300,messages:[{role:'user',content:prompt}]})});
-    const data=await res.json();
-    const text=(data.content?.[0]?.text||'').replace(/```json|```/g,'').trim();
-    const p=JSON.parse(text);
-    return{ok:p.ok,msg:p.msg||'',tip:p.tip||''};
+    if(provider==='custom'){
+      if(!baseUrl){
+        return{ok:false,msg:'Podaj adres API (base URL) w ustawieniach trybu — np. darmowy router zgodny z OpenAI. Albo przełącz się na tryb <strong>Offline</strong>.',tip:''};
+      }
+      const headers={'Content-Type':'application/json'};
+      if(key)headers['Authorization']='Bearer '+key;
+      const res=await fetch(baseUrl.replace(/\/$/,'')+'/chat/completions',{
+        method:'POST',headers,
+        body:JSON.stringify({model:model||'gpt-4o-mini',messages:[{role:'user',content:promptText}]})
+      });
+      const data=await res.json();
+      if(!res.ok)throw new Error(data.error?.message||data.error||'Błąd zapytania do endpointu');
+      let text=data.choices?.[0]?.message?.content||'{}';
+      text=text.replace(/```json|```/g,'').trim();
+      const p=JSON.parse(text);
+      return{ok:!!p.ok,msg:p.msg||'',tip:p.tip||''};
+    }else{
+      const headers={'Content-Type':'application/json','anthropic-version':'2023-06-01'};
+      if(key){headers['x-api-key']=key;headers['anthropic-dangerous-direct-browser-access']='true'}
+      const res=await fetch('https://api.anthropic.com/v1/messages',{
+        method:'POST',headers,
+        body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:300,messages:[{role:'user',content:promptText}]})
+      });
+      const data=await res.json();
+      if(!res.ok)throw new Error(data.error?.message||'Błąd Anthropic');
+      const text=(data.content?.[0]?.text||'').replace(/```json|```/g,'').trim();
+      const p=JSON.parse(text);
+      return{ok:!!p.ok,msg:p.msg||'',tip:p.tip||''};
+    }
   }catch(e){
-    return{ok:false,msg:'Błąd połączenia z AI. Przełącz na tryb <strong>Offline</strong> w ustawieniach lub sprawdź połączenie z internetem.',tip:''};
+    if(provider==='anthropic'&&!key){
+      return{ok:false,msg:'Brak klucza — poza claude.ai ten tryb wymaga albo klucza Anthropic, albo przełączenia na "Własny endpoint" z darmowym adresem API. Możesz też użyć trybu <strong>Offline</strong>.',tip:''};
+    }
+    return{ok:false,msg:`Błąd połączenia: ${esc(String(e.message||e))}. Sprawdź adres/klucz w ustawieniach trybu albo użyj trybu Offline.`,tip:''};
   }
 }
 
 function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
 
 initStart();
+renderGuide();
 </script>
 </body>
 </html>
