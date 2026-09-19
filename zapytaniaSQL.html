@@ -135,7 +135,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:1
 .q-desc{font-size:.93rem;line-height:1.75;color:var(--text);margin-bottom:13px}
 .q-desc code{font-family:var(--mono);font-size:.78rem;background:var(--surface2);padding:1px 6px;border-radius:4px;color:#2d2d22;white-space:nowrap}
 .q-desc em{font-style:normal;font-weight:700;color:var(--accent)}
-.sql-textarea{width:100%;font-family:var(--mono);font-size:.82rem;background:var(--surface2);border:1.5px solid var(--border);border-radius:8px;padding:11px 13px;color:var(--text);resize:vertical;min-height:70px;line-height:1.65;outline:none;transition:border-color .15s,background .15s;}
+.sql-textarea{width:100%;font-family:var(--mono);font-size:.82rem;background:var(--surface2);border:1.5px solid var(--border);border-radius:8px;padding:11px 13px;color:var(--text);resize:vertical;min-height:70px;line-height:1.65;outline:none;transition:border-color .15s,background .15s}
 .sql-textarea:focus{border-color:var(--accent);background:#fff}
 .sql-textarea.st-ok{border-color:#22c55e;background:#f0fdf4}
 .sql-textarea.st-err{border-color:var(--red);background:var(--red-bg)}
@@ -153,6 +153,19 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:1
 .spinner{width:13px;height:13px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .hint-box{display:none;background:var(--amber-bg);border:1px solid #f0cc80;border-radius:8px;padding:9px 13px;margin-top:9px;font-size:.82rem;line-height:1.6;color:#6b3a00}
+.schema-toggle{display:flex;align-items:center;justify-content:space-between;width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:9px 12px;margin-bottom:12px;cursor:pointer;font-size:.8rem;font-weight:600;color:var(--text);font-family:var(--sans)}
+.schema-toggle:hover{border-color:var(--border2)}
+.schema-toggle .chev{transition:transform .15s;color:var(--muted)}
+.schema-toggle.open .chev{transform:rotate(180deg)}
+.schema-panel{display:none;margin-bottom:13px}
+.schema-panel.open{display:block;animation:slideIn .15s ease}
+.schema-table{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;margin-bottom:8px}
+.schema-table:last-child{margin-bottom:0}
+.schema-table-name{font-family:var(--mono);font-size:.78rem;font-weight:700;color:var(--accent);margin-bottom:6px}
+.schema-col-row{display:grid;grid-template-columns:auto auto 1fr;gap:8px;font-family:var(--mono);font-size:.71rem;line-height:1.8;align-items:baseline}
+.schema-col-name{color:var(--text);font-weight:600}
+.schema-col-type{color:#0369a1}
+.schema-col-note{color:var(--muted);font-family:var(--sans);font-size:.72rem}
 .hint-box.show{display:block;animation:slideIn .15s ease}
 .hint-box code{font-family:var(--mono);font-size:.75rem}
 .feedback-box{border-radius:8px;padding:11px 14px;margin-top:10px;font-size:.85rem;line-height:1.6;display:none}
@@ -229,23 +242,28 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:1
           <div class="key-row">
             <select class="key-select" id="apiProvider" onchange="onProviderChange()">
               <option value="anthropic">Anthropic (bez klucza w claude.ai)</option>
-              <option value="custom">Własny endpoint (darmowy router / lokalny model)</option>
+              <option value="gemini">Google Gemini (darmowy limit)</option>
+              <option value="custom">Własny endpoint zgodny z OpenAI</option>
             </select>
+          </div>
+          <div id="geminiRow" style="display:none;margin-bottom:10px">
+            <label>Model Gemini</label>
+            <input class="key-input" id="geminiModel" type="text" placeholder="gemini-flash-latest" style="width:100%" onchange="onModelChange()" onclick="event.stopPropagation()">
           </div>
           <div id="customUrlRow" style="display:none;margin-bottom:10px">
             <label>Adres API (base URL, zgodny z OpenAI)</label>
-            <input class="key-input" id="apiBaseUrl" type="text" placeholder="https://router.requesty.ai/v1" style="width:100%;margin-bottom:8px" onchange="onBaseUrlChange()" onclick="event.stopPropagation()">
+            <input class="key-input" id="apiBaseUrl" type="text" placeholder="np. https://router.requesty.ai/v1" style="width:100%;margin-bottom:8px" onchange="onBaseUrlChange()" onclick="event.stopPropagation()">
             <label>Model</label>
-            <input class="key-input" id="apiModel" type="text" placeholder="google/gemma-4-31b-it" style="width:100%" onchange="onModelChange()" onclick="event.stopPropagation()">
+            <input class="key-input" id="apiModel" type="text" placeholder="np. gpt-4o-mini albo nazwa darmowego modelu" style="width:100%" onchange="onModelChange()" onclick="event.stopPropagation()">
           </div>
-          <label>Klucz API (opcjonalnie, jeśli endpoint go wymaga)</label>
+          <label id="apiKeyLabel">Klucz API (opcjonalnie, jeśli endpoint go wymaga)</label>
           <div class="key-row">
             <input class="key-input" id="apiKey" type="password" placeholder="Wklej klucz — zostaw puste, jeśli endpoint go nie wymaga" onchange="onKeyChange()" onclick="event.stopPropagation()">
           </div>
           <div class="key-note">
             Wewnątrz claude.ai z ustawieniem "Anthropic" klucz <strong>nie jest potrzebny</strong> — działa automatycznie i za darmo.<br>
-            Poza claude.ai wybierz "Własny endpoint" i podaj adres darmowego routera (np. Requesty, OpenRouter z darmowym modelem) — klucz zapisze się tylko w Twojej przeglądarce (localStorage) i będzie wysyłany bezpośrednio do podanego adresu, nigdy nigdzie indziej.<br>
-            ⚠️ Ta aplikacja nie oferuje płatnych dostawców (np. bezpośrednio OpenAI) — nie wpisuj tu klucza, za który sam płacisz od zapytania, żeby przypadkiem nie narazić się na koszty. Szukaj darmowych routerów/modeli.
+            Poza claude.ai wybierz "Google Gemini" (ma darmowy limit zapytań, klucz z <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com</a>) albo "Własny endpoint" z adresem darmowego routera. Klucz zapisze się tylko w Twojej przeglądarce (localStorage) i będzie wysyłany bezpośrednio do wybranego dostawcy, nigdy nigdzie indziej.<br>
+            ⚠️ Ta aplikacja nie oferuje płatnych dostawców (np. bezpośrednio OpenAI) — nie wpisuj tu klucza, za który sam płacisz od zapytania. Trzymaj się darmowych limitów.
           </div>
         </div>
       </div>
@@ -324,6 +342,166 @@ const TOPICS={
   silownia:{name:"Siłownia",emoji:"🏋️"},
 };
 const ALL_CMDS=["CREATE","DROP","ALTER","INSERT","DELETE","UPDATE","SELECT","JOIN"];
+
+/* ══════════════════════════════════════════════════════
+   SCHEMATY TABEL — pełny widok kolumn/typów/kluczy dla
+   każdego tematu. Pokazywane w zwijanym panelu przy
+   każdym zadaniu, żeby było wiadomo jakie kolumny istnieją
+   (wspólne klucze do JOIN, nazwy do AVG/SUM itd.) nawet
+   zanim dana tabela pojawi się w konkretnym pytaniu.
+══════════════════════════════════════════════════════ */
+const SCHEMAS={
+  zwierzeta:[
+    {table:"zwierzeta",cols:[
+      ["id","INT","PK, AUTO_INCREMENT"],
+      ["imie","VARCHAR(50)","NOT NULL"],
+      ["gatunek","VARCHAR(100)",""],
+      ["id_opiekuna","INT","FK → opiekunowie(id)"],
+      ["data_urodzenia","DATE",""],
+    ]},
+    {table:"opiekunowie",cols:[
+      ["id","INT","PK, AUTO_INCREMENT"],
+      ["imie","VARCHAR(60)","NOT NULL"],
+      ["nazwisko","VARCHAR(80)","NOT NULL"],
+      ["email","VARCHAR(120)","UNIQUE"],
+    ]},
+  ],
+  ekstraklasa:[
+    {table:"kluby",cols:[
+      ["id","INT","PK, AUTO_INCREMENT"],
+      ["nazwa","VARCHAR(100)","NOT NULL, UNIQUE"],
+      ["miasto","VARCHAR(80)",""],
+      ["rok_zalozenia","INT",""],
+    ]},
+    {table:"zawodnicy",cols:[
+      ["id","INT","PK, AUTO_INCREMENT"],
+      ["imie_nazwisko","VARCHAR(120)","NOT NULL"],
+      ["pozycja","VARCHAR(30)",""],
+      ["id_klubu","INT","FK → kluby(id)"],
+      ["numer","TINYINT",""],
+    ]},
+  ],
+  samochody:[
+    {table:"auta",cols:[
+      ["id","INT","PK, AUTO_INCREMENT"],
+      ["marka","VARCHAR(60)","NOT NULL"],
+      ["model","VARCHAR(80)","NOT NULL"],
+      ["rok_produkcji","YEAR",""],
+      ["cena","DECIMAL(10,2)",""],
+      ["przebieg_km","INT","DEFAULT 0"],
+    ]},
+    {table:"wlasciciele",cols:[
+      ["id","INT","PK, AUTO_INCREMENT"],
+      ["imie_nazwisko","VARCHAR(120)",""],
+      ["id_auta","INT","FK → auta(id)"],
+    ]},
+  ],
+  pesel:[
+    {table:"obywatele",cols:[
+      ["id","INT","PK, AUTO_INCREMENT"],
+      ["pesel","CHAR(11)","NOT NULL, UNIQUE"],
+      ["imie","VARCHAR(50)","NOT NULL"],
+      ["nazwisko","VARCHAR(80)","NOT NULL"],
+      ["data_urodzenia","DATE",""],
+      ["plec","CHAR(1)","'M' lub 'K'"],
+      ["aktywny","BOOLEAN","DEFAULT TRUE"],
+    ]},
+    {table:"adresy",cols:[
+      ["id","INT","PK, AUTO_INCREMENT"],
+      ["id_obywatela","INT","FK → obywatele(id)"],
+      ["ulica","VARCHAR(120)",""],
+      ["miasto","VARCHAR(80)",""],
+      ["kod_pocztowy","CHAR(6)",""],
+    ]},
+  ],
+  biblioteka:[
+    {table:"ksiazki",cols:[
+      ["id","INT","PK, AUTO_INCREMENT"],
+      ["tytul","VARCHAR(200)","NOT NULL"],
+      ["autor","VARCHAR(120)",""],
+      ["isbn","VARCHAR(17)","UNIQUE"],
+      ["rok_wydania","YEAR",""],
+      ["dostepna","BOOLEAN","DEFAULT TRUE"],
+    ]},
+    {table:"wypozyczenia",cols:[
+      ["id","INT","PK, AUTO_INCREMENT"],
+      ["id_ksiazki","INT","FK → ksiazki(id)"],
+      ["id_czytelnika","INT",""],
+      ["data_wypozyczenia","DATE",""],
+    ]},
+  ],
+  restauracja:[
+    {table:"menu",cols:[
+      ["id","INT","PK, AUTO_INCREMENT"],
+      ["nazwa_dania","VARCHAR(150)","NOT NULL"],
+      ["kategoria","VARCHAR(50)",""],
+      ["cena","DECIMAL(6,2)","NOT NULL"],
+      ["dostepne","BOOLEAN","DEFAULT TRUE"],
+    ]},
+    {table:"zamowienia",cols:[
+      ["id","INT","PK, AUTO_INCREMENT"],
+      ["stolik","INT",""],
+      ["oplacone","BOOLEAN","DEFAULT FALSE"],
+    ]},
+  ],
+  sklep:[
+    {table:"produkty",cols:[
+      ["id","INT","PK, AUTO_INCREMENT"],
+      ["nazwa","VARCHAR(200)","NOT NULL"],
+      ["ean","VARCHAR(13)","UNIQUE"],
+      ["cena_netto","DECIMAL(10,2)",""],
+      ["vat","TINYINT","DEFAULT 23"],
+      ["stan_magazynu","INT","DEFAULT 0"],
+    ]},
+  ],
+  szkola:[
+    {table:"uczniowie",cols:[
+      ["id","INT","PK, AUTO_INCREMENT"],
+      ["imie","VARCHAR(50)","NOT NULL"],
+      ["nazwisko","VARCHAR(80)","NOT NULL"],
+      ["klasa","VARCHAR(10)",""],
+      ["data_urodzenia","DATE",""],
+    ]},
+    {table:"oceny",cols:[
+      ["id","INT","PK, AUTO_INCREMENT"],
+      ["id_ucznia","INT","FK → uczniowie(id)"],
+      ["przedmiot","VARCHAR(60)",""],
+      ["ocena","TINYINT",""],
+      ["data","DATE",""],
+    ]},
+  ],
+  lotnisko:[
+    {table:"loty",cols:[
+      ["id","INT","PK, AUTO_INCREMENT"],
+      ["numer_lotu","VARCHAR(10)","NOT NULL"],
+      ["miasto_docelowe","VARCHAR(80)",""],
+      ["godzina_odlotu","DATETIME",""],
+      ["cena","DECIMAL(8,2)",""],
+    ]},
+    {table:"pasazerowie",cols:[
+      ["id","INT","PK, AUTO_INCREMENT"],
+      ["imie_nazwisko","VARCHAR(120)","NOT NULL"],
+      ["id_lotu","INT","FK → loty(id)"],
+      ["miejsce","VARCHAR(4)",""],
+    ]},
+  ],
+  silownia:[
+    {table:"czlonkowie",cols:[
+      ["id","INT","PK, AUTO_INCREMENT"],
+      ["imie","VARCHAR(50)","NOT NULL"],
+      ["nazwisko","VARCHAR(80)","NOT NULL"],
+      ["data_dolaczenia","DATE",""],
+      ["aktywny","BOOLEAN","DEFAULT TRUE"],
+    ]},
+    {table:"treningi",cols:[
+      ["id","INT","PK, AUTO_INCREMENT"],
+      ["id_czlonka","INT","FK → czlonkowie(id)"],
+      ["typ","VARCHAR(50)",""],
+      ["data_treningu","DATE",""],
+      ["czas_min","INT",""],
+    ]},
+  ],
+};
 
 /* ══════════════════════════════════════════════════════
    PORADNIK — treść
@@ -975,7 +1153,7 @@ const Q=[
    STATE
 ══════════════════════════════════════════════════════ */
 const SAVE_KEY='sql_trener_v5';
-let app={mode:'strict',apiProvider:'anthropic',apiKey:'',apiBaseUrl:'',apiModel:'',selectedTopics:Object.keys(TOPICS),selectedCmds:[...ALL_CMDS],totalScore:0,totalSolved:0};
+let app={mode:'strict',apiProvider:'anthropic',apiKey:'',apiBaseUrl:'',apiModel:'',geminiModel:'gemini-flash-latest',selectedTopics:Object.keys(TOPICS),selectedCmds:[...ALL_CMDS],totalScore:0,totalSolved:0};
 let sess={queue:[],cur:0,score:0,correct:0,streak:0};
 
 function saveApp(){try{localStorage.setItem(SAVE_KEY,JSON.stringify(app))}catch(e){}}
@@ -1014,6 +1192,8 @@ function updateModeSummary(){
     let keyNote;
     if(app.apiProvider==='custom'){
       keyNote=app.apiBaseUrl?'własny endpoint: '+app.apiBaseUrl.replace(/^https?:\/\//,'').slice(0,28):'brak adresu endpointu — uzupełnij w ustawieniach';
+    }else if(app.apiProvider==='gemini'){
+      keyNote=app.apiKey?'Google Gemini, klucz zapisany':'Google Gemini — wymaga klucza z aistudio.google.com';
     }else{
       keyNote=app.apiKey?'Anthropic, własny klucz zapisany':'Anthropic, bez klucza — działa tylko w claude.ai';
     }
@@ -1024,12 +1204,30 @@ function updateModeSummary(){
 }
 
 /* ── MODE ── */
+function updateProviderFieldVisibility(){
+  const p=app.apiProvider;
+  document.getElementById('customUrlRow').style.display=(p==='custom')?'block':'none';
+  document.getElementById('geminiRow').style.display=(p==='gemini')?'block':'none';
+  const label=document.getElementById('apiKeyLabel');
+  const keyInput=document.getElementById('apiKey');
+  if(p==='gemini'){
+    label.textContent='Klucz API Gemini (wymagany)';
+    keyInput.placeholder='Wklej klucz z aistudio.google.com';
+  }else if(p==='anthropic'){
+    label.textContent='Klucz API (opcjonalnie — niepotrzebny w claude.ai)';
+    keyInput.placeholder='Wklej klucz — zostaw puste w claude.ai';
+  }else{
+    label.textContent='Klucz API (opcjonalnie, jeśli endpoint go wymaga)';
+    keyInput.placeholder='Wklej klucz — zostaw puste, jeśli endpoint go nie wymaga';
+  }
+}
 function showModeScreen(){
   document.getElementById('apiProvider').value=app.apiProvider||'anthropic';
   document.getElementById('apiKey').value=app.apiKey||'';
   document.getElementById('apiBaseUrl').value=app.apiBaseUrl||'';
   document.getElementById('apiModel').value=app.apiModel||'';
-  document.getElementById('customUrlRow').style.display=(app.apiProvider==='custom')?'block':'none';
+  document.getElementById('geminiModel').value=app.geminiModel||'gemini-flash-latest';
+  updateProviderFieldVisibility();
   refreshModeCards();
   showScreen('modeScreen');
 }
@@ -1045,12 +1243,17 @@ function refreshModeCards(){
 function pickMode(m){app.mode=m;refreshModeCards()}
 function onProviderChange(){
   app.apiProvider=document.getElementById('apiProvider').value;
-  document.getElementById('customUrlRow').style.display=(app.apiProvider==='custom')?'block':'none';
+  updateProviderFieldVisibility();
   saveApp();
 }
 function onKeyChange(){app.apiKey=document.getElementById('apiKey').value.trim();saveApp()}
 function onBaseUrlChange(){app.apiBaseUrl=document.getElementById('apiBaseUrl').value.trim().replace(/\/+$/,'');saveApp()}
-function onModelChange(){app.apiModel=document.getElementById('apiModel').value.trim();saveApp()}
+function onModelChange(){
+  app.apiModel=document.getElementById('apiModel').value.trim();
+  const gm=document.getElementById('geminiModel');
+  if(gm)app.geminiModel=gm.value.trim()||'gemini-flash-latest';
+  saveApp();
+}
 function confirmMode(){saveApp();updateModeSummary();showScreen('startScreen')}
 
 /* ── GUIDE ── */
@@ -1092,6 +1295,7 @@ function renderQ(){
   document.getElementById('qScore').textContent=`${sess.score} pkt`;
   const tp=TOPICS[q.t];
   const mpC=app.mode==='ai'?'mp-ai':'mp-strict',mpL=app.mode==='ai'?'AI':'OFFLINE';
+  const tableCount=(SCHEMAS[q.t]||[]).length;
   document.getElementById('quizBody').innerHTML=`
     <div class="q-card">
       <div class="q-card-top">
@@ -1102,6 +1306,11 @@ function renderQ(){
         </div>
       </div>
       <div class="q-card-body">
+        <div class="schema-toggle" id="schemaToggle" onclick="toggleSchema()">
+          <span>🗂️ Schemat tabel (${tableCount})</span>
+          <span class="chev">▾</span>
+        </div>
+        <div class="schema-panel" id="schemaPanel">${renderSchemaHTML(q.t)}</div>
         <div class="q-desc">${q.desc}</div>
         <textarea class="sql-textarea" id="sqlInput" placeholder="Wpisz zapytanie SQL…" rows="4" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off"></textarea>
         <div class="ai-loading" id="aiLoad"><div class="spinner"></div><span>AI ocenia odpowiedź…</span></div>
@@ -1119,6 +1328,28 @@ function renderQ(){
   document.getElementById('sqlInput').addEventListener('keydown',e=>{
     if((e.ctrlKey||e.metaKey)&&e.key==='Enter'){e.preventDefault();const b=document.getElementById('btnCheck');if(b&&!b.disabled)checkAnswer()}
   });
+}
+
+function renderSchemaHTML(topicKey){
+  const tables=SCHEMAS[topicKey]||[];
+  if(!tables.length)return'<div style="font-size:.8rem;color:var(--muted)">Brak zdefiniowanego schematu dla tego tematu.</div>';
+  return tables.map(t=>`
+    <div class="schema-table">
+      <div class="schema-table-name">${esc(t.table)}</div>
+      ${t.cols.map(c=>`
+        <div class="schema-col-row">
+          <span class="schema-col-name">${esc(c[0])}</span>
+          <span class="schema-col-type">${esc(c[1])}</span>
+          <span class="schema-col-note">${esc(c[2])}</span>
+        </div>
+      `).join('')}
+    </div>
+  `).join('');
+}
+
+function toggleSchema(){
+  document.getElementById('schemaToggle').classList.toggle('open');
+  document.getElementById('schemaPanel').classList.toggle('open');
 }
 
 function toggleHint(){document.getElementById('hintBox').classList.toggle('show')}
@@ -1382,12 +1613,12 @@ function evalOffline(q,raw){
 }
 
 /* ══════════════════════════════════════════════════════
-   EVAL AI — Anthropic (darmowe wewnątrz claude.ai) albo
-   własny endpoint zgodny z OpenAI /chat/completions
-   (np. darmowy router typu Requesty/OpenRouter).
+   EVAL AI — Anthropic (darmowe wewnątrz claude.ai),
+   Google Gemini (darmowy limit, wymaga klucza), albo
+   własny endpoint zgodny z OpenAI /chat/completions.
    Celowo NIE ma tu wpisanego na sztywno żadnego płatnego
    dostawcy (np. api.openai.com) — użytkownik sam podaje
-   adres, więc nikt nie zostanie wciągnięty w koszty
+   klucz/adres, więc nikt nie zostanie wciągnięty w koszty
    przez pomyłkę.
 ══════════════════════════════════════════════════════ */
 async function evalAI(q,user){
@@ -1395,6 +1626,7 @@ async function evalAI(q,user){
   const provider=app.apiProvider||'anthropic';
   const baseUrl=(app.apiBaseUrl||'').trim();
   const model=(app.apiModel||'').trim();
+  const geminiModel=(app.geminiModel||'gemini-flash-latest').trim();
   const promptText=`Jesteś nauczycielem SQL. Oceń odpowiedź studenta.
 ZADANIE: ${q.desc.replace(/<[^>]+>/g,'')}
 WZORZEC:\n${q.ans}
@@ -1406,7 +1638,22 @@ Nie zawsze musisz porównywać odpowiedź ze wzorcem — jeśli odpowiedź jest 
 miej świadomość, że nie w każdym zadaniu podany jest pełen kontekst tabeli i student może użyć innych nazw tabel/kolumn, które są logicznie poprawne. Oceń odpowiedź studenta w kontekście zadania, a nie w kontekście rzeczywistych nazw tabel we wzorcu.`;
 
   try{
-    if(provider==='custom'){
+    if(provider==='gemini'){
+      if(!key){
+        return{ok:false,msg:'Gemini wymaga klucza API. Wklej go w ustawieniach trybu (klucz z <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com</a>) albo przełącz się na tryb <strong>Offline</strong>.',tip:''};
+      }
+      const res=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(geminiModel)}:generateContent`,{
+        method:'POST',
+        headers:{'Content-Type':'application/json','x-goog-api-key':key},
+        body:JSON.stringify({contents:[{parts:[{text:promptText}]}]})
+      });
+      const data=await res.json();
+      if(!res.ok)throw new Error(data.error?.message||'Błąd Gemini');
+      let text=data.candidates?.[0]?.content?.parts?.[0]?.text||'{}';
+      text=text.replace(/```json|```/g,'').trim();
+      const p=JSON.parse(text);
+      return{ok:!!p.ok,msg:p.msg||'',tip:p.tip||''};
+    }else if(provider==='custom'){
       if(!baseUrl){
         return{ok:false,msg:'Podaj adres API (base URL) w ustawieniach trybu — np. darmowy router zgodny z OpenAI. Albo przełącz się na tryb <strong>Offline</strong>.',tip:''};
       }
