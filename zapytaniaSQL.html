@@ -35,6 +35,21 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:1
 .guide-link:hover{background:#cfe0fd}
 .section-label{font-family:var(--mono);font-size:.63rem;font-weight:600;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;margin-bottom:9px}
 .topic-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px}
+.scenario-list{display:flex;flex-direction:column;gap:9px;margin-bottom:18px}
+.scenario-card{
+  background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);
+  padding:13px 14px;cursor:pointer;transition:all .15s;user-select:none;
+  display:flex;align-items:center;gap:12px;
+}
+.scenario-card:hover{border-color:var(--accent);box-shadow:var(--shadow)}
+.scenario-card:active{transform:scale(.98)}
+.scenario-card.done{background:var(--accent-bg);border-color:var(--accent2)}
+.scenario-emoji{font-size:1.6rem;flex-shrink:0}
+.scenario-body{flex:1;min-width:0}
+.scenario-name{font-size:.9rem;font-weight:700;margin-bottom:2px}
+.scenario-done-badge{font-family:var(--mono);font-size:.62rem;font-weight:600;color:var(--accent);letter-spacing:.03em}
+.scenario-count{font-family:var(--mono);font-size:.66rem;color:var(--muted)}
+.scenario-chev{font-size:1.1rem;color:var(--muted);flex-shrink:0}
 .topic-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:11px 13px;cursor:pointer;transition:all .15s;position:relative;user-select:none}
 .topic-card:active{transform:scale(.97)}
 .topic-card.selected{border-color:var(--accent);background:var(--accent-bg)}
@@ -135,7 +150,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:1
 .q-desc{font-size:.93rem;line-height:1.75;color:var(--text);margin-bottom:13px}
 .q-desc code{font-family:var(--mono);font-size:.78rem;background:var(--surface2);padding:1px 6px;border-radius:4px;color:#2d2d22;white-space:nowrap}
 .q-desc em{font-style:normal;font-weight:700;color:var(--accent)}
-.sql-textarea{width:100%;font-family:var(--mono);font-size:.82rem;background:var(--surface2);border:1.5px solid var(--border);border-radius:8px;padding:11px 13px;color:var(--text);resize:vertical;min-height:70px;line-height:1.65;outline:none;transition:border-color .15s,background .15s}
+.sql-textarea{width:100%;font-family:var(--mono);font-size:.82rem;background:var(--surface2);border:1.5px solid var(--border);border-radius:8px;padding:11px 13px;color:var(--text);resize:vertical;min-height:70px;line-height:1.65;outline:none;transition:border-color .15s,background .15s;-webkit-appearance:none}
 .sql-textarea:focus{border-color:var(--accent);background:#fff}
 .sql-textarea.st-ok{border-color:#22c55e;background:#f0fdf4}
 .sql-textarea.st-err{border-color:var(--red);background:var(--red-bg)}
@@ -213,16 +228,13 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:1
       <span id="savedText">📌 Zapisany postęp</span>
       <button onclick="clearSave()">Wyczyść</button>
     </div>
-    <div class="section-label">Temat bazy danych</div>
-    <div class="topic-grid" id="topicGrid"></div>
-    <div class="section-label">Komendy SQL</div>
-    <div class="cmd-grid" id="cmdGrid"></div>
     <div class="section-label">Tryb sprawdzania</div>
     <div class="mode-row">
       <div class="mode-row-text" id="modeSummary"></div>
       <button class="mode-change-btn" onclick="showModeScreen()">Zmień</button>
     </div>
-    <button class="start-btn" onclick="startQuiz()">Rozpocznij sesję →</button>
+    <div class="section-label">Wybierz scenariusz — jedna tabela buduje się krok po kroku</div>
+    <div id="scenarioList" class="scenario-list"></div>
   </div>
 </div>
 
@@ -320,7 +332,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:1
       <div class="rs-box"><div class="rs-num" id="resTotal2">0</div><div class="rs-label">Łącznie</div></div>
       <div class="rs-box"><div class="rs-num" id="resScore2">0</div><div class="rs-label">Punkty</div></div>
     </div>
-    <button class="results-btn rb-primary" onclick="startQuiz()">Jeszcze raz →</button>
+    <button class="results-btn rb-primary" onclick="startQuiz(sess.topicKey)">Jeszcze raz →</button>
     <button class="results-btn rb-secondary" onclick="goHome()">← Zmień ustawienia</button>
   </div>
 </div>
@@ -340,6 +352,7 @@ const TOPICS={
   szkola:{name:"Szkoła",emoji:"🎓"},
   lotnisko:{name:"Lotnisko",emoji:"✈️"},
   silownia:{name:"Siłownia",emoji:"🏋️"},
+  firma:{name:"Firma (pracownicy)",emoji:"🏢"},
 };
 const ALL_CMDS=["CREATE","DROP","ALTER","INSERT","DELETE","UPDATE","SELECT","JOIN"];
 
@@ -389,11 +402,6 @@ const SCHEMAS={
       ["rok_produkcji","YEAR",""],
       ["cena","DECIMAL(10,2)",""],
       ["przebieg_km","INT","DEFAULT 0"],
-    ]},
-    {table:"wlasciciele",cols:[
-      ["id","INT","PK, AUTO_INCREMENT"],
-      ["imie_nazwisko","VARCHAR(120)",""],
-      ["id_auta","INT","FK → auta(id)"],
     ]},
   ],
   pesel:[
@@ -499,6 +507,36 @@ const SCHEMAS={
       ["typ","VARCHAR(50)",""],
       ["data_treningu","DATE",""],
       ["czas_min","INT",""],
+    ]},
+  ],
+  firma:[
+    {table:"City",cols:[
+      ["Id","INT","PK, AUTO_INCREMENT"],
+      ["Name","VARCHAR(80)",""],
+      ["Country_Id","INT","FK → Country(Id) — dodawana w kroku ALTER"],
+    ]},
+    {table:"Department",cols:[
+      ["Id","INT","PK, AUTO_INCREMENT"],
+      ["Name","VARCHAR(100)",""],
+      ["ManagerId","INT","Id pracownika-managera (bez formalnego FK)"],
+      ["CityId","INT","FK → City(Id)"],
+    ]},
+    {table:"Employee",cols:[
+      ["Id","INT","PK, AUTO_INCREMENT"],
+      ["FirstName","VARCHAR(60)",""],
+      ["SecondName","VARCHAR(60)",""],
+      ["LastName","VARCHAR(80)",""],
+      ["Gender","CHAR(1)","'M' lub 'K'"],
+      ["BirthDate","DATE",""],
+      ["Salary","DECIMAL(10,2)",""],
+      ["DepartmentId","INT","FK → Department(Id)"],
+      ["HireDate","DATE",""],
+      ["RelieveDate","DATE","NULL jeśli nadal zatrudniony"],
+      ["Active","BOOLEAN",""],
+    ]},
+    {table:"Country",cols:[
+      ["Id","INT","PK"],
+      ["Name","VARCHAR(80)",""],
     ]},
   ],
 };
@@ -869,6 +907,10 @@ const Q=[
  desc:`Utwórz tabelę <code>ksiazki</code>:<br>• <code>id</code> INT — klucz główny, AUTO_INCREMENT<br>• <code>tytul</code> VARCHAR(200) NOT NULL<br>• <code>autor</code> VARCHAR(120)<br>• <code>isbn</code> VARCHAR(17) — unikalny<br>• <code>rok_wydania</code> YEAR<br>• <code>dostepna</code> BOOLEAN — domyślnie TRUE`,
  hint:`BOOLEAN DEFAULT TRUE`,
  ans:`CREATE TABLE ksiazki (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  tytul VARCHAR(200) NOT NULL,\n  autor VARCHAR(120),\n  isbn VARCHAR(17) UNIQUE,\n  rok_wydania YEAR,\n  dostepna BOOLEAN DEFAULT TRUE\n);`},
+{id:141,t:"biblioteka",c:"CREATE",title:"Tabela wypożyczeń",
+ desc:`Utwórz tabelę <code>wypozyczenia</code>:<br>• <code>id</code> INT — klucz główny, AUTO_INCREMENT<br>• <code>id_ksiazki</code> INT — klucz obcy do <em>ksiazki(id)</em><br>• <code>id_czytelnika</code> INT<br>• <code>data_wypozyczenia</code> DATE`,
+ hint:`Klucz obcy na końcu: <code>FOREIGN KEY (id_ksiazki) REFERENCES ksiazki(id)</code>`,
+ ans:`CREATE TABLE wypozyczenia (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  id_ksiazki INT,\n  id_czytelnika INT,\n  data_wypozyczenia DATE,\n  FOREIGN KEY (id_ksiazki) REFERENCES ksiazki(id)\n);`},
 {id:70,t:"biblioteka",c:"INSERT",title:"Dodaj jedną książkę",
  desc:`Do tabeli <code>ksiazki</code> dodaj wiersz: tytul = <em>Pan Tadeusz</em>, autor = <em>Adam Mickiewicz</em>, isbn = <em>978-83-000-0001-0</em>, rok_wydania = <em>1834</em>`,
  hint:`Rok jako liczba`,
@@ -927,6 +969,10 @@ const Q=[
  desc:`Utwórz tabelę <code>menu</code>:<br>• <code>id</code> INT — klucz główny, AUTO_INCREMENT<br>• <code>nazwa_dania</code> VARCHAR(150) NOT NULL<br>• <code>kategoria</code> VARCHAR(50)<br>• <code>cena</code> DECIMAL(6,2) NOT NULL<br>• <code>dostepne</code> BOOLEAN — domyślnie TRUE`,
  hint:`DECIMAL(6,2)`,
  ans:`CREATE TABLE menu (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  nazwa_dania VARCHAR(150) NOT NULL,\n  kategoria VARCHAR(50),\n  cena DECIMAL(6,2) NOT NULL,\n  dostepne BOOLEAN DEFAULT TRUE\n);`},
+{id:142,t:"restauracja",c:"CREATE",title:"Tabela zamówień",
+ desc:`Utwórz tabelę <code>zamowienia</code>:<br>• <code>id</code> INT — klucz główny, AUTO_INCREMENT<br>• <code>stolik</code> INT<br>• <code>oplacone</code> BOOLEAN — domyślnie FALSE`,
+ hint:`BOOLEAN DEFAULT FALSE`,
+ ans:`CREATE TABLE zamowienia (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  stolik INT,\n  oplacone BOOLEAN DEFAULT FALSE\n);`},
 {id:84,t:"restauracja",c:"INSERT",title:"Dodaj danie do menu",
  desc:`Do tabeli <code>menu</code> dodaj wiersz: nazwa_dania = <em>Barszcz czerwony</em>, kategoria = <em>zupy</em>, cena = <em>18.50</em>`,
  hint:`Pomiń kolumny z DEFAULT`,
@@ -1147,40 +1193,158 @@ const Q=[
  desc:`Usuń tabelę <code>karnety</code> — tylko jeśli istnieje.`,
  hint:`<code>DROP TABLE IF EXISTS karnety;</code>`,
  ans:`DROP TABLE IF EXISTS karnety;`},
+
+/* ══════════════════════════════════════════════════════
+   FIRMA — scenariusz progresywny wzorowany na klasycznym
+   zadaniu z kartki: Employee / Department / City / Country.
+   Kolejność wymuszona przez pole "step" (1..22), dokładnie
+   odzwierciedla narrację: najpierw CREATE wszystkich tabel,
+   potem dane, potem ALTER dodający Country_Id, kolejne
+   UPDATE/DELETE, bogaty zestaw SELECT-ów rosnącej trudności
+   (włącznie z self-joinem po managerze), na końcu ALTER
+   usuwający kolumnę.
+══════════════════════════════════════════════════════ */
+{id:150,t:"firma",c:"CREATE",step:1,title:"Tabela miast",
+ desc:`Utwórz tabelę <code>City</code>:<br>• <code>Id</code> INT — klucz główny, AUTO_INCREMENT<br>• <code>Name</code> VARCHAR(80)`,
+ hint:`Na razie bez kolumny Country_Id — dodamy ją później przez ALTER`,
+ ans:`CREATE TABLE City (\n  Id INT AUTO_INCREMENT PRIMARY KEY,\n  Name VARCHAR(80)\n);`},
+
+{id:151,t:"firma",c:"CREATE",step:2,title:"Tabela działów",
+ desc:`Utwórz tabelę <code>Department</code>:<br>• <code>Id</code> INT — klucz główny, AUTO_INCREMENT<br>• <code>Name</code> VARCHAR(100)<br>• <code>ManagerId</code> INT — zwykła kolumna (bez formalnego klucza obcego)<br>• <code>CityId</code> INT — klucz obcy do <em>City(Id)</em>`,
+ hint:`<code>FOREIGN KEY (CityId) REFERENCES City(Id)</code> — ManagerId NIE jest kluczem obcym`,
+ ans:`CREATE TABLE Department (\n  Id INT AUTO_INCREMENT PRIMARY KEY,\n  Name VARCHAR(100),\n  ManagerId INT,\n  CityId INT,\n  FOREIGN KEY (CityId) REFERENCES City(Id)\n);`},
+
+{id:152,t:"firma",c:"CREATE",step:3,title:"Tabela pracowników",
+ desc:`Utwórz tabelę <code>Employee</code>:<br>• <code>Id</code> INT — klucz główny, AUTO_INCREMENT<br>• <code>FirstName</code> VARCHAR(60)<br>• <code>SecondName</code> VARCHAR(60)<br>• <code>LastName</code> VARCHAR(80)<br>• <code>Gender</code> CHAR(1)<br>• <code>BirthDate</code> DATE<br>• <code>Salary</code> DECIMAL(10,2)<br>• <code>DepartmentId</code> INT — klucz obcy do <em>Department(Id)</em><br>• <code>HireDate</code> DATE<br>• <code>RelieveDate</code> DATE<br>• <code>Active</code> BOOLEAN`,
+ hint:`To najdłuższa tabela w tym scenariuszu — klucz obcy na końcu, jak zwykle`,
+ ans:`CREATE TABLE Employee (\n  Id INT AUTO_INCREMENT PRIMARY KEY,\n  FirstName VARCHAR(60),\n  SecondName VARCHAR(60),\n  LastName VARCHAR(80),\n  Gender CHAR(1),\n  BirthDate DATE,\n  Salary DECIMAL(10,2),\n  DepartmentId INT,\n  HireDate DATE,\n  RelieveDate DATE,\n  Active BOOLEAN,\n  FOREIGN KEY (DepartmentId) REFERENCES Department(Id)\n);`},
+
+{id:153,t:"firma",c:"INSERT",step:4,title:"Dodaj miasta",
+ desc:`Do tabeli <code>City</code> jednym zapytaniem dodaj trzy miasta: <em>Warsaw</em>, <em>Moscow</em>, <em>Krakow</em> (same nazwy, bez innych kolumn).`,
+ hint:`<code>INSERT INTO City (Name) VALUES (...), (...), (...);</code>`,
+ ans:`INSERT INTO City (Name)\nVALUES ('Warsaw'), ('Moscow'), ('Krakow');`},
+
+{id:154,t:"firma",c:"INSERT",step:5,title:"Dodaj działy",
+ desc:`Do tabeli <code>Department</code> dodaj dwa wiersze:<br>• <em>IT</em>, ManagerId <em>3</em>, CityId <em>1</em><br>• <em>Sales</em>, ManagerId <em>5</em>, CityId <em>1</em>`,
+ hint:`CityId = 1 to pierwsze wstawione miasto (Warsaw)`,
+ ans:`INSERT INTO Department (Name, ManagerId, CityId)\nVALUES ('IT', 3, 1), ('Sales', 5, 1);`},
+
+{id:155,t:"firma",c:"INSERT",step:6,title:"Dodaj pracowników",
+ desc:`Do tabeli <code>Employee</code> jednym zapytaniem dodaj trzy wiersze:<br>• <em>John Michael Miller</em>, Gender <em>M</em>, BirthDate <em>1978-05-12</em>, Salary <em>7500.00</em>, DepartmentId <em>1</em>, HireDate <em>2015-03-01</em>, RelieveDate <em>NULL</em>, Active <em>TRUE</em><br>• <em>Adam (bez drugiego imienia) Jankowski</em>, Gender <em>M</em>, BirthDate <em>1970-02-10</em>, Salary <em>6800.00</em>, DepartmentId <em>1</em>, HireDate <em>2012-06-15</em>, RelieveDate <em>NULL</em>, Active <em>TRUE</em><br>• <em>Anna (bez drugiego imienia) Kowalska</em>, Gender <em>K</em>, BirthDate <em>1965-08-22</em>, Salary <em>9200.00</em>, DepartmentId <em>2</em>, HireDate <em>2010-01-10</em>, RelieveDate <em>NULL</em>, Active <em>TRUE</em>`,
+ hint:`Brak drugiego imienia = pusty tekst <code>''</code>, nie NULL. Kolejność kolumn jak w CREATE TABLE.`,
+ ans:`INSERT INTO Employee (FirstName, SecondName, LastName, Gender, BirthDate, Salary, DepartmentId, HireDate, RelieveDate, Active)\nVALUES\n  ('John', 'Michael', 'Miller', 'M', '1978-05-12', 7500.00, 1, '2015-03-01', NULL, TRUE),\n  ('Adam', '', 'Jankowski', 'M', '1970-02-10', 6800.00, 1, '2012-06-15', NULL, TRUE),\n  ('Anna', '', 'Kowalska', 'K', '1965-08-22', 9200.00, 2, '2010-01-10', NULL, TRUE);`},
+
+{id:156,t:"firma",c:"CREATE",step:7,title:"Tabela krajów",
+ desc:`Utwórz tabelę <code>Country</code> z dwoma kolumnami: <code>Id</code> (klucz główny) i <code>Name</code>.`,
+ hint:`Najprostsza tabela w tym scenariuszu — dwie kolumny, bez kluczy obcych`,
+ ans:`CREATE TABLE Country (\n  Id INT PRIMARY KEY,\n  Name VARCHAR(80)\n);`},
+
+{id:157,t:"firma",c:"ALTER",step:8,title:"Dodaj kraj do miasta",
+ desc:`Do tabeli <code>City</code> dodaj kolumnę <code>Country_Id</code> — klucz obcy z referencją do tabeli <code>Country</code>.`,
+ hint:`<code>ADD COLUMN Country_Id INT, ADD FOREIGN KEY (Country_Id) REFERENCES Country(Id)</code>`,
+ ans:`ALTER TABLE City\nADD COLUMN Country_Id INT,\nADD FOREIGN KEY (Country_Id) REFERENCES Country(Id);`},
+
+{id:158,t:"firma",c:"INSERT",step:9,title:"Dodaj Polskę",
+ desc:`Do tabeli <code>Country</code> wstaw wiersz: Id = <em>1</em>, Name = <em>Poland</em>.`,
+ hint:`Tutaj Id podajemy ręcznie (tabela nie ma AUTO_INCREMENT)`,
+ ans:`INSERT INTO Country (Id, Name)\nVALUES (1, 'Poland');`},
+
+{id:159,t:"firma",c:"UPDATE",step:10,title:"Przypisz kraj do Warszawy",
+ desc:`W tabeli <code>City</code> dla miasta <em>Warsaw</em> ustaw <code>Country_Id</code> na <em>1</em>.`,
+ hint:`<code>WHERE Name = 'Warsaw'</code>`,
+ ans:`UPDATE City\nSET Country_Id = 1\nWHERE Name = 'Warsaw';`},
+
+{id:160,t:"firma",c:"DELETE",step:11,title:"Usuń Moskwę",
+ desc:`Z tabeli <code>City</code> usuń wiersz z miastem <em>Moscow</em>.`,
+ hint:`<code>WHERE Name = 'Moscow'</code>`,
+ ans:`DELETE FROM City WHERE Name = 'Moscow';`},
+
+{id:161,t:"firma",c:"SELECT",step:12,title:"Imię i nazwisko każdego pracownika",
+ desc:`Z tabeli <code>Employee</code> wypisz <code>FirstName</code> i <code>LastName</code> każdego pracownika.`,
+ hint:`<code>SELECT FirstName, LastName FROM Employee;</code>`,
+ ans:`SELECT FirstName, LastName\nFROM Employee;`},
+
+{id:162,t:"firma",c:"SELECT",step:13,title:"Pracownicy urodzeni przed 1975",
+ desc:`Z tabeli <code>Employee</code> wybierz wszystkie dane (<code>*</code>) pracowników urodzonych przed <em>01.01.1975</em>.`,
+ hint:`<code>WHERE BirthDate < '1975-01-01'</code>`,
+ ans:`SELECT *\nFROM Employee\nWHERE BirthDate < '1975-01-01';`},
+
+{id:163,t:"firma",c:"SELECT",step:14,title:"Nazwiska i wynagrodzenia starszych mężczyzn",
+ desc:`Z tabeli <code>Employee</code> wybierz <code>LastName</code> i <code>Salary</code> mężczyzn (<code>Gender = 'M'</code>) starszych niż <em>50 lat</em>.`,
+ hint:`Wiek liczony w przybliżeniu: <code>(YEAR(CURDATE()) - YEAR(BirthDate)) > 50</code>`,
+ ans:`SELECT LastName, Salary\nFROM Employee\nWHERE Gender = 'M'\n  AND (YEAR(CURDATE()) - YEAR(BirthDate)) > 50;`},
+
+{id:164,t:"firma",c:"SELECT",step:15,title:"Roczne dochody, sortowanie odwrotne",
+ desc:`Z tabeli <code>Employee</code> wybierz <code>LastName</code> i ROCZNE dochody (kolumna wynikowa nazwana <code>roczne_dochody</code>, czyli <code>Salary</code> razy 12), posortowane w kolejności odwrotnej do alfabetycznej po nazwisku.`,
+ hint:`<code>Salary * 12 AS roczne_dochody ... ORDER BY LastName DESC</code>`,
+ ans:`SELECT LastName, Salary * 12 AS roczne_dochody\nFROM Employee\nORDER BY LastName DESC;`},
+
+{id:165,t:"firma",c:"SELECT",step:16,title:"3 kobiety o najwyższym wynagrodzeniu",
+ desc:`Z tabeli <code>Employee</code> wyświetl wszystkie dane (<code>*</code>) 3 kobiet (<code>Gender = 'K'</code>) o najwyższym wynagrodzeniu.`,
+ hint:`<code>WHERE Gender = 'K' ORDER BY Salary DESC LIMIT 3</code>`,
+ ans:`SELECT *\nFROM Employee\nWHERE Gender = 'K'\nORDER BY Salary DESC\nLIMIT 3;`},
+
+{id:166,t:"firma",c:"JOIN",step:17,title:"Działy pracowników o imieniu Adam i nazwisku na J",
+ desc:`Połącz <code>Employee</code> z <code>Department</code>. Wyświetl unikalne (<code>DISTINCT</code>) nazwy działów pracowników o imieniu <em>Adam</em> i nazwisku zaczynającym się na literę <em>J</em>.`,
+ hint:`<code>WHERE e.FirstName = 'Adam' AND e.LastName LIKE 'J%'</code>`,
+ ans:`SELECT DISTINCT d.Name\nFROM Employee e\nJOIN Department d ON e.DepartmentId = d.Id\nWHERE e.FirstName = 'Adam'\n  AND e.LastName LIKE 'J%';`},
+
+{id:167,t:"firma",c:"JOIN",step:18,title:"Pracownicy pracujący w Warszawie",
+ desc:`Połącz <code>Employee</code>, <code>Department</code> i <code>City</code> (trzy tabele). Wybierz wszystkie dane (<code>e.*</code>) pracowników, których dział znajduje się w mieście <em>Warsaw</em>.`,
+ hint:`Dwa JOIN-y pod rząd: Employee→Department→City`,
+ ans:`SELECT e.*\nFROM Employee e\nJOIN Department d ON e.DepartmentId = d.Id\nJOIN City c ON d.CityId = c.Id\nWHERE c.Name = 'Warsaw';`},
+
+{id:168,t:"firma",c:"JOIN",step:19,title:"Manager działu Johna Millera",
+ desc:`Wyświetl dane managera działu, w którym pracuje <em>John Miller</em>. Manager to inny pracownik z tabeli <code>Employee</code>, którego <code>Id</code> jest wskazany w kolumnie <code>ManagerId</code> działu (self-join — tabela <code>Employee</code> łączona sama ze sobą pod dwoma różnymi aliasami).`,
+ hint:`<code>JOIN Department d ON e.DepartmentId=d.Id JOIN Employee m ON d.ManagerId=m.Id WHERE e.FirstName='John' AND e.LastName='Miller'</code>`,
+ ans:`SELECT m.*\nFROM Employee e\nJOIN Department d ON e.DepartmentId = d.Id\nJOIN Employee m ON d.ManagerId = m.Id\nWHERE e.FirstName = 'John'\n  AND e.LastName = 'Miller';`},
+
+{id:169,t:"firma",c:"JOIN",step:20,title:"Liczba pracowników w każdym dziale",
+ desc:`Połącz <code>Department</code> z <code>Employee</code> (uwzględnij też działy bez żadnego pracownika). Zwróć <code>Name</code> działu i liczbę pracowników jako <code>liczba_pracownikow</code>.`,
+ hint:`<code>LEFT JOIN Employee e ON d.Id = e.DepartmentId GROUP BY d.Id, d.Name</code>`,
+ ans:`SELECT d.Name, COUNT(e.Id) AS liczba_pracownikow\nFROM Department d\nLEFT JOIN Employee e ON d.Id = e.DepartmentId\nGROUP BY d.Id, d.Name;`},
+
+{id:170,t:"firma",c:"SELECT",step:21,title:"Byli lub nieaktywni pracownicy",
+ desc:`Z tabeli <code>Employee</code> pobierz <code>FirstName</code> i <code>LastName</code> pracowników, którzy odeszli z firmy (<code>RelieveDate</code> nie jest NULL) lub są oznaczeni jako nieaktywni (<code>Active = FALSE</code>).`,
+ hint:`<code>WHERE RelieveDate IS NOT NULL OR Active = FALSE</code>`,
+ ans:`SELECT FirstName, LastName\nFROM Employee\nWHERE RelieveDate IS NOT NULL\n   OR Active = FALSE;`},
+
+{id:171,t:"firma",c:"ALTER",step:22,title:"Usuń kolumnę płeć",
+ desc:`Z tabeli <code>Employee</code> usuń kolumnę <code>Gender</code>.`,
+ hint:`<code>ALTER TABLE Employee DROP COLUMN Gender;</code>`,
+ ans:`ALTER TABLE Employee\nDROP COLUMN Gender;`},
 ];
 
 /* ══════════════════════════════════════════════════════
    STATE
 ══════════════════════════════════════════════════════ */
-const SAVE_KEY='sql_trener_v5';
-let app={mode:'strict',apiProvider:'anthropic',apiKey:'',apiBaseUrl:'',apiModel:'',geminiModel:'gemini-flash-latest',selectedTopics:Object.keys(TOPICS),selectedCmds:[...ALL_CMDS],totalScore:0,totalSolved:0};
-let sess={queue:[],cur:0,score:0,correct:0,streak:0};
+const SAVE_KEY='sql_trener_v6';
+let app={mode:'strict',apiProvider:'anthropic',apiKey:'',apiBaseUrl:'',apiModel:'',geminiModel:'gemini-flash-latest',totalScore:0,totalSolved:0,completedTopics:[]};
+let sess={queue:[],cur:0,score:0,correct:0,streak:0,topicKey:null};
 
 function saveApp(){try{localStorage.setItem(SAVE_KEY,JSON.stringify(app))}catch(e){}}
-function loadApp(){try{const r=localStorage.getItem(SAVE_KEY);if(r)Object.assign(app,JSON.parse(r));return!!r}catch(e){return false}}
-function clearSave(){try{localStorage.removeItem(SAVE_KEY)}catch(e){}app.totalScore=app.totalSolved=0;document.getElementById('savedBanner').style.display='none'}
+function loadApp(){try{const r=localStorage.getItem(SAVE_KEY);if(r)Object.assign(app,JSON.parse(r));if(!Array.isArray(app.completedTopics))app.completedTopics=[];return!!r}catch(e){return false}}
+function clearSave(){try{localStorage.removeItem(SAVE_KEY)}catch(e){}app.totalScore=app.totalSolved=0;app.completedTopics=[];document.getElementById('savedBanner').style.display='none'}
 function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')}
 
-/* ── START ── */
+/* ── START — lista scenariuszy (jeden temat na raz, kolejność progresywna) ── */
 function initStart(){
   loadApp();
-  const tg=document.getElementById('topicGrid');tg.innerHTML='';
+  const tg=document.getElementById('scenarioList');tg.innerHTML='';
   Object.entries(TOPICS).forEach(([k,t])=>{
     const cnt=Q.filter(q=>q.t===k).length;
+    const done=app.completedTopics.includes(k);
     const d=document.createElement('div');
-    d.className='topic-card'+(app.selectedTopics.includes(k)?' selected':'');
-    d.innerHTML=`<span class="topic-emoji">${t.emoji}</span><span class="topic-name">${t.name}</span><span class="topic-count">${cnt} zadań</span>`;
-    d.onclick=()=>{const s=app.selectedTopics;if(s.includes(k)){if(s.length>1)s.splice(s.indexOf(k),1)}else s.push(k);d.classList.toggle('selected',s.includes(k));saveApp()};
+    d.className='scenario-card'+(done?' done':'');
+    d.innerHTML=`
+      <span class="scenario-emoji">${t.emoji}</span>
+      <div class="scenario-body">
+        <div class="scenario-name">${t.name}${done?' <span class="scenario-done-badge">✓ ukończone</span>':''}</div>
+        <div class="scenario-count">${cnt} zadań · CREATE → INSERT → UPDATE/DELETE → SELECT/JOIN</div>
+      </div>
+      <span class="scenario-chev">→</span>`;
+    d.onclick=()=>startQuiz(k);
     tg.appendChild(d);
-  });
-  const cg=document.getElementById('cmdGrid');cg.innerHTML='';
-  ALL_CMDS.forEach(cmd=>{
-    const cnt=Q.filter(q=>q.c===cmd).length;
-    const ch=document.createElement('div');
-    ch.className='cmd-chip'+(app.selectedCmds.includes(cmd)?' selected':'');
-    ch.textContent=`${cmd} (${cnt})`;
-    ch.onclick=()=>{const s=app.selectedCmds;if(s.includes(cmd)){if(s.length>1)s.splice(s.indexOf(cmd),1)}else s.push(cmd);ch.classList.toggle('selected',s.includes(cmd));saveApp()};
-    cg.appendChild(ch);
   });
   updateModeSummary();
   if(app.totalSolved>0){document.getElementById('savedBanner').style.display='flex';document.getElementById('savedText').textContent=`📌 Łącznie: ${app.totalSolved} zadań · ${app.totalScore} pkt`}
@@ -1279,23 +1443,95 @@ function renderGuide(){
 }
 
 /* ── QUIZ ── */
-function startQuiz(){
-  const filtered=Q.filter(q=>app.selectedTopics.includes(q.t)&&app.selectedCmds.includes(q.c));
-  if(!filtered.length){alert('Wybierz przynajmniej jeden temat i jedną komendę!');return}
-  sess={queue:[...filtered].sort(()=>Math.random()-.5),cur:0,score:0,correct:0,streak:0};
+function tableNameFromAns(ansText){
+  const m=ansText.match(/create\s+table\s+([a-z_][a-z0-9_]*)/i);
+  return m?m[1].toLowerCase():null;
+}
+function fkRefsFromAns(ansText){
+  return[...ansText.matchAll(/references\s+([a-z_][a-z0-9_]*)/gi)].map(m=>m[1].toLowerCase());
+}
+/* Topologiczne sortowanie CREATE: tabela z kluczem obcym do innej
+   tabeli tworzonej w tym samym temacie musi pojawić się PO niej —
+   inaczej zadanie kazałoby napisać FK do czegoś, co jeszcze nie istnieje. */
+function orderCreatesByDependency(createQs){
+  const remaining=[...createQs];
+  const placed=[];
+  const placedNames=new Set();
+  let guard=0;
+  while(remaining.length && guard++<200){
+    const idx=remaining.findIndex(q=>{
+      const refs=fkRefsFromAns(q.ans);
+      return refs.every(r=>placedNames.has(r)||!remaining.some(q2=>tableNameFromAns(q2.ans)===r));
+    });
+    const pick=idx===-1?0:idx;
+    const[q]=remaining.splice(pick,1);
+    placed.push(q);
+    const nm=tableNameFromAns(q.ans);
+    if(nm)placedNames.add(nm);
+  }
+  return placed;
+}
+/* Buduje progresywną kolejkę pytań dla jednego tematu.
+   Jeśli WSZYSTKIE pytania tematu mają jawny "step" (np. firma) —
+   sortujemy dokładnie wg niego (ręcznie ułożona narracja).
+   W przeciwnym razie: CREATE(uporządkowane wg zależności) → INSERT →
+   UPDATE → DELETE → SELECT/JOIN → ALTER → DROP. */
+function buildProgressiveQueue(topicKey){
+  const all=Q.filter(q=>q.t===topicKey);
+  if(all.length && all.every(q=>typeof q.step==='number')){
+    return[...all].sort((a,b)=>a.step-b.step);
+  }
+  const buckets={CREATE:[],INSERT:[],UPDATE:[],DELETE:[],SEL:[],ALTER:[],DROP:[]};
+  all.forEach(q=>{
+    if(q.c==='CREATE')buckets.CREATE.push(q);
+    else if(q.c==='INSERT')buckets.INSERT.push(q);
+    else if(q.c==='UPDATE')buckets.UPDATE.push(q);
+    else if(q.c==='DELETE')buckets.DELETE.push(q);
+    else if(q.c==='SELECT'||q.c==='JOIN')buckets.SEL.push(q);
+    else if(q.c==='ALTER')buckets.ALTER.push(q);
+    else if(q.c==='DROP')buckets.DROP.push(q);
+  });
+  buckets.CREATE=orderCreatesByDependency(buckets.CREATE);
+  return[...buckets.CREATE,...buckets.INSERT,...buckets.UPDATE,...buckets.DELETE,...buckets.SEL,...buckets.ALTER,...buckets.DROP];
+}
+
+function startQuiz(topicKey){
+  const queue=buildProgressiveQueue(topicKey);
+  if(!queue.length){alert('Ten scenariusz nie ma jeszcze żadnych zadań.');return}
+  sess={queue,cur:0,score:0,correct:0,streak:0,topicKey};
   showScreen('quizScreen');renderQ();
 }
 function goHome(){showScreen('startScreen');initStart()}
 
+/* Zwraca zbiór nazw tabel (lowercase) utworzonych przez CREATE
+   w krokach queue[0..uptoIndexInclusive], pomniejszony o te
+   ewentualnie już usunięte przez DROP TABLE w tym zakresie. */
+function tablesVisibleUpTo(queue,uptoIndexInclusive){
+  const created=new Set();
+  for(let i=0;i<=uptoIndexInclusive && i<queue.length;i++){
+    const q=queue[i];
+    if(q.c==='CREATE'){
+      const nm=tableNameFromAns(q.ans);
+      if(nm)created.add(nm);
+    }
+    if(q.c==='DROP'){
+      const m=q.ans.match(/drop\s+table\s+(?:if\s+exists\s+)?([a-z_][a-z0-9_]*)/i);
+      if(m)created.delete(m[1].toLowerCase());
+    }
+  }
+  return created;
+}
+
 function renderQ(){
   const q=sess.queue[sess.cur],tot=sess.queue.length;
-  document.getElementById('qProgressLabel').textContent=`Pytanie ${sess.cur+1} / ${tot}`;
+  document.getElementById('qProgressLabel').textContent=`Krok ${sess.cur+1} / ${tot}`;
   document.getElementById('qStreakLabel').textContent=`Seria: ${sess.streak}`;
   document.getElementById('qProgressFill').style.width=`${(sess.cur/tot)*100}%`;
   document.getElementById('qScore').textContent=`${sess.score} pkt`;
   const tp=TOPICS[q.t];
   const mpC=app.mode==='ai'?'mp-ai':'mp-strict',mpL=app.mode==='ai'?'AI':'OFFLINE';
-  const tableCount=(SCHEMAS[q.t]||[]).length;
+  const visibleTables=tablesVisibleUpTo(sess.queue,sess.cur-1);
+  const tableCount=visibleTables.size;
   document.getElementById('quizBody').innerHTML=`
     <div class="q-card">
       <div class="q-card-top">
@@ -1306,11 +1542,11 @@ function renderQ(){
         </div>
       </div>
       <div class="q-card-body">
-        <div class="schema-toggle" id="schemaToggle" onclick="toggleSchema()">
+        <div class="schema-toggle${tableCount?' open':''}" id="schemaToggle" onclick="toggleSchema()">
           <span>🗂️ Schemat tabel (${tableCount})</span>
           <span class="chev">▾</span>
         </div>
-        <div class="schema-panel" id="schemaPanel">${renderSchemaHTML(q.t)}</div>
+        <div class="schema-panel${tableCount?' open':''}" id="schemaPanel">${renderSchemaHTML(q.t,visibleTables)}</div>
         <div class="q-desc">${q.desc}</div>
         <textarea class="sql-textarea" id="sqlInput" placeholder="Wpisz zapytanie SQL…" rows="4" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off"></textarea>
         <div class="ai-loading" id="aiLoad"><div class="spinner"></div><span>AI ocenia odpowiedź…</span></div>
@@ -1330,9 +1566,10 @@ function renderQ(){
   });
 }
 
-function renderSchemaHTML(topicKey){
-  const tables=SCHEMAS[topicKey]||[];
-  if(!tables.length)return'<div style="font-size:.8rem;color:var(--muted)">Brak zdefiniowanego schematu dla tego tematu.</div>';
+function renderSchemaHTML(topicKey,visibleTableNames){
+  const allTables=SCHEMAS[topicKey]||[];
+  const tables=allTables.filter(t=>visibleTableNames.has(t.table.toLowerCase()));
+  if(!tables.length)return'<div style="font-size:.8rem;color:var(--muted);padding:2px 2px">To pierwsze zadanie w tym scenariuszu — żadna tabela nie istnieje jeszcze. To zadanie ją tworzy 👇</div>';
   return tables.map(t=>`
     <div class="schema-table">
       <div class="schema-table-name">${esc(t.table)}</div>
@@ -1404,9 +1641,13 @@ function nextQ(){sess.cur++;if(sess.cur>=sess.queue.length)showResults();else re
 function showResults(){
   showScreen('resultsScreen');
   const pct=Math.round(sess.correct/sess.queue.length*100);
+  const tp=TOPICS[sess.topicKey];
+  if(pct===100 && sess.topicKey && !app.completedTopics.includes(sess.topicKey)){
+    app.completedTopics.push(sess.topicKey);saveApp();
+  }
   document.getElementById('resEmoji').textContent=pct>=80?'🏆':pct>=50?'📈':'💪';
   document.getElementById('resTitle').textContent=pct>=80?'Świetna robota!':pct>=50?'Dobry wynik!':'Ćwicz dalej!';
-  document.getElementById('resSub').textContent=`${pct}% poprawnych — ${sess.correct} z ${sess.queue.length} zadań`;
+  document.getElementById('resSub').textContent=`${tp?tp.emoji+' '+tp.name+' — ':''}${pct}% poprawnych — ${sess.correct} z ${sess.queue.length} zadań`;
   document.getElementById('resCorrect').textContent=sess.correct;
   document.getElementById('resTotal2').textContent=sess.queue.length;
   document.getElementById('resScore2').textContent=sess.score;
@@ -1471,7 +1712,8 @@ function evalOffline(q,raw){
     .replace(/\s+/g,' ')
     .replace(/\s*,\s*/g,', ')
     .replace(/\s*\(\s*/g,'(')
-    .replace(/\s*\)\s*/g,')')
+    .replace(/\s+\)/g,')')
+    .replace(/\)(?=[a-z0-9_])/g,') ')
     .replace(/\s*(<=|>=|<>|!=|=|<|>)\s*/g,' $1 ')
     .replace(/\s+/g,' ')
     .replace(/;$/,'')
@@ -1534,15 +1776,23 @@ function evalOffline(q,raw){
         // ON compares two aliased columns to each other (e.g. z.id = o.id) —
         // stripping aliases from BOTH sides would make "z.id=o.id" indistinguishable
         // from the wrong "z.id=z.id", hiding real errors. Instead, remap each
-        // alias in the user's query to whichever alias plays the "same role"
-        // in the answer (by matching alias->table declared in FROM/JOIN),
-        // and only THEN compare — this still tolerates different alias letters
-        // while still catching a genuinely wrong join column.
+        // alias to a POSITIONAL label — "which Nth occurrence of this table"
+        // (e.g. employee#1, employee#2) — based on the order tables appear in
+        // FROM/JOIN. This tolerates different alias letters (students can call
+        // them e/o or zw/op) while still correctly distinguishing a self-join's
+        // two different aliases of the SAME table (e.g. Employee e ... JOIN
+        // Employee m — a plain alias→table map would collapse both to "employee"
+        // and hide a genuinely wrong join column; positional labels don't.
         const aliasMapFor=(fullSql)=>{
           const map={};
+          const seen={};
           const re=/\b(?:from|join|left join|right join|inner join)\s+([a-z_][a-z0-9_]*)\s+([a-z_][a-z0-9_]*)\b/g;
           let mm;
-          while((mm=re.exec(fullSql))){ map[mm[2]]=mm[1]; } // alias -> table
+          while((mm=re.exec(fullSql))){
+            const table=mm[1],alias=mm[2];
+            seen[table]=(seen[table]||0)+1;
+            map[alias]=table+'#'+seen[table];
+          }
           return map;
         };
         const aAliasMap=aliasMapFor(a), uAliasMap=aliasMapFor(u);
@@ -1590,15 +1840,11 @@ function evalOffline(q,raw){
     return{ok:true,msg:'Poprawnie! Struktura zapytania zgadza się ze wzorcem.',tip:''};
   }
 
-  // Loose fallback: jeśli mimo wykrytych różnic ogólne podobieństwo tekstu jest bardzo wysokie, i tak zaliczamy
-  const bag=s=>new Set(s.replace(/[(),;]/g,' ').split(/\s+/).filter(Boolean));
-  const uBag=bag(u),aBag=bag(a);
-  const inter=[...aBag].filter(x=>uBag.has(x)).length;
-  const union=new Set([...aBag,...uBag]).size;
-  const sim=union?inter/union:1;
-  if(sim>=0.9){
-    return{ok:true,msg:'Poprawnie! Drobne różnice w zapisie, ale zapytanie jest równoważne.',tip:''};
-  }
+  // (usunięto wcześniejszy "luźny fallback" oparty na globalnym podobieństwie
+  // tekstu — potrafił on nadpisywać poprawnie wykryty błąd w długich zapytaniach
+  // z JOIN-ami, np. self-joinach, gdzie jedna zła litera aliasu w warunku ON
+  // to ułamek wszystkich tokenów zapytania. Porównanie po klauzulach jest
+  // wystarczająco solidne samo w sobie i nie potrzebuje tej siatki bezpieczeństwa.)
 
   const KW_LABELS={'select':'kolumny w SELECT','from':'tabela we FROM','where':'warunek WHERE',
     'group by':'GROUP BY','having':'HAVING','order by':'ORDER BY','limit':'LIMIT',
@@ -1632,10 +1878,7 @@ ZADANIE: ${q.desc.replace(/<[^>]+>/g,'')}
 WZORZEC:\n${q.ans}
 ODPOWIEDŹ STUDENTA:\n${user}
 Oceń ELASTYCZNIE: akceptuj różne warianty składni, aliasy, inną kolejność klauzul lub kolumn, SERIAL zamiast AUTO_INCREMENT itp.
-Odpowiedz TYLKO jako czysty JSON bez markdown: {"ok":true/false,"msg":"po polsku krótkie wyjaśnienie","tip":"1 rada lub wskazówka lub pusty string"}
-Możesz użyć w odpowiedzi polskich znaków. Nie dodawaj nic poza JSON. Jako poprawne dopuszczaj np. zgubiony średnik na końcu lub drobne literówki (np. "SELEC" zamiast "SELECT").
-Nie zawsze musisz porównywać odpowiedź ze wzorcem — jeśli odpowiedź jest poprawna, ale inna niż wzorzec, uznaj ją za poprawną i napisz w "msg" krótkie wyjaśnienie.
-miej świadomość, że nie w każdym zadaniu podany jest pełen kontekst tabeli i student może użyć innych nazw tabel/kolumn, które są logicznie poprawne. Oceń odpowiedź studenta w kontekście zadania, a nie w kontekście rzeczywistych nazw tabel we wzorcu.`;
+Odpowiedz TYLKO jako czysty JSON bez markdown, bez żadnego dodatkowego tekstu: {"ok":true/false,"msg":"po polsku max 2 zdania wyjaśnienia","tip":"1 krótka wskazówka lub pusty string"}`;
 
   try{
     if(provider==='gemini'){

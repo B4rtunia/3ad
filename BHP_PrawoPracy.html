@@ -1,0 +1,1373 @@
+<!DOCTYPE html>
+<html lang="pl" class="h-full bg-slate-900 text-slate-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BHP i Prawo Pracy - Aplikacja do Nauki</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+        .transform-style-3d {
+            transform-style: preserve-3d;
+        }
+        .backface-hidden {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+        .rotate-y-180 {
+            transform: rotateY(180deg);
+        }
+        .transition-transform-600 {
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased min-h-full flex flex-col bg-slate-900 text-slate-100 selection:bg-sky-500 selection:text-white">
+
+    <header class="sticky top-0 z-50 bg-slate-900/90 backdrop-blur border-b border-slate-800 shadow-lg">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo & Title -->
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-500 to-indigo-600 flex items-center justify-center shadow-md shadow-sky-500/20">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-lg font-bold bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent leading-tight">
+                            BHP i Prawo Pracy
+                        </h1>
+                        <p class="text-xs text-sky-400 font-medium">Kompleksowy Trener Wiedzy</p>
+                    </div>
+                </div>
+
+                <!-- Navigation Tabs -->
+                <nav class="flex p-1 bg-slate-800/80 rounded-xl border border-slate-700/60 overflow-x-auto max-w-[65vw] sm:max-w-none">
+                    <button id="tab-quiz" onclick="switchTab('quiz')" class="flex items-center space-x-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-200 bg-sky-600 text-white shadow-md whitespace-nowrap">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        <span>Quiz ABC</span>
+                    </button>
+                    <button id="tab-open" onclick="switchTab('open')" class="flex items-center space-x-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-medium text-slate-400 hover:text-slate-200 transition-all duration-200 whitespace-nowrap">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                        <span>Pytania Otwarte</span>
+                    </button>
+                    <button id="tab-flashcards" onclick="switchTab('flashcards')" class="flex items-center space-x-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-medium text-slate-400 hover:text-slate-200 transition-all duration-200 whitespace-nowrap">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+                        <span>Fiszki</span>
+                    </button>
+                    <button id="tab-notes" onclick="switchTab('notes')" class="flex items-center space-x-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-medium text-slate-400 hover:text-slate-200 transition-all duration-200 whitespace-nowrap hidden md:flex">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                        <span>Notatki</span>
+                    </button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-grow max-w-4xl w-full mx-auto px-4 py-6 sm:py-10">
+
+        <!-- ================= VIEW 1: QUIZ (MCQ) ================= -->
+        <section id="view-quiz" class="space-y-6">
+            
+            <div id="quiz-active-container" class="bg-slate-800/70 border border-slate-700/80 rounded-2xl p-5 sm:p-8 shadow-2xl backdrop-blur relative">
+                
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-4 border-b border-slate-700/60">
+                    <div class="flex items-center space-x-3">
+                        <span id="quiz-category-badge" class="px-3 py-1 rounded-full text-xs font-semibold bg-sky-500/10 text-sky-400 border border-sky-500/20">
+                            Kategoria
+                        </span>
+                        <span class="text-xs sm:text-sm font-medium text-slate-400">
+                            Pytanie <strong id="current-q-num" class="text-slate-200">1</strong> z <span id="total-q-num">25</span>
+                        </span>
+                    </div>
+
+                    <div class="flex items-center space-x-2 text-xs sm:text-sm bg-slate-900/60 px-3 py-1.5 rounded-lg border border-slate-700/50 self-start sm:self-auto">
+                        <span class="text-slate-400">Wynik:</span>
+                        <span id="quiz-score-badge" class="font-bold text-emerald-400">0 pkt</span>
+                    </div>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="w-full bg-slate-900 rounded-full h-2 mb-8 overflow-hidden p-0.5 border border-slate-700/40">
+                    <div id="quiz-progress-bar" class="bg-gradient-to-r from-sky-500 to-indigo-500 h-full rounded-full transition-all duration-300 w-0"></div>
+                </div>
+
+                <!-- Question -->
+                <div class="mb-8">
+                    <h2 id="quiz-question-text" class="text-lg sm:text-xl font-bold text-white leading-relaxed">
+                        Ładowanie pytania...
+                    </h2>
+                </div>
+
+                <!-- Options -->
+                <div id="quiz-options-container" class="grid grid-cols-1 gap-3.5 mb-6"></div>
+
+                <!-- Explanation Box -->
+                <div id="quiz-explanation-box" class="hidden p-4 rounded-xl border mb-6 transition-all duration-300">
+                    <div class="flex items-start space-x-3">
+                        <div id="explanation-icon" class="mt-0.5 flex-shrink-0"></div>
+                        <div>
+                            <h4 id="explanation-title" class="text-sm font-bold mb-1"></h4>
+                            <p id="explanation-text" class="text-xs sm:text-sm text-slate-300 leading-relaxed"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer button -->
+                <div class="flex justify-end pt-2">
+                    <button id="btn-next-question" onclick="nextQuestion()" disabled class="px-6 py-3 rounded-xl bg-slate-700 text-slate-400 font-semibold text-sm transition-all duration-200 flex items-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-sky-600 hover:text-white shadow-lg">
+                        <span>Następne pytanie</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Quiz Summary -->
+            <div id="quiz-summary-container" class="hidden bg-slate-800/80 border border-slate-700 rounded-2xl p-6 sm:p-10 text-center shadow-2xl space-y-6">
+                <div class="inline-flex p-4 rounded-full bg-sky-500/10 text-sky-400 border border-sky-500/20 mb-2">
+                    <svg class="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-white">Quiz Ukończony!</h2>
+                <div class="py-4 flex justify-center items-center gap-6">
+                    <div class="bg-slate-900/80 p-5 rounded-xl border border-slate-700 min-w-[130px]">
+                        <span class="block text-3xl font-extrabold text-sky-400" id="summary-percentage">0%</span>
+                        <span class="text-xs text-slate-400 font-medium uppercase tracking-wider">Wynik</span>
+                    </div>
+                    <div class="bg-slate-900/80 p-5 rounded-xl border border-slate-700 min-w-[130px]">
+                        <span class="block text-3xl font-extrabold text-emerald-400" id="summary-score">0 / 0</span>
+                        <span class="text-xs text-slate-400 font-medium uppercase tracking-wider">Punkty</span>
+                    </div>
+                </div>
+                <p id="summary-feedback" class="text-sm font-medium text-slate-300 bg-slate-900/40 p-4 rounded-xl border border-slate-800">--</p>
+                <div class="pt-2 flex flex-col sm:flex-row justify-center gap-3">
+                    <button onclick="restartQuiz()" class="px-6 py-3 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-sm transition shadow-lg shadow-sky-600/30 flex items-center justify-center space-x-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                        <span>Spróbuj ponownie</span>
+                    </button>
+                    <button onclick="switchTab('open')" class="px-6 py-3 rounded-xl bg-slate-700 hover:bg-slate-600 text-slate-200 font-bold text-sm transition flex items-center justify-center space-x-2">
+                        <span>Przejdź do Pytań Otwartych</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= VIEW 2: OPEN QUESTIONS (TRENING PISEMNY) ================= -->
+        <section id="view-open" class="hidden space-y-6">
+            <div id="open-active-container" class="bg-slate-800/70 border border-slate-700/80 rounded-2xl p-5 sm:p-8 shadow-2xl backdrop-blur space-y-6">
+                
+                <!-- Header -->
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-700/60">
+                    <div class="flex items-center space-x-3">
+                        <span id="open-category-badge" class="px-3 py-1 rounded-full text-xs font-semibold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+                            Pytanie Otwarte
+                        </span>
+                        <span class="text-xs sm:text-sm font-medium text-slate-400">
+                            Pytanie <strong id="open-q-num" class="text-slate-200">1</strong> z <span id="open-total-num">10</span>
+                        </span>
+                    </div>
+
+                    <div class="flex items-center space-x-2 text-xs sm:text-sm bg-slate-900/60 px-3 py-1.5 rounded-lg border border-slate-700/50 self-start sm:self-auto">
+                        <span class="text-slate-400">Ocenione:</span>
+                        <span id="open-score-badge" class="font-bold text-sky-400">0 zaliczonych</span>
+                    </div>
+                </div>
+
+                <!-- Open Question Title -->
+                <div>
+                    <h3 id="open-question-text" class="text-lg sm:text-xl font-bold text-white leading-relaxed">
+                        Ładowanie pytania otwartego...
+                    </h3>
+                    <p class="text-xs text-slate-400 mt-1">Sformułuj odpowiedź własnymi słowami w poniższym polu. System przeanalizuje najważniejsze pojęcia.</p>
+                </div>
+
+                <!-- Textarea input -->
+                <div id="open-input-container">
+                    <textarea id="open-user-input" rows="4" placeholder="Wpisz tutaj swoją odpowiedź..." class="w-full p-4 rounded-xl bg-slate-900 border border-slate-700 text-slate-100 placeholder-slate-500 text-sm focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition duration-200 resize-y"></textarea>
+                    
+                    <div class="mt-3 flex justify-end">
+                        <button id="btn-check-open" onclick="checkOpenAnswer()" class="px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-sm transition shadow-lg shadow-indigo-600/30 flex items-center space-x-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                            <span>Sprawdź odpowiedź</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Answer Analysis & Comparison Box (Hidden initially) -->
+                <div id="open-result-container" class="hidden space-y-6 pt-2">
+                    
+                    <!-- Keyword Match Summary -->
+                    <div class="bg-slate-900/80 p-5 rounded-xl border border-slate-700/80 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Wyryte kluczowe pojęcia</h4>
+                            <span id="open-match-ratio" class="text-xs font-bold text-sky-400 bg-sky-500/10 px-2.5 py-0.5 rounded-full border border-sky-500/20">0/0</span>
+                        </div>
+                        <div id="open-keywords-checklist" class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm"></div>
+                    </div>
+
+                    <!-- Comparison Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- User's Answer -->
+                        <div class="bg-slate-900/50 p-4 rounded-xl border border-slate-700/60">
+                            <h5 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Twoja Odpowiedź:</h5>
+                            <p id="display-user-answer" class="text-xs sm:text-sm text-slate-300 italic whitespace-pre-line leading-relaxed">--</p>
+                        </div>
+                        <!-- Model Answer -->
+                        <div class="bg-slate-900/90 p-4 rounded-xl border border-emerald-500/30">
+                            <h5 class="text-xs font-bold text-emerald-400 uppercase tracking-wider mb-2">Wzorcowa Odpowiedź:</h5>
+                            <p id="display-model-answer" class="text-xs sm:text-sm text-slate-200 font-medium whitespace-pre-line leading-relaxed">--</p>
+                        </div>
+                    </div>
+
+                    <!-- Self Assessment Actions -->
+                    <div class="bg-slate-800/90 p-4 rounded-xl border border-slate-700 flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <div class="text-center sm:text-left">
+                            <p class="text-xs font-semibold text-slate-200">Jak oceniasz swoją odpowiedź?</p>
+                            <p class="text-[11px] text-slate-400">Nawet jeśli użyłeś innych słów, oceń czy sens merytoryczny był zgodny ze wzorcem.</p>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <button onclick="gradeOpenAnswer(false)" class="px-4 py-2 rounded-lg bg-rose-950/60 hover:bg-rose-900 border border-rose-500/50 text-rose-300 font-medium text-xs transition flex items-center space-x-1.5">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                                <span>Do powtórki (0)</span>
+                            </button>
+                            <button onclick="gradeOpenAnswer(true)" class="px-4 py-2 rounded-lg bg-emerald-950/60 hover:bg-emerald-900 border border-emerald-500/50 text-emerald-300 font-bold text-xs transition flex items-center space-x-1.5 shadow-md">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                                <span>Znam to (+1)</span>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Open Questions Summary -->
+            <div id="open-summary-container" class="hidden bg-slate-800/80 border border-slate-700 rounded-2xl p-6 sm:p-10 text-center shadow-2xl space-y-6">
+                <div class="inline-flex p-4 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 mb-2">
+                    <svg class="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-white">Trening Pytania Otwarte Ukończony!</h2>
+                <div class="py-4 flex justify-center items-center gap-6">
+                    <div class="bg-slate-900/80 p-5 rounded-xl border border-slate-700 min-w-[150px]">
+                        <span class="block text-3xl font-extrabold text-indigo-400" id="open-summary-score">0 / 0</span>
+                        <span class="text-xs text-slate-400 font-medium uppercase tracking-wider">Zaliczone pytania</span>
+                    </div>
+                </div>
+                <div class="pt-2 flex justify-center">
+                    <button onclick="restartOpenQuestions()" class="px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-sm transition shadow-lg flex items-center space-x-2">
+                        <span>Rozpocznij od nowa</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= VIEW 3: FLASHCARDS ================= -->
+        <section id="view-flashcards" class="hidden space-y-6">
+            
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4 bg-slate-800/50 p-4 rounded-xl border border-slate-700/60">
+                <div class="flex items-center space-x-2">
+                    <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Karta:</span>
+                    <span id="flashcard-counter" class="text-sm font-bold text-sky-400">1 z 25</span>
+                </div>
+                
+                <div class="flex items-center space-x-2">
+                    <button onclick="randomFlashcard()" class="px-3 py-1.5 rounded-lg bg-slate-700 hover:bg-slate-600 text-xs font-medium text-slate-200 transition flex items-center space-x-1">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                        <span>Losowa</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="perspective-1000 w-full min-h-[340px] sm:min-h-[380px] cursor-pointer group" onclick="flipCard()">
+                <div id="flashcard-inner" class="relative w-full h-full min-h-[340px] sm:min-h-[380px] rounded-2xl transform-style-3d transition-transform-600 shadow-2xl">
+                    
+                    <!-- FRONT -->
+                    <div class="absolute inset-0 w-full h-full backface-hidden bg-gradient-to-br from-slate-800 to-slate-800/90 border border-slate-700 rounded-2xl p-6 sm:p-8 flex flex-col justify-between hover:border-sky-500/50 transition-colors">
+                        <div class="flex justify-between items-start">
+                            <span id="fc-category-front" class="px-3 py-1 rounded-full text-xs font-semibold bg-sky-500/10 text-sky-400 border border-sky-500/20">Pojęcie</span>
+                            <span class="text-xs text-slate-500 flex items-center space-x-1">
+                                <span>Kliknij, aby obrócić</span>
+                            </span>
+                        </div>
+                        <div class="my-auto text-center px-2 sm:px-6">
+                            <h3 id="fc-term" class="text-xl sm:text-2xl font-extrabold text-white tracking-tight leading-snug">--</h3>
+                            <p class="text-xs text-slate-400 mt-3 font-medium">Sprawdź czy pamiętasz szczegóły</p>
+                        </div>
+                        <div class="text-center text-xs text-slate-500">Fiszka przód</div>
+                    </div>
+
+                    <!-- BACK -->
+                    <div class="absolute inset-0 w-full h-full backface-hidden rotate-y-180 bg-gradient-to-br from-slate-800 via-slate-800 to-sky-950/60 border border-sky-500/40 rounded-2xl p-6 sm:p-8 flex flex-col justify-between">
+                        <div class="flex justify-between items-start">
+                            <span id="fc-category-back" class="px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Wyjaśnienie</span>
+                            <span class="text-xs text-slate-400">Kliknij ponownie, aby odwrócić</span>
+                        </div>
+                        <div class="my-auto px-2 sm:px-4">
+                            <p id="fc-definition" class="text-sm sm:text-base text-slate-200 leading-relaxed font-normal whitespace-pre-line">--</p>
+                        </div>
+                        <div class="text-center text-xs text-sky-400/70 font-medium">Fiszka tył</div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <div class="flex items-center justify-between gap-3 pt-2">
+                <button onclick="prevFlashcard()" class="flex-1 sm:flex-none px-5 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-sm transition border border-slate-700 flex items-center justify-center space-x-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                    <span>Poprzednia</span>
+                </button>
+                <button onclick="flipCard()" class="px-5 py-3 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-sm transition shadow-lg shadow-sky-600/30">
+                    <span>Obróć kartę</span>
+                </button>
+                <button onclick="nextFlashcard()" class="flex-1 sm:flex-none px-5 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-sm transition border border-slate-700 flex items-center justify-center space-x-2">
+                    <span>Następna</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                </button>
+            </div>
+        </section>
+
+        <!-- ================= VIEW 4: FULL NOTES ================= -->
+        <section id="view-notes" class="hidden space-y-6">
+            <div class="bg-slate-800/60 border border-slate-700/80 rounded-2xl p-6 sm:p-8 space-y-8">
+                
+                <div class="border-b border-slate-700/80 pb-4 flex flex-col sm:flex-row justify-between sm:items-center gap-2">
+                    <div>
+                        <h2 class="text-xl font-bold text-white mb-1">Pełne Notatki z BHP i Prawa Pracy</h2>
+                        <p class="text-xs sm:text-sm text-slate-400">Kompletny materiał teoretyczny podzielony na 7 głównych bloków tematycznych.</p>
+                    </div>
+                </div>
+
+                <!-- Section 1 -->
+                <div class="space-y-3">
+                    <h3 class="text-base font-bold text-sky-400 flex items-center space-x-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-sky-400"></span>
+                        <span>1. Pojęcia podstawowe</span>
+                    </h3>
+                    <div class="bg-slate-900/70 p-4 sm:p-5 rounded-xl text-xs sm:text-sm text-slate-300 space-y-3 border border-slate-800">
+                        <p><strong class="text-white">Bezpieczeństwo pracy:</strong> Zespół warunków, które muszą być zapewnione, aby pracownicy mogli pracować bezpiecznie i bez szkody dla zdrowia.</p>
+                        <p><strong class="text-white">Higiena pracy:</strong> Nauka, której celem jest poznawanie wpływu czynników fizycznych, chemicznych, psychologicznych i psychofizycznych otoczenia na zdrowie człowieka oraz badanie reakcji organizmu ludzkiego na oddziaływanie tych czynników.</p>
+                    </div>
+                </div>
+
+                <!-- Section 2 -->
+                <div class="space-y-3">
+                    <h3 class="text-base font-bold text-sky-400 flex items-center space-x-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-sky-400"></span>
+                        <span>2. Wypadki przy pracy</span>
+                    </h3>
+                    <div class="bg-slate-900/70 p-4 sm:p-5 rounded-xl text-xs sm:text-sm text-slate-300 space-y-3 border border-slate-800">
+                        <ol class="list-decimal list-inside space-y-2.5 leading-relaxed">
+                            <li><strong class="text-white">Definicja:</strong> Zdarzenie nagłe wywołane przyczyną zewnętrzną, powodujące uraz lub śmierć (zdarzenie niepożądane, powodujące straty).</li>
+                            <li><strong class="text-white">Warunki kwalifikacji:</strong> Zdarzenie może zostać zakwalifikowane jako wypadek przy pracy tylko wtedy, gdy wszystkie jego elementy (nagłość, przyczyna zewnętrzna, związek z pracą, uraz lub śmierć) występują równolegle.</li>
+                            <li><strong class="text-white">Zrównanie z wypadkiem przy pracy:</strong> Na równi z wypadkami przy pracy traktuje się także wypadek, któremu pracownik uległ w czasie podróży służbowej.</li>
+                            <li><strong class="text-white">Zgłaszanie wypadku:</strong> Pracownik, który uległ wypadkowi – jeżeli jego stan zdrowia na to pozwala – powinien niezwłocznie poinformować o zdarzeniu przełożonego. Obowiązek ten dotyczy nie tylko poszkodowanego, lecz każdego pracownika. W celach dowodowych wypadek należy zgłosić w formie pisemnej.</li>
+                            <li><strong class="text-white">Podział ze względu na liczbę poszkodowanych:</strong> Wypadki dzielimy na indywidualne i zbiorowe.</li>
+                            <li><strong class="text-white">Podział ze względu na rodzaj strat:</strong> Wypadki dzielimy na urazowe i bezurazowe.</li>
+                            <li><strong class="text-white">Przyczyny zagrożeń wypadkowych:</strong> Nieumiejętność wykonywania danej pracy, brak zabezpieczeń, nieprzestrzeganie przepisów BHP, zła organizacja pracy, nieuwaga.</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- Section 3 -->
+                <div class="space-y-3">
+                    <h3 class="text-base font-bold text-sky-400 flex items-center space-x-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-sky-400"></span>
+                        <span>3. Choroby zawodowe</span>
+                    </h3>
+                    <div class="bg-slate-900/70 p-4 sm:p-5 rounded-xl text-xs sm:text-sm text-slate-300 space-y-3 border border-slate-800">
+                        <ol class="list-decimal list-inside space-y-2">
+                            <li><strong class="text-white">Definicja:</strong> Choroba zawodowa to pojęcie medyczno-prawne oznaczające schorzenie powstałe na skutek działania czynników szkodliwych dla zdrowia występujących w środowisku pracy.</li>
+                            <li><strong class="text-white">Wykaz chorób:</strong> Chorobą zawodową może być tylko takie schorzenie, które ujęto w oficjalnym krajowym wykazie chorób zawodowych.</li>
+                            <li><strong class="text-white">Profilaktyka:</strong> Zapobieganie chorobom zawodowym polega przede wszystkim na wykrywaniu i usuwaniu zagrożeń w środowisku pracy oraz na regularnych badaniach lekarskich pracowników.</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- Section 4 -->
+                <div class="space-y-3">
+                    <h3 class="text-base font-bold text-sky-400 flex items-center space-x-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-sky-400"></span>
+                        <span>4. Główne źródła prawa pracy w Polsce</span>
+                    </h3>
+                    <div class="bg-slate-900/70 p-4 sm:p-5 rounded-xl text-xs sm:text-sm text-slate-300 space-y-3 border border-slate-800">
+                        <p class="font-semibold text-white">Źródła prawa pracy:</p>
+                        <ul class="list-disc list-inside space-y-1 pl-2 text-slate-300">
+                            <li>Konstytucja RP (ustawa zasadnicza).</li>
+                            <li>Ustawy (np. Kodeks pracy).</li>
+                            <li>Rozporządzenia Rady Ministrów i poszczególnych ministrów.</li>
+                            <li>Uchwały Rady Ministrów i Zarządzenia.</li>
+                            <li>Akty wewnątrzzakładowe: układy zbiorowe pracy, regulaminy i statuty.</li>
+                        </ul>
+                        <p class="text-sky-300/90 pt-1 border-t border-slate-800">
+                            <strong>Publikacja przepisów:</strong> Ustawy i rozporządzenia są publikowane w Dzienniku Ustaw, a uchwały i zarządzenia w Monitorze Polskim.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Section 5 -->
+                <div class="space-y-3">
+                    <h3 class="text-base font-bold text-sky-400 flex items-center space-x-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-sky-400"></span>
+                        <span>5. Trzy główne funkcja prawa pracy</span>
+                    </h3>
+                    <div class="bg-slate-900/70 p-4 sm:p-5 rounded-xl text-xs sm:text-sm text-slate-300 space-y-2 border border-slate-800">
+                        <ol class="list-decimal list-inside space-y-2">
+                            <li><strong class="text-white">Ochronna:</strong> Przepisy zabezpieczają interesy i zdrowie pracowników.</li>
+                            <li><strong class="text-white">Organizacyjna:</strong> Przepisy określają uprawnienia i obowiązki pracownika oraz organizują przebieg procesu pracy.</li>
+                            <li><strong class="text-white">Wychowawcza / Wykonawcza:</strong> Przepisy kształtują i kontrolują właściwe postawy pracodawców i pracowników w procesie pracy (m.in. poprzez system nagród i kar).</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- Section 6 -->
+                <div class="space-y-3">
+                    <h3 class="text-base font-bold text-sky-400 flex items-center space-x-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-sky-400"></span>
+                        <span>6. Kodeks pracy – najważniejsze źródło prawa pracy</span>
+                    </h3>
+                    <div class="bg-slate-900/70 p-4 sm:p-5 rounded-xl text-xs sm:text-sm text-slate-300 space-y-2 border border-slate-800">
+                        <ul class="list-disc list-inside space-y-2">
+                            <li>Kodeks pracy jest ustawą, do której uprawnione organy państwowe wydają akty wykonawcze.</li>
+                            <li>Obowiązuje od <strong class="text-white">1975 roku</strong> i od tego czasu wprowadzano w nim liczne zmiany (nowelizacje).</li>
+                            <li>Składa się z <strong class="text-white">15 działów</strong>.</li>
+                            <li>Wykładnię prawa sprawują m.in. <strong class="text-white">Minister właściwy do spraw pracy oraz Sąd Najwyższy</strong>.</li>
+                            <li><strong class="text-white">Regulamin pracy:</strong> Normuje i organizuje porządek wewnętrzny; nie może być mniej korzystny dla pracownika niż przepisy nadrzędne.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Section 7 -->
+                <div class="space-y-3">
+                    <h3 class="text-base font-bold text-sky-400 flex items-center space-x-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-sky-400"></span>
+                        <span>7. Prawa i obowiązki pracodawcy oraz pracownika w zakresie BHP</span>
+                    </h3>
+                    <div class="bg-slate-900/70 p-4 sm:p-5 rounded-xl text-xs sm:text-sm text-slate-300 space-y-4 border border-slate-800">
+                        <div class="space-y-2 border-b border-slate-800 pb-3">
+                            <h4 class="font-bold text-white text-sm">A. Obowiązki i prawa pracodawcy</h4>
+                            <p>Pracodawca ponosi odpowiedzialność za stan BHP w zakładzie pracy oraz jest zobowiązany chronić zdrowie i życie pracowników poprzez zapewnienie bezpiecznych warunków pracy przy wykorzystaniu osiągnięć nauki i techniki.</p>
+                            
+                            <p class="font-semibold text-sky-300 pt-2">Badania profilaktyczne:</p>
+                            <ul class="list-disc list-inside space-y-1 pl-2 text-slate-300">
+                                <li><strong>Wstępne:</strong> przy przyjmowaniu do pracy.</li>
+                                <li><strong>Okresowe:</strong> częstotliwość zależy od stanowiska.</li>
+                                <li><strong>Kontrolne:</strong> po chorobie trwającej ponad 30 dni.</li>
+                            </ul>
+
+                            <p class="font-semibold text-sky-300 pt-2">Szkolenia BHP (art. 237³ KP):</p>
+                            <ul class="list-disc list-inside space-y-1 pl-2 text-slate-300">
+                                <li><strong>Wstępne:</strong> instruktaż ogólny + stanowiskowy.</li>
+                                <li><strong>Okresowe:</strong> robotnicze z dużym ryzykiem (raz na rok), zwykłe robotnicze (raz na 3 lata), pozostałe (raz na 5–6 lat).</li>
+                            </ul>
+                        </div>
+
+                        <div class="space-y-2">
+                            <h4 class="font-bold text-white text-sm">B. Prawa i obowiązki pracownika</h4>
+                            <ul class="list-disc list-inside space-y-1 text-slate-300">
+                                <li><strong class="text-white">Prawo:</strong> powstrzymania się od pracy w razie bezpośredniego zagrożenia życia/zdrowia.</li>
+                                <li><strong class="text-white">Obowiązki:</strong> sumienne wykonywanie pracy, przestrzeganie przepisów BHP, stosowanie się do poleceń przełożonych.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-auto border-t border-slate-800 py-4 text-center text-xs text-slate-500">
+        BHP & Prawo Pracy • Aplikacja Gotowa do Publikacji (GitHub Pages compatible)
+    </footer>
+
+    <script>
+        /* ================= 1. MULTIPLE CHOICE QUIZ DATA (25 QUESTIONS) ================= */
+        const quizData = [
+            {
+                category: "Pojęcia podstawowe",
+                question: "Czym jest Bezpieczeństwo Pracy?",
+                options: [
+                    "Zbiorem procedur medycznych do udzielania pierwszej pomocy w zakładzie",
+                    "Zespołem warunków, które muszą być zapewnione, aby pracownicy mogli pracować bezpiecznie i bez szkody dla zdrowia",
+                    "Oficjalną nauką badającą wyłącznie chemiczne skażenia w zakładach produkcyjnych",
+                    "Regulaminem ustalającym stawki wynagrodzeń za pracę w trudnych warunkach"
+                ],
+                correct: 1,
+                explanation: "Bezpieczeństwo pracy to zespół warunków, które muszą być zapewnione, aby pracownicy mogli pracować bezpiecznie i bez szkody dla zdrowia."
+            },
+            {
+                category: "Pojęcia podstawowe",
+                question: "Czym zajmuje się Nauka o Higienie Pracy?",
+                options: [
+                    "Sprzątaniem i dezynfekcją biur oraz stanowisk roboczych",
+                    "Poznawaniem wpływu czynników fizycznych, chemicznych, psychologicznych i psychofizycznych na zdrowie człowieka",
+                    "Ustalaniem czasu trwania urlopów wypoczynkowych",
+                    "Kontrolą stanu technicznego maszyn ciężkich"
+                ],
+                correct: 1,
+                explanation: "Higiena pracy to nauka badająca wpływ czynników fizycznych, chemicznych, psychologicznych i psychofizycznych otoczenia na zdrowie ludzkie."
+            },
+            {
+                category: "Wypadki przy pracy",
+                question: "Który zestaw opisuje definicję wypadku przy pracy (wszystkie warunki muszą wystąpić równolegle)?",
+                options: [
+                    "Nagłość, przyczyna wewnętrzna, uraz lub śmierć, brak związku z pracą",
+                    "Nagłość, przyczyna zewnętrzna, związek z pracą, uraz lub śmierć",
+                    "Planowane zdarzenie, przyczyna zewnętrzna, choroba przewlekła, związek z pracą",
+                    "Nagłość, wina pracodawcy, absencja powyżej 30 dni, brak urazu"
+                ],
+                correct: 1,
+                explanation: "Definicja wypadku przy pracy wymaga łącznego spełnienia 4 przesłanek: nagłości, przyczyny zewnętrznej, związku z pracą oraz wystąpienia urazu lub śmierci."
+            },
+            {
+                category: "Wypadki przy pracy",
+                question: "Jaki wypadek traktuje się na równi z wypadkiem przy pracy?",
+                options: [
+                    "Wypadek podczas załatwiania spraw prywatnych w czasie przerwy",
+                    "Wypadek, któremu pracownik uległ w czasie podróży służbowej",
+                    "Zdarzenie powstałe w domu pracownika podczas urlopu",
+                    "Zdarzenie w drodze na zakupy po godzinach pracy"
+                ],
+                correct: 1,
+                explanation: "Wypadek w czasie podróży służbowej traktuje się na równi z wypadkiem przy pracy."
+            },
+            {
+                category: "Wypadki przy pracy",
+                question: "Kto i w jakiej formie ma obowiązek zgłosić wypadek przy pracy?",
+                options: [
+                    "Wyłącznie poszkodowany, wyłącznie ustnie w ciągu 24h",
+                    "Każdy pracownik (jeśli stan na to pozwala), w formie pisemnej niezwłocznie przełożonemu",
+                    "Wyłącznie inspektor PIP w formie elektronicznej",
+                    "Przedstawiciel związków zawodowych raz w miesiącu"
+                ],
+                correct: 1,
+                explanation: "Obowiązek poinformowania przełożonego dotyczy każdego pracownika. W celach dowodowych wypadek należy zgłosić w formie pisemnej."
+            },
+            {
+                category: "Wypadki przy pracy",
+                question: "Jak dzielimy wypadki ze względu na rodzaj powstałych strat?",
+                options: [
+                    "Na lekkie i cięzkie",
+                    "Na urazowe i bezurazowe",
+                    "Na indywidualne i zbiorowe",
+                    "Na finansowe i materialne"
+                ],
+                correct: 1,
+                explanation: "Ze względu na rodzaj strat wypadki dzielimy na urazowe oraz bezurazowe (ze względu na liczbę poszkodowanych – na indywidualne i zbiorowe)."
+            },
+            {
+                category: "Wypadki przy pracy",
+                question: "Który czynnik NIE JEST bezpośrednią przyczyną zagrożeń wypadkowych opisaną w notatkach?",
+                options: [
+                    "Nieumiejętność wykonywania danej pracy",
+                    "Brak zabezpieczeń i nieprzestrzeganie BHP",
+                    "Niewystarczająco wysoka pensja zasadnicza",
+                    "Zła organizacja pracy i nieuwaga"
+                ],
+                correct: 2,
+                explanation: "Główne przyczyny zagrożeń to: nieumiejętność pracy, brak zabezpieczeń, łamanie przepisów BHP, zła organizacja oraz nieuwaga."
+            },
+            {
+                category: "Choroby zawodowe",
+                question: "Co decyduje o zakwalifikowaniu schorzenia jako choroby zawodowej?",
+                options: [
+                    "Wyłącznie opinia lekarza rodzinnego",
+                    "Ujęcie danego schorzenia w oficjalnym krajowym wykazie chorób zawodowych oraz wywołanie go czynnikami szkodliwymi w środowisku pracy",
+                    "Przebywanie na L4 przez co najmniej 180 dni",
+                    "Uznanie choroby przez kierownika zakładu pracy"
+                ],
+                correct: 1,
+                explanation: "Chorobą zawodową może być tylko schorzenie ujęte w krajowym wykazie chorób zawodowych i wywołane szkodliwymi czynnikami w pracy."
+            },
+            {
+                category: "Choroby zawodowe",
+                question: "Na czym polega zapobieganie chorobom zawodowym?",
+                options: [
+                    "Na wypłacaniu ekwiwalentów pieniężnych za pracę w trudnych warunkach",
+                    "Na wykrywaniu i usuwaniu zagrożeń w środowisku pracy oraz regularnych badaniach lekarskich",
+                    "Na skracaniu czasu pracy każdego pracownika o połowę",
+                    "Na corocznej zmianie stanowiska pracy każdego pracownika"
+                ],
+                correct: 1,
+                explanation: "Zapobieganie polega głównie na wykrywaniu/usuwaniu zagrożeń w zakładzie oraz profilaktycznych badaniach lekarskich."
+            },
+            {
+                category: "Źródła Prawa",
+                question: "Gdzie publikuje się Ustawy i Rozporządzenia w Polsce?",
+                options: [
+                    "W Monitorze Polskim",
+                    "W Dzienniku Ustaw",
+                    "W Kodeksie Pracy",
+                    "W Gazecie Urzędowej"
+                ],
+                correct: 1,
+                explanation: "Ustawy i rozporządzenia są publikowane w Dzienniku Ustaw, natomiast uchwały i zarządzenia w Monitorze Polskim."
+            },
+            {
+                category: "Źródła Prawa",
+                question: "Gdzie publikowane są Uchwały Rady Ministrów i Zarządzenia?",
+                options: [
+                    "W Dzienniku Ustaw",
+                    "W Monitorze Polskim",
+                    "W regulaminie wewnątrzzakładowym",
+                    "W Dzienniku Urzędowym Ministerstwa"
+                ],
+                correct: 1,
+                explanation: "Uchwały Rady Ministrów i zarządzenia publikuje się w Monitorze Polskim."
+            },
+            {
+                category: "Funkcje Prawa Pracy",
+                question: "Na czym polega ORGANIZACYJNA funkcja prawa pracy?",
+                options: [
+                    "Na wyłącznym zabezpieczeniu interesu finansowego pracownika",
+                    "Na określaniu uprawnień i zobowiązań pracownika oraz porządkowaniu przebiegu procesu pracy",
+                    "Na karaniu pracowników za błędy merytoryczne",
+                    "Na corocznym organizowaniu wyjazdów integracyjnych"
+                ],
+                correct: 1,
+                explanation: "Funkcja organizacyjna określa uprawnienia i obowiązki oraz normuje przebieg procesu pracy."
+            },
+            {
+                category: "Funkcje Prawa Pracy",
+                question: "Która funkcja prawa pracy kształtuje postawy pracowników i pracodawców m.in. poprzez system nagród i kar?",
+                options: [
+                    "Funkcja Ochronna",
+                    "Funkcja Wykonawcza / Wychowawcza",
+                    "Funkcja Organizacyjna",
+                    "Funkcja Podatkowa"
+                ],
+                correct: 1,
+                explanation: "Funkcja Wykonawcza / Wychowawcza wpływa na właściwe postawy w procesie pracy poprzez system nagród i kar."
+            },
+            {
+                category: "Kodeks pracy",
+                question: "Od którego roku obowiązuje w Polsce Kodeks pracy i z ilu działów się składa?",
+                options: [
+                    "Od 1989 roku, 12 działów",
+                    "Od 1975 roku, 15 działów",
+                    "Od 1997 roku, 10 działów",
+                    "Od 2004 roku, 18 działów"
+                ],
+                correct: 1,
+                explanation: "Kodeks pracy obowiązuje od 1975 roku (podlega nowelizacjom) i składa się z 15 działów."
+            },
+            {
+                category: "Kodeks pracy",
+                question: "Do kogo należy dokonywanie oficjalnej wykładni przepisów prawa pracy?",
+                options: [
+                    "Do Państwowej Inspekcji Handlowej",
+                    "Do Ministra właściwego do spraw pracy oraz Sądu Najwyższego",
+                    "Do Zarządu spółki z o.o.",
+                    "Do dyrektora urzędu skarbowego"
+                ],
+                correct: 1,
+                explanation: "Wykładnię prawa (ustalanie właściwego znaczenia przepisów) sprawują Minister właściwy do spraw pracy oraz Sąd Najwyższy."
+            },
+            {
+                category: "Kodeks pracy",
+                question: "Jaki jest kluczowy wymóg dotyczący treści Regulaminu Pracy?",
+                options: [
+                    "Musi być zmieniany co najmniej raz w roku",
+                    "Nie może być mniej korzystny dla pracownika niż przepisy nadrzędne (np. Kodeks pracy)",
+                    "Musi być zatwierdzony przez Sąd Najwyższy",
+                    "Musi zwolnić pracodawcę z odpowiedzialności za BHP"
+                ],
+                correct: 1,
+                explanation: "Regulamin pracy nie może zawierać postanowień mniej korzystnych dla pracownika niż przepisy wyższego rzędu."
+            },
+            {
+                category: "Badania lekarskie",
+                question: "Kiedy pracownik podlega badaniom KONTROLNYM?",
+                options: [
+                    "Przed podjęciem nowej pracy na danym stanowisku",
+                    "Po nieobecności w pracy spowodowanej chorobą trwającej dłużej niż 30 dni",
+                    "Co 3 lata na stanowiskach robotniczych",
+                    "Po każdym wypadku przy pracy bez względu na czas nieobecności"
+                ],
+                correct: 1,
+                explanation: "Badania kontrolne są wymagane po nieobecności w pracy z powodu choroby trwającej dłużej niż 30 dni."
+            },
+            {
+                category: "Badania lekarskie",
+                question: "Kto wydaje skierowanie, opłaca oraz przechowuje wyniki profilaktycznych badań lekarskich?",
+                options: [
+                    "Pracownik sam opłaca i przechowuje badania",
+                    "Pracodawca wydaje skierowanie, opłaca badania i przechowuje orzeczenia",
+                    "ZUS pokrywa koszty i przechowuje dokumentację",
+                    "Lekarz medycyny pracy wysyła rachunek do Urzędu Skarbowego"
+                ],
+                correct: 1,
+                explanation: "Badania odbywają się na podstawie skierowania wydanego przez pracodawcę, który pokrywa ich koszty i przechowuje orzeczenia."
+            },
+            {
+                category: "Szkolenia BHP",
+                question: "Który artykuł Kodeksu pracy zakazuje dopuszczenia pracownika do pracy bez wymaganych kwalifikacji i znajomości BHP?",
+                options: [
+                    "Art. 100 Kodeksu pracy",
+                    "Art. 237³ Kodeksu pracy",
+                    "Art. 52 Kodeksu pracy",
+                    "Art. 300 Kodeksu pracy"
+                ],
+                correct: 1,
+                explanation: "Przepis ten reguluje Art. 237³ Kodeksu pracy."
+            },
+            {
+                category: "Szkolenia BHP",
+                question: "Z jakich modułów składa się WSTĘPNE szkolenie BHP?",
+                options: [
+                    "Z egzaminu państwowego i kursu pierwszej pomocy",
+                    "Z instruktażu ogólnego oraz instruktażu stanowiskowego",
+                    "Z testu psychologicznego i badania lekarskiego",
+                    "Z zapoznania się z Regulaminem i podpisania umowy"
+                ],
+                correct: 1,
+                explanation: "Szkolenie wstępne obejmuje instruktaż ogólny oraz instruktaż stanowiskowy."
+            },
+            {
+                category: "Szkolenia BHP",
+                question: "Jak często przeprowadza się okresowe szkolenia BHP dla stanowisk robotniczych z DUŻYM ryzykiem?",
+                options: [
+                    "Raz na 3 lata",
+                    "Raz na rok",
+                    "Raz na 5-6 lat",
+                    "Tylko raz na początku zatrudnienia"
+                ],
+                correct: 1,
+                explanation: "Na stanowiskach robotniczych z dużym zagrożeniem szkolenie okresowe odbywa się raz na rok (zwykłe robotnicze – raz na 3 lata)."
+            },
+            {
+                category: "Szkolenia BHP",
+                question: "Co ile lat przeprowadza się szkolenia okresowe BHP dla pracowników na stanowiskach administracyjno-biurowych i pozostałych?",
+                options: [
+                    "Raz na rok",
+                    "Raz na 3 lata",
+                    "Raz na 5–6 lat",
+                    "Co 10 lat"
+                ],
+                correct: 2,
+                explanation: "Dla pozostałych stanowisk (w tym biurowych, kierowniczych) szkolenia okresowe odbywają się raz na 5–6 lat."
+            },
+            {
+                category: "Prawa Pracownika",
+                question: "Kiedy pracownik ma prawo POWSTRZYMAĆ SIĘ od wykonywania pracy?",
+                options: [
+                    "Gdy nie otrzymał premii w terminie",
+                    "Gdy warunki pracy nie odpowiadają przepisom BHP i stwarzają bezpośrednie zagrożenie dla zdrowia lub życia",
+                    "Gdy temperatura na zewnątrz przekracza 25 stopni Celsjusza",
+                    "W dowolnym momencie po uprzedzeniu przełożonego"
+                ],
+                correct: 1,
+                explanation: "Pracownik może powstrzymać się od pracy, jeśli warunki BHP nie są spełnione i stwarzają bezpośrednie zagrożenie zdrowia/życia."
+            },
+            {
+                category: "Obowiązki Pracownika",
+                question: "Jaki jest podstawowy obowiązek pracownika w stosunku do poleceń przełożonych?",
+                options: [
+                    "Wykonanie każdego polecenia bez wyjątku",
+                    "Stosowanie się do poleceń dotyczących pracy, jeśli nie są sprzeczne z przepisami prawa lub umową o pracę",
+                    "Wykonanie polecenia tylko wtedy, gdy wyrazi na to zgodę związek zawodowy",
+                    "Konsultowanie każdego polecenia z lekarzem medycyny pracy"
+                ],
+                correct: 1,
+                explanation: "Pracownik musi stosować się do poleceń przełożonych dotyczących pracy, o ile nie są one sprzeczne z prawem lub umową."
+            },
+            {
+                category: "Obowiązki Pracodawcy",
+                question: "Za co odpowiada pracodawca w zakresie BHP w zakładzie pracy?",
+                options: [
+                    "Odpowiada wyłącznie za zapewnienie odzieży roboczej",
+                    "Ponosi odpowiedzialność za stan BHP i chroni zdrowie/życie pracowników wykorzystując osiągnięcia nauki i techniki",
+                    "Odpowiada tylko za wypadki ciężkie i śmiertelne",
+                    "Nie ponosi odpowiedzialności, jeśli pracownik podpisał szkolenie BHP"
+                ],
+                correct: 1,
+                explanation: "Pracodawca ponosi pełną odpowiedzialność za stan BHP w zakładzie i ochronę zdrowia oraz życia pracowników."
+            }
+        ];
+
+
+        /* ================= 2. OPEN QUESTIONS DATA (TRENING PISEMNY) ================= */
+        const openQuestionsData = [
+            {
+                category: "Wypadki przy pracy",
+                question: "Podaj definicję wypadku przy pracy oraz wymień 4 warunki, które muszą wystąpić RÓWNOLEGLE, aby zdarzenie uznano za taki wypadek.",
+                modelAnswer: "Wypadek przy pracy to zdarzenie nagłe wywołane przyczyną zewnętrzną, powodujące uraz lub śmierć, mające związek z pracą.\n\n4 warunki występujące równolegle:\n1) Nagłość zdarzenia\n2) Przyczyna zewnętrzna\n3) Związek z pracą\n4) Uraz lub śmierć poszkodowanego.",
+                keyConcepts: [
+                    { label: "Nagłość zdarzenia", stems: ["nagł"] },
+                    { label: "Przyczyna zewnętrzna", stems: ["zewnątrz", "zewnetrz"] },
+                    { label: "Związek z pracą", stems: ["związ", "zwiaz", "prac"] },
+                    { label: "Uraz lub śmierć", stems: ["uraz", "śmierć", "smierc"] }
+                ]
+            },
+            {
+                category: "Profilaktyka Lekarska",
+                question: "Wymień 3 rodzaje profilaktycznych badań lekarskich pracowników i krótko wyjaśnij, kiedy wykonuje się badania kontrolne.",
+                modelAnswer: "Trzy rodzaje badań profilaktycznych to:\n1) Wstępne (przy przyjmowaniu do pracy)\n2) Okresowe (wykonywane cyklicznie)\n3) Kontrolne.\n\nBadania KONTROLNE wykonuje się po nieobecności pracownika w pracy spowodowanej chorobą trwającej dłużej niż 30 dni.",
+                keyConcepts: [
+                    { label: "Badania wstępne", stems: ["wstępn", "wstepn"] },
+                    { label: "Badania okresowe", stems: ["okresow"] },
+                    { label: "Badania kontrolne", stems: ["kontroln"] },
+                    { label: "Nieobecność / choroba > 30 dni", stems: ["30", "trzy"] }
+                ]
+            },
+            {
+                category: "Szkolenia BHP",
+                question: "Jakie są rodzaje szkoleń BHP i jak często należy przeprowadzać szkolenia okresowe na stanowiskach robotniczych z dużym ryzykiem?",
+                modelAnswer: "Rodzaje szkoleń BHP:\n1) Szkolenie wstępne (instruktaż ogólny + stanowiskowy)\n2) Szkolenia okresowe.\n\nSzkolenia okresowe na stanowiskach robotniczych z DUŻYM ryzykiem przeprowadza się raz na rok (a na zwykłych stanowiskach robotniczych raz na 3 lata).",
+                keyConcepts: [
+                    { label: "Szkolenie wstępne", stems: ["wstępn", "wstepn"] },
+                    { label: "Szkolenie okresowe", stems: ["okresow"] },
+                    { label: "Stanowisko robotnicze z dużym ryzykiem: RAZ NA ROK", stems: ["rok", "roczn", "1"] }
+                ]
+            },
+            {
+                category: "Źródła Prawa Pracy",
+                question: "Wymień hierarchię źródeł prawa pracy w Polsce oraz wskąż, gdzie publikuje się ustawy i rozporządzenia, a gdzie uchwały i zarządzenia.",
+                modelAnswer: "Źródła prawa pracy:\n1) Konstytucja RP\n2) Ustawy (np. Kodeks pracy)\n3) Rozporządzenia\n4) Uchwały i Zarządzenia\n5) Akty wewnątrzzakładowe (układy zbiorowe, regulaminy, statuty).\n\nPublikacja:\n- Ustawy i Rozporządzenia -> Dziennik Ustaw\n- Uchwały i Zarządzenia -> Monitor Polski.",
+                keyConcepts: [
+                    { label: "Konstytucja / Ustawy / Kodeks pracy", stems: ["konstytucj", "ustaw", "kodeks"] },
+                    { label: "Dziennik Ustaw (Ustawy i Rozporządzenia)", stems: ["dziennik", "ustaw"] },
+                    { label: "Monitor Polski (Uchwały i Zarządzenia)", stems: ["monitor", "polsk"] }
+                ]
+            },
+            {
+                category: "Prawa Pracownika",
+                question: "Kiedy pracownik ma prawo powstrzymać się od wykonywania pracy w kontekście BHP?",
+                modelAnswer: "Pracownik ma prawo powstrzymać się od wykonywania pracy, gdy warunki pracy nie odpowiadają przepisom BHP i stwarzają bezpośrednie zagrożenie dla zdrowia lub życia pracownika (albo gdy wykonywana praca grozi takim zagrożeniem innym osobom).",
+                keyConcepts: [
+                    { label: "Warunki nieodpowiadające BHP", stems: ["przepis", "bhp", "warunk"] },
+                    { label: "Bezpośrednie zagrożenie zdrowia lub życia", stems: ["zagroż", "zagroz", "zdrow", "żyć", "zyci"] }
+                ]
+            },
+            {
+                category: "Choroby Zawodowe",
+                question: "Co to jest choroba zawodowa i od czego zależy jej formalne uznanie?",
+                modelAnswer: "Choroba zawodowa to pojęcie medyczno-prawne oznaczające schorzenie powstałe na skutek działania szkodliwych czynników występujących w środowisku pracy.\n\nFormalne uznanie zależy od ujęcia danego schorzenia w oficjalnym krajowym wykazie chorób zawodowych.",
+                keyConcepts: [
+                    { label: "Szkodliwe czynniki w środowisku pracy", stems: ["szkodliw", "środowisk", "srodowisk", "czynnik"] },
+                    { label: "Krajowy wykaz chorób zawodowych", stems: ["wykaz", "lista", "oficjaln"] }
+                ]
+            },
+            {
+                category: "Funkcje Prawa Pracy",
+                question: "Wymień 3 główne funkcje prawa pracy i krótko opisz funkcję ochronną.",
+                modelAnswer: "Trzy główne funkcja prawa pracy to:\n1) Funkcja Ochronna\n2) Funkcja Organizacyjna\n3) Funkcja Wychowawcza / Wykonawcza.\n\nFunkcja ochronna polega na zabezpieczeniu interesów, zdrowia oraz trwałości stosunku pracy pracowników jako słabszej strony relacji.",
+                keyConcepts: [
+                    { label: "Ochronna", stems: ["ochron"] },
+                    { label: "Organizacyjna", stems: ["organizac"] },
+                    { label: "Wychowawcza / Wykonawcza", stems: ["wychow", "wykon"] }
+                ]
+            },
+            {
+                category: "Kodeks pracy",
+                question: "Kiedy wszedł w życie Kodeks pracy, z ilu działów się składa oraz co to jest Regulamin Pracy?",
+                modelAnswer: "Kodeks pracy obowiązuje od 1975 roku i składa się z 15 działów.\n\nRegulamin pracy to akt wewnątrzzakładowy ustalający organizację i porządek wewnętrzny. Nie może być mniej korzystny dla pracownika niż przepisy nadrzędne.",
+                keyConcepts: [
+                    { label: "Rok 1975", stems: ["1975"] },
+                    { label: "15 działów", stems: ["15", "piętnaście"] },
+                    { label: "Regulamin nie mniej korzystny niż przepisy wyższe", stems: ["mniej", "korzystn", "nadrzęd", "nadrzed"] }
+                ]
+            }
+        ];
+
+
+        /* ================= 3. FLASHCARDS DATA (25 CARDS) ================= */
+        const flashcardsData = [
+            {
+                category: "Pojęcie",
+                term: "Bezpieczeństwo Pracy",
+                definition: "Zespół warunków, które muszą być zapewnione, aby pracownicy mogli pracować bezpiecznie i bez szkody dla zdrowia."
+            },
+            {
+                category: "Pojęcie",
+                term: "Higiena Pracy",
+                definition: "Nauka badająca wpływ czynników fizycznych, chemicznych, psychologicznych i psychofizycznych otoczenia na zdrowie człowieka."
+            },
+            {
+                category: "Wypadek przy pracy",
+                term: "Wypadek przy pracy (Definicja)",
+                definition: "Nagłe zdarzenie wywołane przyczyną zewnętrzną, powodujące uraz lub śmierć, pozostające w związku z pracą."
+            },
+            {
+                category: "Wypadek przy pracy",
+                term: "4 Elementy Wypadku (Łącznie)",
+                definition: "1. Nagłość zdarzenia\n2. Przyczyna zewnętrzna\n3. Związek z pracą\n4. Uraz lub śmierć.\nWszystkie muszą wystąpić jednocześnie!"
+            },
+            {
+                category: "Wypadek przy pracy",
+                term: "Podróż Służbowa a Wypadek",
+                definition: "Wypadek, któremu pracownik uległ w czasie podróży służbowej, traktuje się na równi z wypadkiem przy pracy."
+            },
+            {
+                category: "Wypadek przy pracy",
+                term: "Zgłaszanie Wypadku",
+                definition: "Pracownik ulegający wypadkowi (lub świadkowie) zgłasza go niezwłocznie przełożonemu w formie pisemnej dla celów dowodowych."
+            },
+            {
+                category: "Wypadek przy pracy",
+                term: "Podział Wypadków wg Poszkodowanych",
+                definition: "- Indywidualne (1 osoba)\n- Zbiorowe (co najmniej 2 osoby w tym samym zdarzeniu)."
+            },
+            {
+                category: "Wypadek przy pracy",
+                term: "Podział Wypadków wg Strat",
+                definition: "- Urazowe (wywołujące uraz fizyczny)\n- Bezurazowe (powodujące straty materialne/przestoje bez urazu ciała)."
+            },
+            {
+                category: "Choroba zawodowa",
+                term: "Choroba Zawodowa",
+                definition: "Pojęcie medyczno-prawne oznaczające schorzenie wywołane czynnikami szkodliwymi w pracy, umieszczone w krajowym wykazie chorób zawodowych."
+            },
+            {
+                category: "Profilaktyka",
+                term: "Zapobieganie Chorobom Zawodowym",
+                definition: "Wykrywanie i usuwanie zagrożeń w środowisku pracy oraz przeprowadzanie profilaktycznych badań lekarskich."
+            },
+            {
+                category: "Źródła prawa",
+                term: "Dziennik Ustaw vs Monitor Polski",
+                definition: "Dziennik Ustaw: Ustawy i Rozporządzenia.\nMonitor Polski: Uchwały Rady Ministrów i Zarządzenia."
+            },
+            {
+                category: "Funkcje prawa",
+                term: "Funkcja Ochronna Prawa Pracy",
+                definition: "Ochrona zdrowia, życia i interesów pracownika jako słabszej strony stosunku pracy."
+            },
+            {
+                category: "Funkcje prawa",
+                term: "Funkcja Organizacyjna",
+                definition: "Określanie uprawnień i obowiązków stron oraz porządkowanie procesu pracy."
+            },
+            {
+                category: "Funkcje prawa",
+                term: "Funkcja Wychowawcza / Wykonawcza",
+                definition: "Kształtowanie właściwych postaw i kontrola dyscypliny w pracy poprzez system nagród i kar."
+            },
+            {
+                category: "Kodeks pracy",
+                term: "Metryczka Kodeksu Pracy",
+                definition: "Obowiązuje od 1975 roku, składa się z 15 działów i podlega nowelizacjom."
+            },
+            {
+                category: "Kodeks pracy",
+                term: "Wykładnia Prawa Pracy",
+                definition: "Oficjalnego ustalenia znaczenia przepisów dokonują Minister właściwy ds. pracy oraz Sąd Najwyższy."
+            },
+            {
+                category: "Kodeks pracy",
+                term: "Regulamin Pracy",
+                definition: "Akt wewnątrzzakładowy organizujący porządek. Nie może być mniej korzystny dla pracownika niż Kodeks pracy i ustawy."
+            },
+            {
+                category: "Badania lekarskie",
+                term: "Badania Wstępne",
+                definition: "Wykonywane przed dopuszczeniem nowego pracownika do pracy na danym stanowisku."
+            },
+            {
+                category: "Badania lekarskie",
+                term: "Badania Kontrolne",
+                definition: "Obowiązkowe po nieobecności w pracy wywołanej chorobą trwającej dłużej niż 30 dni."
+            },
+            {
+                category: "Badania lekarskie",
+                term: "Obowiązek i Koszt Badań",
+                definition: "Pracodawca wydaje skierowanie, pokrywa koszty badań i przechowuje orzeczenia. Bez orzeczenia pracownik nie może pracować!"
+            },
+            {
+                category: "Szkolenia BHP",
+                term: "Szkolenie Wstępne BHP",
+                definition: "Składa się z dwóch części: Instruktażu Ogólnego oraz Instruktażu Stanowiskowego."
+            },
+            {
+                category: "Szkolenia BHP",
+                term: "Art. 237³ Kodeksu pracy",
+                definition: "Zakaz dopuszczenia do pracy pracownika bez wymaganych kwalifikacji, umiejętności oraz dostatecznej znajomości przepisów BHP."
+            },
+            {
+                category: "Szkolenia BHP",
+                term: "Szkolenia Okresowe - Częstotliwość",
+                definition: "- Robotnicze z dużym ryzykiem: Raz na 1 rok\n- Robotnicze zwykłe: Raz na 3 lata\n- Pozostałe (biurowe, kierownicze): Raz na 5–6 lat."
+            },
+            {
+                category: "Prawa pracownika",
+                term: "Prawo Powstrzymania się od Pracy",
+                definition: "Pracownik ma prawo przerwać pracę, gdy warunki nie odpowiadają BHP i stwarzają bezpośrednie zagrożenie zdrowia/życia."
+            },
+            {
+                category: "Obowiązki pracownika",
+                term: "Główne Obowiązki Pracownika",
+                definition: "1. Sumienne i staranne wykonywanie pracy\n2. Przestrzeganie BHP\n3. Stosowanie się do legalnych poleceń przełożonych."
+            }
+        ];
+
+
+        /* ================= 4. STATE MANAGEMENT ================= */
+        let currentQuizIndex = 0;
+        let quizScore = 0;
+        let isQuizAnswerSubmitted = false;
+
+        let currentOpenIndex = 0;
+        let openScore = 0;
+
+        let currentFlashcardIndex = 0;
+        let isCardFlipped = false;
+
+
+        /* ================= 5. AUDIO SYNTH ================= */
+        function playTone(freq, duration, type = 'sine') {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, ctx.currentTime);
+                gain.gain.setValueAtTime(0.06, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start();
+                osc.stop(ctx.currentTime + duration);
+            } catch(e) {}
+        }
+
+
+        /* ================= 6. NAVIGATION ================= */
+        function switchTab(tabName) {
+            const tabs = ['quiz', 'open', 'flashcards', 'notes'];
+            tabs.forEach(t => {
+                const btn = document.getElementById(`tab-${t}`);
+                const view = document.getElementById(`view-${t}`);
+                if (btn && view) {
+                    if (t === tabName) {
+                        btn.className = "flex items-center space-x-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-200 bg-sky-600 text-white shadow-md whitespace-nowrap";
+                        view.classList.remove('hidden');
+                    } else {
+                        btn.className = "flex items-center space-x-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-medium text-slate-400 hover:text-slate-200 transition-all duration-200 whitespace-nowrap";
+                        view.classList.add('hidden');
+                    }
+                }
+            });
+
+            if (tabName === 'open') renderOpenQuestion();
+            if (tabName === 'flashcards') renderFlashcard();
+        }
+
+
+        /* ================= 7. QUIZ LOGIC ================= */
+        function initQuiz() {
+            currentQuizIndex = 0;
+            quizScore = 0;
+            isQuizAnswerSubmitted = false;
+
+            document.getElementById('quiz-active-container').classList.remove('hidden');
+            document.getElementById('quiz-summary-container').classList.add('hidden');
+            document.getElementById('total-q-num').innerText = quizData.length;
+            
+            renderQuestion();
+        }
+
+        function renderQuestion() {
+            const q = quizData[currentQuizIndex];
+            isQuizAnswerSubmitted = false;
+
+            document.getElementById('current-q-num').innerText = currentQuizIndex + 1;
+            document.getElementById('quiz-category-badge').innerText = q.category;
+            document.getElementById('quiz-score-badge').innerText = `${quizScore} pkt`;
+            document.getElementById('quiz-question-text').innerText = q.question;
+            
+            const progressPct = (currentQuizIndex / quizData.length) * 100;
+            document.getElementById('quiz-progress-bar').style.width = `${progressPct}%`;
+
+            const nextBtn = document.getElementById('btn-next-question');
+            nextBtn.disabled = true;
+            nextBtn.className = "px-6 py-3 rounded-xl bg-slate-700 text-slate-400 font-semibold text-sm transition-all duration-200 flex items-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed";
+
+            document.getElementById('quiz-explanation-box').classList.add('hidden');
+
+            const container = document.getElementById('quiz-options-container');
+            container.innerHTML = '';
+            const letters = ['A', 'B', 'C', 'D'];
+
+            q.options.forEach((optText, idx) => {
+                const btn = document.createElement('button');
+                btn.id = `option-${idx}`;
+                btn.onclick = () => selectOption(idx);
+                btn.className = "w-full text-left p-4 rounded-xl border border-slate-700 bg-slate-800/90 hover:bg-slate-700/80 hover:border-slate-500 transition-all duration-200 flex items-start space-x-3 group";
+                btn.innerHTML = `
+                    <span class="w-6 h-6 rounded-lg bg-slate-900 text-slate-400 font-bold text-xs flex items-center justify-center flex-shrink-0 group-hover:bg-sky-500 group-hover:text-white transition-colors">
+                        ${letters[idx]}
+                    </span>
+                    <span class="text-sm font-medium text-slate-200 leading-snug pt-0.5">${optText}</span>
+                `;
+                container.appendChild(btn);
+            });
+        }
+
+        function selectOption(idx) {
+            if (isQuizAnswerSubmitted) return;
+
+            const q = quizData[currentQuizIndex];
+            isQuizAnswerSubmitted = true;
+            const isCorrect = idx === q.correct;
+
+            if (isCorrect) {
+                quizScore++;
+                playTone(587.33, 0.12);
+            } else {
+                playTone(220, 0.2, 'sawtooth');
+            }
+
+            q.options.forEach((_, i) => {
+                const btn = document.getElementById(`option-${i}`);
+                if (i === q.correct) {
+                    btn.className = "w-full text-left p-4 rounded-xl border border-emerald-500/80 bg-emerald-950/40 text-emerald-200 flex items-start space-x-3 shadow-lg shadow-emerald-950/20";
+                } else if (i === idx && !isCorrect) {
+                    btn.className = "w-full text-left p-4 rounded-xl border border-rose-500/80 bg-rose-950/40 text-rose-200 flex items-start space-x-3 shadow-lg shadow-rose-950/20";
+                } else {
+                    btn.className = "w-full text-left p-4 rounded-xl border border-slate-800 bg-slate-900/40 text-slate-500 opacity-60 flex items-start space-x-3";
+                }
+            });
+
+            const expBox = document.getElementById('quiz-explanation-box');
+            const expTitle = document.getElementById('explanation-title');
+            const expText = document.getElementById('explanation-text');
+            const expIcon = document.getElementById('explanation-icon');
+
+            expBox.classList.remove('hidden');
+
+            if (isCorrect) {
+                expBox.className = "p-4 rounded-xl border border-emerald-500/30 bg-emerald-950/20 mb-6";
+                expTitle.className = "text-sm font-bold text-emerald-400 mb-1";
+                expTitle.innerText = "Poprawna odpowiedź!";
+                expIcon.innerHTML = `<svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>`;
+            } else {
+                expBox.className = "p-4 rounded-xl border border-rose-500/30 bg-rose-950/20 mb-6";
+                expTitle.className = "text-sm font-bold text-rose-400 mb-1";
+                expTitle.innerText = "Błędna odpowiedź";
+                expIcon.innerHTML = `<svg class="w-5 h-5 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>`;
+            }
+
+            expText.innerText = q.explanation;
+            document.getElementById('quiz-score-badge').innerText = `${quizScore} pkt`;
+
+            const nextBtn = document.getElementById('btn-next-question');
+            nextBtn.disabled = false;
+            nextBtn.className = "px-6 py-3 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-semibold text-sm transition-all duration-200 flex items-center space-x-2 shadow-lg shadow-sky-600/30 cursor-pointer";
+        }
+
+        function nextQuestion() {
+            if (!isQuizAnswerSubmitted) return;
+            if (currentQuizIndex < quizData.length - 1) {
+                currentQuizIndex++;
+                renderQuestion();
+            } else {
+                showQuizSummary();
+            }
+        }
+
+        function showQuizSummary() {
+            document.getElementById('quiz-active-container').classList.add('hidden');
+            document.getElementById('quiz-summary-container').classList.remove('hidden');
+
+            const total = quizData.length;
+            const percentage = Math.round((quizScore / total) * 100);
+
+            document.getElementById('summary-score').innerText = `${quizScore} / ${total}`;
+            document.getElementById('summary-percentage').innerText = `${percentage}%`;
+
+            const feedback = document.getElementById('summary-feedback');
+            if (percentage >= 90) feedback.innerText = "Niesamowity wynik! Materiał masz w małym palcu.";
+            else if (percentage >= 70) feedback.innerText = "Bardzo dobry wynik! Świetnie opanowałeś większość pojęć.";
+            else feedback.innerText = "Dobra próba, ale warto prze przejrzeć notatki i poćwiczyć w fiszkach.";
+        }
+
+        function restartQuiz() {
+            initQuiz();
+        }
+
+
+        /* ================= 8. OPEN QUESTIONS LOGIC (TRENING PISEMNY) ================= */
+        function initOpenQuestions() {
+            currentOpenIndex = 0;
+            openScore = 0;
+            document.getElementById('open-active-container').classList.remove('hidden');
+            document.getElementById('open-summary-container').classList.add('hidden');
+            document.getElementById('open-total-num').innerText = openQuestionsData.length;
+            renderOpenQuestion();
+        }
+
+        function renderOpenQuestion() {
+            const q = openQuestionsData[currentOpenIndex];
+            
+            document.getElementById('open-q-num').innerText = currentOpenIndex + 1;
+            document.getElementById('open-category-badge').innerText = q.category;
+            document.getElementById('open-score-badge').innerText = `${openScore} zaliczonych`;
+            document.getElementById('open-question-text').innerText = q.question;
+
+            document.getElementById('open-user-input').value = '';
+            document.getElementById('open-input-container').classList.remove('hidden');
+            document.getElementById('open-result-container').classList.add('hidden');
+        }
+
+        function checkOpenAnswer() {
+            const userText = document.getElementById('open-user-input').value.trim();
+            if (!userText) {
+                alert('Proszę wpisać odpowiedź przed sprawdzeniem.');
+                return;
+            }
+
+            const q = openQuestionsData[currentOpenIndex];
+            const lowerUserText = userText.toLowerCase();
+
+            let matchedCount = 0;
+            const checklistContainer = document.getElementById('open-keywords-checklist');
+            checklistContainer.innerHTML = '';
+
+            q.keyConcepts.forEach(concept => {
+                const isMatched = concept.stems.some(stem => lowerUserText.includes(stem.toLowerCase()));
+                if (isMatched) matchedCount++;
+
+                const item = document.createElement('div');
+                item.className = `flex items-center space-x-2 p-2 rounded-lg border text-xs font-medium ${
+                    isMatched 
+                        ? 'bg-emerald-950/40 border-emerald-500/40 text-emerald-300' 
+                        : 'bg-slate-800/80 border-slate-700 text-slate-400'
+                }`;
+                item.innerHTML = `
+                    <svg class="w-4 h-4 ${isMatched ? 'text-emerald-400' : 'text-slate-500'}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        ${isMatched 
+                            ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>' 
+                            : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>'}
+                    </svg>
+                    <span>${concept.label}</span>
+                `;
+                checklistContainer.appendChild(item);
+            });
+
+            document.getElementById('open-match-ratio').innerText = `${matchedCount}/${q.keyConcepts.length} kluczowych fraz`;
+            document.getElementById('display-user-answer').innerText = userText;
+            document.getElementById('display-model-answer').innerText = q.modelAnswer;
+
+            document.getElementById('open-input-container').classList.add('hidden');
+            document.getElementById('open-result-container').classList.remove('hidden');
+        }
+
+        function gradeOpenAnswer(isPassed) {
+            if (isPassed) {
+                openScore++;
+                playTone(587.33, 0.12);
+            } else {
+                playTone(330, 0.1);
+            }
+
+            if (currentOpenIndex < openQuestionsData.length - 1) {
+                currentOpenIndex++;
+                renderOpenQuestion();
+            } else {
+                showOpenSummary();
+            }
+        }
+
+        function showOpenSummary() {
+            document.getElementById('open-active-container').classList.add('hidden');
+            document.getElementById('open-summary-container').classList.remove('hidden');
+            document.getElementById('open-summary-score').innerText = `${openScore} / ${openQuestionsData.length}`;
+        }
+
+        function restartOpenQuestions() {
+            initOpenQuestions();
+        }
+
+
+        /* ================= 9. FLASHCARDS LOGIC ================= */
+        function renderFlashcard() {
+            const card = flashcardsData[currentFlashcardIndex];
+            
+            isCardFlipped = false;
+            document.getElementById('flashcard-inner').classList.remove('rotate-y-180');
+
+            document.getElementById('flashcard-counter').innerText = `${currentFlashcardIndex + 1} z ${flashcardsData.length}`;
+            document.getElementById('fc-category-front').innerText = card.category;
+            document.getElementById('fc-term').innerText = card.term;
+            document.getElementById('fc-category-back').innerText = card.category;
+            document.getElementById('fc-definition').innerText = card.definition;
+        }
+
+        function flipCard() {
+            isCardFlipped = !isCardFlipped;
+            const cardInner = document.getElementById('flashcard-inner');
+            if (isCardFlipped) {
+                cardInner.classList.add('rotate-y-180');
+                playTone(440, 0.08);
+            } else {
+                cardInner.classList.remove('rotate-y-180');
+                playTone(330, 0.08);
+            }
+        }
+
+        function nextFlashcard() {
+            currentFlashcardIndex = (currentFlashcardIndex + 1) % flashcardsData.length;
+            renderFlashcard();
+        }
+
+        function prevFlashcard() {
+            currentFlashcardIndex = (currentFlashcardIndex - 1 + flashcardsData.length) % flashcardsData.length;
+            renderFlashcard();
+        }
+
+        function randomFlashcard() {
+            let newIndex;
+            do {
+                newIndex = Math.floor(Math.random() * flashcardsData.length);
+            } while (newIndex === currentFlashcardIndex && flashcardsData.length > 1);
+            currentFlashcardIndex = newIndex;
+            renderFlashcard();
+        }
+
+
+        /* ================= 10. KEYBOARD CONTROLS ================= */
+        document.addEventListener('keydown', (e) => {
+            const isFlashcardsActive = !document.getElementById('view-flashcards').classList.contains('hidden');
+            if (isFlashcardsActive) {
+                if (e.code === 'Space') {
+                    e.preventDefault();
+                    flipCard();
+                } else if (e.code === 'ArrowRight') nextFlashcard();
+                else if (e.code === 'ArrowLeft') prevFlashcard();
+            }
+        });
+
+        window.onload = function() {
+            initQuiz();
+            initOpenQuestions();
+            renderFlashcard();
+        };
+    </script>
+</body>
+</html>
