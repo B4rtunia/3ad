@@ -1,1054 +1,455 @@
 <!DOCTYPE html>
-<html lang="pl" class="dark">
+<html lang="pl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>English 4 IT & Databases - Trener Wiedzy</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            bhp: {
-              bg: '#0b132b',
-              card: '#131f37',
-              border: '#202f4e',
-              hover: '#1a2a47',
-              accent: '#0284c7',
-              accentHover: '#0369a1',
-              pill: '#1e2d4a'
-            }
-          }
-        }
-      }
-    }
-  </script>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: #0b132b;
-      color: #e2e8f0;
-    }
-    .perspective-1000 {
-      perspective: 1000px;
-    }
-    .transform-style-3d {
-      transform-style: preserve-3d;
-    }
-    .backface-hidden {
-      backface-visibility: hidden;
-    }
-    .rotate-y-180 {
-      transform: rotateY(180deg);
-    }
-    /* Custom Scrollbar */
-    ::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #0b132b;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #202f4e;
-      border-radius: 4px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #0284c7;
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>English for IT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,700;1,6..72,500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eef2f3;--sf:#fff;--sf2:#e4ebed;--ink:#14212b;--mut:#5d6b78;--line:#d3dde1;--ac:#0e7490;--acs:#d8f0f6;--ok:#12794a;--oks:#dcf3e6;--bad:#bf3434;--bads:#fbe2e2;--wn:#946200;--wns:#fff0cc;--mk:#ffe58a}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10171c;--sf:#18222a;--sf2:#212d36;--ink:#e8eef2;--mut:#93a3b0;--line:#2f3d48;--ac:#59c3de;--acs:#17353f;--ok:#5fcf93;--oks:#15362a;--bad:#ff8c8c;--bads:#3d2024;--wn:#f0bb52;--wns:#3a2f14;--mk:#6b5a14}}
+:root[data-theme="dark"]{--bg:#10171c;--sf:#18222a;--sf2:#212d36;--ink:#e8eef2;--mut:#93a3b0;--line:#2f3d48;--ac:#59c3de;--acs:#17353f;--ok:#5fcf93;--oks:#15362a;--bad:#ff8c8c;--bads:#3d2024;--wn:#f0bb52;--wns:#3a2f14;--mk:#6b5a14}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{background:var(--bg);color:var(--ink);font:15px/1.55 "Instrument Sans",system-ui,sans-serif}
+button,input,select,textarea{font:inherit;color:inherit}
+#app{height:100%;display:flex;flex-direction:column}
+.top{display:flex;align-items:center;gap:12px;padding:10px 16px;background:var(--sf);border-bottom:1px solid var(--line)}
+.top b{font-family:Newsreader,Georgia,serif;font-size:19px}
+.top small{display:block;color:var(--mut);font-size:12px;line-height:1.2}
+.grow{flex:1}
+.icon{width:38px;height:38px;border-radius:10px;border:1px solid var(--line);background:var(--sf);cursor:pointer;font-size:17px}
+.icon:hover{background:var(--sf2)}
+.gprog{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--mut)}
+.bar{width:110px;height:6px;border-radius:3px;background:var(--sf2);overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--ok);transition:width .3s}
+.shell{flex:1;min-height:0;display:flex;position:relative}
+#side{width:310px;flex:none;background:var(--sf);border-right:1px solid var(--line);overflow:auto;transition:margin .25s;padding:14px 12px 30px}
+#app.closed #side{margin-left:-311px}
+#main{flex:1;min-width:0;overflow:auto;padding:28px clamp(14px,4vw,48px) 60px}
+#stage{max-width:900px;margin:0 auto}
+#scrim{display:none}
+@media(max-width:860px){#side{position:absolute;inset:0 auto 0 0;z-index:20;box-shadow:4px 0 24px rgba(0,0,0,.2);width:min(310px,86vw)}#app.closed #side{margin-left:-110%}#app:not(.closed) #scrim{display:block;position:absolute;inset:0;z-index:10;background:rgba(0,0,0,.35)}.gprog span{display:none}.bar{width:60px}}
+.seg{display:flex;background:var(--sf2);border-radius:10px;padding:3px;margin-bottom:12px}
+.seg button{flex:1;border:0;background:none;padding:6px;border-radius:8px;cursor:pointer;color:var(--mut);font-size:13px}
+.seg button.on{background:var(--sf);color:var(--ink);font-weight:600;box-shadow:0 1px 2px rgba(0,0,0,.12)}
+details{margin-bottom:6px}
+summary{cursor:pointer;padding:8px 6px;font-weight:600;font-size:14px;list-style:none;display:flex;justify-content:space-between;align-items:center}
+summary::-webkit-details-marker{display:none}
+summary:after{content:"▾";color:var(--mut);transition:transform .2s}
+details:not([open]) summary:after{transform:rotate(-90deg)}
+summary small{font-weight:400;color:var(--mut);margin-left:6px}
+.nav{display:flex;gap:10px;align-items:flex-start;width:100%;text-align:left;border:0;background:none;padding:8px 8px;border-radius:10px;cursor:pointer}
+.nav:hover{background:var(--sf2)}
+.nav.cur{background:var(--acs)}
+.nav .l{font-family:Newsreader,Georgia,serif;font-weight:700;font-size:17px;width:20px;flex:none;line-height:1.2}
+.nav .t{display:block;font-size:14px;font-weight:500}
+.nav .s{display:block;font-size:12px;color:var(--mut);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:200px}
+.dot{width:10px;height:10px;border-radius:50%;border:2px solid var(--line);flex:none;margin-top:6px}
+.dot.prog{border-color:var(--wn);background:var(--wns)}
+.dot.done{border-color:var(--ok);background:var(--ok)}
+.kick{color:var(--mut);font-size:13px;margin-bottom:6px}
+h1{font-family:Newsreader,Georgia,serif;font-size:clamp(22px,3.4vw,30px);line-height:1.25;margin:0 0 10px;font-weight:700}
+h1 .let{color:var(--ac);margin-right:4px}
+.badge{display:inline-block;background:var(--acs);color:var(--ac);border-radius:20px;padding:2px 12px;font-size:12.5px;font-weight:600;margin-bottom:20px}
+.body{background:var(--sf);border:1px solid var(--line);border-radius:14px;padding:22px}
+.two{display:grid;grid-template-columns:1.1fr 1fr;gap:26px}
+@media(max-width:760px){.two{grid-template-columns:1fr}.body{padding:14px}}
+.row{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:8px 10px;border-radius:10px;margin-bottom:4px;border:1px solid transparent}
+.row.ok,.mxrow.ok{background:var(--oks)}
+.row.bad,.mxrow.bad{background:var(--bads)}
+.num{min-width:26px}
+.term{font-weight:600}
+select,input[type=text],textarea{background:var(--sf);border:1px solid var(--line);border-radius:8px;padding:6px 8px}
+select:focus,input:focus,textarea:focus,button:focus-visible{outline:2px solid var(--ac);outline-offset:1px}
+select.ok,input.ok,textarea.ok{border-color:var(--ok);background:var(--oks)}
+select.bad,input.bad,textarea.bad{border-color:var(--bad);background:var(--bads)}
+.ans{color:var(--ok);font-size:13px;font-weight:600}
+.defs .def{padding:7px 0;border-bottom:1px solid var(--line);font-size:14px}
+.defs .def b{color:var(--ac)}
+.lbl{min-width:110px}
+.fix{color:var(--mut);font-style:italic}
+.slot{display:inline-flex;flex-wrap:wrap;gap:6px;min-width:80px;min-height:30px;border-bottom:2px dotted var(--line);padding:2px 4px}
+.row.syn{cursor:pointer}
+.row.syn.act{border-color:var(--ac);background:var(--acs)}
+.tag{border:0;background:var(--ac);color:#fff;border-radius:14px;padding:2px 10px;font-size:13px;cursor:pointer}
+.wbox{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;padding:14px;border:1px solid var(--line);border-radius:12px;background:var(--sf2)}
+.chip{border:1px solid var(--line);background:var(--sf);border-radius:20px;padding:4px 14px;cursor:pointer}
+.chip.sel{background:var(--ac);color:#fff;border-color:var(--ac)}
+.chip.zero{opacity:.45}.chip.over{border-color:var(--bad);color:var(--bad)}
+.hintline{color:var(--mut);font-size:13px;margin-top:8px}
+table{width:100%;border-collapse:collapse}
+th{font-size:12.5px;text-align:left;padding:8px;border-bottom:2px solid var(--ink);color:var(--mut);font-weight:600}
+td{padding:8px;border-bottom:1px solid var(--line);vertical-align:top}
+td input{width:100%;min-width:110px}
+.given{font-weight:500}.given.pl{font-style:italic}
+.hint{color:var(--ok);font-size:12.5px;font-weight:600;margin-top:2px}
+.sent{margin:0 0 14px;padding:10px 12px;border-radius:10px;line-height:2.1}
+.sent.ok{background:var(--oks)}.sent.bad{background:var(--bads)}
+.fixed{font-weight:700;color:var(--ac);border-bottom:2px solid var(--ac);padding:0 6px}
+.mxrow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:8px 10px;border-radius:10px;margin-bottom:4px}
+.mxrow .w{font-weight:600;min-width:90px}
+.mxrow input[type=text]{flex:1;min-width:170px}
+.prev-e{color:var(--mut);font-size:13px;min-width:120px}
+.qitem{padding:14px 0;border-bottom:1px solid var(--line)}
+.qitem:last-child{border-bottom:0}
+.q{display:flex;gap:6px;margin-bottom:8px}
+.qt{font-size:15.5px}
+.qt.pl{font-family:Newsreader,Georgia,serif;font-style:italic;font-size:17px}
+textarea{width:100%;resize:vertical;line-height:1.5}
+.live{font-size:12.5px;color:var(--mut);margin-top:4px;min-height:18px}
+.prev{margin-top:4px;padding:8px 10px;background:var(--sf2);border-radius:8px;font-size:14px}
+mark{background:var(--mk);color:inherit;border-radius:3px;padding:0 2px}
+.fb{margin-top:8px;font-size:14px;font-weight:500}
+.fb.ok{color:var(--ok)}.fb.bad{color:var(--bad)}.fb.warn{color:var(--wn)}
+.ref{margin-top:10px;padding:12px 14px;border:1px dashed var(--ac);border-radius:10px;background:var(--acs)}
+.refh{font-weight:600;color:var(--ac);font-size:13px;margin-bottom:4px}
+.model{font-family:Newsreader,Georgia,serif;font-size:16.5px;margin-bottom:8px}
+.pts{margin:4px 0 10px;padding-left:20px;font-size:14px}
+.selfq{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:14px}
+.btn{border:1px solid var(--ac);background:var(--ac);color:#fff;border-radius:10px;padding:8px 18px;cursor:pointer;font-weight:600}
+.btn.ghost{background:var(--sf);color:var(--ac)}
+.btn.sm{padding:5px 12px;font-size:13.5px}
+.btn.okb{border-color:var(--ok);background:var(--sf);color:var(--ok)}.btn.okb.on{background:var(--ok);color:#fff}
+.btn.nob{border-color:var(--bad);background:var(--sf);color:var(--bad)}.btn.nob.on{background:var(--bad);color:#fff}
+.btns{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+.exbox{padding:12px 14px;margin-bottom:10px;border-radius:10px;background:var(--sf2)}
+ins{color:var(--ok);text-decoration:none;font-weight:700;border-bottom:2px solid var(--ok)}
+del{color:var(--bad)}
+.foot{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:18px}
+.score{margin-left:auto;font-weight:600;color:var(--mut)}
+.pn{display:flex;justify-content:space-between;margin-top:26px}
+</style>
 </head>
-<body class="min-h-screen flex flex-col bg-[#0b132b] text-slate-100 antialiased selection:bg-sky-500 selection:text-white">
-
-  <header class="bg-[#131f37] border-b border-[#202f4e] sticky top-0 z-50 shadow-md">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex flex-col md:flex-row items-center justify-between gap-4">
-      
-      <!-- Logo & Title -->
-      <div class="flex items-center gap-3 w-full md:w-auto justify-between md:justify-start">
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-xl bg-sky-600 flex items-center justify-center text-white shadow-lg shadow-sky-600/30">
-            <i class="fa-solid fa-shield-halved text-xl"></i>
-          </div>
-          <div>
-            <h1 class="text-lg font-bold tracking-tight text-white flex items-center gap-2">
-              English 4 IT & Databases
-            </h1>
-            <p class="text-xs text-slate-400 font-medium">Kompleksowy Trener Wiedzy</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Main Navigation Tabs (Exact 4 Tabs) -->
-      <nav class="flex items-center gap-1.5 bg-[#0b132b]/80 p-1.5 rounded-2xl border border-[#202f4e] w-full md:w-auto justify-center overflow-x-auto">
-        <button onclick="switchTab('quiz')" id="nav-quiz" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 whitespace-nowrap bg-sky-600 text-white shadow-md shadow-sky-600/30">
-          <i class="fa-solid fa-circle-check"></i> Quiz ABC
-        </button>
-        <button onclick="switchTab('open')" id="nav-open" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 whitespace-nowrap text-slate-400 hover:text-white hover:bg-[#131f37]">
-          <i class="fa-solid fa-[#131f37] fa-pen-to-square"></i> Pytania Otwarte
-        </button>
-        <button onclick="switchTab('flashcards')" id="nav-flashcards" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 whitespace-nowrap text-slate-400 hover:text-white hover:bg-[#131f37]">
-          <i class="fa-solid fa-clone"></i> Fiszki
-        </button>
-        <button onclick="switchTab('notes')" id="nav-notes" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 whitespace-nowrap text-slate-400 hover:text-white hover:bg-[#131f37]">
-          <i class="fa-solid fa-book-open"></i> Notatki
-        </button>
-      </nav>
-
-    </div>
-  </header>
-
-  <main class="flex-1 max-w-5xl w-full mx-auto px-4 py-6 sm:py-8 flex flex-col justify-start">
-
-    <!-- QUIZ ABC VIEW -->
-    <div id="view-quiz" class="flex flex-col gap-6">
-      
-      <!-- Category Filter Bar -->
-      <div class="bg-[#131f37] border border-[#202f4e] rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-lg">
-        <div class="flex items-center gap-2 w-full sm:w-auto">
-          <i class="fa-solid fa-filter text-sky-400 text-sm"></i>
-          <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Kategoria:</span>
-          <select id="quiz-cat-select" onchange="filterQuizCategory(this.value)" class="bg-[#0b132b] text-sky-400 border border-[#202f4e] rounded-xl px-3 py-1.5 text-xs font-bold focus:outline-none focus:border-sky-500 cursor-pointer w-full sm:w-auto">
-            <option value="all">Wszystkie</option>
-            <option value="db">Bazy Danych (10 pytań)</option>
-            <option value="mgmt">Zarządzanie IT (10 pytań)</option>
-            <option value="passive">Strona Bierna (10 pytań)</option>
-            <option value="prep">Przyimki i Kolokacje (10 pytań)</option>
-            <option value="vocab">Słownictwo i Błędy (10 pytań)</option>
-            <option value="acronyms">Akronimy (10 pytań)</option>
-          </select>
-        </div>
-        <div class="flex items-center justify-between sm:justify-end gap-4 w-full sm:w-auto text-xs font-semibold text-slate-400">
-          <div>Wynik: <span id="quiz-score-val" class="text-sky-400 font-bold text-sm">0</span> pkt</div>
-          <button onclick="resetQuiz()" class="px-3 py-1.5 bg-[#0b132b] hover:bg-[#1f2e4d] text-slate-300 rounded-lg border border-[#202f4e] transition text-xs flex items-center gap-1.5">
-            <i class="fa-solid fa-rotate-right text-sky-400"></i> Reset
-          </button>
-        </div>
-      </div>
-
-      <!-- Quiz Card Container -->
-      <div class="bg-[#131f37] border border-[#202f4e] rounded-2xl p-6 sm:p-8 flex flex-col gap-6 shadow-2xl relative">
-        <div class="flex items-center justify-between text-xs border-b border-[#202f4e] pb-4">
-          <span id="quiz-badge" class="px-3 py-1 bg-sky-500/10 border border-sky-500/20 text-sky-400 rounded-full font-bold uppercase tracking-wider">
-            Bazy Danych
-          </span>
-          <span id="quiz-counter" class="text-slate-400 font-semibold">Pytanie 1 z 10</span>
-        </div>
-
-        <h2 id="quiz-question-text" class="text-lg sm:text-xl font-bold text-white leading-relaxed">
-          Pytanie ładuje się...
-        </h2>
-
-        <!-- Options grid (A, B, C, D) -->
-        <div id="quiz-options-container" class="grid grid-cols-1 gap-3">
-          <!-- Dynamic Buttons -->
-        </div>
-
-        <!-- Explanation box -->
-        <div id="quiz-explanation-box" class="hidden p-4 rounded-xl text-sm font-medium border">
-          <!-- Dynamic feedback -->
-        </div>
-
-        <!-- Card Footer / Next button -->
-        <div class="flex items-center justify-end pt-4 border-t border-[#202f4e]">
-          <button id="quiz-next-btn" onclick="nextQuizQuestion()" class="hidden px-6 py-3 bg-sky-600 hover:bg-sky-500 text-white font-bold text-sm rounded-xl shadow-lg shadow-sky-600/30 transition flex items-center gap-2">
-            Następne pytanie <i class="fa-solid fa-arrow-right"></i>
-          </button>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- OPEN QUESTIONS VIEW -->
-    <div id="view-open" class="hidden flex-col gap-6">
-      
-      <!-- Category Filter Bar -->
-      <div class="bg-[#131f37] border border-[#202f4e] rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-lg">
-        <div class="flex items-center gap-2 w-full sm:w-auto">
-          <i class="fa-solid fa-filter text-sky-400 text-sm"></i>
-          <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Kategoria:</span>
-          <select id="open-cat-select" onchange="filterOpenCategory(this.value)" class="bg-[#0b132b] text-sky-400 border border-[#202f4e] rounded-xl px-3 py-1.5 text-xs font-bold focus:outline-none focus:border-sky-500 cursor-pointer w-full sm:w-auto">
-            <option value="all">Wszystkie</option>
-            <option value="db">Bazy Danych (10 zadań)</option>
-            <option value="mgmt">Zarządzanie IT (10 zadań)</option>
-            <option value="passive">Strona Bierna (10 zadań)</option>
-            <option value="prep">Przyimki i Kolokacje (10 zadań)</option>
-            <option value="vocab">Słownictwo i Błędy (10 zadań)</option>
-            <option value="acronyms">Akronimy (10 zadań)</option>
-          </select>
-        </div>
-        <div class="flex items-center justify-between sm:justify-end gap-4 w-full sm:w-auto text-xs font-semibold text-slate-400">
-          <div>Opanowane: <span id="open-mastered-val" class="text-emerald-400 font-bold text-sm">0</span></div>
-          <button onclick="resetOpen()" class="px-3 py-1.5 bg-[#0b132b] hover:bg-[#1f2e4d] text-slate-300 rounded-lg border border-[#202f4e] transition text-xs flex items-center gap-1.5">
-            <i class="fa-solid fa-rotate-right text-sky-400"></i> Reset
-          </button>
-        </div>
-      </div>
-
-      <!-- Open Question Card -->
-      <div class="bg-[#131f37] border border-[#202f4e] rounded-2xl p-6 sm:p-8 flex flex-col gap-6 shadow-2xl">
-        <div class="flex items-center justify-between text-xs border-b border-[#202f4e] pb-4">
-          <span id="open-badge" class="px-3 py-1 bg-sky-500/10 border border-sky-500/20 text-sky-400 rounded-full font-bold uppercase tracking-wider">
-            Tłumaczenia IT
-          </span>
-          <span id="open-counter" class="text-slate-400 font-semibold">Zadanie 1 z 10</span>
-        </div>
-
-        <div>
-          <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-1">Polecenie / Zdanie do przetłumaczenia:</span>
-          <h2 id="open-prompt-text" class="text-lg sm:text-xl font-bold text-white leading-relaxed">
-            Ładowanie polecenia...
-          </h2>
-        </div>
-
-        <div class="flex flex-col gap-2">
-          <label for="open-user-input" class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Twoja odpowiedź po angielsku:</label>
-          <textarea id="open-user-input" rows="3" placeholder="Wpisz swoje tłumaczenie lub przekształcenie..." class="w-full bg-[#0b132b] border border-[#202f4e] rounded-xl p-4 text-white text-sm focus:outline-none focus:border-sky-500 transition resize-none leading-relaxed"></textarea>
-        </div>
-
-        <!-- Model Answer Container -->
-        <div id="open-answer-container" class="hidden bg-[#0b132b]/90 border border-[#202f4e] rounded-xl p-5 flex flex-col gap-3">
-          <div>
-            <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider block mb-1"><i class="fa-solid fa-check-double mr-1"></i> Wzorcowa odpowiedź:</span>
-            <div id="open-model-answer" class="text-base font-bold text-white leading-relaxed"></div>
-          </div>
-          <div class="pt-2 border-t border-[#202f4e]/60">
-            <span class="text-xs font-bold text-sky-400 uppercase tracking-wider block mb-1"><i class="fa-solid fa-circle-info mr-1"></i> Komentarz gramatyczny / Pojęcia:</span>
-            <p id="open-explanation" class="text-xs sm:text-sm text-slate-300 leading-relaxed"></p>
-          </div>
-        </div>
-
-        <!-- Action Controls -->
-        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-[#202f4e]">
-          <button id="open-show-btn" onclick="revealOpenAnswer()" class="w-full sm:w-auto px-6 py-3 bg-sky-600 hover:bg-sky-500 text-white font-bold text-sm rounded-xl shadow-lg shadow-sky-600/30 transition flex items-center justify-center gap-2">
-            <i class="fa-solid fa-eye"></i> Pokaż odpowiedź wzorcową
-          </button>
-
-          <!-- Self Check Rating Buttons -->
-          <div id="open-rate-container" class="hidden w-full sm:w-auto flex items-center justify-end gap-3">
-            <button onclick="rateOpenAnswer(false)" class="flex-1 sm:flex-none px-4 py-2.5 bg-rose-950/60 hover:bg-rose-900/80 border border-rose-500/50 text-rose-300 font-semibold text-xs rounded-xl transition flex items-center justify-center gap-1.5">
-              <i class="fa-solid fa-xmark"></i> Do powtórki
-            </button>
-            <button onclick="rateOpenAnswer(true)" class="flex-1 sm:flex-none px-4 py-2.5 bg-emerald-950/60 hover:bg-emerald-900/80 border border-emerald-500/50 text-emerald-300 font-semibold text-xs rounded-xl transition flex items-center justify-center gap-1.5">
-              <i class="fa-solid fa-check"></i> Opanowane (+1)
-            </button>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- FLASHCARDS VIEW -->
-    <div id="view-flashcards" class="hidden flex-col gap-6">
-      
-      <!-- Category Filter Bar -->
-      <div class="bg-[#131f37] border border-[#202f4e] rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-lg">
-        <div class="flex items-center gap-2 w-full sm:w-auto">
-          <i class="fa-solid fa-filter text-sky-400 text-sm"></i>
-          <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Kategoria:</span>
-          <select id="flash-cat-select" onchange="filterFlashcardCategory(this.value)" class="bg-[#0b132b] text-sky-400 border border-[#202f4e] rounded-xl px-3 py-1.5 text-xs font-bold focus:outline-none focus:border-sky-500 cursor-pointer w-full sm:w-auto">
-            <option value="all">Wszystkie</option>
-            <option value="db">Bazy Danych (10 fiszek)</option>
-            <option value="mgmt">Zarządzanie IT (10 fiszek)</option>
-            <option value="passive">Strona Bierna (10 fiszek)</option>
-            <option value="prep">Przyimki i Kolokacje (10 fiszek)</option>
-            <option value="vocab">Słownictwo i Błędy (10 fiszek)</option>
-            <option value="acronyms">Akronimy (10 fiszek)</option>
-          </select>
-        </div>
-        <div class="text-xs font-semibold text-slate-400">
-          Karta <span id="flash-counter" class="text-sky-400 font-bold text-sm">1 z 10</span>
-        </div>
-      </div>
-
-      <!-- Flashcard Interactive 3D Canvas -->
-      <div class="flex flex-col items-center gap-6">
-        
-        <div onclick="flipFlashcardCard()" class="w-full max-w-2xl h-80 perspective-1000 cursor-pointer group">
-          <div id="flashcard-inner" class="w-full h-full duration-500 transform-style-3d relative rounded-2xl shadow-2xl border border-[#202f4e]">
-            
-            <!-- FRONT SIDE -->
-            <div class="absolute inset-0 w-full h-full bg-[#131f37] rounded-2xl p-8 flex flex-col justify-between backface-hidden border border-[#202f4e]">
-              <div class="flex items-center justify-between">
-                <span id="flash-badge-front" class="px-3 py-1 bg-sky-500/10 border border-sky-500/20 text-sky-400 rounded-full text-xs font-bold uppercase tracking-wider">
-                  Bazy Danych
-                </span>
-                <span class="text-xs text-slate-500 font-semibold flex items-center gap-1">
-                  Kliknij, aby obrócić <i class="fa-solid fa-rotate text-sky-400 ml-1"></i>
-                </span>
-              </div>
-
-              <div class="text-center my-auto px-4">
-                <div id="flash-front-text" class="text-2xl sm:text-3xl font-extrabold text-white leading-tight">
-                  Termin po angielsku
-                </div>
-                <div id="flash-front-sub" class="text-xs sm:text-sm text-slate-400 mt-3 font-medium"></div>
-              </div>
-
-              <div class="flex items-center justify-between text-xs text-slate-500 border-t border-[#202f4e] pt-3">
-                <span>Strona: <strong class="text-slate-300">Front (Angielski)</strong></span>
-                <button onclick="speakFlashcard(event)" class="px-3 py-1 bg-[#0b132b] hover:bg-sky-600 hover:text-white text-sky-400 border border-[#202f4e] rounded-lg transition flex items-center gap-1.5 font-semibold">
-                  <i class="fa-solid fa-volume-high"></i> Odsłuchaj
-                </button>
-              </div>
-            </div>
-
-            <!-- BACK SIDE -->
-            <div class="absolute inset-0 w-full h-full bg-[#172645] rounded-2xl p-8 flex flex-col justify-between backface-hidden rotate-y-180 border border-sky-500/40">
-              <div class="flex items-center justify-between">
-                <span id="flash-badge-back" class="px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-full text-xs font-bold uppercase tracking-wider">
-                  Tłumaczenie & Wyjaśnienie
-                </span>
-                <span class="text-xs text-slate-400 font-semibold">Kliknij, aby wrócić</span>
-              </div>
-
-              <div class="text-center my-auto px-4">
-                <div id="flash-back-text" class="text-xl sm:text-2xl font-bold text-emerald-300 leading-snug">
-                  Polskie tłumaczenie
-                </div>
-                <div id="flash-back-desc" class="text-xs sm:text-sm text-slate-300 mt-3 leading-relaxed font-normal"></div>
-              </div>
-
-              <div class="text-xs text-slate-400 border-t border-[#202f4e] pt-3 text-center">
-                Strona: <strong class="text-emerald-400">Rewers (Polski)</strong>
-              </div>
-            </div>
-
-          </div>
-        </div>
-
-        <!-- Flashcard Controls -->
-        <div class="flex items-center gap-3 w-full max-w-2xl justify-between">
-          <button onclick="prevFlashcardCard()" class="px-5 py-2.5 bg-[#131f37] hover:bg-[#1f2e4d] text-slate-200 font-semibold text-xs sm:text-sm rounded-xl border border-[#202f4e] transition flex items-center gap-2">
-            <i class="fa-solid fa-arrow-left"></i> Poprzednia
-          </button>
-          <button onclick="randomFlashcardCard()" class="px-4 py-2.5 bg-[#131f37] hover:bg-[#1f2e4d] text-sky-400 font-semibold text-xs sm:text-sm rounded-xl border border-[#202f4e] transition flex items-center gap-1.5">
-            <i class="fa-solid fa-shuffle"></i> Losuj
-          </button>
-          <button onclick="nextFlashcardCard()" class="px-5 py-2.5 bg-sky-600 hover:bg-sky-500 text-white font-semibold text-xs sm:text-sm rounded-xl shadow-lg shadow-sky-600/30 transition flex items-center gap-2">
-            Następna <i class="fa-solid fa-arrow-right"></i>
-          </button>
-        </div>
-
-      </div>
-
-    </div>
-
-    <!-- NOTES VIEW -->
-    <div id="view-notes" class="hidden flex-col gap-6">
-      
-      <div class="bg-[#131f37] border border-[#202f4e] rounded-2xl p-6 sm:p-8 flex flex-col gap-6 shadow-2xl">
-        
-        <div class="border-b border-[#202f4e] pb-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <div>
-            <h2 class="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
-              <i class="fa-solid fa-book text-sky-400"></i> Kompendium Angielskiego IT i Baz Danych
-            </h2>
-            <p class="text-xs sm:text-sm text-slate-400 mt-1">Pełne notatki teoretyczne przygotowane pod kątem sprawności językowej i sprawdzianów.</p>
-          </div>
-        </div>
-
-        <!-- Notes Sub-Tabs Navigation -->
-        <div class="flex items-center gap-2 border-b border-[#202f4e] pb-3 overflow-x-auto">
-          <button onclick="switchNotesSubTab('notes-passive')" id="subtab-notes-passive" class="px-4 py-2 rounded-xl text-xs font-bold transition-all bg-sky-600 text-white whitespace-nowrap">
-            1. Strona Bierna (Passive Voice)
-          </button>
-          <button onclick="switchNotesSubTab('notes-db')" id="subtab-notes-db" class="px-4 py-2 rounded-xl text-xs font-bold transition-all text-slate-400 hover:text-white hover:bg-[#0b132b] whitespace-nowrap">
-            2. Bazy Danych i Zarządzanie
-          </button>
-          <button onclick="switchNotesSubTab('notes-prep')" id="subtab-notes-prep" class="px-4 py-2 rounded-xl text-xs font-bold transition-all text-slate-400 hover:text-white hover:bg-[#0b132b] whitespace-nowrap">
-            3. Przyimki & Słownictwo
-          </button>
-          <button onclick="switchNotesSubTab('notes-acronyms')" id="subtab-notes-acronyms" class="px-4 py-2 rounded-xl text-xs font-bold transition-all text-slate-400 hover:text-white hover:bg-[#0b132b] whitespace-nowrap">
-            4. Słownik Akronimów
-          </button>
-        </div>
-
-        <!-- SUB-TAB 1: PASSIVE VOICE -->
-        <div id="notes-sub-passive" class="flex flex-col gap-6">
-          <div class="bg-[#0b132b] p-5 rounded-2xl border border-[#202f4e]">
-            <h3 class="text-base font-bold text-sky-400 mb-2 flex items-center gap-2">
-              <i class="fa-solid fa-gears"></i> Zasady tworzenia Strony Biernej w IT
-            </h3>
-            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed mb-3">
-              Strona bierna (Passive Voice) służy do opisywania procedur, operacji systemowych i automatycznych procesów zachodzących w bazie danych, gdzie wykonawca czynności jest nieistotny lub oczywisty.
-            </p>
-            <div class="p-3 bg-[#131f37] rounded-xl border border-sky-500/30 text-xs text-sky-300 font-mono">
-              Wzór: PODMIOT + TO BE (w odpowiednim czasie) + III FORMA CZASOWNIKA (Past Participle)
-            </div>
-          </div>
-
-          <!-- Active vs Passive Matrix Table -->
-          <div class="overflow-x-auto">
-            <table class="w-full text-left text-xs sm:text-sm border-collapse">
-              <thead>
-                <tr class="bg-[#0b132b] text-sky-400 border-b border-[#202f4e]">
-                  <th class="p-3 font-bold uppercase tracking-wider">Czas / Forma</th>
-                  <th class="p-3 font-bold uppercase tracking-wider">Strona Czynna (Active)</th>
-                  <th class="p-3 font-bold uppercase tracking-wider">Strona Bierna (Passive)</th>
-                </tr>
-              </thead>
-              <tbody class="divide-y divide-[#202f4e] text-slate-200">
-                <tr class="hover:bg-[#0b132b]/50">
-                  <td class="p-3 font-bold text-slate-300">Present Simple</td>
-                  <td class="p-3 font-mono text-xs">The DBMS backs up the data.</td>
-                  <td class="p-3 font-mono text-xs text-emerald-400">The data <strong>is backed up</strong> by the DBMS.</td>
-                </tr>
-                <tr class="hover:bg-[#0b132b]/50">
-                  <td class="p-3 font-bold text-slate-300">Past Simple</td>
-                  <td class="p-3 font-mono text-xs">E.F. Codd created the model.</td>
-                  <td class="p-3 font-mono text-xs text-emerald-400">The relational model <strong>was created</strong> by E.F. Codd.</td>
-                </tr>
-                <tr class="hover:bg-[#0b132b]/50">
-                  <td class="p-3 font-bold text-slate-300">Present Perfect</td>
-                  <td class="p-3 font-mono text-xs">Manager has accepted the release.</td>
-                  <td class="p-3 font-mono text-xs text-emerald-400">The release <strong>has been accepted</strong> by the manager.</td>
-                </tr>
-                <tr class="hover:bg-[#0b132b]/50">
-                  <td class="p-3 font-bold text-slate-300">Past Continuous</td>
-                  <td class="p-3 font-mono text-xs">DBA was recovering the table.</td>
-                  <td class="p-3 font-mono text-xs text-emerald-400">The table <strong>was being recovered</strong> by the DBA.</td>
-                </tr>
-                <tr class="hover:bg-[#0b132b]/50">
-                  <td class="p-3 font-bold text-slate-300">Future Simple</td>
-                  <td class="p-3 font-mono text-xs">Engineers will deploy the app.</td>
-                  <td class="p-3 font-mono text-xs text-emerald-400">The app <strong>will be deployed</strong> by engineers.</td>
-                </tr>
-                <tr class="hover:bg-[#0b132b]/50">
-                  <td class="p-3 font-bold text-slate-300">Modal Verbs (can/must)</td>
-                  <td class="p-3 font-mono text-xs">Users can decipher the file.</td>
-                  <td class="p-3 font-mono text-xs text-emerald-400">The file <strong>can be deciphered</strong> by users.</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <!-- SUB-TAB 2: DATABASES & IT MANAGEMENT -->
-        <div id="notes-sub-db" class="hidden flex flex-col gap-6">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div class="bg-[#0b132b] p-5 rounded-xl border border-[#202f4e]">
-              <h4 class="text-sm font-bold text-sky-400 mb-2">Pojęcia Strategiczne IT</h4>
-              <ul class="text-xs sm:text-sm text-slate-300 space-y-2 leading-relaxed">
-                <li><strong class="text-white">Raw Data:</strong> Dane surowe, zgromadzone ale jeszcze nieprzetworzone.</li>
-                <li><strong class="text-white">Tangible Assets:</strong> Aktywa materialne (ziemia, maszyny, serwery).</li>
-                <li><strong class="text-white">Goodwill:</strong> Wartość niematerialna (renoma firmy, relacje z klientami).</li>
-                <li><strong class="text-white">Delphi Method:</strong> Zasięganie opinii od niezależnego panelu ekspertów.</li>
-                <li><strong class="text-white">McFarlan's Strategic Matrix:</strong> Macierz 2x2 analizująca strategiczny wpływ obecnych i przyszłych systemów IT.</li>
-              </ul>
-            </div>
-
-            <div class="bg-[#0b132b] p-5 rounded-xl border border-[#202f4e]">
-              <h4 class="text-sm font-bold text-sky-400 mb-2">Bazy Danych i Integracja</h4>
-              <ul class="text-xs sm:text-sm text-slate-300 space-y-2 leading-relaxed">
-                <li><strong class="text-white">Integrity Constraints:</strong> Reguły zapewniające spójność i dokładność danych.</li>
-                <li><strong class="text-white">Foreign Key (Klucz Obcy):</strong> Pole łączące dane w relacyjnych tabelach.</li>
-                <li><strong class="text-white">Concurrent Users:</strong> Użytkownicy pracujący współbieżnie na tej samej bazie.</li>
-                <li><strong class="text-white">Performance Tuning:</strong> Strojenie i optymalizacja wydajności zapytań SQL.</li>
-                <li><strong class="text-white">Embedded Database:</strong> Baza danych zintegrowana bezpośrednio w aplikacji.</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <!-- SUB-TAB 3: PREPOSITIONS & VOCABULARY -->
-        <div id="notes-sub-prep" class="hidden flex flex-col gap-6">
-          <div class="bg-[#0b132b] p-5 rounded-xl border border-[#202f4e]">
-            <h4 class="text-sm font-bold text-sky-400 mb-3">Wymagane Przyimki (Prepositions in IT)</h4>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm">
-              <div class="p-2.5 bg-[#131f37] rounded-lg border border-[#202f4e]"><strong>key TO success</strong> – klucz do sukcesu</div>
-              <div class="p-2.5 bg-[#131f37] rounded-lg border border-[#202f4e]"><strong>depend ON decisions</strong> – zależeć od decyzji</div>
-              <div class="p-2.5 bg-[#131f37] rounded-lg border border-[#202f4e]"><strong>consist OF components</strong> – składać się z</div>
-              <div class="p-2.5 bg-[#131f37] rounded-lg border border-[#202f4e]"><strong>reduction OF costs</strong> – redukcja kosztów</div>
-              <div class="p-2.5 bg-[#131f37] rounded-lg border border-[#202f4e]"><strong>increase IN revenue</strong> – wzrost przychodów</div>
-              <div class="p-2.5 bg-[#131f37] rounded-lg border border-[#202f4e]"><strong>invest IN technology</strong> – inwestować w</div>
-              <div class="p-2.5 bg-[#131f37] rounded-lg border border-[#202f4e]"><strong>impact ON performance</strong> – wpływ na wydajność</div>
-              <div class="p-2.5 bg-[#131f37] rounded-lg border border-[#202f4e]"><strong>return ON investment</strong> – zwrot z inwestycji</div>
-            </div>
-          </div>
-
-          <div class="bg-[#0b132b] p-5 rounded-xl border border-[#202f4e]">
-            <h4 class="text-sm font-bold text-rose-400 mb-2">Częste Błędy w Angielskim IT (Rzeczowniki niepoliczalne)</h4>
-            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-              Pamiętaj, że w języku angielskim technicznym słowa <strong class="text-white">information</strong> oraz <strong class="text-white">software</strong> są NIEPOLICZALNE. Nie dodajemy do nich końcówki -s!
-            </p>
-            <div class="mt-3 text-xs font-mono space-y-1">
-              <div class="text-rose-400">❌ A number of crucial informations were written...</div>
-              <div class="text-emerald-400">✔️ Crucial information was written... / Pieces of information...</div>
-              <div class="text-rose-400">❌ Integrated within application softwares...</div>
-              <div class="text-emerald-400">✔️ Integrated within application software...</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- SUB-TAB 4: ACRONYMS GLOSSARY -->
-        <div id="notes-sub-acronyms" class="hidden flex flex-col gap-6">
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm">
-            <div class="p-3 bg-[#0b132b] rounded-xl border border-[#202f4e]">
-              <strong class="text-sky-400 block text-base font-bold">EIS</strong>
-              <span class="text-slate-200">Executive Information System</span>
-              <p class="text-slate-400 text-xs mt-1">System informowania kierownictwa najwyższego szczebla.</p>
-            </div>
-            <div class="p-3 bg-[#0b132b] rounded-xl border border-[#202f4e]">
-              <strong class="text-sky-400 block text-base font-bold">MIS</strong>
-              <span class="text-slate-200">Management Information System</span>
-              <p class="text-slate-400 text-xs mt-1">System informacyjny zarządzania wspierający codzienne decyzje.</p>
-            </div>
-            <div class="p-3 bg-[#0b132b] rounded-xl border border-[#202f4e]">
-              <strong class="text-sky-400 block text-base font-bold">DSS</strong>
-              <span class="text-slate-200">Decision Support System</span>
-              <p class="text-slate-400 text-xs mt-1">System wspomagania decyzji analitycznych.</p>
-            </div>
-            <div class="p-3 bg-[#0b132b] rounded-xl border border-[#202f4e]">
-              <strong class="text-sky-400 block text-base font-bold">ROI</strong>
-              <span class="text-slate-200">Return on Investment</span>
-              <p class="text-slate-400 text-xs mt-1">Wskaźnik zwrotu z inwestycji.</p>
-            </div>
-            <div class="p-3 bg-[#0b132b] rounded-xl border border-[#202f4e]">
-              <strong class="text-sky-400 block text-base font-bold">ERP</strong>
-              <span class="text-slate-200">Enterprise Resource Planning</span>
-              <p class="text-slate-400 text-xs mt-1">System planowania zasobów przedsiębiorstwa.</p>
-            </div>
-            <div class="p-3 bg-[#0b132b] rounded-xl border border-[#202f4e]">
-              <strong class="text-sky-400 block text-base font-bold">MNC</strong>
-              <span class="text-slate-200">Multinational Corporation</span>
-              <p class="text-slate-400 text-xs mt-1">Korporacja międzynarodowa.</p>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-    </div>
-
-  </main>
-
-  <!-- Footer -->
-  <footer class="bg-[#131f37] border-t border-[#202f4e] py-4 text-center text-xs text-slate-500">
-  </footer>
-
-  <script>
-    /* ==========================================================================
-       DATABASES WITH GUARANTEED QUANTITY: 10 ITEMS PER CATEGORY PER MODULE
-       Categories: db, mgmt, passive, prep, vocab, acronyms
-       ========================================================================== */
-
-    // 1. QUIZ ABC DATABASE
-    const QUIZ_DATA = [
-      // Bazy Danych (10 items)
-      { cat: 'db', q: "Which database system component manages interrelated data and ensures security?", opt: ["Foreign Key", "Database Management System (DBMS)", "Flat file", "Entity Relationship Diagram"], ans: 1, exp: "DBMS to oprogramowanie zarządzające spójnością i dostępem do baz danych." },
-      { cat: 'db', q: "What is the main role of a Foreign Key in a relational database?", opt: ["To uniquely identify a row in its own table", "To relate data stored in different tables", "To speed up server boot times", "To store raw unstructured binary files"], ans: 1, exp: "Foreign Key (klucz obcy) łączy dane z innej tabeli zapewniając spójność referencyjną." },
-      { cat: 'db', q: "Logical data model includes entities, their attributes and relationships between those entities with respect to...", opt: ["Hardware memory limits", "Business requirements", "Programming language syntax", "Monitor resolution"], ans: 1, exp: "Logiczny model danych tworzy się w oparciu o wymagania biznesowe (business requirements)." },
-      { cat: 'db', q: "At the end of the analysis phase, many-to-many relationships are resolved into...", opt: ["Flat text files", "Associative entities", "Crows foot notations", "Primary keys"], ans: 1, exp: "Relacje wiele-do-wielu rozwiązuje się przy pomocy encji asocjacyjnych (associative entities)." },
-      { cat: 'db', q: "Which database type is directly integrated within application software and accessible to end-users?", opt: ["Distributed DBMS", "Embedded database", "Cloud database service", "Centralized server"], ans: 1, exp: "Embedded database (wbudowana baza danych) jest zintegrowana z aplikacją." },
-      { cat: 'db', q: "What is the simplest type of database consisting of plain text stored on a computer disk?", opt: ["A set of flat files", "Relational cluster", "NoSQL document store", "Distributed database"], ans: 0, exp: "Flat files (pliki płaskie) to najprostsza postać przechowywania danych." },
-      { cat: 'db', q: "What activity do database administrators perform to make the use of a database more effective?", opt: ["Hardware soldering", "Performance tuning", "Copywriting", "Network wiring"], ans: 1, exp: "Performance tuning (strojenie wydajności) zoptymalizuje działanie zapytań." },
-      { cat: 'db', q: "Which constraints are used to ensure accuracy and consistency of data in a relational database?", opt: ["Hardware constraints", "Integrity constraints", "Budget constraints", "Visual constraints"], ans: 1, exp: "Integrity constraints (więzy integralności) chronią spójność danych." },
-      { cat: 'db', q: "A distributed DBMS manages databases that are distributed over...", opt: ["A single CPU core", "Multiple different computers", "Printed paper documents", "One local folder"], ans: 1, exp: "Rozproszony DBMS zarządza bazami rozłożonymi na wielu serwerach/komputerach." },
-      { cat: 'db', q: "Which role is responsible for setting data definitions and implementing consistent data principles?", opt: ["Frontend Designer", "Data Administrator", "System Electrician", "Hardware Buyer"], ans: 1, exp: "Data Administrator (Administrator Danych) odpowiada za politykę i definicje danych." },
-
-      // Zarządzanie IT (10 items)
-      { cat: 'mgmt', q: "Which system supports senior-level decision making with strategic information?", opt: ["Transaction Processing System", "Executive Information System (EIS)", "Flat file system", "Basic compiler"], ans: 1, exp: "EIS (Executive Information System) wspomaga decyzje kierownictwa wyższego szczebla." },
-      { cat: 'mgmt', q: "What are 'tangible assets' of a company?", opt: ["Brand reputation and goodwill", "Property that can be touched like land and machinery", "Employee happiness score", "Copyrights and patents"], ans: 1, exp: "Tangible assets to aktywa materialne (ziemia, sprzęt, serwery)." },
-      { cat: 'mgmt', q: "What is 'Goodwill' in business management?", opt: ["A physical server room", "Additional value of a company representing brand name and customer relations", "Raw uncollected data", "A discount code"], ans: 1, exp: "Goodwill to wartość firmy związana z reputacją i relacjami z klientami." },
-      { cat: 'mgmt', q: "What is the Delphi method used for?", opt: ["Selecting database primary keys", "Getting opinions from a panel of independent experts", "Writing active voice sentences", "Calculating CPU core speed"], ans: 1, exp: "Metoda Delficka polega na zbieraniu opinii od niezależnego panelu ekspertów." },
-      { cat: 'mgmt', q: "What does McFarlan's strategic matrix analyze?", opt: ["CPU temperature over time", "Strategic impact of existing and future information systems", "Employee work hours", "Database backup speed"], ans: 1, exp: "Macierz McFarlana analizuje znaczenie obecnych i przyszłych systemów IT dla przewagi rynkowej." },
-      { cat: 'mgmt', q: "Activities aiming to discover new technology to develop new products are called...", opt: ["Human Resources (HR)", "Research & Development (R&D)", "Quality Assurance (QA)", "Customer Support"], ans: 1, exp: "R&D (Research & Development) to dział Badań i Rozwoju." },
-      { cat: 'mgmt', q: "Companies invest money in IT in expectation of...", opt: ["Guaranteed immediate cash", "Uncertain future gains", "Decreased system security", "Losing competitive edge"], ans: 1, exp: "Inwestycje w IT są dokonywane w oczekiwaniu na przyszłe zyski (uncertain future gains)." },
-      { cat: 'mgmt', q: "In a highly competitive market, companies must look for...", opt: ["Competitive advantage", "Manual data entry", "Higher operating costs", "Slower networks"], ans: 0, exp: "Przedsiębiorstwa poszukują przewagi konkurencyjnej (competitive advantage)." },
-      { cat: 'mgmt', q: "Proper management of IT investments in light of limited resources is a...", opt: ["Challenge", "Disaster", "Past event", "Routine error"], ans: 0, exp: "Zarządzanie inwestycjami IT przy ograniczonych zasobach to wyzwanie (challenge)." },
-      { cat: 'mgmt', q: "Which approach to IT investment prioritizes creative technology use to build competitive advantage?", opt: ["Defensive approach", "Offensive approach", "Manual approach", "Static approach"], ans: 1, exp: "Offensive approach (podejście ofensywne) stawia na innowacje i budowanie przewagi." },
-
-      // Strona Bierna (10 items)
-      { cat: 'passive', q: "Transform to Passive Voice: 'E.F. Codd created the relational model.'", opt: ["The relational model is created by E.F. Codd.", "The relational model was created by E.F. Codd.", "The relational model has been created by E.F. Codd.", "The relational model was creating by E.F. Codd."], ans: 1, exp: "Past Simple Passive: was + III forma (was created)." },
-      { cat: 'passive', q: "Transform to Passive Voice: 'The project manager has accepted the release.'", opt: ["The release is accepted by the manager.", "The release was accepted by the manager.", "The release has been accepted by the manager.", "The release will be accepted by the manager."], ans: 2, exp: "Present Perfect Passive: has been + III forma (has been accepted)." },
-      { cat: 'passive', q: "Transform to Passive Voice: 'Database administrator was recovering the database.'", opt: ["The database was recovered.", "The database was being recovered by the administrator.", "The database is recovered.", "The database has recovered."], ans: 1, exp: "Past Continuous Passive: was/were + being + III forma (was being recovered)." },
-      { cat: 'passive', q: "Transform to Passive Voice: 'The system analyst identified primary keys.'", opt: ["Primary keys were identified by the system analyst.", "Primary keys are identified by the analyst.", "Primary keys have identified by analyst.", "Primary keys identified."], ans: 0, exp: "Past Simple Passive dla liczby mnogiej: were + III forma (were identified)." },
-      { cat: 'passive', q: "Transform to Passive Voice: 'Logical data model includes entities.'", opt: ["Entities are included in logical data model.", "Entities were included in logical data model.", "Entities have included.", "Entities are including."], ans: 0, exp: "Present Simple Passive dla liczby mnogiej: are + III forma (are included)." },
-      { cat: 'passive', q: "Choose the correct Passive Voice form: 'Information [...] by users to make decisions.'", opt: ["is used", "are using", "uses", "were use"], ans: 0, exp: "Information jest niepoliczalne (L. pojedyncza) -> is used." },
-      { cat: 'passive', q: "Choose the correct Passive Voice sentence:", opt: ["Data is stored in different tables.", "Data stored in different tables.", "Data are store in tables.", "Data storing in tables."], ans: 0, exp: "Present Simple Passive: is stored." },
-      { cat: 'passive', q: "Which preposition introduces the agent (wykonawcę) in a passive voice sentence?", opt: ["with", "by", "at", "to"], ans: 1, exp: "Wykonawcę czynności w stronie biernej wprowadzamy słowem 'by'." },
-      { cat: 'passive', q: "Complete the sentence: 'Database as a Service [...] over the network.'", opt: ["is accessed", "accessing", "accessed by", "is access"], ans: 0, exp: "Strona bierna: is accessed (jest dostępny)." },
-      { cat: 'passive', q: "Complete: 'Regular backups [...] to minimize data loss.'", opt: ["are made", "is made", "made by", "are make"], ans: 0, exp: "Liczba mnoga (backups) w Present Simple Passive: are made." },
-
-      // Przyimki i Kolokacje (10 items)
-      { cat: 'prep', q: "Fill in: 'Properly interpreted information is the key [...] success.'", opt: ["of", "to", "for", "in"], ans: 1, exp: "Poprawny przyimek: key TO success (klucz do sukcesu)." },
-      { cat: 'prep', q: "Fill in: 'In highly competitive markets companies look [...] competitive advantage.'", opt: ["for", "at", "on", "into"], ans: 0, exp: "Poprawny zwrot: look FOR (szukać czegoś)." },
-      { cat: 'prep', q: "Fill in: 'Information systems contribute to reduction [...] costs.'", opt: ["in", "of", "to", "over"], ans: 1, exp: "Poprawny zwrot: reduction OF costs (redukcja kosztów)." },
-      { cat: 'prep', q: "Fill in: 'Information systems consist [...] four components.'", opt: ["with", "of", "by", "in"], ans: 1, exp: "Poprawny zwrot: consist OF (składać się z)." },
-      { cat: 'prep', q: "Fill in: 'IT solutions have a crucial impact [...] company performance.'", opt: ["in", "on", "to", "with"], ans: 1, exp: "Poprawny zwrot: impact ON (wpływ na)." },
-      { cat: 'prep', q: "Fill in: 'Long-term profitability depends [...] investment decisions.'", opt: ["on", "of", "in", "from"], ans: 0, exp: "Poprawny zwrot: depend ON (zależeć od)." },
-      { cat: 'prep', q: "Fill in: 'One of IT evaluation methods is return [...] investment.'", opt: ["in", "on", "of", "to"], ans: 1, exp: "Poprawny zwrot: Return ON Investment (ROI)." },
-      { cat: 'prep', q: "Fill in: 'Data administrator is responsible [...] defining data principles.'", opt: ["for", "to", "with", "about"], ans: 0, exp: "Poprawny zwrot: responsible FOR (odpowiedzialny za)." },
-      { cat: 'prep', q: "Fill in: 'Encryption refers [...] converting data into an unreadable format.'", opt: ["to", "at", "in", "over"], ans: 0, exp: "Poprawny zwrot: refer TO (odnosić się do)." },
-      { cat: 'prep', q: "Fill in: 'Relationships [...] entities are defined during analysis.'", opt: ["between", "over", "into", "at"], ans: 0, exp: "Poprawny zwrot: relationships BETWEEN entities (relacje między encjami)." },
-
-      // Słownictwo i Błędy (10 items)
-      { cat: 'vocab', q: "Find the error: 'A number of crucial informations were written down.'", opt: ["'crucial' is wrong", "'informations' should be 'information'", "'written' is wrong", "no error"], ans: 1, exp: "Słowo 'information' jest niepoliczalne i nie występuje w liczbie mnogiej!" },
-      { cat: 'vocab', q: "Find the error: 'Embedded databases are databases who are integrated within applications.'", opt: ["'databases' is wrong", "'who' should be 'which' or 'that'", "'integrated' is wrong", "no error"], ans: 1, exp: "Do rzeczy i baz danych stosujemy 'which' lub 'that', nie 'who'." },
-      { cat: 'vocab', q: "Find the error: 'Owing to CPUs with much cores, processing is faster.'", opt: ["'much' should be 'many'", "'CPUs' is wrong", "'faster' is wrong", "no error"], ans: 0, exp: "Cores (rdzenie) są policzalne, więc używamy 'many cores', a nie 'much cores'." },
-      { cat: 'vocab', q: "Find the error: 'Database administrators perform performance tunings activities.'", opt: ["'tunings' should be 'tuning'", "'administrators' is wrong", "'perform' is wrong", "no error"], ans: 0, exp: "Prawidłowy zwrot to 'performance tuning' (określenie rzeczownikowe nie ma liczby mnogiej)." },
-      { cat: 'vocab', q: "Select the synonym for 'currently':", opt: ["primarily", "nowadays / presently", "significantly", "fundamentally"], ans: 1, exp: "Currently = nowadays, presently (obecnie)." },
-      { cat: 'vocab', q: "Select the synonym for 'significant':", opt: ["crucial / important", "chiefly", "nowadays", "raw"], ans: 0, exp: "Significant = crucial, important, meaningful." },
-      { cat: 'vocab', q: "Select the synonym for 'goal':", opt: ["objective / purpose / aim", "asset", "goodwill", "impact"], ans: 0, exp: "Goal = objective, purpose, aim (cel)." },
-      { cat: 'vocab', q: "What is the correct noun form derived from the verb 'to compete'?", opt: ["competement", "competition", "competingly", "competous"], ans: 1, exp: "To compete -> competition (konkurencja)." },
-      { cat: 'vocab', q: "What is the correct noun form derived from the verb 'to apply'?", opt: ["applicate", "application", "applyment", "applyness"], ans: 1, exp: "To apply -> application (zastosowanie / aplikacja)." },
-      { cat: 'vocab', q: "What is the correct adjective form derived from the verb 'to optimize'?", opt: ["optimized / optimal", "optimous", "optimizely", "optimate"], ans: 0, exp: "To optimize -> optimal / optimized." },
-
-      // Akronimy (10 items)
-      { cat: 'acronyms', q: "What does DSS stand for?", opt: ["Data Storage System", "Decision Support System", "Digital Security Solution", "Direct Server State"], ans: 1, exp: "DSS = Decision Support System (System Wspomagania Decyzji)." },
-      { cat: 'acronyms', q: "What does MNC stand for?", opt: ["Multinational Corporation", "Multi-Network Connection", "Master Node Center", "Managed Network Code"], ans: 0, exp: "MNC = Multinational Corporation (Korporacja Międzynarodowa)." },
-      { cat: 'acronyms', q: "What does ROI stand for?", opt: ["Rate of Information", "Return on Investment", "Relational Object Integration", "Resource Optimization Index"], ans: 1, exp: "ROI = Return on Investment (Zwrot z Inwestycji)." },
-      { cat: 'acronyms', q: "What does ERP stand for?", opt: ["Enterprise Resource Planning", "External Record Processing", "Embedded Relational Program", "Electronic Report Protocol"], ans: 0, exp: "ERP = Enterprise Resource Planning (Planowanie Zasobów Przedsiębiorstwa)." },
-      { cat: 'acronyms', q: "What does SME stand for in business IT?", opt: ["System Maintenance Engine", "Small and Medium Enterprises", "Software Migration Environment", "Secure Memory Element"], ans: 1, exp: "SME = Small and Medium Enterprises (Małe i Średnie Przedsiębiorstwa)." },
-      { cat: 'acronyms', q: "What does DBMS stand for?", opt: ["Database Management System", "Data Binary Model Structure", "Digital Business Machine Server", "Direct Backup Memory Storage"], ans: 0, exp: "DBMS = Database Management System." },
-      { cat: 'acronyms', q: "What does DaaS stand for?", opt: ["Data as a Service / Database as a Service", "Digital Automation and System", "Direct Access Server Architecture", "Domain Administrative Security"], ans: 0, exp: "DaaS = Database as a Service / Data as a Service." },
-      { cat: 'acronyms', q: "What does R&D stand for?", opt: ["Relational & Distributed", "Research & Development", "Recovery & Deployment", "Resource & Data"], ans: 1, exp: "R&D = Research & Development (Badania i Rozwój)." },
-      { cat: 'acronyms', q: "What does ERD stand for in database design?", opt: ["Entity Relationship Diagram", "External Resource Data", "Enterprise Relational Database", "Execution Run Driver"], ans: 0, exp: "ERD = Entity Relationship Diagram (Diagram Związków Encji)." },
-      { cat: 'acronyms', q: "What does CPU stand for?", opt: ["Central Processing Unit", "Computer Power Utility", "Core Programming Interface", "Central Performance Unit"], ans: 0, exp: "CPU = Central Processing Unit (Procesor)." }
-    ];
-
-    // 2. OPEN QUESTIONS DATABASE
-    const OPEN_DATA = [
-      // Bazy Danych (10 items)
-      { cat: 'db', prompt: "Przetłumacz na angielski: 'System zarządzania bazą danych (DBMS) zapewnia bezpieczeństwo i spójność danych.'", ans: "Database management system (DBMS) provides data security and consistency.", exp: "Słowa klucze: DBMS, provides, security, consistency." },
-      { cat: 'db', prompt: "Przetłumacz na angielski: 'Dane przechowywane w różnych tabelach są powiązane wspólnymi polami.'", ans: "Data stored in different tables is related by common fields.", exp: "Pamiętaj o zwrocie: 'related by common fields'." },
-      { cat: 'db', prompt: "Przetłumacz na angielski: 'Baza danych w chmurze jest dostępna zdalnie przez sieć.'", ans: "Cloud database is accessed remotely over the network.", exp: "Użycie strony biernej: 'is accessed over the network'." },
-      { cat: 'db', prompt: "Przetłumacz na angielski: 'Więzy integralności zapewniają dokładność danych w relacyjnej bazie danych.'", ans: "Integrity constraints ensure accuracy of data in a relational database.", exp: "Pojęcia: integrity constraints, ensure accuracy." },
-      { cat: 'db', prompt: "Przetłumacz na angielski: 'Aplikacja uzyskuje dostęp do silnika bazy danych za pomocą odpowiednich sterowników.'", ans: "Application accesses database engine using appropriate drivers.", exp: "Słownictwo: database engine, drivers." },
-      { cat: 'db', prompt: "Przetłumacz na angielski: 'Regularne kopie zapasowe minimalizują ryzyko utraty danych.'", ans: "Regular backups minimize the risk of data loss.", exp: "Słownictwo: regular backups, minimize risk of data loss." },
-      { cat: 'db', prompt: "Przetłumacz na angielski: 'Wirtualizacja baz danych umożliwia efektywne zarządzanie zasobami.'", ans: "Database virtualization enables effective resource management.", exp: "Słownictwo: enables, effective resource management." },
-      { cat: 'db', prompt: "Przetłumacz na angielski: 'Klucz obcy zapobiega powstawaniu osieroconych rekordów.'", ans: "A foreign key prevents the creation of orphan records.", exp: "Słownictwo: foreign key, orphan records." },
-      { cat: 'db', prompt: "Przetłumacz na angielski: 'Indeksowanie kolumn przyspiesza wykonywanie zapytań SQL.'", ans: "Column indexing speeds up the execution of SQL queries.", exp: "Słownictwo: column indexing, speeds up, execution of queries." },
-      { cat: 'db', prompt: "Przetłumacz na angielski: 'Szyfrowanie bazy danych chroni dane przed nieuprawnionym dostępem.'", ans: "Database encryption protects data from unauthorized access.", exp: "Słownictwo: encryption, unauthorized access." },
-
-      // Zarządzanie IT (10 items)
-      { cat: 'mgmt', prompt: "Przetłumacz na angielski: 'Obecnie IT staje się coraz bardziej istotnym elementem w rozwoju każdej firmy.'", ans: "Currently, IT is becoming an increasingly important element in the development of every company.", exp: "Słowa kluczowe: Currently / Nowadays, increasingly important." },
-      { cat: 'mgmt', prompt: "Przetłumacz na angielski: 'Inwestycje w IT pozwalają przedsiębiorstwu zyskać przewagę konkurencyjną.'", ans: "IT investments allow a company to gain a competitive advantage.", exp: "Zwrot: gain a competitive advantage." },
-      { cat: 'mgmt', prompt: "Przetłumacz na angielski: 'Przedsiębiorstwo może skorzystać z analizy kosztów i korzyści.'", ans: "A company can use cost-benefit analysis.", exp: "Termin biznesowy: cost-benefit analysis." },
-      { cat: 'mgmt', prompt: "Przetłumacz na angielski: 'Zarządzanie portfelem projektów IT pomaga w priorytetyzacji inwestycji.'", ans: "IT project portfolio management helps in prioritizing investments.", exp: "Słownictwo: portfolio management, prioritizing investments." },
-      { cat: 'mgmt', prompt: "Przetłumacz na angielski: 'Podejście ofensywne kładzie nacisk na kreatywne wykorzystanie technologii.'", ans: "An offensive approach emphasizes creative use of technology.", exp: "Słownictwo: offensive approach, emphasizes." },
-      { cat: 'mgmt', prompt: "Przetłumacz na angielski: 'Długoterminowa rentowność zależy od decyzji inwestycyjnych.'", ans: "Long-term profitability depends on investment decisions.", exp: "Pamiętaj o przyimku: depend ON." },
-      { cat: 'mgmt', prompt: "Przetłumacz na angielski: 'Ocena korzyści z inwestycji IT jest kluczowym czynnikiem sukcesu.'", ans: "Evaluating benefits of IT investment is a key success factor.", exp: "Słownictwo: key success factor." },
-      { cat: 'mgmt', prompt: "Przetłumacz na angielski: 'Systemy informacyjne przyczyniają się do redukcji kosztów operacyjnych.'", ans: "Information systems contribute to the reduction of operating costs.", exp: "Zwrot: contribute to reduction of costs." },
-      { cat: 'mgmt', prompt: "Przetłumacz na angielski: 'Ograniczone zasoby wymagają starannego zarządzania budżetem IT.'", ans: "Limited resources require careful management of the IT budget.", exp: "Słownictwo: limited resources, careful management." },
-      { cat: 'mgmt', prompt: "Przetłumacz na angielski: 'Dział Badań i Rozwoju (R&D) tworzy innowacyjne produkty.'", ans: "The Research & Development (R&D) department creates innovative products.", exp: "Skrót: R&D department." },
-
-      // Strona Bierna (10 items)
-      { cat: 'passive', prompt: "Przekształć na stronę bierną: 'The system analyst identified primary and foreign keys.'", ans: "Primary and foreign keys were identified by the system analyst.", exp: "Past Simple Passive: were identified + by." },
-      { cat: 'passive', prompt: "Przekształć na stronę bierną: 'Developers are updating the production database.'", ans: "The production database is being updated by developers.", exp: "Present Continuous Passive: is being updated." },
-      { cat: 'passive', prompt: "Przekształć na stronę bierną: 'The company will deploy the new ERP system next month.'", ans: "The new ERP system will be deployed by the company next month.", exp: "Future Simple Passive: will be deployed." },
-      { cat: 'passive', prompt: "Przetłumacz na angielski (Passive): 'Informacje wyszukane w bazie są wykorzystywane do podejmowania decyzji.'", ans: "Information retrieved from the database is used to make decisions.", exp: "Present Simple Passive: is used." },
-      { cat: 'passive', prompt: "Przekształć na stronę bierną: 'Users must decipher the encrypted file.'", ans: "The encrypted file must be deciphered by users.", exp: "Modal Passive: must be deciphered." },
-      { cat: 'passive', prompt: "Przekształć na stronę bierną: 'E.F. Codd defined the 12 rules for relational databases.'", ans: "The 12 rules for relational databases were defined by E.F. Codd.", exp: "Past Simple Passive: were defined." },
-      { cat: 'passive', prompt: "Przełóż na stronę bierną: 'System administrator has restored all lost files.'", ans: "All lost files have been restored by the system administrator.", exp: "Present Perfect Passive: have been restored." },
-      { cat: 'passive', prompt: "Przekształć na stronę bierną: 'We test software before release.'", ans: "Software is tested before release.", exp: "Present Simple Passive: is tested (software jest niepoliczalne!)." },
-      { cat: 'passive', prompt: "Przekształć na stronę bierną: 'Senior engineers were reviewing the code.'", ans: "The code was being reviewed by senior engineers.", exp: "Past Continuous Passive: was being reviewed." },
-      { cat: 'passive', prompt: "Przetłumacz na angielski (Passive): 'Serwer został wyłączony z powodu przegrzania.'", ans: "The server was shut down due to overheating.", exp: "Past Simple Passive: was shut down." },
-
-      // Przyimki i Kolokacje (10 items)
-      { cat: 'prep', prompt: "Uzupełnij przyimkiem: 'Proper management of IT investments in light [...] limited resources is a challenge.'", ans: "of (in light of)", exp: "Zwrot: in light OF (w świetle czegoś)." },
-      { cat: 'prep', prompt: "Uzupełnij przyimkiem: 'Information systems consist [...] four main components.'", ans: "of (consist of)", exp: "Zwrot: consist OF (składać się z)." },
-      { cat: 'prep', prompt: "Uzupełnij przyimkiem: 'IT solutions have a significant impact [...] general performance.'", ans: "on (impact on)", exp: "Zwrot: impact ON (wpływ na)." },
-      { cat: 'prep', prompt: "Uzupełnij przyimkiem: 'Profitability depends [...] investment decisions.'", ans: "on (depend on)", exp: "Zwrot: depend ON (zależeć od)." },
-      { cat: 'prep', prompt: "Uzupełnij przyimkiem: 'One evaluation method is return [...] investment (ROI).'", ans: "on (return on)", exp: "Zwrot: return ON investment." },
-      { cat: 'prep', prompt: "Uzupełnij przyimkiem: 'Data stored in different tables is related [...] common fields.'", ans: "by (related by)", exp: "Zwrot: related BY common fields." },
-      { cat: 'prep', prompt: "Uzupełnij przyimkiem: 'Database administrator is responsible [...] defining data rules.'", ans: "for (responsible for)", exp: "Zwrot: responsible FOR." },
-      { cat: 'prep', prompt: "Uzupełnij przyimkiem: 'Encryption refers [...] converting plaintext into ciphertext.'", ans: "to (refer to)", exp: "Zwrot: refer TO." },
-      { cat: 'prep', prompt: "Uzupełnij przyimkiem: 'Deliveries delivered [...] time ensure customer satisfaction.'", ans: "on (on time)", exp: "Zwrot: ON time (na czas)." },
-      { cat: 'prep', prompt: "Uzupełnij przyimkiem: 'Companies invest money in IT [...] expectation of future gains.'", ans: "in (in expectation of)", exp: "Zwrot: IN expectation of." },
-
-      // Słownictwo i Błędy (10 items)
-      { cat: 'vocab', prompt: "Popraw błąd w zdaniu: 'A number of crucial informations were recorded.'", ans: "A number of crucial pieces of information were recorded. / Crucial information was recorded.", exp: "Słowo 'information' nie ma liczby mnogiej!" },
-      { cat: 'vocab', prompt: "Popraw błąd w zdaniu: 'CPUs with much cores execute queries faster.'", ans: "CPUs with many cores execute queries faster.", exp: "Użyj 'many' zamiast 'much' dla rzeczowników policzalnych (cores)." },
-      { cat: 'vocab', prompt: "Popraw błąd w zdaniu: 'Embedded databases are databases who are integrated within software.'", ans: "Embedded databases are databases which/that are integrated within software.", exp: "Użyj 'which' lub 'that' dla rzeczy/baz danych." },
-      { cat: 'vocab', prompt: "Popraw błąd w zdaniu: 'Execution times can be reduced to little seconds.'", ans: "Execution times can be reduced to a few seconds.", exp: "Dla policzalnych 'seconds' stosujemy 'a few', nie 'little'." },
-      { cat: 'vocab', prompt: "Podaj 2 synonimy słowa 'currently':", ans: "nowadays, presently, at present, now", exp: "Synonimy: nowadays, presently." },
-      { cat: 'vocab', prompt: "Podaj 2 synonimy słowa 'significant':", ans: "crucial, important, meaningful", exp: "Synonimy: crucial, important." },
-      { cat: 'vocab', prompt: "Utwórz rzeczownik i przymiotnik od czasownika 'to compete':", ans: "Noun: competition | Adjective: competitive", exp: "to compete -> competition, competitive." },
-      { cat: 'vocab', prompt: "Utwórz rzeczownik od czasownika 'to optimize':", ans: "optimization", exp: "to optimize -> optimization." },
-      { cat: 'vocab', prompt: "Podaj polskie tłumaczenie wyrażenia 'tangible assets':", ans: "aktywa trwałe / aktywa materialne", exp: "Tangible assets = aktywa materialne." },
-      { cat: 'vocab', prompt: "Podaj polskie tłumaczenie wyrażenia 'unauthorized access':", ans: "nieautoryzowany / nieuprawniony dostęp", exp: "Unauthorized access = nieautoryzowany dostęp." },
-
-      // Akronimy (10 items)
-      { cat: 'acronyms', prompt: "Rozwiń akronim i podaj polskie znaczenie: DSS", ans: "Decision Support System – System Wspomagania Decyzji", exp: "DSS wspiera analityczne podejście do decyzji." },
-      { cat: 'acronyms', prompt: "Rozwiń akronim i podaj polskie znaczenie: MNC", ans: "Multinational Corporation – Korporacja Międzynarodowa", exp: "MNC to firma działająca globalnie." },
-      { cat: 'acronyms', prompt: "Rozwiń akronim i podaj polskie znaczenie: ROI", ans: "Return on Investment – Zwrot z Inwestycji", exp: "ROI mierzy opłacalność przedsięwzięcia." },
-      { cat: 'acronyms', prompt: "Rozwiń akronim i podaj polskie znaczenie: ERP", ans: "Enterprise Resource Planning – Planowanie Zasobów Przedsiębiorstwa", exp: "ERP integruje procesy biznesowe w firmie." },
-      { cat: 'acronyms', prompt: "Rozwiń akronim i podaj polskie znaczenie: SME", ans: "Small and Medium Enterprises – Małe i Średnie Przedsiębiorstwa", exp: "SME to sektor MŚP." },
-      { cat: 'acronyms', prompt: "Rozwiń akronim i podaj polskie znaczenie: DBMS", ans: "Database Management System – System Zarządzania Bazą Danych", exp: "DBMS zarządza strukturą i dostępem do bazy." },
-      { cat: 'acronyms', prompt: "Rozwiń akronim i podaj polskie znaczenie: DaaS", ans: "Database as a Service – Baza Danych jako Usługa", exp: "DaaS to model chmurowy świadczenia baz danych." },
-      { cat: 'acronyms', prompt: "Rozwiń akronim i podaj polskie znaczenie: R&D", ans: "Research & Development – Badań i Rozwój (B+R)", exp: "R&D opracowuje nowe technologie." },
-      { cat: 'acronyms', prompt: "Rozwiń akronim i podaj polskie znaczenie: ERD", ans: "Entity Relationship Diagram – Diagram Związków Encji", exp: "ERD to graficzny schemat bazy danych." },
-      { cat: 'acronyms', prompt: "Rozwiń akronim i podaj polskie znaczenie: CPU", ans: "Central Processing Unit – Procesor (Główna Jednostka Obliczeniowa)", exp: "CPU wykonuje instrukcje programu." }
-    ];
-
-    // 3. FLASHCARDS DATABASE
-    const FLASH_DATA = [
-      // Bazy Danych (10 items)
-      { cat: 'db', front: "Raw Data", back: "Surowe Dane", desc: "Dane zgromadzone, które nie zostały jeszcze przetworzone ani przeanalizowane." },
-      { cat: 'db', front: "Integrity Constraints", back: "Więzy Integralności", desc: "Zasady wymuszające spójność i poprawność danych w relacyjnej bazie." },
-      { cat: 'db', front: "Foreign Key", back: "Klucz Obcy", desc: "Pole w tabeli powiązane z kluczem głównym (Primary Key) innej tabeli." },
-      { cat: 'db', front: "Concurrent Users", back: "Użytkownicy Współbieżni", desc: "Wielu użytkowników uzyskujących dostęp do bazy danych w tym samym czasie." },
-      { cat: 'db', front: "Performance Tuning", back: "Strojenie Wydajności", desc: "Działania administratora mające na celu optymalizację czasu zapytań." },
-      { cat: 'db', front: "Flat Files", back: "Pliki Płaskie", desc: "Najprostszy typ bazy danych w postaci zwykłych plików tekstowych." },
-      { cat: 'db', front: "Embedded Database", back: "Wbudowana Baza Danych", desc: "Baza danych zintegrowana wewnątrz kodu aplikacji klienta." },
-      { cat: 'db', front: "Data Migration", back: "Migracja Danych", desc: "Proces przenoszenia danych między różnymi systemami lub formatami." },
-      { cat: 'db', front: "Unique Identifier", back: "Unikalny Identyfikator", desc: "Atrybut jednoznacznie identyfikujący dany rekord w tabeli." },
-      { cat: 'db', front: "Data Recovery", back: "Odzyskiwanie Danych", desc: "Proces przywracania bazy danych ze stanu kopii zapasowej po awarii." },
-
-      // Zarządzanie IT (10 items)
-      { cat: 'mgmt', front: "Executive Information System (EIS)", back: "System Informowania Kierownictwa", desc: "System wspomagający strategiczne decyzje zarządu wyższego szczebla." },
-      { cat: 'mgmt', front: "Tangible Assets", back: "Aktywa Materialne / Trwałe", desc: "Fizyczny majątek firmy (ziemia, budynki, serwery, maszyny)." },
-      { cat: 'mgmt', front: "Goodwill", back: "Wartość Niematerialna (Reputacja)", desc: "Wartość marki, dobrych relacji z klientami i pracownikami." },
-      { cat: 'mgmt', front: "Delphi Method", back: "Metoda Delficka", desc: "Technika pozyskiwania opinii od niezależnego panelu ekspertów." },
-      { cat: 'mgmt', front: "McFarlan's Strategic Matrix", back: "Macierz McFarlana", desc: "Macierz 2x2 do oceny znaczenia obecnych i przyszłych systemów IT." },
-      { cat: 'mgmt', front: "Research & Development (R&D)", back: "Badania i Rozwój (B+R)", desc: "Działania ukierunkowane na odkrywanie nowych technologii i produktów." },
-      { cat: 'mgmt', front: "Competitive Advantage", back: "Przewaga Konkurencyjna", desc: "Cecha pozwalająca przedsiębiorstwu wyprzedzić konkurentów na rynku." },
-      { cat: 'mgmt', front: "Portfolio Management", back: "Zarządzanie Portfelem Inwestycji", desc: "Optymalne zarządzanie zbiorem projektów i inwestycji IT." },
-      { cat: 'mgmt', front: "Business Driver", back: "Czynnik Napędowy Biznesu", desc: "Kluczowy zasób lub czynnik stymulujący wzrost przedsiębiorstwa." },
-      { cat: 'mgmt', front: "Offensive Approach", back: "Podejście Ofensywne", desc: "Inwestowanie w IT z nastawieniem na innowacje i budowanie przewagi." },
-
-      // Strona Bierna (10 items)
-      { cat: 'passive', front: "is updated daily", back: "jest codziennie aktualizowany/a", desc: "Present Simple Passive (L. pojedyncza)" },
-      { cat: 'passive', front: "were identified by", back: "zostały zidentyfikowane przez", desc: "Past Simple Passive (L. mnoga)" },
-      { cat: 'passive', front: "has been accepted", back: "został/a zaakceptowany/a", desc: "Present Perfect Passive" },
-      { cat: 'passive', front: "was being recovered", back: "był/a w trakcie odzyskiwania", desc: "Past Continuous Passive" },
-      { cat: 'passive', front: "will be deployed", back: "zostanie wdrożony/a", desc: "Future Simple Passive" },
-      { cat: 'passive', front: "can be deciphered", back: "może zostać odkodowany/a", desc: "Modal Passive (can + be + V3)" },
-      { cat: 'passive', front: "are stored in", back: "są przechowywane w", desc: "Present Simple Passive (are + stored)" },
-      { cat: 'passive', front: "is accessed by", back: "jest dostępny/a przez", desc: "Present Simple Passive (is + accessed)" },
-      { cat: 'passive', front: "must be configured", back: "musi zostać skonfigurowany/a", desc: "Modal Passive (must + be + V3)" },
-      { cat: 'passive', front: "was created by", back: "został/a stworzony/a przez", desc: "Past Simple Passive (was + created)" },
-
-      // Przyimki i Kolokacje (10 items)
-      { cat: 'prep', front: "key TO success", back: "klucz DO sukcesu", desc: "Pamiętaj: key + TO" },
-      { cat: 'prep', front: "depend ON", back: "zależeć OD", desc: "Pamiętaj: depend + ON" },
-      { cat: 'prep', front: "consist OF", back: "składać się Z", desc: "Pamiętaj: consist + OF" },
-      { cat: 'prep', front: "reduction OF costs", back: "redukcja kosztów", desc: "Pamiętaj: reduction + OF" },
-      { cat: 'prep', front: "increase IN revenue", back: "wzrost przychodów", desc: "Pamiętaj: increase + IN" },
-      { cat: 'prep', front: "impact ON performance", back: "wpływ na wydajność", desc: "Pamiętaj: impact + ON" },
-      { cat: 'prep', front: "return ON investment", back: "zwrot Z inwestycji", desc: "Pamiętaj: return + ON" },
-      { cat: 'prep', front: "responsible FOR", back: "odpowiedzialny ZA", desc: "Pamiętaj: responsible + FOR" },
-      { cat: 'prep', front: "refer TO", back: "odnosić się DO", desc: "Pamiętaj: refer + TO" },
-      { cat: 'prep', front: "relationships BETWEEN", back: "relacje MIĘDZY", desc: "Pamiętaj: relationships + BETWEEN" },
-
-      // Słownictwo i Błędy (10 items)
-      { cat: 'vocab', front: "Uncountable: Information", back: "Informacja (Niepoliczalny!)", desc: "NIGDY nie pisz 'informations'! Używaj 'information' lub 'pieces of information'." },
-      { cat: 'vocab', front: "Uncountable: Software", back: "Oprogramowanie (Niepoliczalne!)", desc: "NIGDY nie pisz 'softwares'! Używaj 'software' lub 'software applications'." },
-      { cat: 'vocab', front: "Currently / Nowadays", back: "Obecnie / W dzisiejszych czasach", desc: "Synonimy określające teraźniejszość." },
-      { cat: 'vocab', front: "Significant / Crucial", back: "Znaczący / Kluczowy", desc: "Przymiotniki opisujące dużą wagę zagadnienia." },
-      { cat: 'vocab', front: "Goal / Objective / Purpose", back: "Cel / Zamierzenie", desc: "Synonimiczne pojęcia dotyczące dążeń firmy." },
-      { cat: 'vocab', front: "To compete -> Competition", back: "Konkurować -> Konkurencja", desc: "Transformacja słowotwórcza (Verb -> Noun)." },
-      { cat: 'vocab', front: "To apply -> Application", back: "Stosować -> Zastosowanie / Aplikacja", desc: "Transformacja słowotwórcza (Verb -> Noun)." },
-      { cat: 'vocab', front: "To optimize -> Optimal", back: "Optymalizować -> Optymalny", desc: "Transformacja słowotwórcza (Verb -> Adjective)." },
-      { cat: 'vocab', front: "Unauthorized Access", back: "Nieautoryzowany Dostęp", desc: "Kluczowe pojęcie w bezpieczeństwie IT." },
-      { cat: 'vocab', front: "Production Environment", back: "Środowisko Produkcyjne", desc: "Środowisko uruchomieniowe dla końcowych użytkowników." },
-
-      // Akronimy (10 items)
-      { cat: 'acronyms', front: "DSS", back: "Decision Support System", desc: "System Wspomagania Decyzji" },
-      { cat: 'acronyms', front: "MNC", back: "Multinational Corporation", desc: "Korporacja Międzynarodowa" },
-      { cat: 'acronyms', front: "ROI", back: "Return on Investment", desc: "Zwrot z Inwestycji" },
-      { cat: 'acronyms', front: "ERP", back: "Enterprise Resource Planning", desc: "Planowanie Zasobów Przedsiębiorstwa" },
-      { cat: 'acronyms', front: "SME", back: "Small and Medium Enterprises", desc: "Małe i Średnie Przedsiębiorstwa (MŚP)" },
-      { cat: 'acronyms', front: "DBMS", back: "Database Management System", desc: "System Zarządzania Bazą Danych" },
-      { cat: 'acronyms', front: "DaaS", back: "Database as a Service", desc: "Baza Danych jako Usługa" },
-      { cat: 'acronyms', front: "R&D", back: "Research & Development", desc: "Dział Badań i Rozwoju (B+R)" },
-      { cat: 'acronyms', front: "ERD", back: "Entity Relationship Diagram", desc: "Diagram Związków Encji" },
-      { cat: 'acronyms', front: "CPU", back: "Central Processing Unit", desc: "Procesor / Główna Jednostka Obliczeniowa" }
-    ];
-
-    /* ==========================================================================
-       APPLICATION STATE & LOGIC
-       ========================================================================== */
-
-    let currentQuizFilter = 'all';
-    let filteredQuiz = [...QUIZ_DATA];
-    let quizIdx = 0;
-    let quizScore = 0;
-
-    let currentOpenFilter = 'all';
-    let filteredOpen = [...OPEN_DATA];
-    let openIdx = 0;
-    let openMastered = 0;
-
-    let currentFlashFilter = 'all';
-    let filteredFlash = [...FLASH_DATA];
-    let flashIdx = 0;
-    let isFlipped = false;
-
-    // Category dictionary mapping
-    const CAT_NAMES = {
-      all: 'Wszystkie Kategorie',
-      db: 'Bazy Danych',
-      mgmt: 'Zarządzanie IT',
-      passive: 'Strona Bierna',
-      prep: 'Przyimki i Kolokacje',
-      vocab: 'Słownictwo i Błędy',
-      acronyms: 'Akronimy'
-    };
-
-    // TAB SWITCHER (4 Main Tabs)
-    function switchTab(tabId) {
-      ['quiz', 'open', 'flashcards', 'notes'].forEach(t => {
-        document.getElementById(`view-${t}`).classList.add('hidden');
-        const navBtn = document.getElementById(`nav-${t}`);
-        navBtn.classList.remove('bg-sky-600', 'text-white', 'shadow-md', 'shadow-sky-600/30');
-        navBtn.classList.add('text-slate-400', 'hover:text-white', 'hover:bg-[#131f37]');
-      });
-
-      document.getElementById(`view-${tabId}`).classList.remove('hidden');
-      const activeNav = document.getElementById(`nav-${tabId}`);
-      activeNav.classList.add('bg-sky-600', 'text-white', 'shadow-md', 'shadow-sky-600/30');
-      activeNav.classList.remove('text-slate-400', 'hover:text-white', 'hover:bg-[#131f37]');
-
-      if (tabId === 'quiz') renderQuiz();
-      if (tabId === 'open') renderOpen();
-      if (tabId === 'flashcards') renderFlashcard();
-    }
-
-    /* --------------------------------------------------------------------------
-       QUIZ ABC LOGIC
-       -------------------------------------------------------------------------- */
-    function filterQuizCategory(cat) {
-      currentQuizFilter = cat;
-      if (cat === 'all') {
-        filteredQuiz = [...QUIZ_DATA];
-      } else {
-        filteredQuiz = QUIZ_DATA.filter(item => item.cat === cat);
-      }
-      quizIdx = 0;
-      renderQuiz();
-    }
-
-    function renderQuiz() {
-      if (filteredQuiz.length === 0) return;
-      const q = filteredQuiz[quizIdx];
-      
-      document.getElementById('quiz-badge').textContent = CAT_NAMES[q.cat] || 'IT';
-      document.getElementById('quiz-counter').textContent = `Pytanie ${quizIdx + 1} z ${filteredQuiz.length}`;
-      document.getElementById('quiz-question-text').textContent = q.q;
-
-      const optsContainer = document.getElementById('quiz-options-container');
-      optsContainer.innerHTML = '';
-
-      q.opt.forEach((optionText, index) => {
-        const btn = document.createElement('button');
-        btn.className = "w-full p-4 rounded-xl bg-[#0b132b] border border-[#202f4e] hover:border-sky-500/50 hover:bg-[#182747] text-slate-200 font-medium text-sm transition text-left flex items-center justify-between group";
-        btn.onclick = () => handleQuizSelect(index, q.ans, q.exp);
-        btn.innerHTML = `
-          <span>${optionText}</span>
-          <span class="w-7 h-7 rounded-lg bg-[#131f37] border border-[#202f4e] flex items-center justify-center text-xs font-bold text-slate-400 group-hover:text-sky-400 group-hover:border-sky-500/50">
-            ${String.fromCharCode(65 + index)}
-          </span>
-        `;
-        optsContainer.appendChild(btn);
-      });
-
-      document.getElementById('quiz-explanation-box').classList.add('hidden');
-      document.getElementById('quiz-next-btn').classList.add('hidden');
-    }
-
-    function handleQuizSelect(selectedIdx, correctIdx, expText) {
-      const optsContainer = document.getElementById('quiz-options-container');
-      const buttons = optsContainer.getElementsByTagName('button');
-
-      for (let i = 0; i < buttons.length; i++) {
-        buttons[i].disabled = true;
-        buttons[i].classList.remove('hover:border-sky-500/50', 'hover:bg-[#182747]');
-        
-        if (i === correctIdx) {
-          buttons[i].className = "w-full p-4 rounded-xl bg-emerald-950/60 border border-emerald-500 text-emerald-300 font-semibold text-sm transition text-left flex items-center justify-between";
-        } else if (i === selectedIdx) {
-          buttons[i].className = "w-full p-4 rounded-xl bg-rose-950/60 border border-rose-500 text-rose-300 font-semibold text-sm transition text-left flex items-center justify-between";
-        }
-      }
-
-      const expBox = document.getElementById('quiz-explanation-box');
-      expBox.classList.remove('hidden');
-
-      if (selectedIdx === correctIdx) {
-        expBox.className = "p-4 rounded-xl text-xs sm:text-sm font-semibold bg-emerald-950/40 border border-emerald-500/50 text-emerald-300 leading-relaxed";
-        expBox.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400 mr-1.5"></i> Poprawna odpowiedź! ${expText}`;
-        quizScore += 10;
-        document.getElementById('quiz-score-val').textContent = quizScore;
-      } else {
-        expBox.className = "p-4 rounded-xl text-xs sm:text-sm font-semibold bg-rose-950/40 border border-rose-500/50 text-rose-300 leading-relaxed";
-        expBox.innerHTML = `<i class="fa-solid fa-circle-xmark text-rose-400 mr-1.5"></i> Błąd. ${expText}`;
-      }
-
-      document.getElementById('quiz-next-btn').classList.remove('hidden');
-    }
-
-    function nextQuizQuestion() {
-      quizIdx = (quizIdx + 1) % filteredQuiz.length;
-      renderQuiz();
-    }
-
-    function resetQuiz() {
-      quizIdx = 0;
-      quizScore = 0;
-      document.getElementById('quiz-score-val').textContent = 0;
-      renderQuiz();
-    }
-
-    /* --------------------------------------------------------------------------
-       OPEN QUESTIONS LOGIC
-       -------------------------------------------------------------------------- */
-    function filterOpenCategory(cat) {
-      currentOpenFilter = cat;
-      if (cat === 'all') {
-        filteredOpen = [...OPEN_DATA];
-      } else {
-        filteredOpen = OPEN_DATA.filter(item => item.cat === cat);
-      }
-      openIdx = 0;
-      renderOpen();
-    }
-
-    function renderOpen() {
-      if (filteredOpen.length === 0) return;
-      const item = filteredOpen[openIdx];
-
-      document.getElementById('open-badge').textContent = CAT_NAMES[item.cat] || 'Tłumaczenie';
-      document.getElementById('open-counter').textContent = `Zadanie ${openIdx + 1} z ${filteredOpen.length}`;
-      document.getElementById('open-prompt-text').textContent = item.prompt;
-      
-      const input = document.getElementById('open-user-input');
-      input.value = '';
-      input.disabled = false;
-
-      document.getElementById('open-answer-container').classList.add('hidden');
-      document.getElementById('open-show-btn').classList.remove('hidden');
-      document.getElementById('open-rate-container').classList.add('hidden');
-    }
-
-    function revealOpenAnswer() {
-      const item = filteredOpen[openIdx];
-      document.getElementById('open-user-input').disabled = true;
-      document.getElementById('open-model-answer').textContent = item.ans;
-      document.getElementById('open-explanation').textContent = item.exp;
-
-      document.getElementById('open-answer-container').classList.remove('hidden');
-      document.getElementById('open-show-btn').classList.add('hidden');
-      document.getElementById('open-rate-container').classList.remove('hidden');
-      document.getElementById('open-rate-container').classList.add('flex');
-    }
-
-    function rateOpenAnswer(isMastered) {
-      if (isMastered) {
-        openMastered++;
-        document.getElementById('open-mastered-val').textContent = openMastered;
-      }
-      openIdx = (openIdx + 1) % filteredOpen.length;
-      renderOpen();
-    }
-
-    function resetOpen() {
-      openIdx = 0;
-      openMastered = 0;
-      document.getElementById('open-mastered-val').textContent = 0;
-      renderOpen();
-    }
-
-    /* --------------------------------------------------------------------------
-       FLASHCARDS LOGIC
-       -------------------------------------------------------------------------- */
-    function filterFlashcardCategory(cat) {
-      currentFlashFilter = cat;
-      if (cat === 'all') {
-        filteredFlash = [...FLASH_DATA];
-      } else {
-        filteredFlash = FLASH_DATA.filter(item => item.cat === cat);
-      }
-      flashIdx = 0;
-      renderFlashcard();
-    }
-
-    function renderFlashcard() {
-      if (filteredFlash.length === 0) return;
-      const item = filteredFlash[flashIdx];
-
-      document.getElementById('flash-counter').textContent = `${flashIdx + 1} z ${filteredFlash.length}`;
-      document.getElementById('flash-badge-front').textContent = CAT_NAMES[item.cat] || 'Fiszka';
-      document.getElementById('flash-front-text').textContent = item.front;
-      document.getElementById('flash-front-sub').textContent = item.desc || '';
-
-      document.getElementById('flash-badge-back').textContent = CAT_NAMES[item.cat] || 'Wyjaśnienie';
-      document.getElementById('flash-back-text').textContent = item.back;
-      document.getElementById('flash-back-desc').textContent = item.desc || '';
-
-      // Reset flip state
-      const inner = document.getElementById('flashcard-inner');
-      inner.classList.remove('rotate-y-180');
-      isFlipped = false;
-    }
-
-    function flipFlashcardCard() {
-      const inner = document.getElementById('flashcard-inner');
-      isFlipped = !isFlipped;
-      if (isFlipped) {
-        inner.classList.add('rotate-y-180');
-      } else {
-        inner.classList.remove('rotate-y-180');
-      }
-    }
-
-    function nextFlashcardCard() {
-      flashIdx = (flashIdx + 1) % filteredFlash.length;
-      renderFlashcard();
-    }
-
-    function prevFlashcardCard() {
-      flashIdx = (flashIdx - 1 + filteredFlash.length) % filteredFlash.length;
-      renderFlashcard();
-    }
-
-    function randomFlashcardCard() {
-      flashIdx = Math.floor(Math.random() * filteredFlash.length);
-      renderFlashcard();
-    }
-
-    function speakFlashcard(event) {
-      event.stopPropagation();
-      const item = filteredFlash[flashIdx];
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-        const utterance = new SpeechSynthesisUtterance(item.front);
-        utterance.lang = 'en-US';
-        utterance.rate = 0.9;
-        window.speechSynthesis.speak(utterance);
-      }
-    }
-
-    /* --------------------------------------------------------------------------
-       NOTES SUB-TAB SWITCHER
-       -------------------------------------------------------------------------- */
-    function switchNotesSubTab(subId) {
-      ['notes-passive', 'notes-db', 'notes-prep', 'notes-acronyms'].forEach(s => {
-        document.getElementById(`notes-sub-${s.replace('notes-', '')}`).classList.add('hidden');
-        const btn = document.getElementById(`subtab-${s}`);
-        btn.classList.remove('bg-sky-600', 'text-white');
-        btn.classList.add('text-slate-400', 'hover:text-white', 'hover:bg-[#0b132b]');
-      });
-
-      document.getElementById(`notes-sub-${subId.replace('notes-', '')}`).classList.remove('hidden');
-      const activeBtn = document.getElementById(`subtab-${subId}`);
-      activeBtn.classList.add('bg-sky-600', 'text-white');
-      activeBtn.classList.remove('text-slate-400', 'hover:text-white', 'hover:bg-[#0b132b]');
-    }
-
-    /* --------------------------------------------------------------------------
-       APPLICATION INITIALIZATION
-       -------------------------------------------------------------------------- */
-    window.onload = function() {
-      renderQuiz();
-      renderOpen();
-      renderFlashcard();
-    };
-  </script>
+<body>
+<div id="app" class="closed">
+ <header class="top">
+  <button id="menuBtn" class="icon" aria-label="Pokaż lub ukryj menu">☰</button>
+  <div><b>English for IT</b><small>Ćwiczenia interaktywne</small></div>
+  <div class="grow"></div>
+  <div class="gprog"><span id="gtxt"></span><div class="bar"><i id="gbar"></i></div></div>
+  <button id="themeBtn" class="icon" aria-label="Zmień motyw">◐</button>
+ </header>
+ <div class="shell">
+  <aside id="side"></aside>
+  <div id="scrim"></div>
+  <main id="main"><div id="stage"></div></main>
+ </div>
+</div>
+<script>
+/* ================= LOGIC ================= */
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const strip=s=>s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/ł/g,'l');
+function lev(a,b){const m=a.length,n=b.length;if(!m)return n;if(!n)return m;let p=Array.from({length:n+1},(_,i)=>i);for(let i=1;i<=m;i++){const c=[i];for(let j=1;j<=n;j++)c[j]=Math.min(p[j]+1,c[j-1]+1,p[j-1]+(a[i-1]===b[j-1]?0:1));p=c}return p[n]}
+function toks(s){const out=[],re=/[\p{L}\p{N}]+(?:['’][\p{L}]+)?/gu;let m;while((m=re.exec(s)))out.push({raw:m[0],i:m.index,n:strip(m[0]).replace(/['’]/g,'')});return out}
+function tokMatch(t,w){if(w.endsWith('$'))return t===w.slice(0,-1);if(t.startsWith(w))return true;if(w.length>=6){const p=t.slice(0,w.length);if(lev(p,w)<=1&&t.length<=w.length+4)return true}return false}
+function findAlt(T,alt){const ws=alt.split(' ');for(let i=0;i+ws.length<=T.length;i++){let ok=true;for(let j=0;j<ws.length;j++)if(!tokMatch(T[i+j].n,ws[j])){ok=false;break}if(ok)return ws.map((_,j)=>i+j)}return null}
+function evalKw(it,text){
+ const T=toks(text),hits=new Set();
+ const found=it.must.map(g=>{let f=false;for(const a of g){const r=findAlt(T,a);if(r){r.forEach(i=>hits.add(i));f=true}}return f});
+ const bad=(it.not||[]).filter(x=>findAlt(T,x.a)).map(x=>x.m);
+ const startOk=!it.start||it.start.some(a=>{const ws=a.split(' ');return ws.every((w,j)=>T[j]&&tokMatch(T[j].n,w))});
+ const n=found.filter(Boolean).length,need=it.must.length-(it.skip||0);
+ return {T,hits,found,bad,startOk,n,need,pass:n>=need&&!bad.length&&startOk&&T.length>=(it.min||1)};
+}
+function hl(text,ev){let out='',last=0;ev.T.forEach((t,k)=>{out+=esc(text.slice(last,t.i));out+=ev.hits.has(k)?'<mark>'+esc(t.raw)+'</mark>':esc(t.raw);last=t.i+t.raw.length});return out+esc(text.slice(last))}
+const lt=s=>strip(s).replace(/&/g,' and ').replace(/^\s*(to|a|an|the)\s+/,'').replace(/[^a-z0-9]/g,'');
+const tol=n=>n>=25?3:n>=12?2:n>=5?1:0;
+function shortOk(inp,acc){const A=acc.map(lt);return [inp,...inp.split(/\s*[\/;]\s*/)].some(c=>{const x=lt(c);return x&&A.some(a=>x===a||lev(x,a)<=tol(a.length))})}
+const lab=g=>g[0].replace(/\$$/,'');
+
+/* ================= DATA ================= */
+const DAT=[['odzyskiw','odzysk','przywr','odtwarz','odtworz'],['dan']];
+const CRIT=['not critical','non critical','noncritical','not crucial','not essential','are not critical','arent critical','isnt critical','not vital','not mission critical','less critical','not strategic','uncritical','not necessary','unnecessary'];
+const B=(a,alt)=>({a,alt:alt||[]}),FX=a=>({fx:a});
+const PARTS=[
+{id:'p1',title:'Część 1',sub:'IT in business',ex:[
+{id:'p1A',L:'A',kind:'def',type:'Dopasowanie definicji',title:'Match the terms from the text with their definitions.',count:8,
+ terms:[['Executive Information System','f'],['raw data','c'],['tangible assets','e'],['R&D','b'],['goodwill','a'],['Management Information System','h'],['Delphi method','d'],["McFarlan's strategic matrix",'g']],
+ defs:{a:"additional value of a company which is not a physical asset and represents the value of company’s brand name, good customer relations, good employee relations, etc.",b:"activities of a business which aim is to discover new technology in order to develop new products or improve the existing product development processes",c:"data that has been collected but has not been processed",d:"a way of getting opinions from a panel of independent experts",e:"property owned by a business that can be touched such as land, machinery, inventory etc.",f:"a specialized information system used to support senior-level decision making",g:"a 2x2 matrix used to analyse the importance of existing information systems of a company as well as strategic impact of future information systems on building company’s competitive advantage",h:"a system which enables planning, monitoring and making decisions on everyday issues on the basis of regular reports for every level of management in a company"}},
+{id:'p1B',L:'B',kind:'syn',type:'Synonimy',title:'Match the following words from the text about IT with their synonyms from the box. For some of them, there can be more than one synonym.',count:6,
+ box:['influence','objective','nowadays','purpose','presently','essential','mainly','aim','chiefly','crucial','important','meaningful'],
+ words:[{w:'currently',pre:'now,',key:['nowadays','presently'],alt:[]},{w:'significant',key:['important','meaningful'],alt:['crucial','essential']},{w:'goal',key:['objective','purpose','aim'],alt:[]},{w:'fundamental',key:['essential','crucial'],alt:['important']},{w:'impact',key:['influence'],alt:[]},{w:'primarily',key:['mainly','chiefly'],alt:[]}]},
+{id:'p1C',L:'C',kind:'vt',type:'Tabela słowotwórcza',title:'Fill in the gaps with appropriate form of the word and translation of a verb into Polish.',count:8,
+ rows:[
+ ['rozwijać się','to grow',['growth'],['growing','grown']],
+ [['zwiększać się','zwiększać','wzrastać','rosnąć','zwiększyć się','zwiększyć','wzrosnąć','powiększać się'],['to increase'],['increase'],'increasing'],
+ ['stosować','to apply',['application'],['applicable','applied']],
+ [['dostosowywać','dostosować','dopasowywać','dopasować','personalizować','indywidualizować','dostosowywać do potrzeb','dostosować do potrzeb'],['to customize','to customise'],'a customization',['customized','customised','customizable','customisable','custom']],
+ ['konkurować','to compete',['competition'],['competitive']],
+ ['optymalizować',['to optimize','to optimise'],['optimization','optimisation'],['optimal','optimized','optimised','optimum','optimizing']],
+ [['kontynuować','trwać','kontynuować się'],'to continue',['continuation','continuity'],['continuous','continued','continual','continuing']],
+ ['czerpać zysk','to make profit',['profit'],['profitable']]]},
+{id:'p1D',L:'D',kind:'prep',type:'Przyimki',title:'Fill in the gaps with appropriate prepositions from the box. The first one has been done for you.',count:7,
+ box:[['in',5],['of',4],['on',3],['for',1]],
+ sents:[
+ ['Properly interpreted information which is delivered ',FX('on'),' time is the key to success of a company.'],
+ [B('in'),' highly competitive markets companies have to look ',B('for'),' competitive advantage.'],
+ ['Information systems in a company contribute to reduction ',B('of'),' costs and increase ',B('in'),' revenue. They consist ',B('of'),' four components: organization, hardware, software, data.'],
+ ['Proper management of IT investments ',B('in'),' light ',B('of'),' limited resources is a challenge.'],
+ ['Companies invest money ',B('in'),' IT ',B('in'),' expectation ',B('of'),' uncertain future gains.'],
+ ['IT solution in a company is a part of corporate strategy and it has a crucial impact ',B('on'),' company’s general performance.'],
+ ['Long-term well-being as well as short-term profitability of the company depend ',B('on'),' investment decisions that it makes'],
+ ['One of IT evaluation methods is the return ',B('on'),' investment.']]},
+{id:'p1E',L:'E',kind:'mx',type:'Kolokacje i tłumaczenie',title:'Match the word from the left with the one from the right to build full expression from the text and translate it into Polish.',count:9,
+ right:[['a','factor'],['b','driver'],['c','investment'],['d','analysis'],['e','benefits'],['f','resource'],['g','advantage'],['h','management'],['i','system'],['j','data']],
+ rows:[
+ {l:'effective',ex:'h',model:'efektywne zarządzanie'},
+ {l:'raw',a:['j'],pl:[['dan'],['surow']],model:'dane surowe'},
+ {l:'high-risk',a:['c'],pl:[['inwest'],['ryzyk']],model:'inwestycja wysokiego ryzyka'},
+ {l:'strategic',a:['f'],pl:[['zasob'],['strategicz']],model:'zasób strategiczny'},
+ {l:'competitive',a:['g'],pl:[['przewag'],['konkurencyj']],model:'przewaga konkurencyjna'},
+ {l:'information',a:['i'],pl:[['system'],['informacyj','informatyczn','informacji']],model:'system informacyjny'},
+ {l:'long-term',a:['e'],pl:[['korzy','zysk'],['dlugoterm','dlugofal','dlugookres','dlugo']],model:'długoterminowe korzyści'},
+ {l:'portfolio',a:['d'],pl:[['analiz'],['portfel']],model:'analiza portfela'},
+ {l:'success',a:['a'],pl:[['czynnik','determinant','element'],['sukces']],model:'czynnik sukcesu'},
+ {l:'business',a:['b'],pl:[['czynnik','motor','napedow','sila','dzwignia'],['biznes','przedsiebiorstw','firm','gospodark','handlow']],model:'czynnik biznesowy'}]},
+{id:'p1F',L:'F',kind:'acr',type:'Skróty',title:'What do the following acronyms stand for?',count:5,
+ rows:[['DSS',['decision support system','decision-support system']],['MNC',['multinational corporation','multinational company','multinational enterprise','multi-national corporation']],['ROI',['return on investment']],['ERP',['enterprise resource planning']],['SME',['small and medium-sized enterprises','small and medium-sized enterprise','small and medium enterprises','small and medium enterprise','small and medium-sized businesses','small and medium-sized companies','small to medium enterprise']]]},
+{id:'p1G',L:'G',kind:'open',type:'Tłumaczenie PL → EN',title:'Translate the following sentences into English.',count:5,items:[
+ {key:'g1',n:1,pl:1,q:'Obecnie IT staje się coraz bardziej istotnym elementem w rozwoju każdej firmy. Z tego względu inwestycje w IT są w dzisiejszych czasach integralną częścią biznesplanu każdego przedsiębiorstwa, które chce zyskać przewagę konkurencyjną.',
+  model:'Currently, IT is becoming an increasingly important element in the development of every company. For this reason, investments in IT are nowadays an integral part of the business plan of every enterprise that wants to gain a competitive advantage.',
+  points:['Currently / nowadays','an increasingly important element','in the development of every company','For this reason / therefore','investments in IT … an integral part of the business plan','wants to gain a competitive advantage'],skip:1,
+  must:[['currently','nowadays','now$','presently','today','at present','at the moment','these days'],['increasingly','more and more','ever more','growing'],['important','significant','essential','crucial','vital','relevant'],['element','component','part','factor','aspect'],['development','growth','evolution','expansion','success'],['reason','therefore','thus','hence','consequently','this is why','that is why'],['invest'],['integral','indispensable','inseparable','integrated'],['business plan','business strategy','company plan'],['gain','get','achieve','obtain','win','acquire','attain','secure']]},
+ {key:'g2',n:2,pl:1,q:'Zgodnie z defensywnym podejściem do inwestycji w IT w macierzy McFarlana przedsiębiorstwo może m.in. inwestować w aplikacje, które nie są krytyczne dla pomyślnego działania przedsiębiorstwa.',
+  model:'According to the defensive approach to IT investment in McFarlan’s matrix, a company can, among other things, invest in applications that are not critical for the successful operation of the enterprise.',
+  points:['According to the defensive approach','IT investment in McFarlan’s matrix','among other things','invest in applications','not critical for the successful operation of the company'],skip:1,
+  must:[['according to','in accordance','in line with','following','as per'],['defensive','defence','defense'],['approach','strategy','attitude','perspective','stance','policy'],['invest'],['it$','information technology'],['mcfarlan'],['matrix','grid'],['among other','inter alia','amongst other','for example','e g','including','i e','besides','also','for instance','such as'],['application','apps','software','program'],CRIT,['successful','smooth','prosperous','effective','proper','good','efficient','well'],['operation','functioning','running','performance','work','activit','business','success']]},
+ {key:'g3',n:3,pl:1,q:'Przedsiębiorstwo może skorzystać z takich metod oceny wymiernych korzyści z inwestycji w IT jak na przykład zwrot z inwestycji oraz analiza kosztów i korzyści.',
+  model:'A company can use such methods of evaluating measurable benefits of IT investments as, for example, return on investment and cost-benefit analysis.',
+  points:['can use / benefit from such methods','of evaluating measurable (tangible) benefits','of IT investment','return on investment','cost-benefit analysis'],skip:1,
+  must:[['use','utilize','utilise','benefit from','take advantage','apply','make use','draw on','employ'],['method','technique','approach','way','tool'],['evaluat','assess','apprais','measur','estimat'],['measurable','tangible','quantifiable','quantitative','measured','concrete','calculable'],['benefit','gain','advantage','profit'],['invest'],['return on investment','roi','investment return','return from investment','return of investment'],['cost benefit','costs and benefits','cost and benefit','cost benefits'],['analysis','analyses','analyse','analyze']]},
+ {key:'g4',n:4,pl:1,q:'Przedsiębiorstwa zazwyczaj dokonują priorytetyzacji inwestycji według określonych kryteriów.',
+  model:'Companies usually prioritize investments according to specific criteria.',
+  points:['Companies usually …','prioritize investments','according to specific / defined criteria'],
+  must:[['compan','enterprise','business','organi','firm','corporation'],['usually','typically','generally','normally','commonly','as a rule','tend to','often','mostly','regularly','customarily'],['priorit','rank'],['invest'],['according to','based on','by$','in line with','depending on','in accordance','on the basis','using','following','in terms of','with regard to','with respect to'],['specific','certain','defined','particular','set','given','determined','established','specified','definite','predetermined','selected','fixed','chosen'],['criteri']]},
+ {key:'g5',n:5,pl:1,q:'Podejście ofensywne do inwestycji w IT preferują przedsiębiorstwa, które kładą nacisk na kreatywne wykorzystanie technologii informacyjnych, a nie tylko na zwiększenie efektywności codziennych działań.',
+  model:'The offensive approach to IT investment is preferred by companies that emphasize the creative use of information technology, and not only on increasing the efficiency of everyday activities.',
+  points:['The offensive approach to IT investment','is preferred by companies that …','emphasize the creative use of information technology','not only … increasing the efficiency of everyday activities'],skip:2,
+  must:[['offensive','proactive','aggressive','attacking'],['approach','strategy','attitude','policy','stance'],['invest'],['it$','information technolog'],['prefer','favour','favor','choose','opt for','select','adopt','like'],['compan','enterprise','business','organi','firm','corporation'],['emphasi','stress','focus','accent','lay stress','underline','concentrate','highlight','priorit'],['creative','innovative','inventive','imaginative','original'],['use','usage','utilization','utilisation','application','exploitation','employ'],['not only','not just','rather than','instead of','but also','not merely','as well as','not solely','not simply','as opposed to'],['increas','improv','enhanc','boost','rais','growth','grow','higher','maximi','heighten'],['efficien','effectiv','productiv'],['everyday','day to day','daily','routine','day by day','regular','usual','ordinary','current','operational']]}]},
+{id:'p1H',L:'H',kind:'open',type:'Pytanie otwarte',title:'What are the recent investments in IT in you company?',count:1,items:[
+ {key:'h1',n:null,q:'',min:6,rows:5,ph:'Opisz inwestycje IT w swojej firmie (po angielsku)…',
+  model:'In our company, recent IT investments include migrating our servers to the cloud, implementing a new ERP system and upgrading our cybersecurity tools.',
+  points:['Podano konkretne inwestycje w IT (np. cloud, ERP, sprzęt, bezpieczeństwo)','Odniesienie do czasu (recently / last year)','Pełne zdania w poprawnej angielszczyźnie'],
+  must:[['invest','purchas','implement','bought','buy','introduc','upgrad','deploy','adopt','migrat','install','launch','acquir','develop','moderniz','modernis','replac','updat'],['it$','software','hardware','system','cloud','server','network','application','erp','crm','licens','infrastructure','laptop','computer','cyber','security','database','digital','automation','tool','platform'],['company','firm','we$','our','organi','business','enterprise','my$','employer','corporation','office','department']]}]}
+]},
+{id:'p2',title:'Część 2',sub:'Databases',ex:[
+{id:'p2B',L:'B',kind:'open',type:'Znajdź błędy',title:'Find mistakes in the sentences below and correct them. The first one has been done for you.',count:5,
+ example:'<b>1.</b> <ins>The</ins> Most popular notations which are used in Entity Relationship Diagrams <del>is</del> <ins>are</ins> crow’s foot notation <del>or</del> <ins>and</ins> UML notation.',
+ items:[
+ {key:'m2',n:2,rows:2,q:'Owing to CPUs with much cores, the execution times of a complex query can be reduced to little seconds.',init:'Owing to CPUs with much cores, the execution times of a complex query can be reduced to little seconds.',
+  model:'Owing to CPUs with many cores, the execution times of a complex query can be reduced to a few seconds.',points:['much → many (cores jest policzalne)','little → a few (seconds jest policzalne)'],
+  must:[['many cores'],['few seconds','several seconds','couple of seconds']],not:[{a:'much cores',m:'Popraw „much cores” (rzeczownik policzalny).'},{a:'little seconds',m:'Popraw „little seconds” (rzeczownik policzalny).'}]},
+ {key:'m3',n:3,rows:2,q:'A number of crucial informations were written down in the requirement analysis.',init:'A number of crucial informations were written down in the requirement analysis.',
+  model:'A number of crucial pieces of information were written down in the requirements analysis.',points:['informations → information (niepoliczalne, brak liczby mnogiej)','a number of crucial pieces of information (a nie „a number of … information”)','requirement analysis → requirements analysis (opcjonalnie)'],
+  must:[['information$']],not:[{a:'informations$',m:'„information” nie ma liczby mnogiej.'},{a:'number of crucial information',m:'„A number of” wymaga rzeczownika policzalnego, np. „pieces of information”.'},{a:'number of information',m:'„A number of” wymaga rzeczownika policzalnego, np. „pieces of information”.'}]},
+ {key:'m4',n:4,rows:2,q:'Database administrators perform a great deal of performance tunings activities to make the use of database more effective.',init:'Database administrators perform a great deal of performance tunings activities to make the use of database more effective.',
+  model:'Database administrators perform a great deal of performance tuning activities to make the use of the database more effective.',points:['tunings → tuning (rzeczownik w funkcji przymiotnika nie ma -s)','use of database → use of the database'],
+  must:[['tuning$']],not:[{a:'tunings$',m:'Rzeczownik w funkcji przymiotnika nie przyjmuje -s: „tuning activities”.'}]},
+ {key:'m5',n:5,rows:2,q:'Embedded databases are databases who are integrated within application softwares and are accessible for the end-users of the application.',init:'Embedded databases are databases who are integrated within application softwares and are accessible for the end-users of the application.',
+  model:'Embedded databases are databases which are integrated within application software and are accessible to the end-users of the application.',points:['who → which / that','softwares → software (niepoliczalne)','accessible for → accessible to (opcjonalnie)'],
+  must:[['software$'],['which','that']],not:[{a:'who$',m:'Dla rzeczy: „which” lub „that”, nie „who”.'},{a:'softwares$',m:'„software” jest niepoliczalne.'}]},
+ {key:'m6',n:6,rows:2,q:'The simplest type of databases is a set of flat files which are being stored on computer disk.',init:'The simplest type of databases is a set of flat files which are being stored on computer disk.',
+  model:'The simplest type of database is a set of flat files which are stored on a computer disk.',points:['are being stored → are stored','on computer disk → on a computer disk','type of databases → type of database (opcjonalnie)'],
+  must:[['stored']],not:[{a:'being stored',m:'Czasownik stanowy: „are stored”, nie „are being stored”.'},{a:'on computer disk$',m:'Brakuje rodzajnika: „on a computer disk”.'}]}]},
+{id:'p2C',L:'C',kind:'mx',type:'Kolokacje i tłumaczenie',title:'Match the word from the left with the one from the right to build full expression from the text and translate it into Polish.',count:9,
+ right:[['a','recovery'],['b','migration'],['c','uniqueness'],['d','access'],['e','identifier'],['f','tuning'],['g','user'],['h','key'],['i','environment'],['j','constraints']],
+ rows:[
+ {l:'key',a:['c'],pl:[['unikaln','unikatow','niepowtarzaln','jednoznaczn'],['klucz']],model:'unikalność klucza'},
+ {l:'unauthorized',ex:'g',model:'nieautoryzowany/nieuprawniony użytkownik'},
+ {l:'data',a:['a','b'],d:'a',plBy:{a:DAT,b:[['migrac','przenosz','przenies','transfer'],['dan']]},model:{a:'odzyskiwanie danych',b:'migracja danych'}},
+ {l:'integrity',a:['j'],pl:[['wiez','ograniczen','warunk','regul'],['integraln','spojnosc']],model:'więzy integralności'},
+ {l:'data',a:['a','b'],d:'b',plBy:{a:DAT,b:[['migrac','przenosz','przenies','transfer'],['dan']]},model:{a:'odzyskiwanie danych',b:'migracja danych'}},
+ {l:'production',a:['i'],pl:[['srodowisk'],['produkcyjn','produkcj']],model:'środowisko produkcyjne'},
+ {l:'concurrent',a:['d'],pl:[['wspolbiezn','rownolegl','jednoczesn','konkurencyjn'],['dostep']],model:'współbieżny dostęp'},
+ {l:'performance',a:['f'],pl:[['wydajn','osiagow','szybkosc'],['stroj','dostraj','optymaliz','tuning','poprawa','usprawnien']],model:'strojenie wydajności'},
+ {l:'foreign',a:['h'],pl:[['klucz'],['obc']],model:'klucz obcy'},
+ {l:'unique',a:['e'],pl:[['unikaln','unikatow','niepowtarzaln','jednoznaczn'],['identyfikator']],model:'unikalny identyfikator'}]},
+{id:'p2D',L:'D',kind:'prep',type:'Przyimki',title:'Fill in the gaps with appropriate prepositions from the box. The first one has been done for you.',count:7,
+ box:[['at',1],['by',4],['to',4],['between',1],['in',1],['for',1],['with',2],['over',2],['into',1]],
+ sents:[
+ ['Data in database is interrelated which means that parts of data ',FX('within'),' the database are associated ',FX('with'),' other parts in it.'],
+ ['Logical data model includes all entities, their attributes and relationships ',B('between'),' those entities, ',B('with'),' respect to business requirements.'],
+ [B('at'),' the end of the analysis phase, the entities are fully normalized, the unique identifier for each entity is determined and any many-to-many relationships are resolved ',B('by',['into']),' associative entities.'],
+ ['Data stored ',B('in'),' different tables is related ',B('to',['by']),' common fields.'],
+ ['A distributed DBMS is a centralized application which manages databases distributed ',B('over'),' multiple different computers.'],
+ ['Database as a Service (DaaS) is accessed ',B('by'),' the client ',B('over'),' the network and its administration is provided ',B('by'),' the service provider.'],
+ ['Data administrator is a non-technical position responsible ',B('for'),' defining and implementing consistent principles connected ',B('with'),' data, such as setting data definitions that apply ',B('to'),' all the databases in an organization.'],
+ ['Encryption refers ',B('to'),' converting data in the database ',B('into'),' format which cannot be deciphered ',B('by'),' the users who make an attempt ',B('to'),' view data.']]},
+{id:'p2E',L:'E',kind:'open',type:'Strona bierna',title:'Rewrite the sentences below using the passive voice. The object to be used as subject in passive voice has been underlined for you.',count:5,items:[
+ {key:'e1',n:1,rows:2,q:'Logical data model includes <u>entities, their attributes and relationships between those entities</u>.',
+  model:'Entities, their attributes and relationships between those entities are included in the logical data model.',points:['Zdanie zaczyna się od podkreślonego fragmentu','are included in the logical data model'],
+  start:['entities','the entities'],startMsg:'Zacznij od podkreślonego fragmentu: „Entities, …”.',
+  must:[['are included','are contained','are comprised','are covered','are part','are described','are defined','are incorporated','are encompassed'],['logical data model'],['attributes'],['relationships']]},
+ {key:'e2',n:2,rows:2,q:'E.F. Codd created <u>a definition of relational model</u>.',
+  model:'A definition of relational model was created by E.F. Codd.',points:['Zdanie zaczyna się od „A definition of relational model”','was created by E.F. Codd'],
+  start:['a definition','the definition'],startMsg:'Zacznij od podkreślonego fragmentu: „A definition of relational model …”.',
+  must:[['was created','was formulated','was developed','was defined','was proposed','was introduced','was invented','was made','was established'],['by e f codd','by codd','by ef codd'],['relational model']]},
+ {key:'e3',n:3,rows:2,q:'The project manager has accepted <u>the release of database to production environment</u>.',
+  model:'The release of database to production environment has been accepted by the project manager.',points:['has been accepted (Present Perfect Passive)','by the project manager'],
+  start:['the release','release'],startMsg:'Zacznij od podkreślonego fragmentu: „The release of database …”.',
+  must:[['has been accepted'],['by the project manager','by project manager'],['release'],['production environment']]},
+ {key:'e4',n:4,rows:2,q:'Database administrator was recovering <u>the database</u> from backup when the power went off.',
+  model:'The database was being recovered from backup by the database administrator when the power went off.',points:['was being recovered (Past Continuous Passive)','by the database administrator'],
+  start:['the database','database'],startMsg:'Zacznij od podkreślonego fragmentu: „The database …”.',
+  must:[['was being recovered','was being restored'],['by the database administrator','by database administrator','by a database administrator','by the dba'],['from backup','from a backup','from the backup'],['power went off','power went out','power failed','power was lost','power outage','power cut']]},
+ {key:'e5',n:5,rows:2,q:'The system analyst identified <u>primary and foreign keys for each entity</u>.',
+  model:'Primary and foreign keys for each entity were identified by the system analyst.',points:['were identified (Past Simple Passive)','by the system analyst'],
+  start:['primary and foreign keys'],startMsg:'Zacznij od podkreślonego fragmentu: „Primary and foreign keys …”.',
+  must:[['were identified','were found','were determined','were defined','were specified','were recognized','were recognised'],['by the system analyst','by system analyst','by a system analyst'],['each entity']]}]},
+{id:'p2F',L:'F',kind:'open',type:'Tłumaczenie PL → EN',title:'Translate the following sentences into English.',count:5,items:[
+ {key:'t1',n:1,pl:1,q:'Informacje wyszukane w bazie danych są wykorzystywane przez użytkowników do podejmowania decyzji biznesowych.',
+  model:'Information retrieved from a database is used by users to make business decisions.',points:['Information retrieved from a database','is used by users','to make business decisions'],
+  must:[['information'],['retriev','search','found','queried','extract','obtain','look'],['database'],['used','utilized','utilised','employed','use'],['user'],['make','making','take','taking','support','for'],['decision'],['business']]},
+ {key:'t2',n:2,pl:1,q:'Więzy integralności są wykorzystywane w celu zapewnienia dokładności i spójności danych w relacyjnej bazie danych.',
+  model:'Integrity constraints are used to ensure the accuracy and consistency of data in a relational database.',points:['Integrity constraints are used','to ensure accuracy and consistency of data','in a relational database'],
+  must:[['integrity'],['constraint'],['used','utilized','utilised','applied','employed','use'],['ensur','guarantee','assur','maintain','provid','secur'],['accura','correct','precis'],['consisten','coheren'],['data'],['relational'],['database']]},
+ {key:'t3',n:3,pl:1,q:'System zarządzania bazą danych w chmurze to system zarządzania rozproszoną bazą danych bazujący na platformie opartej na chmurze obliczeniowej, a więc jest dostępny zdalnie.',
+  model:'A cloud database management system is a distributed database management system based on a cloud computing platform, so it is accessible remotely.',points:['cloud database management system','distributed database management system','based on a cloud computing platform','accessible remotely'],skip:1,
+  must:[['cloud'],['management system','dbms','dbaas','database system'],['distributed'],['based','bas','relying','built','run','hosted','operat'],['platform'],['accessible','available','access'],['remote']]},
+ {key:'t4',n:4,pl:1,q:'Dostawcy systemów zarządzania bazami danych dostarczają rozmaite sterowniki, które umożliwiają dostęp do silnika bazy danych.',
+  model:'Database management system vendors provide various drivers that enable access to the database engine.',points:['Database management system vendors','provide various drivers','that enable access to the database engine'],
+  must:[['vendor','provider','supplier','producer'],['database management','dbms','database'],['provid','deliver','suppl','offer'],['various','variety','different','diverse','range','several','numerous','multiple'],['driver'],['enabl','allow','permit','let','facilitat','give'],['access'],['engine']]},
+ {key:'t5',n:5,pl:1,q:'Aby zminimalizować ryzyko utraty danych, najprościej jest wykonywać regularnie kopie zapasowe danych zawartych w bazie danych lub dokonywać replikacji danych z serwera głównego na serwer zapasowy.',
+  model:'To minimize the risk of data loss, the simplest way is to regularly make backups of the data contained in a database or to replicate data from the main server to a backup server.',points:['To minimize the risk of data loss','the simplest way is to regularly make backups','of the data contained in a database','or to replicate data from the main server to a backup server'],skip:1,
+  must:[['minimi','reduc','limit','lower','decreas','mitigat'],['risk'],['loss','losing','lose','lost'],['simplest','easiest','easy','simple'],['regular'],['backup','back up','copies','copy'],['contained','stored','held','included','within'],['replicat'],['main','primary','master','principal','central'],['server']]}]}
+]}];
+const ALL=PARTS.flatMap(p=>p.ex);
+/*==UI==*/
+/* ================= UI ================= */
+const $=s=>document.querySelector(s);
+function h(tag,a,...k){const e=document.createElement(tag);if(a)for(const[x,v]of Object.entries(a)){if(x==='class')e.className=v;else if(x==='html')e.innerHTML=v;else if(x.startsWith('on'))e.addEventListener(x.slice(2),v);else if(v===true)e.setAttribute(x,'');else if(v!==false&&v!=null)e.setAttribute(x,v)}for(const c of k.flat()){if(c==null||c===false)continue;e.append(c.nodeType?c:document.createTextNode(c))}return e}
+let ST={};try{ST=JSON.parse(localStorage.getItem('eit-v1')||'{}')}catch(e){}
+const save=()=>{try{localStorage.setItem('eit-v1',JSON.stringify(ST))}catch(e){}};
+const S=id=>{if(!ST[id])ST[id]={v:{},res:{},self:{}};return ST[id]};
+let CUR=ALL[0],scoreEl=null,mode='part';const OPEN={p1:true,p2:true};
+const okN=st=>Object.values(st.res).filter(v=>v==='ok'||v==='self-ok').length;
+function setRes(st,k,v){if(v==null)delete st.res[k];else st.res[k]=v;save();touch()}
+function mark(el,ok){el.classList.toggle('ok',!!ok);el.classList.toggle('bad',!ok)}
+function exStat(ex){const s=ST[ex.id];if(!s)return '';if(okN(s)>=ex.count)return 'done';if(Object.values(s.v).some(Boolean)||Object.keys(s.res).length)return 'prog';return ''}
+function touch(){renderSide();renderScore();const d=ALL.filter(e=>exStat(e)==='done').length;$('#gtxt').textContent=`Ukończone: ${d} / ${ALL.length}`;$('#gbar').style.width=(100*d/ALL.length)+'%'}
+function renderScore(){if(scoreEl&&scoreEl.isConnected)scoreEl.textContent=`Poprawnie: ${okN(S(CUR.id))} / ${CUR.count}`}
+function navBtn(ex){return h('button',{class:'nav'+(ex===CUR?' cur':''),onclick:()=>go(ex)},h('span',{class:'dot '+exStat(ex)}),h('span',{class:'l'},ex.L),h('span',null,h('span',{class:'t'},ex.type),h('span',{class:'s'},ex.title)))}
+function renderSide(){
+ const side=$('#side'),top=side.scrollTop;side.replaceChildren();
+ side.append(h('div',{class:'seg'},h('button',{class:mode==='part'?'on':'',onclick:()=>{mode='part';renderSide()}},'Wg części'),h('button',{class:mode==='type'?'on':'',onclick:()=>{mode='type';renderSide()}},'Wg typu zadania')));
+ const groups=mode==='part'?PARTS.map(p=>({id:p.id,t:p.title,s:p.sub,ex:p.ex})):[...new Set(ALL.map(e=>e.type))].map(t=>({id:'t:'+t,t,s:'',ex:ALL.filter(e=>e.type===t).map(e=>e)}));
+ groups.forEach(g=>{const d=h('details',{open:OPEN[g.id]!==false},h('summary',null,h('span',null,g.t,g.s?h('small',null,g.s):null)),g.ex.map(e=>{const b=navBtn(e);if(mode==='type')b.querySelector('.t').textContent=(e.id.startsWith('p1')?'Część 1':'Część 2')+', zad. '+e.L;return b}));d.addEventListener('toggle',()=>{OPEN[g.id]=d.open});side.append(d)});
+ side.scrollTop=top;
+}
+const R={};
+/* A */
+R.def=(ex,st,body)=>{
+ const rows=ex.terms.map(([t,a],i)=>{const k='r'+(i+1);const sel=h('select',null,h('option',{value:''},'—'),Object.keys(ex.defs).map(l=>h('option',{value:l},l+')')));sel.value=st.v[k]||'';const ans=h('span',{class:'ans'});const row=h('div',{class:'row'},h('b',{class:'num'},(i+1)+')'),h('span',{class:'term'},t),sel,ans);row._k=k;row._a=a;row._s=sel;row._ans=ans;sel.onchange=()=>{st.v[k]=sel.value;row.classList.remove('ok','bad');ans.textContent='';setRes(st,k,null)};return row});
+ const chk=r=>{const ok=r._s.value===r._a;mark(r,ok);setRes(st,r._k,ok?'ok':'bad')};
+ body.append(h('div',{class:'two'},h('div',null,rows),h('div',{class:'defs'},Object.entries(ex.defs).map(([l,t])=>h('div',{class:'def'},h('b',null,l+')'),' '+t)))));
+ rows.forEach(r=>{if(st.res[r._k])mark(r,st.res[r._k]==='ok')});
+ return{check:()=>rows.forEach(chk),reveal:()=>rows.forEach(r=>r._ans.textContent='→ '+r._a+')')}};
+/* B syn */
+R.syn=(ex,st,body)=>{
+ let act=0;const val=i=>(st.v['w'+i]||'').split(',').filter(Boolean);
+ const rows=ex.words.map((o,i)=>{const slot=h('span',{class:'slot'}),ans=h('span',{class:'ans'});const row=h('div',{class:'row syn',onclick:()=>{act=i;paint()}},h('b',{class:'lbl'},o.w+' ='),o.pre?h('span',{class:'fix'},o.pre):null,slot,ans);row._slot=slot;row._ans=ans;return row});
+ const box=h('div',{class:'wbox'});
+ function paint(){rows.forEach((r,i)=>{r.classList.toggle('act',i===act);r._slot.replaceChildren(...val(i).map(w=>h('button',{class:'tag',onclick:e=>{e.stopPropagation();tog(i,w)}},w+' ×')))});box.replaceChildren(...ex.box.map(w=>h('button',{class:'chip'+(val(act).includes(w)?' sel':''),onclick:()=>tog(act,w)},w)))}
+ function tog(i,w){const a=val(i),x=a.indexOf(w);if(x>=0)a.splice(x,1);else a.push(w);st.v['w'+i]=a.join(',');rows[i].classList.remove('ok','bad');rows[i]._ans.textContent='';act=i;setRes(st,'w'+i,null);paint()}
+ body.append(h('div',null,rows),h('div',{class:'hintline'},'Kliknij wiersz, a potem słowa z ramki, aby dodać lub usunąć synonim.'),box);
+ const chk=i=>{const o=ex.words[i],s=val(i);const ok=s.length>0&&o.key.every(k=>s.includes(k))&&s.every(x=>o.key.includes(x)||o.alt.includes(x));mark(rows[i],ok);setRes(st,'w'+i,ok?'ok':'bad')};
+ paint();rows.forEach((r,i)=>{if(st.res['w'+i])mark(r,st.res['w'+i]==='ok')});
+ return{check:()=>rows.forEach((_,i)=>chk(i)),reveal:()=>rows.forEach((r,i)=>r._ans.textContent='→ '+ex.words[i].key.join(', '))}};
+/* C vt */
+R.vt=(ex,st,body)=>{
+ const heads=['VERB TRANSLATED INTO POLISH','VERB','NOUN','ADJECTIVE'];
+ const rows=ex.rows.map((row,i)=>{const cells=row.map((c,j)=>{const td=h('td');if(typeof c==='string'){td.append(h('span',{class:j===0?'given pl':'given'},c));return{}}const k=`r${i}c${j}`,inp=h('input',{type:'text',autocomplete:'off',spellcheck:'false'}),hint=h('div',{class:'hint'});inp.value=st.v[k]||'';inp.addEventListener('input',()=>{st.v[k]=inp.value;inp.classList.remove('ok','bad');hint.textContent='';if(st.res['r'+i]){setRes(st,'r'+i,null)}else save()});td.append(inp,hint);return{td,inp,hint,acc:c}});
+  return{tr:h('tr',null,row.map((c,j)=>cells[j].td||h('td',null,h('span',{class:j===0?'given pl':'given'},c)))),cells,i}});
+ body.append(h('table',null,h('tr',null,heads.map(x=>h('th',null,x))),rows.map(r=>r.tr)));
+ const chkRow=r=>{let all=true;r.cells.forEach(c=>{if(!c.inp)return;const v=c.inp.value.trim(),ok=!!v&&shortOk(v,c.acc);mark(c.inp,ok);if(!ok)all=false});setRes(st,'r'+r.i,all?'ok':'bad')};
+ rows.forEach(r=>{if(st.res['r'+r.i])chkRow(r)});
+ return{check:()=>rows.forEach(chkRow),reveal:()=>rows.forEach(r=>r.cells.forEach(c=>{if(c.hint)c.hint.textContent='→ '+c.acc[0]}))}};
+/* D prep */
+R.prep=(ex,st,body)=>{
+ const words=ex.box.map(b=>b[0]);const sels=[];
+ const sents=ex.sents.map((seg,i)=>{const n=i+1;let bj=0;const mine=[];const p=h('p',{class:'sent'});
+  const kids=seg.map(s=>{if(typeof s==='string')return s;if(s.fx)return h('span',{class:'fixed'},s.fx);const k=`s${n}b${bj++}`;const sel=h('select',null,h('option',{value:''},'…'),words.map(w=>h('option',{value:w},w)));sel.value=st.v[k]||'';sel._o=s;sel.onchange=()=>{st.v[k]=sel.value;sel.classList.remove('ok','bad');p.classList.remove('ok','bad');setRes(st,'s'+n,null);counts()};sels.push(sel);mine.push(sel);return sel});
+  p.append(h('b',null,n+'. '),...kids);p._s=mine;p._n=n;p._ex=mine.length===0;return p});
+ const box=h('div',{class:'wbox'});
+ function counts(){box.replaceChildren(...ex.box.map(([w,c])=>{const left=c-sels.filter(s=>s.value===w).length;return h('span',{class:'chip'+(left<0?' over':left===0?' zero':'')},w+(c>1?` (x${c})`:'')+(left!==c?`  · zostało ${left}`:''))}))}
+ const chk=p=>{if(p._ex)return;let all=true;p._s.forEach(s=>{const ok=s.value===s._o.a||s._o.alt.includes(s.value);mark(s,ok);if(!ok)all=false});mark(p,all);setRes(st,'s'+p._n,all?'ok':'bad')};
+ body.append(box,h('div',{style:'height:14px'}),...sents);
+ counts();sents.forEach(p=>{if(!p._ex&&st.res['s'+p._n])chk(p)});
+ return{check:()=>sents.forEach(chk),reveal:()=>{sents.forEach(p=>{if(p._ex)return;p._s.forEach((s,j)=>{if(s.value!==s._o.a&&!s._o.alt.includes(s.value))s.value=s._o.a;st.v[`s${p._n}b${j}`]=s.value});chk(p)});counts()}}};
+/* E mx */
+R.mx=(ex,st,body)=>{
+ const rw=l=>(ex.right.find(r=>r[0]===l)||[])[1]||'';
+ const rows=ex.rows.map((o,i)=>{const n=i+1;const sel=h('select',null,h('option',{value:''},'—'),ex.right.map(r=>h('option',{value:r[0]},r[0]+')')));const inp=h('input',{type:'text',placeholder:'tłumaczenie po polsku',autocomplete:'off',spellcheck:'false'});const pv=h('span',{class:'prev-e'}),ans=h('span',{class:'ans'});
+  const row=h('div',{class:'mxrow'},h('b',{class:'num'},n+')'),h('span',{class:'w'},o.l),sel,pv,inp,ans);
+  if(o.ex){sel.value=o.ex;sel.disabled=true;inp.value=o.model;inp.disabled=true;pv.textContent=o.l+' '+rw(o.ex);return{row,o,n,sel,inp,pv,ans,fixed:true}}
+  sel.value=st.v['l'+n]||'';inp.value=st.v['p'+n]||'';const upd=()=>{pv.textContent=sel.value?o.l+' '+rw(sel.value):''};upd();
+  const reset=()=>{row.classList.remove('ok','bad');sel.classList.remove('ok','bad');inp.classList.remove('ok','bad');ans.textContent='';if(st.res['x'+n])setRes(st,'x'+n,null)};
+  sel.onchange=()=>{st.v['l'+n]=sel.value;upd();reset();save()};inp.addEventListener('input',()=>{st.v['p'+n]=inp.value;reset();save()});
+  return{row,o,n,sel,inp,pv,ans}});
+ body.append(h('div',{class:'two'},h('div',null,rows.map(r=>r.row)),h('div',{class:'defs'},ex.right.map(([l,w])=>h('div',{class:'def'},h('b',null,l+')'),' '+w)))));
+ const real=rows.filter(r=>!r.fixed);
+ const chk=()=>{const seen={};const info=real.map(r=>({r,sel:r.sel.value,ok:r.o.a.includes(r.sel.value)}));info.forEach(x=>{if(x.r.o.a.length>1&&x.ok){if(seen[x.sel])x.ok=false;seen[x.sel]=true}});
+  info.forEach(x=>{const o=x.r.o,L=o.a.includes(x.sel)?x.sel:(o.d||o.a[0]),g=o.pl||o.plBy[L],t=x.r.inp.value.trim();const plOk=!!t&&evalKw({must:g},t).pass;mark(x.r.sel,x.ok);mark(x.r.inp,plOk);mark(x.r.row,x.ok&&plOk);setRes(st,'x'+x.r.n,x.ok&&plOk?'ok':'bad')})};
+ real.forEach(r=>{});if(real.some(r=>st.res['x'+r.n]))chk();
+ return{check:chk,reveal:()=>real.forEach(r=>{const o=r.o,L=o.a.includes(r.sel.value)?r.sel.value:(o.d||o.a[0]);const m=typeof o.model==='string'?o.model:o.model[L];r.ans.textContent=`→ ${L}) ${o.l} ${rw(L)} = ${m}`})}};
+/* F acr */
+R.acr=(ex,st,body)=>{
+ const rows=ex.rows.map(([a,acc],i)=>{const k='a'+i,inp=h('input',{type:'text',autocomplete:'off',spellcheck:'false',style:'flex:1;min-width:200px'}),ans=h('span',{class:'ans'});inp.value=st.v[k]||'';const row=h('div',{class:'row'},h('b',{class:'term',style:'min-width:56px'},a),'—',inp,ans);inp.addEventListener('input',()=>{st.v[k]=inp.value;row.classList.remove('ok','bad');inp.classList.remove('ok','bad');ans.textContent='';if(st.res[k])setRes(st,k,null);else save()});return{row,inp,acc,k,ans}});
+ body.append(...rows.map(r=>r.row));
+ const chk=r=>{const ok=shortOk(r.inp.value.trim(),r.acc);mark(r.inp,ok);mark(r.row,ok);setRes(st,r.k,ok?'ok':'bad')};
+ rows.forEach(r=>{if(st.res[r.k])chk(r)});
+ return{check:()=>rows.forEach(chk),reveal:()=>rows.forEach(r=>r.ans.textContent='→ '+r.acc[0])}};
+/* open boxes */
+function openBox(st,key,it){
+ const ta=h('textarea',{rows:it.rows||3,placeholder:it.ph||'Wpisz swoją odpowiedź…',spellcheck:'false',autocomplete:'off'});
+ ta.value=st.v[key]!=null?st.v[key]:(it.init||'');
+ const live=h('div',{class:'live'}),prev=h('div',{class:'prev'}),fb=h('div',{class:'fb'}),ref=h('div',{class:'ref'});ref.hidden=true;prev.hidden=true;
+ const paint=()=>{const t=ta.value,ev=evalKw(it,t);live.textContent=t.trim()?`Znalezione słowa kluczowe: ${ev.n} / ${it.must.length} (wymagane: ${ev.need})`:'';prev.hidden=!t.trim();prev.innerHTML=hl(t,ev);return ev};
+ const bOk=h('button',{class:'btn sm okb',onclick:()=>selfMark('ok')},'Moja odpowiedź jest poprawna'),bNo=h('button',{class:'btn sm nob',onclick:()=>selfMark('redo')},'Muszę poprawić');
+ function selfMark(v){st.self[key]=v;bOk.classList.toggle('on',v==='ok');bNo.classList.toggle('on',v==='redo');fb.className='fb '+(v==='ok'?'ok':'warn');fb.textContent=v==='ok'?'✓ Samoocena: poprawna.':'Do poprawy: porównaj z wzorcem i spróbuj jeszcze raz.';setRes(st,key,v==='ok'?'self-ok':'self-redo')}
+ ta.addEventListener('input',()=>{st.v[key]=ta.value;paint();save();if(st.res[key]||st.self[key]){delete st.self[key];bOk.classList.remove('on');bNo.classList.remove('on');fb.className='fb';fb.textContent='';ta.classList.remove('ok','bad');setRes(st,key,null)}});
+ function check(){const t=ta.value;const ev=paint();if(!t.trim()){fb.className='fb warn';fb.textContent='Wpisz odpowiedź.';return}
+  if(it.init&&t.trim()===it.init.trim()){fb.className='fb bad';fb.textContent='Nie wprowadzono żadnych zmian w zdaniu.';mark(ta,false);delete st.self[key];setRes(st,key,'bad');return}
+  const msg=[];if(!ev.startOk)msg.push(it.startMsg||'Zła konstrukcja początku zdania.');msg.push(...ev.bad);
+  if(ev.n<ev.need){const miss=ev.found.map((f,i)=>f?null:lab(it.must[i])).filter(Boolean);msg.push('Brakujące elementy (pojęcia): '+miss.join(', ')+'.')}
+  if(ev.T.length<(it.min||1))msg.push('Odpowiedź jest zbyt krótka.');
+  delete st.self[key];bOk.classList.remove('on');bNo.classList.remove('on');
+  fb.className='fb '+(ev.pass?'ok':'bad');fb.textContent=ev.pass?'✓ Odpowiedź zaliczona: znaleziono wymagane elementy.':'✗ '+msg.join(' ');mark(ta,ev.pass);setRes(st,key,ev.pass?'ok':'bad')}
+ function reveal(){ref.hidden=false;ref.replaceChildren(h('div',{class:'refh'},'Wzorcowa odpowiedź'),h('div',{class:'model'},it.model),h('div',{class:'refh'},'Punkty do sprawdzenia'),h('ul',{class:'pts'},it.points.map(p=>h('li',null,p))),h('div',{class:'selfq'},'Porównaj ze swoją odpowiedzią:',bOk,bNo))}
+ const el=h('div',null,ta,live,prev,fb,h('div',{class:'btns'},h('button',{class:'btn sm',onclick:check},'Sprawdź'),h('button',{class:'btn sm ghost',onclick:reveal},'Wzorzec i samoocena')),ref);
+ paint();
+ if(st.self[key]){reveal();const v=st.self[key];bOk.classList.toggle('on',v==='ok');bNo.classList.toggle('on',v==='redo');fb.className='fb '+(v==='ok'?'ok':'warn');fb.textContent=v==='ok'?'✓ Samoocena: poprawna.':'Do poprawy: porównaj z wzorcem i spróbuj jeszcze raz.'}
+ else if(st.res[key])check();
+ return{el,check,reveal};
+}
+R.open=(ex,st,body)=>{
+ if(ex.example)body.append(h('div',{class:'exbox',html:ex.example}));
+ const boxes=ex.items.map(it=>{const ob=openBox(st,it.key,it);body.append(h('div',{class:'qitem'},it.q?h('div',{class:'q'},it.n?h('b',{class:'num'},it.n+'.'):null,h('div',{class:'qt'+(it.pl?' pl':''),html:it.q})):null,ob.el));return ob});
+ return{check:()=>boxes.forEach(b=>b.check()),reveal:()=>boxes.forEach(b=>b.reveal())}};
+/* stage */
+const stage=$('#stage');
+function renderEx(){
+ const ex=CUR,st=S(ex.id);scoreEl=null;stage.replaceChildren();
+ const part=PARTS.find(p=>p.ex.includes(ex));
+ const body=h('div',{class:'body'});
+ stage.append(h('div',{class:'kick'},part.title+', '+part.sub),h('h1',null,h('span',{class:'let'},ex.L+'.'),' '+ex.title),h('span',{class:'badge'},ex.type),body);
+ const api=R[ex.kind](ex,st,body);
+ scoreEl=h('span',{class:'score'});
+ stage.append(h('div',{class:'foot'},h('button',{class:'btn',onclick:api.check},'Sprawdź'),h('button',{class:'btn ghost',onclick:api.reveal},'Pokaż odpowiedzi'),h('button',{class:'btn ghost',onclick:()=>{ST[ex.id]={v:{},res:{},self:{}};save();renderEx();touch()}},'Wyczyść zadanie'),scoreEl));
+ const i=ALL.indexOf(ex);
+ stage.append(h('div',{class:'pn'},i>0?h('button',{class:'btn ghost',onclick:()=>go(ALL[i-1])},'← Poprzednie'):h('span'),i<ALL.length-1?h('button',{class:'btn ghost',onclick:()=>go(ALL[i+1])},'Następne →'):h('span')));
+ renderScore();
+}
+function go(ex){CUR=ex;ST._last=ex.id;save();renderEx();touch();$('#main').scrollTop=0;if(innerWidth<=860)$('#app').classList.add('closed')}
+$('#menuBtn').onclick=()=>$('#app').classList.toggle('closed');
+$('#scrim').onclick=()=>$('#app').classList.add('closed');
+$('#themeBtn').onclick=()=>{const d=document.documentElement,dark=d.dataset.theme?d.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches;d.dataset.theme=dark?'light':'dark'};
+if(innerWidth>860)$('#app').classList.remove('closed');
+CUR=ALL.find(e=>e.id===ST._last)||ALL[0];
+renderEx();touch();
+</script>
 </body>
 </html>
