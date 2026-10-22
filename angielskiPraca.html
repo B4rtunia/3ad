@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html lang="pl" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit 4 "Praca" - Ultra-Szybka Nauka Słówek</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .perspective-1000 { perspective: 1000px; }
+        .transform-style-3d { transform-style: preserve-3d; }
+        .backface-hidden { backface-visibility: hidden; }
+        .flashcard-face { position: absolute; inset: 0; backface-visibility: hidden; }
+        .flashcard-back { transform: rotateY(180deg); }
+    </style>
+</head>
+<body class="h-full bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 transition-colors duration-200 flex flex-col">
+
+    <!-- Header / Navigation -->
+    <header class="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-indigo-600 text-white p-2 rounded-xl shadow-md">
+                    <i class="fa-solid fa-briefcase text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg leading-tight">Unit 4 "Praca"</h1>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">Pełna baza (Str. 74-75)</p>
+                </div>
+            </div>
+            
+            <!-- Navigation Tabs -->
+            <nav class="hidden md:flex space-x-1">
+                <button onclick="switchTab('flashcards')" id="nav-flashcards" class="tab-btn px-3 py-2 rounded-lg text-sm font-medium bg-indigo-50 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-300 transition">
+                    <i class="fa-solid fa-clone mr-1.5"></i> Fiszki (Leitner)
+                </button>
+                <button onclick="switchTab('spelling')" id="nav-spelling" class="tab-btn px-3 py-2 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition">
+                    <i class="fa-solid fa-keyboard mr-1.5"></i> Tryb Pisowni
+                </button>
+                <button onclick="switchTab('quiz')" id="nav-quiz" class="tab-btn px-3 py-2 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition">
+                    <i class="fa-solid fa-bolt mr-1.5"></i> Quiz na czas
+                </button>
+                <button onclick="switchTab('dictionary')" id="nav-dictionary" class="tab-btn px-3 py-2 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition">
+                    <i class="fa-solid fa-book mr-1.5"></i> Słownik
+                </button>
+                <button onclick="switchTab('stats')" id="nav-stats" class="tab-btn px-3 py-2 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition">
+                    <i class="fa-solid fa-chart-line mr-1.5"></i> Statystyki
+                </button>
+            </nav>
+
+            <!-- Right Controls -->
+            <div class="flex items-center space-x-2">
+                <button onclick="toggleDarkMode()" class="p-2 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 transition" title="Przełącz motyw">
+                    <i id="theme-icon" class="fa-solid fa-moon text-lg"></i>
+                </button>
+                <button onclick="resetProgressModal()" class="hidden sm:flex items-center px-3 py-1.5 text-xs font-medium text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800 rounded-lg hover:bg-red-50 dark:hover:bg-red-950/30 transition">
+                    <i class="fa-solid fa-rotate-right mr-1"></i> Reset
+                </button>
+                <button onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Nav Menu -->
+        <div id="mobile-menu" class="hidden md:hidden px-4 pt-2 pb-4 space-y-1 bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700">
+            <button onclick="switchTab('flashcards'); toggleMobileMenu();" class="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">Fiszki (Leitner)</button>
+            <button onclick="switchTab('spelling'); toggleMobileMenu();" class="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">Tryb Pisowni (Spelling)</button>
+            <button onclick="switchTab('quiz'); toggleMobileMenu();" class="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">Quiz na czas</button>
+            <button onclick="switchTab('dictionary'); toggleMobileMenu();" class="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">Słownik</button>
+            <button onclick="switchTab('stats'); toggleMobileMenu();" class="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">Statystyki</button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col">
+
+        <!-- TAB 1: FLASHCARDS (LEITNER SYSTEM) -->
+        <section id="tab-flashcards" class="tab-content flex-1 flex flex-col max-w-3xl mx-auto w-full">
+            <div class="flex flex-wrap items-center justify-between gap-3 mb-6 bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700">
+                <div class="flex items-center space-x-2">
+                    <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-indigo-100 dark:bg-indigo-900/60 text-indigo-700 dark:text-indigo-300" id="card-category-badge">Kategoria</span>
+                    <span class="text-sm font-medium text-slate-500 dark:text-slate-400">Karta <span id="current-card-num">1</span> z <span id="total-cards-num">1</span></span>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <select id="category-filter" onchange="changeCategory(this.value)" class="bg-slate-100 dark:bg-slate-700 border-0 text-xs rounded-xl px-3 py-2 focus:ring-2 focus:ring-indigo-500 font-medium">
+                        <option value="all">Wszystkie kategorie (Cały Unit 4)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Leitner Boxes indicator -->
+            <div class="grid grid-cols-4 gap-2 mb-6">
+                <div class="bg-white dark:bg-slate-800 p-3 rounded-xl border border-slate-200 dark:border-slate-700 text-center shadow-xs">
+                    <div class="text-xs text-slate-500 dark:text-slate-400 font-medium">Poziom 1</div>
+                    <div class="text-lg font-bold text-red-500" id="box-1-count">0</div>
+                </div>
+                <div class="bg-white dark:bg-slate-800 p-3 rounded-xl border border-slate-200 dark:border-slate-700 text-center shadow-xs">
+                    <div class="text-xs text-slate-500 dark:text-slate-400 font-medium">Poziom 2</div>
+                    <div class="text-lg font-bold text-amber-500" id="box-2-count">0</div>
+                </div>
+                <div class="bg-white dark:bg-slate-800 p-3 rounded-xl border border-slate-200 dark:border-slate-700 text-center shadow-xs">
+                    <div class="text-xs text-slate-500 dark:text-slate-400 font-medium">Poziom 3</div>
+                    <div class="text-lg font-bold text-blue-500" id="box-3-count">0</div>
+                </div>
+                <div class="bg-white dark:bg-slate-800 p-3 rounded-xl border border-slate-200 dark:border-slate-700 text-center shadow-xs">
+                    <div class="text-xs text-slate-500 dark:text-slate-400 font-medium">Opanowane</div>
+                    <div class="text-lg font-bold text-emerald-500" id="box-4-count">0</div>
+                </div>
+            </div>
+
+            <!-- Flashcard Container -->
+            <div class="relative w-full aspect-[16/10] sm:aspect-[2/1] cursor-pointer perspective-1000 mb-6" onclick="flipCard()">
+                <div id="flashcard-inner" class="relative w-full h-full transform-style-3d transition-transform duration-300">
+                    <div class="flashcard-face flex flex-col justify-between rounded-3xl shadow-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-8">
+                        <div class="flex justify-between items-center">
+                            <span class="card-leitner-box text-xs uppercase tracking-wider font-bold text-indigo-600 dark:text-indigo-400">Pudełko 1</span>
+                            <div class="flex items-center space-x-2">
+                                <button onclick="event.stopPropagation(); speakCurrentWord();" class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-700 text-indigo-600 dark:text-indigo-400 transition" title="Wymów słówko (Audio)">
+                                    <i class="fa-solid fa-volume-high text-lg"></i>
+                                </button>
+                                <button onclick="event.stopPropagation(); toggleFavoriteCurrent();" class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-700 transition" title="Ulubione">
+                                    <i class="card-fav-icon fa-regular fa-star text-lg text-amber-400"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="text-center my-auto">
+                            <div id="card-front-text" class="text-2xl sm:text-4xl font-bold text-slate-800 dark:text-slate-100 mb-2">Ładowanie...</div>
+                            <div id="card-hint-text" class="text-xs text-slate-400 dark:text-slate-500 mt-2 italic">Kontekst</div>
+                        </div>
+
+                        <div class="text-center text-xs text-slate-400 dark:text-slate-500">
+                            Kliknij lub naciśnij <kbd class="px-1.5 py-0.5 bg-slate-100 dark:bg-slate-700 rounded border border-slate-300 dark:border-slate-600 font-mono">Spacja</kbd> aby odsłonić
+                        </div>
+                    </div>
+
+                    <div class="flashcard-face flashcard-back flex flex-col justify-between rounded-3xl shadow-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-8">
+                        <div class="flex justify-between items-center">
+                            <span class="card-leitner-box text-xs uppercase tracking-wider font-bold text-indigo-600 dark:text-indigo-400">Pudełko 1</span>
+                            <div class="flex items-center space-x-2">
+                                <button onclick="event.stopPropagation(); speakCurrentWord();" class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-700 text-indigo-600 dark:text-indigo-400 transition" title="Wymów słówko (Audio)">
+                                    <i class="fa-solid fa-volume-high text-lg"></i>
+                                </button>
+                                <button onclick="event.stopPropagation(); toggleFavoriteCurrent();" class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-700 transition" title="Ulubione">
+                                    <i class="card-fav-icon fa-regular fa-star text-lg text-amber-400"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="text-center my-auto">
+                            <div id="card-back-text" class="text-xl sm:text-2xl font-semibold text-indigo-600 dark:text-indigo-400">Tłumaczenie</div>
+                        </div>
+
+                        <div class="text-center text-xs text-slate-400 dark:text-slate-500">
+                            Kliknij lub naciśnij <kbd class="px-1.5 py-0.5 bg-slate-100 dark:bg-slate-700 rounded border border-slate-300 dark:border-slate-600 font-mono">Spacja</kbd> aby wrócić
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Leitner Buttons -->
+            <div id="flashcard-actions" class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <button onclick="rateCard(1)" class="p-3 bg-red-50 dark:bg-red-950/40 hover:bg-red-100 dark:hover:bg-red-900/40 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 rounded-xl font-semibold text-sm transition flex flex-col items-center justify-center">
+                    <span class="text-xs opacity-75 font-mono mb-0.5">[1] Nie znam</span>
+                    <span>Powtórz</span>
+                </button>
+                <button onclick="rateCard(2)" class="p-3 bg-amber-50 dark:bg-amber-950/40 hover:bg-amber-100 dark:hover:bg-amber-900/40 border border-amber-200 dark:border-amber-800 text-amber-700 dark:text-amber-300 rounded-xl font-semibold text-sm transition flex flex-col items-center justify-center">
+                    <span class="text-xs opacity-75 font-mono mb-0.5">[2] Trudne</span>
+                    <span>Słabo</span>
+                </button>
+                <button onclick="rateCard(3)" class="p-3 bg-blue-50 dark:bg-blue-950/40 hover:bg-blue-100 dark:hover:bg-blue-900/40 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 rounded-xl font-semibold text-sm transition flex flex-col items-center justify-center">
+                    <span class="text-xs opacity-75 font-mono mb-0.5">[3] Dobrze</span>
+                    <span>Umiem</span>
+                </button>
+                <button onclick="rateCard(4)" class="p-3 bg-emerald-50 dark:bg-emerald-950/40 hover:bg-emerald-100 dark:hover:bg-emerald-900/40 border border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300 rounded-xl font-semibold text-sm transition flex flex-col items-center justify-center">
+                    <span class="text-xs opacity-75 font-mono mb-0.5">[4] Znam świetnie</span>
+                    <span>Perfekcyjnie</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- TAB 2: SPELLING TEST (TRYB PISOWNI) -->
+        <section id="tab-spelling" class="tab-content hidden flex-1 flex flex-col max-w-2xl mx-auto w-full">
+            <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 p-6 sm:p-8 flex flex-col">
+                <div class="flex justify-between items-center mb-6">
+                    <div>
+                        <h2 class="text-xl font-bold flex items-center">
+                            <i class="fa-solid fa-keyboard text-indigo-600 mr-2"></i> Tryb Pisowni (Spelling)
+                        </h2>
+                        <p class="text-xs text-slate-500 dark:text-slate-400">Wpisz poprawnie angielskie słówko na podstawie polskiego tłumaczenia.</p>
+                    </div>
+                    <span id="spelling-counter" class="text-xs font-semibold px-3 py-1 rounded-full bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300">1 / 20</span>
+                </div>
+
+                <div id="spelling-box" class="bg-slate-50 dark:bg-slate-900/50 p-6 sm:p-8 rounded-2xl border border-slate-200 dark:border-slate-700 text-center mb-6">
+                    <div class="text-xs font-semibold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider mb-2" id="spelling-cat">Kategoria</div>
+                    <div id="spelling-prompt" class="text-2xl sm:text-3xl font-bold text-slate-800 dark:text-slate-100 mb-6">Tłumaczenie polskie</div>
+                    
+                    <form onsubmit="checkSpelling(event)" class="max-w-md mx-auto flex flex-col space-y-3">
+                        <div class="relative">
+                            <input type="text" id="spelling-input" autocomplete="off" spellcheck="false" placeholder="Wpisz po angielsku..." class="w-full px-4 py-3.5 bg-white dark:bg-slate-800 border-2 border-slate-300 dark:border-slate-600 rounded-xl text-center text-lg font-semibold focus:border-indigo-500 focus:outline-none shadow-xs">
+                        </div>
+                        <div class="flex space-x-2">
+                            <button type="submit" id="spelling-submit-btn" class="flex-1 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl shadow-md transition">
+                                Sprawdź [Enter]
+                            </button>
+                            <button type="button" onclick="nextSpellingQuestion()" id="spelling-next-btn" class="hidden flex-1 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-xl shadow-md transition">
+                                Następne <i class="fa-solid fa-arrow-right ml-1"></i>
+                            </button>
+                        </div>
+                    </form>
+
+                    <div id="spelling-feedback" class="mt-4 text-sm font-semibold hidden">
+                        <!-- Feedback message -->
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center text-xs text-slate-400">
+                    <span>Punkty: <strong id="spelling-score" class="text-indigo-600">0</strong></span>
+                    <button onclick="initSpellingTest()" class="text-indigo-600 dark:text-indigo-400 hover:underline font-medium">Zrestartuj test</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 3: QUIZ NA CZAS -->
+        <section id="tab-quiz" class="tab-content hidden flex-1 flex flex-col max-w-2xl mx-auto w-full">
+            <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 p-6 sm:p-8">
+                
+                <!-- Quiz Setup -->
+                <div id="quiz-setup" class="text-center py-6">
+                    <div class="w-16 h-16 bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl shadow-inner">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold mb-2">Quiz Szybkościowy Unit 4</h2>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm mb-6">Wybierz odpowiedź pod presją czasu z całej bazy podręcznika.</p>
+                    
+                    <div class="max-w-xs mx-auto mb-6 text-left">
+                        <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-2 uppercase tracking-wider">Kategoria</label>
+                        <select id="quiz-category-select" class="w-full bg-slate-100 dark:bg-slate-700 border-0 rounded-xl p-3 text-sm font-medium focus:ring-2 focus:ring-indigo-500">
+                            <option value="all">Wszystkie kategorie (Cały Unit 4)</option>
+                        </select>
+                    </div>
+
+                    <button onclick="startQuiz()" class="w-full sm:w-auto px-8 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-2xl shadow-lg shadow-indigo-600/30 transition">
+                        Rozpocznij Quiz <i class="fa-solid fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+
+                <!-- Quiz Active -->
+                <div id="quiz-active" class="hidden">
+                    <div class="flex justify-between items-center mb-6">
+                        <span class="text-xs font-semibold px-3 py-1 rounded-full bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300" id="quiz-progress-label">Pytanie 1 / 10</span>
+                        <div class="flex items-center space-x-3">
+                            <span class="text-sm font-bold text-indigo-600 dark:text-indigo-400"><i class="fa-solid fa-fire mr-1 text-amber-500"></i> Seria: <span id="quiz-streak">0</span></span>
+                            <span class="text-sm font-bold text-slate-700 dark:text-slate-200"><i class="fa-solid fa-clock mr-1 text-slate-400"></i> <span id="quiz-timer">15</span>s</span>
+                        </div>
+                    </div>
+
+                    <div class="w-full bg-slate-100 dark:bg-slate-700 h-2 rounded-full mb-6 overflow-hidden">
+                        <div id="quiz-timer-bar" class="bg-indigo-600 h-full transition-all duration-1000 w-full"></div>
+                    </div>
+
+                    <div class="text-center mb-8">
+                        <div class="text-xs text-slate-400 dark:text-slate-500 mb-1 uppercase tracking-wider font-semibold">Przetłumacz na polski</div>
+                        <h3 id="quiz-question" class="text-2xl sm:text-3xl font-bold text-slate-800 dark:text-slate-100">Word</h3>
+                    </div>
+
+                    <div id="quiz-options" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+                </div>
+
+                <!-- Quiz Results -->
+                <div id="quiz-results" class="hidden text-center py-6">
+                    <div class="w-20 h-20 bg-emerald-100 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 rounded-3xl flex items-center justify-center mx-auto mb-4 text-3xl shadow-inner">
+                        <i class="fa-solid fa-trophy"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold mb-1">Quiz Zakończony!</h2>
+                    <div class="bg-slate-50 dark:bg-slate-900/50 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 max-w-xs mx-auto mb-6">
+                        <div class="text-4xl font-extrabold text-indigo-600 dark:text-indigo-400 mb-1" id="quiz-final-score">8 / 10</div>
+                        <div class="text-xs text-slate-500 dark:text-slate-400 font-medium">Poprawnych odpowiedzi</div>
+                    </div>
+
+                    <div class="flex justify-center space-x-3">
+                        <button onclick="startQuiz()" class="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl shadow-md transition">
+                            <i class="fa-solid fa-rotate-right mr-2"></i> Jeszcze raz
+                        </button>
+                        <button onclick="switchTab('flashcards')" class="px-6 py-3 bg-slate-200 dark:bg-slate-700 font-semibold rounded-xl transition">
+                            Powrót
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 4: DICTIONARY -->
+        <section id="tab-dictionary" class="tab-content hidden flex-1 flex flex-col max-w-4xl mx-auto w-full">
+            <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 p-6 flex flex-col flex-1">
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
+                    <h2 class="text-xl font-bold">Pełny Słownik Unit 4 (Str. 74-75)</h2>
+                    <div class="flex items-center space-x-2 w-full sm:w-auto">
+                        <div class="relative flex-1 sm:w-64">
+                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                                <i class="fa-solid fa-search"></i>
+                            </span>
+                            <input type="text" id="dict-search" oninput="filterDictionary()" placeholder="Szukaj słówka..." class="w-full pl-9 pr-4 py-2 bg-slate-100 dark:bg-slate-700 border-0 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500">
+                        </div>
+                        <select id="dict-category-filter" onchange="filterDictionary()" class="bg-slate-100 dark:bg-slate-700 border-0 rounded-xl px-3 py-2 text-sm font-medium focus:ring-2 focus:ring-indigo-500">
+                            <option value="all">Wszystkie kategorie</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto flex-1 border border-slate-100 dark:border-slate-700 rounded-2xl">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-50 dark:bg-slate-700/50 text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider border-b border-slate-200 dark:border-slate-700">
+                                <th class="p-3.5 font-semibold">Angielski</th>
+                                <th class="p-3.5 font-semibold">Polski (Podręcznik)</th>
+                                <th class="p-3.5 font-semibold hidden md:table-cell">Kategoria</th>
+                                <th class="p-3.5 font-semibold text-center">Poziom</th>
+                                <th class="p-3.5 font-semibold text-right">Akcje</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dictionary-table-body" class="divide-y divide-slate-100 dark:divide-slate-700 text-sm"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 5: STATS -->
+        <section id="tab-stats" class="tab-content hidden flex-1 flex flex-col max-w-3xl mx-auto w-full">
+            <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 p-6 sm:p-8">
+                <h2 class="text-2xl font-bold mb-6 flex items-center">
+                    <i class="fa-solid fa-chart-pie text-indigo-600 mr-3"></i> Statystyki Postępów
+                </h2>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+                    <div class="bg-indigo-50 dark:bg-indigo-950/40 p-5 rounded-2xl border border-indigo-100 dark:border-indigo-900/50">
+                        <div class="text-xs font-semibold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider mb-1">Wszystkie hasełka</div>
+                        <div class="text-3xl font-extrabold text-indigo-700 dark:text-indigo-300" id="stat-total-words">0</div>
+                    </div>
+                    <div class="bg-emerald-50 dark:bg-emerald-950/40 p-5 rounded-2xl border border-emerald-100 dark:border-emerald-900/50">
+                        <div class="text-xs font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider mb-1">Opanowane (Pudełko 4)</div>
+                        <div class="text-3xl font-extrabold text-emerald-700 dark:text-emerald-300" id="stat-mastered-words">0</div>
+                    </div>
+                    <div class="bg-amber-50 dark:bg-amber-950/40 p-5 rounded-2xl border border-amber-100 dark:border-amber-900/50">
+                        <div class="text-xs font-semibold text-amber-600 dark:text-amber-400 uppercase tracking-wider mb-1">Ulubione hasełka</div>
+                        <div class="text-3xl font-extrabold text-amber-700 dark:text-amber-300" id="stat-fav-words">0</div>
+                    </div>
+                </div>
+
+                <div class="space-y-4 mb-8">
+                    <h3 class="font-bold text-lg">Rozkład w Systemie Leitnera</h3>
+                    <div>
+                        <div class="flex justify-between text-sm font-medium mb-1"><span class="text-emerald-600">Opanowane (Poziom 4)</span><span id="prog-p4">0%</span></div>
+                        <div class="w-full bg-slate-100 dark:bg-slate-700 h-2.5 rounded-full overflow-hidden"><div id="bar-p4" class="bg-emerald-500 h-full w-0 transition-all"></div></div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-sm font-medium mb-1"><span class="text-blue-600">Poziom 3</span><span id="prog-p3">0%</span></div>
+                        <div class="w-full bg-slate-100 dark:bg-slate-700 h-2.5 rounded-full overflow-hidden"><div id="bar-p3" class="bg-blue-500 h-full w-0 transition-all"></div></div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-sm font-medium mb-1"><span class="text-amber-600">Poziom 2</span><span id="prog-p2">0%</span></div>
+                        <div class="w-full bg-slate-100 dark:bg-slate-700 h-2.5 rounded-full overflow-hidden"><div id="bar-p2" class="bg-amber-500 h-full w-0 transition-all"></div></div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-sm font-medium mb-1"><span class="text-red-600">Poziom 1 (Do powtórki)</span><span id="prog-p1">0%</span></div>
+                        <div class="w-full bg-slate-100 dark:bg-slate-700 h-2.5 rounded-full overflow-hidden"><div id="bar-p1" class="bg-red-500 h-full w-0 transition-all"></div></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Confirmation Modal -->
+    <div id="confirm-modal" class="fixed inset-0 bg-black/50 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-800 rounded-3xl p-6 max-w-sm w-full shadow-2xl border border-slate-200 dark:border-slate-700 text-center">
+            <div class="w-12 h-12 bg-red-100 dark:bg-red-950/50 text-red-600 dark:text-red-400 rounded-2xl flex items-center justify-center mx-auto mb-4 text-xl">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <h3 class="text-lg font-bold mb-2">Resetować postępy?</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mb-6">Wszystkie fiszki wrócą do pudełka 1.</p>
+            <div class="flex space-x-3">
+                <button onclick="closeModal()" class="flex-1 py-2.5 bg-slate-100 dark:bg-slate-700 font-semibold text-sm rounded-xl">Anuluj</button>
+                <button onclick="confirmResetProgress()" class="flex-1 py-2.5 bg-red-600 text-white font-semibold text-sm rounded-xl shadow-md">Resetuj</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 px-4 py-3 rounded-2xl shadow-xl text-sm font-medium flex items-center space-x-2">
+        <i class="fa-solid fa-check text-emerald-400"></i>
+        <span id="toast-msg">Komunikat</span>
+    </div>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+// PEŁNA BAZA SŁOWNICTWA - 100% DOKŁADNIE 1:1 Z KIĄŻKI (STRONY 74 I 75)
+const VOCABULARY = [
+  // --- STRONA 74 ---
+  // JOBS AND PROFESSIONS | ZAWODY
+  { id: 1, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["accountant"], pl: "księgowy, księgowa" },
+  { id: 2, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["actor/actress", "actor", "actress"], pl: "aktor/aktorka" },
+  { id: 3, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["app developer"], pl: "autor/autorka aplikacji" },
+  { id: 4, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["architect"], pl: "architekt, architektka" },
+  { id: 5, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["beautician"], pl: "kosmetyczka" },
+  { id: 6, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["builder"], pl: "budowniczy" },
+  { id: 7, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["bus driver"], pl: "kierowca autobusu" },
+  { id: 8, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["carer"], pl: "opiekun, opiekunka" },
+  { id: 9, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["careers adviser"], pl: "doradca/doradczyni zawodowy/zawodowa" },
+  { id: 10, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["carpenter"], pl: "stolarz" },
+  { id: 11, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["chef"], pl: "szef, szefowa kuchni" },
+  { id: 12, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["chemist"], pl: "farmaceuta, farmaceutka" },
+  { id: 13, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["civil servant"], pl: "urzędnik, urzędniczka" },
+  { id: 14, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["cleaner"], pl: "sprzątacz, sprzątaczka" },
+  { id: 15, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["computer programmer"], pl: "programista, programistka" },
+  { id: 16, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["cook"], pl: "kucharz, kucharka" },
+  { id: 17, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["counsellor"], pl: "doradca, doradczyni" },
+  { id: 18, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["dentist"], pl: "dentysta, dentystka" },
+  { id: 19, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["director"], pl: "dyrektor, dyrektorka" },
+  { id: 20, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["film director", "film ~"], pl: "reżyser filmowy, reżyserka filmowa" },
+  { id: 21, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["doctor"], pl: "lekarz, lekarka" },
+  { id: 22, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["economist"], pl: "ekonomista, ekonomistka" },
+  { id: 23, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["electrician"], pl: "elektryk" },
+  { id: 24, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["engineer"], pl: "inżynier" },
+  { id: 25, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["farmer"], pl: "rolnik, rolniczka" },
+  { id: 26, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["fashion designer"], pl: "projektant, projektantka mody" },
+  { id: 27, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["firefighter"], pl: "strażak, strażaczka" },
+  { id: 28, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["flight attendant"], pl: "steward, stewardesa" },
+  { id: 29, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["gardener"], pl: "ogrodnik, ogrodniczka" },
+  { id: 30, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["hairdresser"], pl: "fryzjer, fryzjerka" },
+  { id: 31, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["historian"], pl: "historyk, historyczka" },
+  { id: 32, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["housewife / house husband", "housewife", "house husband"], pl: "osoba zajmująca się domem" },
+  { id: 33, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["instructor"], pl: "instruktor, instruktorka" },
+  { id: 34, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["driving instructor", "driving ~"], pl: "instruktor, instruktorka jazdy" },
+  { id: 35, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["fitness instructor", "fitness ~"], pl: "instruktor, instruktorka fitnessu" },
+  { id: 36, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["ski instructor", "ski ~"], pl: "instruktor, instruktorka narciarstwa" },
+  { id: 37, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["interior designer"], pl: "projektant, projektantka wnętrz" },
+  { id: 38, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["inventor"], pl: "wynalazca, wynalazczyni" },
+  { id: 39, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["IT specialist"], pl: "informatyk, informatyczka" },
+  { id: 40, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["journalist"], pl: "dziennikarz, dziennikarka" },
+  { id: 41, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["landscaper"], pl: "architekt, architektka krajobrazu" },
+  { id: 42, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["lawyer"], pl: "prawnik, prawniczka" },
+  { id: 43, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["librarian"], pl: "bibliotekarz, bibliotekarka" },
+  { id: 44, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["lorry driver"], pl: "kierowca ciężarówki" },
+  { id: 45, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["manager"], pl: "menedżer, menedżerka, kierownik, kierowniczka" },
+  { id: 46, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["miner"], pl: "górnik, górniczka" },
+  { id: 47, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["musician"], pl: "muzyk, muzyczka" },
+  { id: 48, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["nurse"], pl: "pielęgniarz, pielęgniarka" },
+  { id: 49, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["office worker"], pl: "pracownik biurowy, pracownica biurowa" },
+  { id: 50, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["painter"], pl: "malarz, malarka" },
+  { id: 51, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["house painter", "house ~"], pl: "malarz pokojowy, malarka pokojowa" },
+  { id: 52, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["pharmacist"], pl: "farmaceuta, farmaceutka" },
+  { id: 53, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["photographer"], pl: "fotograf, fotografka" },
+  { id: 54, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["pianist"], pl: "pianista, pianistka" },
+  { id: 55, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["pilot"], pl: "pilot, pilotka" },
+  { id: 56, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["plumber"], pl: "hydraulik" },
+  { id: 57, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["police officer"], pl: "policjant, policjantka" },
+  { id: 58, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["politician"], pl: "polityk, polityczka" },
+  { id: 59, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["postal worker"], pl: "listonosz, listonoszka" },
+  { id: 60, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["psychologist"], pl: "psycholog, psycholożka" },
+  { id: 61, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["receptionist"], pl: "recepcjonista, recepcjonistka" },
+  { id: 62, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["sailor"], pl: "marynarz" },
+  { id: 63, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["sales representative (sales rep)", "sales representative", "sales rep"], pl: "przedstawiciel handlowy, przedstawicielka handlowa" },
+  { id: 64, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["scientist"], pl: "naukowiec, naukowczyni" },
+  { id: 65, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["secretary"], pl: "sekretarz, sekretarka" },
+  { id: 66, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["security guard"], pl: "pracownik, pracownica ochrony" },
+  { id: 67, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["shop assistant"], pl: "sprzedawca, sprzedawczyni" },
+  { id: 68, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["shopkeeper"], pl: "sklepikarz, sklepikarka" },
+  { id: 69, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["(social media) influencer", "social media influencer", "influencer"], pl: "influencer, influencerka, opiniotwórca/opiniotwórczyni" },
+  { id: 70, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["surgeon"], pl: "chirurg, chirurgiczka" },
+  { id: 71, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["taxi driver"], pl: "taksówkarz, taksówkarka" },
+  { id: 72, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["ticket inspector"], pl: "kontroler, kontrolerka biletów" },
+  { id: 73, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["tour guide"], pl: "przewodnik, przewodniczka" },
+  { id: 74, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["translator"], pl: "tłumacz, tłumaczka" },
+  { id: 75, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["travel agent"], pl: "agent, agentka biura podróży" },
+  { id: 76, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["TV presenter"], pl: "prezenter telewizyjny, prezenterka telewizyjna" },
+  { id: 77, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["vet"], pl: "weterynarz, weterynarka" },
+  { id: 78, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["vlogger"], pl: "osoba prowadząca wideoblog" },
+  { id: 79, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["waiter/waitress", "waiter", "waitress"], pl: "kelner/kelnerka" },
+  { id: 80, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["website designer"], pl: "projektant, projektantka stron internetowych" },
+  { id: 81, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["astronaut"], pl: "astronauta, astronautka" },
+  { id: 82, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["barrister"], pl: "adwokat, adwokatka" },
+  { id: 83, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["chief executive officer (CEO)", "chief executive officer", "CEO"], pl: "dyrektor generalny, dyrektorka generalna" },
+  { id: 84, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["composer"], pl: "kompozytor, kompozytorka" },
+  { id: 85, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["conductor"], pl: "dyrygent, dyrygentka" },
+  { id: 86, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["editor"], pl: "redaktor, redaktorka" },
+  { id: 87, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["entrepreneur"], pl: "przedsiębiorca, przedsiębiorczyni" },
+  { id: 88, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["graphic designer"], pl: "grafik, graficzka" },
+  { id: 89, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["managing director"], pl: "dyrektor zarządzający, dyrektorka zarządzająca" },
+  { id: 90, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["physical therapist"], pl: "fizjoterapeuta, fizjoterapeutka" },
+  { id: 91, category: "JOBS AND PROFESSIONS | ZAWODY", en: ["senior executive"], pl: "kierownik, kierowniczka wyższego szczebla" },
+
+  // ADJECTIVES TO DESCRIBE JOBS | PRZYMIOTNIKI OPISUJĄCE PRACĘ
+  { id: 92, category: "ADJECTIVES TO DESCRIBE JOBS | PRZYMIOTNIKI OPISUJĄCE PRACĘ", en: ["badly paid"], pl: "źle płatny" },
+  { id: 93, category: "ADJECTIVES TO DESCRIBE JOBS | PRZYMIOTNIKI OPISUJĄCE PRACĘ", en: ["challenging"], pl: "ambitny; pełen wyzwań" },
+  { id: 94, category: "ADJECTIVES TO DESCRIBE JOBS | PRZYMIOTNIKI OPISUJĄCE PRACĘ", en: ["creative"], pl: "twórczy" },
+  { id: 95, category: "ADJECTIVES TO DESCRIBE JOBS | PRZYMIOTNIKI OPISUJĄCE PRACĘ", en: ["dull"], pl: "nudny" },
+  { id: 96, category: "ADJECTIVES TO DESCRIBE JOBS | PRZYMIOTNIKI OPISUJĄCE PRACĘ", en: ["freelance"], pl: "na własny rachunek" },
+  { id: 97, category: "ADJECTIVES TO DESCRIBE JOBS | PRZYMIOTNIKI OPISUJĄCE PRACĘ", en: ["full-time"], pl: "na pełen etat" },
+  { id: 98, category: "ADJECTIVES TO DESCRIBE JOBS | PRZYMIOTNIKI OPISUJĄCE PRACĘ", en: ["manual"], pl: "fizyczny" },
+  { id: 99, category: "ADJECTIVES TO DESCRIBE JOBS | PRZYMIOTNIKI OPISUJĄCE PRACĘ", en: ["part-time"], pl: "w niepełnym wymiarze godzin" },
+  { id: 100, category: "ADJECTIVES TO DESCRIBE JOBS | PRZYMIOTNIKI OPISUJĄCE PRACĘ", en: ["permanent"], pl: "stały" },
+  { id: 101, category: "ADJECTIVES TO DESCRIBE JOBS | PRZYMIOTNIKI OPISUJĄCE PRACĘ", en: ["rewarding"], pl: "satysfakcjonujący" },
+  { id: 102, category: "ADJECTIVES TO DESCRIBE JOBS | PRZYMIOTNIKI OPISUJĄCE PRACĘ", en: ["satisfying"], pl: "satysfakcjonujący" },
+  { id: 103, category: "ADJECTIVES TO DESCRIBE JOBS | PRZYMIOTNIKI OPISUJĄCE PRACĘ", en: ["seasonal"], pl: "sezonowy" },
+  { id: 104, category: "ADJECTIVES TO DESCRIBE JOBS | PRZYMIOTNIKI OPISUJĄCE PRACĘ", en: ["stressful"], pl: "stresujący" },
+  { id: 105, category: "ADJECTIVES TO DESCRIBE JOBS | PRZYMIOTNIKI OPISUJĄCE PRACĘ", en: ["temporary"], pl: "tymczasowy" },
+  { id: 106, category: "ADJECTIVES TO DESCRIBE JOBS | PRZYMIOTNIKI OPISUJĄCE PRACĘ", en: ["well-paid"], pl: "dobrze płatny" },
+  { id: 107, category: "ADJECTIVES TO DESCRIBE JOBS | PRZYMIOTNIKI OPISUJĄCE PRACĘ", en: ["demanding"], pl: "wymagający" },
+  { id: 108, category: "ADJECTIVES TO DESCRIBE JOBS | PRZYMIOTNIKI OPISUJĄCE PRACĘ", en: ["executive"], pl: "na kierowniczym stanowisku" },
+  { id: 109, category: "ADJECTIVES TO DESCRIBE JOBS | PRZYMIOTNIKI OPISUJĄCE PRACĘ", en: ["glamorous"], pl: "o wysokim prestiżu" },
+  { id: 110, category: "ADJECTIVES TO DESCRIBE JOBS | PRZYMIOTNIKI OPISUJĄCE PRACĘ", en: ["high-powered"], pl: "odpowiedzialny, ważny" },
+  { id: 111, category: "ADJECTIVES TO DESCRIBE JOBS | PRZYMIOTNIKI OPISUJĄCE PRACĘ", en: ["lucrative"], pl: "lukratywny, dobrze płatny" },
+  { id: 112, category: "ADJECTIVES TO DESCRIBE JOBS | PRZYMIOTNIKI OPISUJĄCE PRACĘ", en: ["monotonous"], pl: "nudny, monotonny" },
+  { id: 113, category: "ADJECTIVES TO DESCRIBE JOBS | PRZYMIOTNIKI OPISUJĄCE PRACĘ", en: ["purposeful"], pl: "sensowny" },
+  { id: 114, category: "ADJECTIVES TO DESCRIBE JOBS | PRZYMIOTNIKI OPISUJĄCE PRACĘ", en: ["technical"], pl: "techniczny" },
+  { id: 115, category: "ADJECTIVES TO DESCRIBE JOBS | PRZYMIOTNIKI OPISUJĄCE PRACĘ", en: ["white-collar"], pl: "umysłowy, urzędniczy" },
+
+  // JOB-RELATED DUTIES AND ACTIVITIES | CZYNNOŚCI I OBOWIĄZKI ZWIĄZANE Z ZAWODAMI
+  { id: 116, category: "JOB-RELATED DUTIES AND ACTIVITIES | CZYNNOŚCI I OBOWIĄZKI", en: ["advise"], pl: "doradzać" },
+  { id: 117, category: "JOB-RELATED DUTIES AND ACTIVITIES | CZYNNOŚCI I OBOWIĄZKI", en: ["assist sb"], pl: "pomagać, asystować komuś" },
+  { id: 118, category: "JOB-RELATED DUTIES AND ACTIVITIES | CZYNNOŚCI I OBOWIĄZKI", en: ["be at work"], pl: "być w pracy" },
+  { id: 119, category: "JOB-RELATED DUTIES AND ACTIVITIES | CZYNNOŚCI I OBOWIĄZKI", en: ["be good at sth"], pl: "być w czymś dobrym" },
+  { id: 120, category: "JOB-RELATED DUTIES AND ACTIVITIES | CZYNNOŚCI I OBOWIĄZKI", en: ["be in charge of sth/sb", "be in charge of something", "be in charge of somebody"], pl: "kierować czymś/kimś, być za coś/kogoś odpowiedzialnym" },
+  { id: 121, category: "JOB-RELATED DUTIES AND ACTIVITIES | CZYNNOŚCI I OBOWIĄZKI", en: ["be on duty"], pl: "być na dyżurze" },
+  { id: 122, category: "JOB-RELATED DUTIES AND ACTIVITIES | CZYNNOŚCI I OBOWIĄZKI", en: ["be open for business"], pl: "być czynnym (np. o sklepie)" },
+  { id: 123, category: "JOB-RELATED DUTIES AND ACTIVITIES | CZYNNOŚCI I OBOWIĄZKI", en: ["be part of a team"], pl: "być częścią zespołu" },
+  { id: 124, category: "JOB-RELATED DUTIES AND ACTIVITIES | CZYNNOŚCI I OBOWIĄZKI", en: ["be punctual"], pl: "być punktualnym" },
+  { id: 125, category: "JOB-RELATED DUTIES AND ACTIVITIES | CZYNNOŚCI I OBOWIĄZKI", en: ["be qualified"], pl: "być wykwalifikowanym" },
+  { id: 126, category: "JOB-RELATED DUTIES AND ACTIVITIES | CZYNNOŚCI I OBOWIĄZKI", en: ["be responsible for sb/sth", "be responsible for somebody", "be responsible for something"], pl: "być odpowiedzialnym za kogoś/coś" },
+  { id: 127, category: "JOB-RELATED DUTIES AND ACTIVITIES | CZYNNOŚCI I OBOWIĄZKI", en: ["be self-employed"], pl: "prowadzić działalność gospodarczą, pracować na własny rachunek" },
+  { id: 128, category: "JOB-RELATED DUTIES AND ACTIVITIES | CZYNNOŚCI I OBOWIĄZKI", en: ["care for sb/sth", "care for somebody", "care for something"], pl: "dbać o kogoś/coś" },
+  { id: 129, category: "JOB-RELATED DUTIES AND ACTIVITIES | CZYNNOŚCI I OBOWIĄZKI", en: ["coordinate"], pl: "koordynować" },
+  { id: 130, category: "JOB-RELATED DUTIES AND ACTIVITIES | CZYNNOŚCI I OBOWIĄZKI", en: ["create"], pl: "tworzyć" },
+  { id: 131, category: "JOB-RELATED DUTIES AND ACTIVITIES | CZYNNOŚCI I OBOWIĄZKI", en: ["deal with sth"], pl: "zajmować się czymś" },
+  { id: 132, category: "JOB-RELATED DUTIES AND ACTIVITIES | CZYNNOŚCI I OBOWIĄZKI", en: ["direct"], pl: "kierować, zarządzać" },
+  { id: 133, category: "JOB-RELATED DUTIES AND ACTIVITIES | CZYNNOŚCI I OBOWIĄZKI", en: ["do your job (well)", "do your job well", "do your job"], pl: "wykonywać dobrze swoją pracę" },
+  { id: 134, category: "JOB-RELATED DUTIES AND ACTIVITIES | CZYNNOŚCI I OBOWIĄZKI", en: ["do physical work"], pl: "pracować fizycznie" },
+  { id: 135, category: "JOB-RELATED DUTIES AND ACTIVITIES | CZYNNOŚCI I OBOWIĄZKI", en: ["do a training course"], pl: "odbyć szkolenie" },
+  { id: 136, category: "JOB-RELATED DUTIES AND ACTIVITIES | CZYNNOŚCI I OBOWIĄZKI", en: ["draft (a letter)", "draft a letter"], pl: "przygotować szkic (listu)" },
+  { id: 137, category: "JOB-RELATED DUTIES AND ACTIVITIES | CZYNNOŚCI I OBOWIĄZKI", en: ["employ"], pl: "zatrudniać" },
+  { id: 138, category: "JOB-RELATED DUTIES AND ACTIVITIES | CZYNNOŚCI I OBOWIĄZKI", en: ["file (documents)", "file documents"], pl: "przechowywać (dokumenty)" },
+  { id: 139, category: "JOB-RELATED DUTIES AND ACTIVITIES | CZYNNOŚCI I OBOWIĄZKI", en: ["fill in"], pl: "wypełniać" },
+  { id: 140, category: "JOB-RELATED DUTIES AND ACTIVITIES | CZYNNOŚCI I OBOWIĄZKI", en: ["flexible working hours"], pl: "elastyczne godziny pracy" },
+  { id: 141, category: "JOB-RELATED DUTIES AND ACTIVITIES | CZYNNOŚCI I OBOWIĄZKI", en: ["get promoted"], pl: "awansować" },
+  { id: 142, category: "JOB-RELATED DUTIES AND ACTIVITIES | CZYNNOŚCI I OBOWIĄZKI", en: ["give sb a call"], pl: "zadzwonić do kogoś" },
+  { id: 143, category: "JOB-RELATED DUTIES AND ACTIVITIES | CZYNNOŚCI I OBOWIĄZKI", en: ["give sb a hand"], pl: "pomagać komuś" },
+  { id: 144, category: "JOB-RELATED DUTIES AND ACTIVITIES | CZYNNOŚCI I OBOWIĄZKI", en: ["go on strike"], pl: "rozpocząć strajk" },
+  { id: 145, category: "JOB-RELATED DUTIES AND ACTIVITIES | CZYNNOŚCI I OBOWIĄZKI", en: ["handle"], pl: "zajmować się" },
+  { id: 146, category: "JOB-RELATED DUTIES AND ACTIVITIES | CZYNNOŚCI I OBOWIĄZKI", en: ["inspect"], pl: "sprawdzać, kontrolować" },
+  { id: 147, category: "JOB-RELATED DUTIES AND ACTIVITIES | CZYNNOŚCI I OBOWIĄZKI", en: ["instruct"], pl: "instruować" },
+  { id: 148, category: "JOB-RELATED DUTIES AND ACTIVITIES | CZYNNOŚCI I OBOWIĄZKI", en: ["keep watch"], pl: "pilnować" },
+  { id: 149, category: "JOB-RELATED DUTIES AND ACTIVITIES | CZYNNOŚCI I OBOWIĄZKI", en: ["lecture"], pl: "wygłaszać wykłady, pouczać" },
+  { id: 150, category: "JOB-RELATED DUTIES AND ACTIVITIES | CZYNNOŚCI I OBOWIĄZKI", en: ["maintain"], pl: "utrzymywać" },
+  { id: 151, category: "JOB-RELATED DUTIES AND ACTIVITIES | CZYNNOŚCI I OBOWIĄZKI", en: ["manage a team"], pl: "zarządzać zespołem" },
+  { id: 152, category: "JOB-RELATED DUTIES AND ACTIVITIES | CZYNNOŚCI I OBOWIĄZKI", en: ["operate"], pl: "obsługiwać" },
+  { id: 153, category: "JOB-RELATED DUTIES AND ACTIVITIES | CZYNNOŚCI I OBOWIĄZKI", en: ["organise"], pl: "organizować" },
+  { id: 154, category: "JOB-RELATED DUTIES AND ACTIVITIES | CZYNNOŚCI I OBOWIĄZKI", en: ["patrol"], pl: "patrolować" },
+  { id: 155, category: "JOB-RELATED DUTIES AND ACTIVITIES | CZYNNOŚCI I OBOWIĄZKI", en: ["represent"], pl: "reprezentować" },
+  { id: 156, category: "JOB-RELATED DUTIES AND ACTIVITIES | CZYNNOŚCI I OBOWIĄZKI", en: ["run your own business"], pl: "prowadzić własną firmę" },
+  { id: 157, category: "JOB-RELATED DUTIES AND ACTIVITIES | CZYNNOŚCI I OBOWIĄZKI", en: ["service"], pl: "serwisować" },
+  { id: 158, category: "JOB-RELATED DUTIES AND ACTIVITIES | CZYNNOŚCI I OBOWIĄZKI", en: ["start your own business"], pl: "założyć własną firmę" },
+  { id: 159, category: "JOB-RELATED DUTIES AND ACTIVITIES | CZYNNOŚCI I OBOWIĄZKI", en: ["take care of sth"], pl: "dbać o coś" },
+  { id: 160, category: "JOB-RELATED DUTIES AND ACTIVITIES | CZYNNOŚCI I OBOWIĄZKI", en: ["take orders"], pl: "odbierać zamówienia" },
+  { id: 161, category: "JOB-RELATED DUTIES AND ACTIVITIES | CZYNNOŚCI I OBOWIĄZKI", en: ["take over duties from sb"], pl: "przejmować od kogoś obowiązki" },
+  { id: 162, category: "JOB-RELATED DUTIES AND ACTIVITIES | CZYNNOŚCI I OBOWIĄZKI", en: ["trade"], pl: "handlować" },
+  { id: 163, category: "JOB-RELATED DUTIES AND ACTIVITIES | CZYNNOŚCI I OBOWIĄZKI", en: ["train"], pl: "szkolić" },
+  { id: 164, category: "JOB-RELATED DUTIES AND ACTIVITIES | CZYNNOŚCI I OBOWIĄZKI", en: ["voluntary work"], pl: "praca charytatywna, w wolontariacie" },
+  { id: 165, category: "JOB-RELATED DUTIES AND ACTIVITIES | CZYNNOŚCI I OBOWIĄZKI", en: ["act decisively"], pl: "podejmować zdecydowane działania" },
+  { id: 166, category: "JOB-RELATED DUTIES AND ACTIVITIES | CZYNNOŚCI I OBOWIĄZKI", en: ["be productive"], pl: "być produktywnym" },
+  { id: 167, category: "JOB-RELATED DUTIES AND ACTIVITIES | CZYNNOŚCI I OBOWIĄZKI", en: ["delegate"], pl: "rozdzielać obowiązki" },
+  { id: 168, category: "JOB-RELATED DUTIES AND ACTIVITIES | CZYNNOŚCI I OBOWIĄZKI", en: ["do shift work"], pl: "wykonywać pracę zmianową" },
+  { id: 169, category: "JOB-RELATED DUTIES AND ACTIVITIES | CZYNNOŚCI I OBOWIĄZKI", en: ["gain hands-on experience"], pl: "zdobyć praktyczne doświadczenie" },
+  { id: 170, category: "JOB-RELATED DUTIES AND ACTIVITIES | CZYNNOŚCI I OBOWIĄZKI", en: ["get on with sth (straight away)", "get on with something", "get on with something straight away"], pl: "zająć się czymś (od razu)" },
+  { id: 171, category: "JOB-RELATED DUTIES AND ACTIVITIES | CZYNNOŚCI I OBOWIĄZKI", en: ["master a strategy"], pl: "opanować strategię" },
+  { id: 172, category: "JOB-RELATED DUTIES AND ACTIVITIES | CZYNNOŚCI I OBOWIĄZKI", en: ["miss deadlines"], pl: "nie dotrzymywać terminów" },
+  { id: 173, category: "JOB-RELATED DUTIES AND ACTIVITIES | CZYNNOŚCI I OBOWIĄZKI", en: ["supervise"], pl: "nadzorować" },
+
+  // PHRASES WITH WORK | ZWROTY Z WORK
+  { id: 174, category: "PHRASES WITH WORK | ZWROTY Z WORK", en: ["work as (an engineer)", "work as an engineer"], pl: "pracować jako (inżynier)" },
+  { id: 175, category: "PHRASES WITH WORK | ZWROTY Z WORK", en: ["work flexitime"], pl: "mieć elastyczne godziny pracy" },
+  { id: 176, category: "PHRASES WITH WORK | ZWROTY Z WORK", en: ["work for (a company / sb)", "work for a company", "work for somebody"], pl: "pracować (w firmie / dla kogoś)" },
+  { id: 177, category: "PHRASES WITH WORK | ZWROTY Z WORK", en: ["work freelance"], pl: "pracować na własny rachunek" },
+  { id: 178, category: "PHRASES WITH WORK | ZWROTY Z WORK", en: ["work from home"], pl: "pracować z domu" },
+  { id: 179, category: "PHRASES WITH WORK | ZWROTY Z WORK", en: ["work in a team"], pl: "pracować w zespole" },
+  { id: 180, category: "PHRASES WITH WORK | ZWROTY Z WORK", en: ["work long hours"], pl: "pracować wiele godzin dziennie" },
+  { id: 181, category: "PHRASES WITH WORK | ZWROTY Z WORK", en: ["work on sth"], pl: "pracować nad czymś" },
+  { id: 182, category: "PHRASES WITH WORK | ZWROTY Z WORK", en: ["work on your own"], pl: "pracować samodzielnie" },
+  { id: 183, category: "PHRASES WITH WORK | ZWROTY Z WORK", en: ["work overtime"], pl: "pracować w nadgodzinach" },
+  { id: 184, category: "PHRASES WITH WORK | ZWROTY Z WORK", en: ["work shifts"], pl: "pracować na zmiany" },
+  { id: 185, category: "PHRASES WITH WORK | ZWROTY Z WORK", en: ["work under pressure"], pl: "pracować pod presją" },
+  { id: 186, category: "PHRASES WITH WORK | ZWROTY Z WORK", en: ["work with sb"], pl: "pracować z kimś" },
+
+  // PLACE OF WORK | MIEJSCE PRACY
+  { id: 187, category: "PLACE OF WORK | MIEJSCE PRACY", en: ["clinic"], pl: "klinika" },
+  { id: 188, category: "PLACE OF WORK | MIEJSCE PRACY", en: ["company"], pl: "firma, przedsiębiorstwo" },
+  { id: 189, category: "PLACE OF WORK | MIEJSCE PRACY", en: ["multinational company", "multinational ~"], pl: "firma międzynarodowa" },
+  { id: 190, category: "PLACE OF WORK | MIEJSCE PRACY", en: ["construction site"], pl: "plac budowy" },
+  { id: 191, category: "PLACE OF WORK | MIEJSCE PRACY", en: ["dental practice"], pl: "gabinet stomatologiczny" },
+  { id: 192, category: "PLACE OF WORK | MIEJSCE PRACY", en: ["department"], pl: "dział" },
+  { id: 193, category: "PLACE OF WORK | MIEJSCE PRACY", en: ["factory"], pl: "fabryka" },
+  { id: 194, category: "PLACE OF WORK | MIEJSCE PRACY", en: ["headquarters (HQ)", "headquarters", "HQ"], pl: "siedziba główna" },
+  { id: 195, category: "PLACE OF WORK | MIEJSCE PRACY", en: ["laboratory"], pl: "laboratorium" },
+  { id: 196, category: "PLACE OF WORK | MIEJSCE PRACY", en: ["military base"], pl: "baza wojskowa" },
+  { id: 197, category: "PLACE OF WORK | MIEJSCE PRACY", en: ["mine"], pl: "kopalnia" },
+  { id: 198, category: "PLACE OF WORK | MIEJSCE PRACY", en: ["plant"], pl: "fabryka" },
+  { id: 199, category: "PLACE OF WORK | MIEJSCE PRACY", en: ["surgery"], pl: "gabinet lekarski" },
+  { id: 200, category: "PLACE OF WORK | MIEJSCE PRACY", en: ["workplace"], pl: "miejsce pracy" },
+  { id: 201, category: "PLACE OF WORK | MIEJSCE PRACY", en: ["workshop"], pl: "warsztat" },
+
+  // PEOPLE AT WORK | PRACOWNICY
+  { id: 202, category: "PEOPLE AT WORK | PRACOWNICY", en: ["apprentice"], pl: "praktykant, praktykantka" },
+  { id: 203, category: "PEOPLE AT WORK | PRACOWNICY", en: ["boss"], pl: "szef, szefowa" },
+  { id: 204, category: "PEOPLE AT WORK | PRACOWNICY", en: ["colleague"], pl: "kolega, koleżanka z pracy" },
+  { id: 205, category: "PEOPLE AT WORK | PRACOWNICY", en: ["employee"], pl: "pracownik, pracownica" },
+  { id: 206, category: "PEOPLE AT WORK | PRACOWNICY", en: ["employer"], pl: "pracodawca, pracodawczyni" },
+  { id: 207, category: "PEOPLE AT WORK | PRACOWNICY", en: ["freelancer"], pl: "osoba pracująca na własny rachunek" },
+
+  // --- STRONA 75 ---
+  { id: 208, category: "PEOPLE AT WORK | PRACOWNICY", en: ["management"], pl: "zarząd" },
+  { id: 209, category: "PEOPLE AT WORK | PRACOWNICY", en: ["member of staff"], pl: "pracownik, pracownica" },
+  { id: 210, category: "PEOPLE AT WORK | PRACOWNICY", en: ["team"], pl: "zespół" },
+  { id: 211, category: "PEOPLE AT WORK | PRACOWNICY", en: ["member"], pl: "członek zespołu" },
+  { id: 212, category: "PEOPLE AT WORK | PRACOWNICY", en: ["teamwork"], pl: "praca zespołowa" },
+  { id: 213, category: "PEOPLE AT WORK | PRACOWNICY", en: ["teleworker"], pl: "pracownik zdalny, pracownica zdalna" },
+  { id: 214, category: "PEOPLE AT WORK | PRACOWNICY", en: ["worker"], pl: "pracownik, pracownica" },
+  { id: 215, category: "PEOPLE AT WORK | PRACOWNICY", en: ["factory worker", "factory ~"], pl: "pracownik, pracownica fabryki" },
+  { id: 216, category: "PEOPLE AT WORK | PRACOWNICY", en: ["workmate"], pl: "kolega, koleżanka z pracy" },
+  { id: 217, category: "PEOPLE AT WORK | PRACOWNICY", en: ["high-flier"], pl: "człowiek sukcesu" },
+  { id: 218, category: "PEOPLE AT WORK | PRACOWNICY", en: ["hiring manager"], pl: "kierownik, kierowniczka ds. kadr" },
+  { id: 219, category: "PEOPLE AT WORK | PRACOWNICY", en: ["human capital"], pl: "kapitał ludzki" },
+  { id: 220, category: "PEOPLE AT WORK | PRACOWNICY", en: ["line manager"], pl: "bezpośredni przełożony" },
+  { id: 221, category: "PEOPLE AT WORK | PRACOWNICY", en: ["shareholder"], pl: "udziałowiec, udziałowczyni" },
+  { id: 222, category: "PEOPLE AT WORK | PRACOWNICY", en: ["subcontractor"], pl: "podwykonawca" },
+  { id: 223, category: "PEOPLE AT WORK | PRACOWNICY", en: ["subordinate"], pl: "podwładny, podwładna" },
+  { id: 224, category: "PEOPLE AT WORK | PRACOWNICY", en: ["superior"], pl: "przełożony, przełożona" },
+  { id: 225, category: "PEOPLE AT WORK | PRACOWNICY", en: ["trainee"], pl: "osoba uczestnicząca w szkoleniu; praktykant, praktykantka" },
+  { id: 226, category: "PEOPLE AT WORK | PRACOWNICY", en: ["trainer"], pl: "osoba prowadząca szkolenie" },
+  { id: 227, category: "PEOPLE AT WORK | PRACOWNICY", en: ["volunteer"], pl: "wolontariusz, wolontariuszka" },
+  { id: 228, category: "PEOPLE AT WORK | PRACOWNICY", en: ["workaholic"], pl: "pracoholik, pracoholiczka" },
+
+  // TEMPORARY JOBS | PRACA DORYWCZA
+  { id: 229, category: "TEMPORARY JOBS | PRACA DORYWCZA", en: ["babysitter"], pl: "opiekun, opiekunka do dziecka" },
+  { id: 230, category: "TEMPORARY JOBS | PRACA DORYWCZA", en: ["cashier"], pl: "kasjer, kasjerka" },
+  { id: 231, category: "TEMPORARY JOBS | PRACA DORYWCZA", en: ["dog walker"], pl: "osoba wyprowadzająca psy" },
+  { id: 232, category: "TEMPORARY JOBS | PRACA DORYWCZA", en: ["fruit picker"], pl: "osoba zbierająca owoce" },
+  { id: 233, category: "TEMPORARY JOBS | PRACA DORYWCZA", en: ["kitchen help"], pl: "pomoc kuchenna" },
+  { id: 234, category: "TEMPORARY JOBS | PRACA DORYWCZA", en: ["pizza delivery driver"], pl: "dostawca, dostawczyni pizzy" },
+  { id: 235, category: "TEMPORARY JOBS | PRACA DORYWCZA", en: ["product demonstrator"], pl: "host, hostessa" },
+  { id: 236, category: "TEMPORARY JOBS | PRACA DORYWCZA", en: ["summer camp supervisor"], pl: "kierownik, kierowniczka obozu wakacyjnego" },
+  { id: 237, category: "TEMPORARY JOBS | PRACA DORYWCZA", en: ["summer job"], pl: "praca wakacyjna" },
+
+  // CHOOSING A CAREER AND LOOKING FOR A JOB | WYBÓR ZAWODU I POSZUKIWANIE PRACY
+  { id: 238, category: "CHOOSING A CAREER AND LOOKING FOR A JOB", en: ["applicant"], pl: "osoba starająca się o pracę" },
+  { id: 239, category: "CHOOSING A CAREER AND LOOKING FOR A JOB", en: ["candidate"], pl: "kandydat, kandydatka" },
+  { id: 240, category: "CHOOSING A CAREER AND LOOKING FOR A JOB", en: ["suitable candidate", "suitable ~"], pl: "odpowiedni kandydat, odpowiednia kandydatka" },
+  { id: 241, category: "CHOOSING A CAREER AND LOOKING FOR A JOB", en: ["career"], pl: "kariera zawodowa" },
+  { id: 242, category: "CHOOSING A CAREER AND LOOKING FOR A JOB", en: ["choice"], pl: "wybór kariery zawodowej" },
+  { id: 243, category: "CHOOSING A CAREER AND LOOKING FOR A JOB", en: ["consider"], pl: "brać pod uwagę" },
+  { id: 244, category: "CHOOSING A CAREER AND LOOKING FOR A JOB", en: ["CV (curriculum vitae)", "CV", "curriculum vitae"], pl: "CV, życiorys" },
+  { id: 245, category: "CHOOSING A CAREER AND LOOKING FOR A JOB", en: ["covering letter"], pl: "list przewodni" },
+  { id: 246, category: "CHOOSING A CAREER AND LOOKING FOR A JOB", en: ["contract of employment"], pl: "umowa o pracę" },
+  { id: 247, category: "CHOOSING A CAREER AND LOOKING FOR A JOB", en: ["experience"], pl: "doświadczenie" },
+  { id: 248, category: "CHOOSING A CAREER AND LOOKING FOR A JOB", en: ["five years' experience", "five years' ~"], pl: "pięcioletnie doświadczenie" },
+  { id: 249, category: "CHOOSING A CAREER AND LOOKING FOR A JOB", en: ["previous experience", "previous ~"], pl: "dotychczasowe doświadczenie" },
+  { id: 250, category: "CHOOSING A CAREER AND LOOKING FOR A JOB", en: ["work experience", "work ~"], pl: "doświadczenie zawodowe" },
+  { id: 251, category: "CHOOSING A CAREER AND LOOKING FOR A JOB", en: ["(job) interview", "job interview", "interview"], pl: "rozmowa kwalifikacyjna" },
+  { id: 252, category: "CHOOSING A CAREER AND LOOKING FOR A JOB", en: ["interviewer"], pl: "osoba przeprowadzająca rozmowę kwalifikacyjną" },
+  { id: 253, category: "CHOOSING A CAREER AND LOOKING FOR A JOB", en: ["job"], pl: "zawód, praca" },
+  { id: 254, category: "CHOOSING A CAREER AND LOOKING FOR A JOB", en: ["current job", "current ~"], pl: "obecna praca" },
+  { id: 255, category: "CHOOSING A CAREER AND LOOKING FOR A JOB", en: ["centre"], pl: "biuro pośrednictwa pracy" },
+  { id: 256, category: "CHOOSING A CAREER AND LOOKING FOR A JOB", en: ["opportunity"], pl: "okazja zawodowa" },
+  { id: 257, category: "CHOOSING A CAREER AND LOOKING FOR A JOB", en: ["lack of (experience)"], pl: "brak (doświadczenia)" },
+  { id: 258, category: "CHOOSING A CAREER AND LOOKING FOR A JOB", en: ["letter of reference/recommendation", "letter of reference", "letter of recommendation"], pl: "list referencyjny/polecający" },
+  { id: 259, category: "CHOOSING A CAREER AND LOOKING FOR A JOB", en: ["occupation"], pl: "zawód" },
+  { id: 260, category: "CHOOSING A CAREER AND LOOKING FOR A JOB", en: ["personal details"], pl: "dane osobowe" },
+  { id: 261, category: "CHOOSING A CAREER AND LOOKING FOR A JOB", en: ["profession"], pl: "zawód (wymagający kwalifikacji)" },
+  { id: 262, category: "CHOOSING A CAREER AND LOOKING FOR A JOB", en: ["qualifications"], pl: "kwalifikacje" },
+  { id: 263, category: "CHOOSING A CAREER AND LOOKING FOR A JOB", en: ["additional qualifications", "additional ~"], pl: "dodatkowe kwalifikacje" },
+  { id: 264, category: "CHOOSING A CAREER AND LOOKING FOR A JOB", en: ["recruiter"], pl: "osoba przeprowadzająca rekrutację" },
+  { id: 265, category: "CHOOSING A CAREER AND LOOKING FOR A JOB", en: ["recruitment consultant"], pl: "konsultant ds. rekrutacji" },
+  { id: 266, category: "CHOOSING A CAREER AND LOOKING FOR A JOB", en: ["references"], pl: "referencje" },
+  { id: 267, category: "CHOOSING A CAREER AND LOOKING FOR A JOB", en: ["role"], pl: "stanowisko; zadanie" },
+  { id: 268, category: "CHOOSING A CAREER AND LOOKING FOR A JOB", en: ["short contract"], pl: "umowa krótkoterminowa" },
+  { id: 269, category: "CHOOSING A CAREER AND LOOKING FOR A JOB", en: ["skills"], pl: "umiejętności" },
+  { id: 270, category: "CHOOSING A CAREER AND LOOKING FOR A JOB", en: ["communication skills", "communication ~"], pl: "umiejętności komunikacyjne" },
+  { id: 271, category: "CHOOSING A CAREER AND LOOKING FOR A JOB", en: ["computer skills", "computer/IT ~", "IT skills"], pl: "umiejętność obsługi komputera" },
+  { id: 272, category: "CHOOSING A CAREER AND LOOKING FOR A JOB", en: ["customer service skills", "customer service ~"], pl: "umiejętności w zakresie obsługi klienta" },
+  { id: 273, category: "CHOOSING A CAREER AND LOOKING FOR A JOB", en: ["language skills", "language/linguistic ~", "linguistic skills"], pl: "znajomość języka" },
+  { id: 274, category: "CHOOSING A CAREER AND LOOKING FOR A JOB", en: ["organisational skills", "organisational ~"], pl: "umiejętności organizacyjne" },
+  { id: 275, category: "CHOOSING A CAREER AND LOOKING FOR A JOB", en: ["people skills", "people ~"], pl: "zdolności interpersonalne" },
+  { id: 276, category: "CHOOSING A CAREER AND LOOKING FOR A JOB", en: ["training"], pl: "szkolenie" },
+  { id: 277, category: "CHOOSING A CAREER AND LOOKING FOR A JOB", en: ["work contract"], pl: "umowa o pracę" },
+
+  // PHRASES | ZWROTY
+  { id: 278, category: "PHRASES | ZWROTY", en: ["apply for a job"], pl: "złożyć podanie o pracę" },
+  { id: 279, category: "PHRASES | ZWROTY", en: ["apply for a position"], pl: "ubiegać się o stanowisko" },
+  { id: 280, category: "PHRASES | ZWROTY", en: ["attach a CV"], pl: "załączyć życiorys" },
+  { id: 281, category: "PHRASES | ZWROTY", en: ["enclose a CV"], pl: "załączyć życiorys" },
+  { id: 282, category: "PHRASES | ZWROTY", en: ["fill in a form"], pl: "wypełnić formularz" },
+  { id: 283, category: "PHRASES | ZWROTY", en: ["interview applicants"], pl: "przeprowadzać rozmowę kwalifikacyjną z kandydatami" },
+  { id: 284, category: "PHRASES | ZWROTY", en: ["involve (doing) sth", "involve doing something", "involve something"], pl: "wymagać czegoś, wiązać się z czymś" },
+  { id: 285, category: "PHRASES | ZWROTY", en: ["the job involves dealing with people"], pl: "praca wymaga kontaktów z ludźmi" },
+  { id: 286, category: "PHRASES | ZWROTY", en: ["look for a job"], pl: "szukać pracy" },
+  { id: 287, category: "PHRASES | ZWROTY", en: ["recruit a new employee"], pl: "rekrutować nowego pracownika" },
+  { id: 288, category: "PHRASES | ZWROTY", en: ["register with a job centre"], pl: "zarejestrować się w urzędzie pracy" },
+  { id: 289, category: "PHRASES | ZWROTY", en: ["sign a contract"], pl: "podpisać umowę" },
+
+  // PROFESSIONAL CAREER | KARIERA ZAWODOWA
+  { id: 290, category: "PROFESSIONAL CAREER | KARIERA ZAWODOWA", en: ["career path"], pl: "ścieżka kariery" },
+  { id: 291, category: "PROFESSIONAL CAREER | KARIERA ZAWODOWA", en: ["career prospects"], pl: "perspektywy rozwoju zawodowego" },
+  { id: 292, category: "PROFESSIONAL CAREER | KARIERA ZAWODOWA", en: ["draw up (a plan)", "draw up a plan"], pl: "przygotować (plan)" },
+  { id: 293, category: "PROFESSIONAL CAREER | KARIERA ZAWODOWA", en: ["highly skilled"], pl: "o wysokich umiejętnościach/kwalifikacjach" },
+  { id: 294, category: "PROFESSIONAL CAREER | KARIERA ZAWODOWA", en: ["industrious"], pl: "pracowity, pilny" },
+  { id: 295, category: "PROFESSIONAL CAREER | KARIERA ZAWODOWA", en: ["lead a team"], pl: "stać na czele zespołu" },
+  { id: 296, category: "PROFESSIONAL CAREER | KARIERA ZAWODOWA", en: ["leadership role"], pl: "rola przywódcza" },
+  { id: 297, category: "PROFESSIONAL CAREER | KARIERA ZAWODOWA", en: ["match qualifications"], pl: "pasować do kwalifikacji" },
+  { id: 298, category: "PROFESSIONAL CAREER | KARIERA ZAWODOWA", en: ["perform (job) duties", "perform job duties"], pl: "wykonywać obowiązki (służbowe)" },
+  { id: 299, category: "PROFESSIONAL CAREER | KARIERA ZAWODOWA", en: ["promotion prospects"], pl: "perspektywy awansu" },
+  { id: 300, category: "PROFESSIONAL CAREER | KARIERA ZAWODOWA", en: ["pursue a career"], pl: "rozwijać karierę" },
+  { id: 301, category: "PROFESSIONAL CAREER | KARIERA ZAWODOWA", en: ["resourcefulness"], pl: "zaradny, obrotny, przedsiębiorczy" },
+  { id: 302, category: "PROFESSIONAL CAREER | KARIERA ZAWODOWA", en: ["set (achievable) goals", "set achievable goals", "set goals"], pl: "wyznaczać cele (możliwe do osiągnięcia)" },
+  { id: 303, category: "PROFESSIONAL CAREER | KARIERA ZAWODOWA", en: ["work placement"], pl: "praktyka zawodowa, staż" },
+
+  // THE JOB MARKET | RYNEK PRACY
+  { id: 304, category: "THE JOB MARKET | RYNEK PRACY", en: ["career in sth"], pl: "kariera zawodowa w jakiejś dziedzinie" },
+  { id: 305, category: "THE JOB MARKET | RYNEK PRACY", en: ["enter the job/labour market", "enter the job market", "enter the labour market"], pl: "wejść na rynek pracy" },
+  { id: 306, category: "THE JOB MARKET | RYNEK PRACY", en: ["job advertisement/advert/ad", "job advertisement", "job advert", "job ad"], pl: "ogłoszenie o pracę" },
+  { id: 307, category: "THE JOB MARKET | RYNEK PRACY", en: ["job application"], pl: "wniosek, aplikacja, podanie o pracę" },
+  { id: 308, category: "THE JOB MARKET | RYNEK PRACY", en: ["job offer"], pl: "oferta pracy" },
+  { id: 309, category: "THE JOB MARKET | RYNEK PRACY", en: ["give a good impression"], pl: "zrobić dobre wrażenie" },
+  { id: 310, category: "THE JOB MARKET | RYNEK PRACY", en: ["require a degree"], pl: "wymagać dyplomu" },
+  { id: 311, category: "THE JOB MARKET | RYNEK PRACY", en: ["require interpersonal skills"], pl: "wymagać umiejętności interpersonalnych" },
+  { id: 312, category: "THE JOB MARKET | RYNEK PRACY", en: ["requirements"], pl: "wymagania" },
+  { id: 313, category: "THE JOB MARKET | RYNEK PRACY", en: ["vacancy"], pl: "wakat, wolne stanowisko" },
+
+  // WORKING AND EMPLOYMENT CONDITIONS | WARUNKI PRACY I ZATRUDNIENIA
+  { id: 314, category: "WORKING AND EMPLOYMENT CONDITIONS", en: ["hard work"], pl: "ciężka praca" },
+  { id: 315, category: "WORKING AND EMPLOYMENT CONDITIONS", en: ["holiday"], pl: "urlop" },
+  { id: 316, category: "WORKING AND EMPLOYMENT CONDITIONS", en: ["bank holiday", "bank ~"], pl: "święto państwowe" },
+  { id: 317, category: "WORKING AND EMPLOYMENT CONDITIONS", en: ["job satisfaction"], pl: "zadowolenie z pracy" },
+  { id: 318, category: "WORKING AND EMPLOYMENT CONDITIONS", en: ["leave"], pl: "urlop, zwolnienie" },
+  { id: 319, category: "WORKING AND EMPLOYMENT CONDITIONS", en: ["maternity leave", "maternity/paternity ~", "paternity leave"], pl: "urlop macierzyński/ojcowski" },
+  { id: 320, category: "WORKING AND EMPLOYMENT CONDITIONS", en: ["sick leave", "sick ~"], pl: "zwolnienie lekarskie" },
+  { id: 321, category: "WORKING AND EMPLOYMENT CONDITIONS", en: ["office politics"], pl: "polityka biurowa" },
+  { id: 322, category: "WORKING AND EMPLOYMENT CONDITIONS", en: ["out of work"], pl: "bezrobotny" },
+  { id: 323, category: "WORKING AND EMPLOYMENT CONDITIONS", en: ["overworked"], pl: "przepracowany" },
+  { id: 324, category: "WORKING AND EMPLOYMENT CONDITIONS", en: ["retirement"], pl: "emerytura (okres w życiu człowieka)" },
+  { id: 325, category: "WORKING AND EMPLOYMENT CONDITIONS", en: ["early retirement", "early ~"], pl: "wcześniejsza emerytura" },
+  { id: 326, category: "WORKING AND EMPLOYMENT CONDITIONS", en: ["unemployed"], pl: "bezrobotny" },
+  { id: 327, category: "WORKING AND EMPLOYMENT CONDITIONS", en: ["unemployment"], pl: "bezrobocie" },
+  { id: 328, category: "WORKING AND EMPLOYMENT CONDITIONS", en: ["unemployment benefit", "~ benefit"], pl: "zasiłek dla bezrobotnych" },
+  { id: 329, category: "WORKING AND EMPLOYMENT CONDITIONS", en: ["working conditions"], pl: "warunki pracy" },
+  { id: 330, category: "WORKING AND EMPLOYMENT CONDITIONS", en: ["working hours"], pl: "godziny pracy" },
+  { id: 331, category: "WORKING AND EMPLOYMENT CONDITIONS", en: ["workload"], pl: "obciążenie pracą" },
+  { id: 332, category: "WORKING AND EMPLOYMENT CONDITIONS", en: ["job loss"], pl: "utrata pracy" },
+  { id: 333, category: "WORKING AND EMPLOYMENT CONDITIONS", en: ["pensioner"], pl: "emeryt" },
+
+  // WORK AND MONEY | PRACA I PIENIĄDZE
+  { id: 334, category: "WORK AND MONEY | PRACA I PIENIĄDZE", en: ["bonus"], pl: "premia" },
+  { id: 335, category: "WORK AND MONEY | PRACA I PIENIĄDZE", en: ["earnings"], pl: "zarobki" },
+  { id: 336, category: "WORK AND MONEY | PRACA I PIENIĄDZE", en: ["income"], pl: "dochód" },
+  { id: 337, category: "WORK AND MONEY | PRACA I PIENIĄDZE", en: ["minimum wage"], pl: "płaca minimalna" },
+  { id: 338, category: "WORK AND MONEY | PRACA I PIENIĄDZE", en: ["pay"], pl: "płaca" },
+  { id: 339, category: "WORK AND MONEY | PRACA I PIENIĄDZE", en: ["decent pay", "decent ~"], pl: "przyzwoita płaca" },
+  { id: 340, category: "WORK AND MONEY | PRACA I PIENIĄDZE", en: ["pay cut", "~ cut"], pl: "cięcie płac" },
+  { id: 341, category: "WORK AND MONEY | PRACA I PIENIĄDZE", en: ["pay freeze", "~ freeze"], pl: "zamrożenie płac" },
+  { id: 342, category: "WORK AND MONEY | PRACA I PIENIĄDZE", en: ["pay rise", "~ rise"], pl: "podwyżka wynagrodzenia" },
+  { id: 343, category: "WORK AND MONEY | PRACA I PIENIĄDZE", en: ["pension"], pl: "emerytura (pieniądze)" },
+  { id: 344, category: "WORK AND MONEY | PRACA I PIENIĄDZE", en: ["profit"], pl: "zysk" },
+  { id: 345, category: "WORK AND MONEY | PRACA I PIENIĄDZE", en: ["salary"], pl: "pensja (np. miesięczna, roczna)" },
+  { id: 346, category: "WORK AND MONEY | PRACA I PIENIĄDZE", en: ["tax"], pl: "podatek" },
+  { id: 347, category: "WORK AND MONEY | PRACA I PIENIĄDZE", en: ["tip"], pl: "napiwek" },
+  { id: 348, category: "WORK AND MONEY | PRACA I PIENIĄDZE", en: ["wages"], pl: "płaca tygodniowa, dzienna lub godzinowa (za pracę niewykwalifikowaną)" },
+
+  // VERBS AND PHRASES | CZASOWNIKI I ZWROTY
+  { id: 349, category: "VERBS AND PHRASES | CZASOWNIKI I ZWROTY", en: ["be off sick"], pl: "być na zwolnieniu lekarskim" },
+  { id: 350, category: "VERBS AND PHRASES | CZASOWNIKI I ZWROTY", en: ["be on maternity/paternity/sick leave", "be on maternity leave", "be on paternity leave", "be on sick leave"], pl: "być na urlopie macierzyńskim/ojcowskim / zwolnieniu lekarskim" },
+  { id: 351, category: "VERBS AND PHRASES | CZASOWNIKI I ZWROTY", en: ["close down a company"], pl: "zamknąć firmę (zakończyć działalność)" },
+  { id: 352, category: "VERBS AND PHRASES | CZASOWNIKI I ZWROTY", en: ["do sth for a living"], pl: "zarabiać na życie" },
+  { id: 353, category: "VERBS AND PHRASES | CZASOWNIKI I ZWROTY", en: ["earn"], pl: "zarabiać" },
+  { id: 354, category: "VERBS AND PHRASES | CZASOWNIKI I ZWROTY", en: ["earn a living", "~ a living"], pl: "zarabiać na życie" },
+  { id: 355, category: "VERBS AND PHRASES | CZASOWNIKI I ZWROTY", en: ["earn minimum wage", "~ minimum ~"], pl: "zarabiać stawkę minimalną" },
+  { id: 356, category: "VERBS AND PHRASES | CZASOWNIKI I ZWROTY", en: ["fire sb"], pl: "zwolnić kogoś z pracy" },
+  { id: 357, category: "VERBS AND PHRASES | CZASOWNIKI I ZWROTY", en: ["get paid"], pl: "otrzymać wypłatę" },
+  { id: 358, category: "VERBS AND PHRASES | CZASOWNIKI I ZWROTY", en: ["give up your job"], pl: "rzucić pracę" },
+  { id: 359, category: "VERBS AND PHRASES | CZASOWNIKI I ZWROTY", en: ["go bankrupt"], pl: "zbankrutować" },
+  { id: 360, category: "VERBS AND PHRASES | CZASOWNIKI I ZWROTY", en: ["hand in your resignation"], pl: "złożyć wypowiedzenie" },
+  { id: 361, category: "VERBS AND PHRASES | CZASOWNIKI I ZWROTY", en: ["leave your job"], pl: "odejść z pracy" },
+  { id: 362, category: "VERBS AND PHRASES | CZASOWNIKI I ZWROTY", en: ["lose your job"], pl: "stracić pracę" },
+  { id: 363, category: "VERBS AND PHRASES | CZASOWNIKI I ZWROTY", en: ["make a living"], pl: "zarabiać na życie" },
+  { id: 364, category: "VERBS AND PHRASES | CZASOWNIKI I ZWROTY", en: ["pay (a salary/tax)", "pay a salary", "pay tax"], pl: "płacić (pensję/podatek)" },
+  { id: 365, category: "VERBS AND PHRASES | CZASOWNIKI I ZWROTY", en: ["quit"], pl: "złożyć wypowiedzenie" },
+  { id: 366, category: "VERBS AND PHRASES | CZASOWNIKI I ZWROTY", en: ["resign"], pl: "złożyć wypowiedzenie" },
+  { id: 367, category: "VERBS AND PHRASES | CZASOWNIKI I ZWROTY", en: ["retire"], pl: "odejść na emeryturę" },
+  { id: 368, category: "VERBS AND PHRASES | CZASOWNIKI I ZWROTY", en: ["sack sb"], pl: "zwolnić kogoś z pracy" },
+  { id: 369, category: "VERBS AND PHRASES | CZASOWNIKI I ZWROTY", en: ["take (a week's) leave", "take a week's leave", "take leave"], pl: "wziąć (tydzień) urlopu" },
+  { id: 370, category: "VERBS AND PHRASES | CZASOWNIKI I ZWROTY", en: ["take (a day) off", "take a day off", "take time off"], pl: "wziąć (dzień) wolny" },
+
+  // JOB MOBILITY | MOBILNOŚĆ ZAWODOWA
+  { id: 371, category: "JOB MOBILITY | MOBILNOŚĆ ZAWODOWA", en: ["bounce back (from disappointment)", "bounce back from disappointment"], pl: "otrząsnąć się (z rozczarowania)" },
+  { id: 372, category: "JOB MOBILITY | MOBILNOŚĆ ZAWODOWA", en: ["do a job remotely"], pl: "pracować zdalnie" },
+  { id: 373, category: "JOB MOBILITY | MOBILNOŚĆ ZAWODOWA", en: ["flexibility"], pl: "umiejętność dostosowania się do nowych sytuacji" },
+  { id: 374, category: "JOB MOBILITY | MOBILNOŚĆ ZAWODOWA", en: ["retrain"], pl: "przekwalifikować się" },
+  { id: 375, category: "JOB MOBILITY | MOBILNOŚĆ ZAWODOWA", en: ["set up a company"], pl: "założyć firmę" },
+  { id: 376, category: "JOB MOBILITY | MOBILNOŚĆ ZAWODOWA", en: ["stay on top of things"], pl: "być na bieżąco" },
+  { id: 377, category: "JOB MOBILITY | MOBILNOŚĆ ZAWODOWA", en: ["think on your feet"], pl: "podejmować szybkie decyzje" },
+  { id: 378, category: "JOB MOBILITY | MOBILNOŚĆ ZAWODOWA", en: ["win the trust"], pl: "zdobyć zaufanie" },
+  { id: 379, category: "JOB MOBILITY | MOBILNOŚĆ ZAWODOWA", en: ["work-life balance"], pl: "równowaga między życiem prywatnym a zawodowym" },
+  { id: 380, category: "JOB MOBILITY | MOBILNOŚĆ ZAWODOWA", en: ["work remotely"], pl: "pracować zdalnie" }
+];
+
+
+
+
+
+
+// STRUKTURA ZESTAWU SŁÓWEK (podmieniaj wyłącznie elementy tablicy VOCABULARY):
+// { id: number, category: string, en: string[], pl: string }
+// - id: unikalny numer; category: nazwa kategorii (wspólna nazwa grupy słówek).
+// - en: niepusta tablica; pierwszy element to forma wyświetlana, kolejne to akceptowane odpowiedzi.
+// - pl: polskie tłumaczenie wyświetlane w fiszce, quizie i teście pisowni.
+// Przykład: { id: 1, category: "ZAWODY", en: ["actor/actress", "actor", "actress"], pl: "aktor/aktorka" }
+
+
+
+
+
+
+const vocabData = VOCABULARY;
+
+const vocabularyIds = new Set();
+vocabData.forEach((item, index) => {
+    if (!Number.isInteger(item.id) || vocabularyIds.has(item.id)) {
+        throw new Error(`VOCABULARY[${index}]: id musi być unikalną liczbą całkowitą.`);
+    }
+    if (typeof item.category !== 'string' || !item.category.trim()) {
+        throw new Error(`VOCABULARY[${index}]: category musi być niepustym tekstem.`);
+    }
+    if (!Array.isArray(item.en) || item.en.length === 0 || item.en.some(answer => typeof answer !== 'string' || !answer.trim())) {
+        throw new Error(`VOCABULARY[${index}]: en musi być niepustą tablicą niepustych odpowiedzi.`);
+    }
+    if (typeof item.pl !== 'string' || !item.pl.trim()) {
+        throw new Error(`VOCABULARY[${index}]: pl musi być niepustym tekstem.`);
+    }
+    vocabularyIds.add(item.id);
+});
+
+function getPrimaryEnglish(item) {
+    return item.en[0];
+}
+
+function matchesEnglishAnswer(item, answer) {
+    const normalizedAnswer = answer.trim().toLocaleLowerCase();
+    return item.en.some(accepted => accepted.trim().toLocaleLowerCase() === normalizedAnswer);
+}
+
+        // --- APP STATE ---
+        let userProgress = {};
+        let currentDeck = [];
+        let currentIndex = 0;
+        let isFlipped = false;
+        let currentCategory = 'all';
+
+        // Spelling Test State
+        let spellingPool = [];
+        let spellingIdx = 0;
+        let spellingScore = 0;
+        let currentSpellingItem = null;
+
+        // Quiz State
+        let quizTimerInterval = null;
+        let quizTimeLeft = 15;
+        let quizCurrentIdx = 0;
+        let quizScore = 0;
+        let quizStreak = 0;
+        let quizQuestions = [];
+
+        window.onload = function() {
+            loadProgress();
+            initCategories();
+            buildDeck();
+            updateStats();
+            renderDictionary();
+            initSpellingTest();
+            
+            if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+                document.getElementById('theme-icon').className = 'fa-solid fa-sun text-lg';
+            }
+
+            document.addEventListener('keydown', handleKeyPress);
+        };
+
+        function loadProgress() {
+            const saved = localStorage.getItem('vocab_progress_unit4');
+            if (saved) {
+                try { userProgress = JSON.parse(saved); } catch(e) { userProgress = {}; }
+            }
+            vocabData.forEach(item => {
+                if (!userProgress[item.id]) {
+                    userProgress[item.id] = { box: 1, favorite: false };
+                }
+            });
+        }
+
+        function saveProgress() {
+            localStorage.setItem('vocab_progress_unit4', JSON.stringify(userProgress));
+            updateStats();
+            updateBoxesCount();
+        }
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(el => {
+                el.classList.remove('bg-indigo-50', 'dark:bg-indigo-900/40', 'text-indigo-600', 'dark:text-indigo-300');
+                el.classList.add('text-slate-600', 'dark:text-slate-300');
+            });
+
+            document.getElementById(`tab-${tabName}`).classList.remove('hidden');
+            const activeBtn = document.getElementById(`nav-${tabName}`);
+            if (activeBtn) {
+                activeBtn.classList.add('bg-indigo-50', 'dark:bg-indigo-900/40', 'text-indigo-600', 'dark:text-indigo-300');
+                activeBtn.classList.remove('text-slate-600', 'dark:text-slate-300');
+            }
+
+            if (tabName === 'dictionary') renderDictionary();
+            if (tabName === 'stats') updateStats();
+            if (tabName === 'spelling') initSpellingTest();
+        }
+
+        function toggleMobileMenu() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        }
+
+        function initCategories() {
+            const cats = [...new Set(vocabData.map(i => i.category))];
+            ['category-filter', 'quiz-category-select', 'dict-category-filter'].forEach(selId => {
+                const sel = document.getElementById(selId);
+                if (!sel) return;
+                const firstOpt = sel.children[0];
+                sel.innerHTML = '';
+                sel.appendChild(firstOpt);
+                cats.forEach(c => {
+                    const opt = document.createElement('option');
+                    opt.value = c;
+                    opt.textContent = c;
+                    sel.appendChild(opt);
+                });
+            });
+        }
+
+        function changeCategory(cat) {
+            currentCategory = cat;
+            buildDeck();
+        }
+
+        function buildDeck() {
+            currentDeck = currentCategory === 'all' ? [...vocabData] : vocabData.filter(i => i.category === currentCategory);
+            currentDeck.sort(() => Math.random() - 0.5);
+            currentIndex = 0;
+            isFlipped = false;
+            displayCard();
+            updateBoxesCount();
+        }
+
+        function displayCard() {
+            if (currentDeck.length === 0) return;
+            if (currentIndex >= currentDeck.length) {
+                currentIndex = 0;
+                currentDeck.sort(() => Math.random() - 0.5);
+            }
+            const card = currentDeck[currentIndex];
+            const prog = userProgress[card.id] || { box: 1, favorite: false };
+
+            document.getElementById('card-front-text').textContent = getPrimaryEnglish(card);
+            document.getElementById('card-back-text').textContent = card.pl;
+            document.getElementById('card-hint-text').textContent = `Kategoria: ${card.category}`;
+            document.getElementById('card-category-badge').textContent = card.category;
+            document.getElementById('current-card-num').textContent = currentIndex + 1;
+            document.getElementById('total-cards-num').textContent = currentDeck.length;
+            document.querySelectorAll('.card-leitner-box').forEach(label => {
+                label.textContent = `Pudełko ${prog.box}`;
+            });
+
+            document.querySelectorAll('.card-fav-icon').forEach(icon => {
+                icon.className = prog.favorite ? "card-fav-icon fa-solid fa-star text-lg text-amber-400" : "card-fav-icon fa-regular fa-star text-lg text-amber-400";
+            });
+
+            isFlipped = false;
+            document.getElementById('flashcard-inner').style.transform = 'rotateY(0deg)';
+        }
+
+        function flipCard() {
+            if (currentDeck.length === 0) return;
+            isFlipped = !isFlipped;
+            const inner = document.getElementById('flashcard-inner');
+            inner.style.transform = isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)';
+        }
+
+        function rateCard(rating) {
+            if (currentDeck.length === 0) return;
+            const card = currentDeck[currentIndex];
+            let prog = userProgress[card.id];
+            if (rating === 1) prog.box = 1;
+            else if (rating === 2) prog.box = Math.max(1, prog.box - 1);
+            else if (rating === 3) prog.box = Math.min(4, prog.box + 1);
+            else if (rating === 4) prog.box = 4;
+
+            saveProgress();
+            currentIndex++;
+            displayCard();
+        }
+
+        function toggleFavoriteCurrent() {
+            if (currentDeck.length === 0) return;
+            const card = currentDeck[currentIndex];
+            userProgress[card.id].favorite = !userProgress[card.id].favorite;
+            saveProgress();
+            displayCard();
+            showToast(userProgress[card.id].favorite ? "Dodano do ulubionych" : "Usunięto z ulubionych");
+        }
+
+        // --- SPELLING TEST ENGINE ---
+        function initSpellingTest() {
+            spellingPool = [...vocabData].sort(() => Math.random() - 0.5).slice(0, 20);
+            spellingIdx = 0;
+            spellingScore = 0;
+            loadSpellingQuestion();
+        }
+
+        function loadSpellingQuestion() {
+            if (spellingIdx >= spellingPool.length) {
+                document.getElementById('spelling-prompt').textContent = `Test ukończony! Wynik: ${spellingScore} / ${spellingPool.length}`;
+                document.getElementById('spelling-cat').textContent = "Gratulacje!";
+                document.getElementById('spelling-input').classList.add('hidden');
+                document.getElementById('spelling-submit-btn').classList.add('hidden');
+                document.getElementById('spelling-next-btn').classList.add('hidden');
+                return;
+            }
+
+            currentSpellingItem = spellingPool[spellingIdx];
+            document.getElementById('spelling-counter').textContent = `${spellingIdx + 1} / ${spellingPool.length}`;
+            document.getElementById('spelling-cat').textContent = currentSpellingItem.category;
+            document.getElementById('spelling-prompt').textContent = currentSpellingItem.pl;
+            
+            const input = document.getElementById('spelling-input');
+            input.value = '';
+            input.disabled = false;
+            input.classList.remove('border-emerald-500', 'border-red-500', 'bg-emerald-50', 'bg-red-50');
+            input.focus();
+
+            document.getElementById('spelling-submit-btn').classList.remove('hidden');
+            document.getElementById('spelling-next-btn').classList.add('hidden');
+            document.getElementById('spelling-feedback').classList.add('hidden');
+        }
+
+        function checkSpelling(e) {
+            e.preventDefault();
+            if (!currentSpellingItem) return;
+
+            const userVal = document.getElementById('spelling-input').value;
+            const input = document.getElementById('spelling-input');
+            const feedback = document.getElementById('spelling-feedback');
+
+            input.disabled = true;
+            document.getElementById('spelling-submit-btn').classList.add('hidden');
+            document.getElementById('spelling-next-btn').classList.remove('hidden');
+            feedback.classList.remove('hidden');
+
+            if (matchesEnglishAnswer(currentSpellingItem, userVal)) {
+                spellingScore++;
+                input.classList.add('border-emerald-500', 'bg-emerald-50', 'dark:bg-emerald-950/30');
+                feedback.className = "mt-4 text-sm font-semibold text-emerald-600 dark:text-emerald-400";
+                feedback.innerHTML = `<i class="fa-solid fa-check mr-1"></i> Poprawnie!`;
+            } else {
+                input.classList.add('border-red-500', 'bg-red-50', 'dark:bg-red-950/30');
+                feedback.className = "mt-4 text-sm font-semibold text-red-600 dark:text-red-400";
+                feedback.innerHTML = `<i class="fa-solid fa-xmark mr-1"></i> Błędnie. Prawidłowa odpowiedź: <strong class="underline">${getPrimaryEnglish(currentSpellingItem)}</strong>`;
+            }
+
+            document.getElementById('spelling-score').textContent = spellingScore;
+            spellingIdx++;
+            
+            // Focus next button
+            document.getElementById('spelling-next-btn').focus();
+        }
+
+        // Allow pressing Enter on next button to go to next question
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !document.getElementById('tab-spelling').classList.contains('hidden')) {
+                const nextBtn = document.getElementById('spelling-next-btn');
+                if (!nextBtn.classList.contains('hidden')) {
+                    nextSpellingQuestion();
+                }
+            }
+        });
+
+        function nextSpellingQuestion() {
+            loadSpellingQuestion();
+        }
+
+        // --- SPEECH ---
+        function speakCurrentWord() {
+            if (currentDeck.length === 0) return;
+            speakText(getPrimaryEnglish(currentDeck[currentIndex]));
+        }
+
+        function speakText(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-GB';
+                utterance.rate = 0.9;
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        function handleKeyPress(e) {
+            if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'SELECT') return;
+            if (!document.getElementById('tab-flashcards').classList.contains('hidden')) {
+                if (e.code === 'Space') { e.preventDefault(); flipCard(); }
+                else if (e.key === '1') rateCard(1);
+                else if (e.key === '2') rateCard(2);
+                else if (e.key === '3') rateCard(3);
+                else if (e.key === '4') rateCard(4);
+            }
+        }
+
+        // --- QUIZ ---
+        function startQuiz() {
+            const cat = document.getElementById('quiz-category-select').value;
+            let pool = cat === 'all' ? [...vocabData] : vocabData.filter(i => i.category === cat);
+            if (pool.length < 4) pool = [...vocabData];
+            pool.sort(() => Math.random() - 0.5);
+            quizQuestions = pool.slice(0, 10);
+            quizCurrentIdx = 0;
+            quizScore = 0;
+            quizStreak = 0;
+
+            document.getElementById('quiz-setup').classList.add('hidden');
+            document.getElementById('quiz-results').classList.add('hidden');
+            document.getElementById('quiz-active').classList.remove('hidden');
+            loadQuizQuestion();
+        }
+
+        function loadQuizQuestion() {
+            if (quizCurrentIdx >= quizQuestions.length) {
+                endQuiz();
+                return;
+            }
+            const currentQ = quizQuestions[quizCurrentIdx];
+            document.getElementById('quiz-progress-label').textContent = `Pytanie ${quizCurrentIdx + 1} / ${quizQuestions.length}`;
+            document.getElementById('quiz-streak').textContent = quizStreak;
+            document.getElementById('quiz-question').textContent = getPrimaryEnglish(currentQ);
+
+            let distractors = vocabData.filter(i => i.id !== currentQ.id).sort(() => Math.random() - 0.5);
+            let options = [currentQ, distractors[0], distractors[1], distractors[2]].sort(() => Math.random() - 0.5);
+
+            const container = document.getElementById('quiz-options');
+            container.innerHTML = '';
+            options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = "p-4 bg-slate-50 dark:bg-slate-700/50 hover:bg-indigo-50 dark:hover:bg-indigo-950/50 border border-slate-200 dark:border-slate-700 rounded-2xl font-medium text-left transition flex items-center justify-between";
+                btn.innerHTML = `<span>${opt.pl}</span>`;
+                btn.onclick = () => answerQuiz(opt.id === currentQ.id, btn);
+                container.appendChild(btn);
+            });
+            startQuizTimer();
+        }
+
+        function startQuizTimer() {
+            clearInterval(quizTimerInterval);
+            quizTimeLeft = 15;
+            document.getElementById('quiz-timer').textContent = quizTimeLeft;
+            const timerBar = document.getElementById('quiz-timer-bar');
+            timerBar.style.width = '100%';
+
+            quizTimerInterval = setInterval(() => {
+                quizTimeLeft--;
+                document.getElementById('quiz-timer').textContent = quizTimeLeft;
+                timerBar.style.width = `${(quizTimeLeft / 15) * 100}%`;
+                if (quizTimeLeft <= 0) {
+                    clearInterval(quizTimerInterval);
+                    answerQuiz(false, null);
+                }
+            }, 1000);
+        }
+
+        function answerQuiz(isCorrect, btnElement) {
+            clearInterval(quizTimerInterval);
+            const buttons = document.getElementById('quiz-options').getElementsByTagName('button');
+            if (isCorrect) {
+                quizScore++;
+                quizStreak++;
+                if (btnElement) btnElement.className = "p-4 bg-emerald-500 text-white rounded-2xl font-medium text-left flex items-center justify-between";
+            } else {
+                quizStreak = 0;
+                if (btnElement) btnElement.className = "p-4 bg-red-500 text-white rounded-2xl font-medium text-left flex items-center justify-between";
+            }
+            for (let b of buttons) b.disabled = true;
+            setTimeout(() => { quizCurrentIdx++; loadQuizQuestion(); }, 1000);
+        }
+
+        function endQuiz() {
+            clearInterval(quizTimerInterval);
+            document.getElementById('quiz-active').classList.add('hidden');
+            document.getElementById('quiz-results').classList.remove('hidden');
+            document.getElementById('quiz-final-score').textContent = `${quizScore} / ${quizQuestions.length}`;
+        }
+
+        // --- DICTIONARY ---
+        function renderDictionary() {
+            const tbody = document.getElementById('dictionary-table-body');
+            const search = document.getElementById('dict-search').value.toLowerCase();
+            const cat = document.getElementById('dict-category-filter').value;
+
+            let filtered = vocabData.filter(item => {
+                const matchSearch = item.en.some(answer => answer.toLowerCase().includes(search)) || item.pl.toLowerCase().includes(search);
+                const matchCat = cat === 'all' || item.category === cat;
+                return matchSearch && matchCat;
+            });
+
+            tbody.innerHTML = '';
+            if (filtered.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-slate-400">Brak wyników</td></tr>`;
+                return;
+            }
+
+            filtered.forEach(item => {
+                const prog = userProgress[item.id] || { box: 1, favorite: false };
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-50 dark:hover:bg-slate-700/30 transition";
+                let badge = "bg-red-100 text-red-700 dark:bg-red-950/60 dark:text-red-300";
+                if (prog.box === 2) badge = "bg-amber-100 text-amber-700 dark:bg-amber-950/60 dark:text-amber-300";
+                if (prog.box === 3) badge = "bg-blue-100 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300";
+                if (prog.box === 4) badge = "bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300";
+
+                tr.innerHTML = `
+                    <td class="p-3.5 font-semibold text-slate-800 dark:text-slate-200 flex items-center space-x-2">
+                        <span>${getPrimaryEnglish(item)}</span>
+                        <button class="dictionary-speak-btn text-indigo-600 hover:text-indigo-800 p-1"><i class="fa-solid fa-volume-high text-xs"></i></button>
+                    </td>
+                    <td class="p-3.5 text-slate-600 dark:text-slate-300">${item.pl}</td>
+                    <td class="p-3.5 text-slate-500 dark:text-slate-400 text-xs hidden md:table-cell">${item.category}</td>
+                    <td class="p-3.5 text-center"><span class="text-xs px-2 py-0.5 rounded-full font-bold ${badge}">P${prog.box}</span></td>
+                    <td class="p-3.5 text-right">
+                        <button onclick="toggleFavorite(${item.id})" class="p-1.5 text-amber-400 hover:scale-110 transition">
+                            <i class="${prog.favorite ? 'fa-solid' : 'fa-regular'} fa-star"></i>
+                        </button>
+                    </td>
+                `;
+                tr.querySelector('.dictionary-speak-btn').onclick = () => speakText(getPrimaryEnglish(item));
+                tbody.appendChild(tr);
+            });
+        }
+
+        function filterDictionary() { renderDictionary(); }
+
+        function toggleFavorite(id) {
+            userProgress[id].favorite = !userProgress[id].favorite;
+            saveProgress();
+            renderDictionary();
+        }
+
+        // --- STATS ---
+        function updateBoxesCount() {
+            let b1 = 0, b2 = 0, b3 = 0, b4 = 0;
+            Object.values(userProgress).forEach(p => {
+                if (p.box === 1) b1++;
+                else if (p.box === 2) b2++;
+                else if (p.box === 3) b3++;
+                else if (p.box === 4) b4++;
+            });
+            document.getElementById('box-1-count').textContent = b1;
+            document.getElementById('box-2-count').textContent = b2;
+            document.getElementById('box-3-count').textContent = b3;
+            document.getElementById('box-4-count').textContent = b4;
+        }
+
+        function updateStats() {
+            updateBoxesCount();
+            const total = vocabData.length;
+            let mastered = 0, favs = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0;
+            Object.values(userProgress).forEach(p => {
+                if (p.box === 4) mastered++;
+                if (p.favorite) favs++;
+                if (p.box === 1) b1++;
+                else if (p.box === 2) b2++;
+                else if (p.box === 3) b3++;
+                else if (p.box === 4) b4++;
+            });
+
+            document.getElementById('stat-total-words').textContent = total;
+            document.getElementById('stat-mastered-words').textContent = mastered;
+            document.getElementById('stat-fav-words').textContent = favs;
+
+            document.getElementById('prog-p4').textContent = `${Math.round((b4 / total) * 100)}%`;
+            document.getElementById('bar-p4').style.width = `${(b4 / total) * 100}%`;
+            document.getElementById('prog-p3').textContent = `${Math.round((b3 / total) * 100)}%`;
+            document.getElementById('bar-p3').style.width = `${(b3 / total) * 100}%`;
+            document.getElementById('prog-p2').textContent = `${Math.round((b2 / total) * 100)}%`;
+            document.getElementById('bar-p2').style.width = `${(b2 / total) * 100}%`;
+            document.getElementById('prog-p1').textContent = `${Math.round((b1 / total) * 100)}%`;
+            document.getElementById('bar-p1').style.width = `${(b1 / total) * 100}%`;
+        }
+
+        function resetProgressModal() { document.getElementById('confirm-modal').classList.remove('hidden'); }
+        function closeModal() { document.getElementById('confirm-modal').classList.add('hidden'); }
+        function confirmResetProgress() {
+            localStorage.removeItem('vocab_progress_unit4');
+            loadProgress();
+            buildDeck();
+            updateStats();
+            renderDictionary();
+            closeModal();
+            showToast("Zresetowano postępy");
+        }
+
+        function toggleDarkMode() {
+            const html = document.documentElement;
+            const icon = document.getElementById('theme-icon');
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+                icon.className = 'fa-solid fa-moon text-lg';
+            } else {
+                html.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+                icon.className = 'fa-solid fa-sun text-lg';
+            }
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-msg').textContent = msg;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 2500);
+        }
+    </script>
+</body>
+</html>
