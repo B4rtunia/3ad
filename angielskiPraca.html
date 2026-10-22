@@ -24,11 +24,20 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body { font-family: 'Inter', sans-serif; }
+        #category-filter { min-width: 0; max-width: 100%; }
         .perspective-1000 { perspective: 1000px; }
         .transform-style-3d { transform-style: preserve-3d; }
         .backface-hidden { backface-visibility: hidden; }
         .flashcard-face { position: absolute; inset: 0; backface-visibility: hidden; }
         .flashcard-back { transform: rotateY(180deg); }
+        @media (max-width: 639px) {
+            #tab-flashcards > .flashcard-toolbar { align-items: stretch; }
+            #tab-flashcards .flashcard-toolbar-controls,
+            #category-filter { width: 100%; }
+        }
+        @media (max-width: 359px) {
+            #tab-flashcards .leitner-count-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
     </style>
 </head>
 <body class="h-full bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 transition-colors duration-200 flex flex-col">
@@ -94,20 +103,20 @@
 
         <!-- TAB 1: FLASHCARDS (LEITNER SYSTEM) -->
         <section id="tab-flashcards" class="tab-content flex-1 flex flex-col max-w-3xl mx-auto w-full">
-            <div class="flex flex-wrap items-center justify-between gap-3 mb-6 bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700">
+            <div class="flashcard-toolbar flex flex-wrap items-center justify-between gap-3 mb-6 bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700">
                 <div class="flex items-center space-x-2">
                     <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-indigo-100 dark:bg-indigo-900/60 text-indigo-700 dark:text-indigo-300" id="card-category-badge">Kategoria</span>
                     <span class="text-sm font-medium text-slate-500 dark:text-slate-400">Karta <span id="current-card-num">1</span> z <span id="total-cards-num">1</span></span>
                 </div>
-                <div class="flex items-center space-x-2">
-                    <select id="category-filter" onchange="changeCategory(this.value)" class="bg-slate-100 dark:bg-slate-700 border-0 text-xs rounded-xl px-3 py-2 focus:ring-2 focus:ring-indigo-500 font-medium">
+                <div class="flashcard-toolbar-controls flex items-center space-x-2">
+                    <select id="category-filter" onchange="changeCategory(this.value)" class="min-w-0 max-w-full bg-slate-100 dark:bg-slate-700 border-0 text-xs rounded-xl px-3 py-2 focus:ring-2 focus:ring-indigo-500 font-medium">
                         <option value="all">Wszystkie kategorie (Cały Unit 4)</option>
                     </select>
                 </div>
             </div>
 
             <!-- Leitner Boxes indicator -->
-            <div class="grid grid-cols-4 gap-2 mb-6">
+            <div class="leitner-count-grid grid grid-cols-4 gap-2 mb-6">
                 <div class="bg-white dark:bg-slate-800 p-3 rounded-xl border border-slate-200 dark:border-slate-700 text-center shadow-xs">
                     <div class="text-xs text-slate-500 dark:text-slate-400 font-medium">Poziom 1</div>
                     <div class="text-lg font-bold text-red-500" id="box-1-count">0</div>
@@ -312,16 +321,16 @@
         <!-- TAB 4: DICTIONARY -->
         <section id="tab-dictionary" class="tab-content hidden flex-1 flex flex-col max-w-4xl mx-auto w-full">
             <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 p-6 flex flex-col flex-1">
-                <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
+                <div class="flex flex-col lg:flex-row justify-between items-stretch lg:items-center gap-4 mb-6">
                     <h2 class="text-xl font-bold">Pełny Słownik Unit 4 (Str. 74-75)</h2>
-                    <div class="flex items-center space-x-2 w-full sm:w-auto">
-                        <div class="relative flex-1 sm:w-64">
+                    <div class="flex flex-col lg:flex-row gap-2 w-full lg:w-auto">
+                        <div class="relative flex-1 lg:w-64">
                             <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
                                 <i class="fa-solid fa-search"></i>
                             </span>
                             <input type="text" id="dict-search" oninput="filterDictionary()" placeholder="Szukaj słówka..." class="w-full pl-9 pr-4 py-2 bg-slate-100 dark:bg-slate-700 border-0 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500">
                         </div>
-                        <select id="dict-category-filter" onchange="filterDictionary()" class="bg-slate-100 dark:bg-slate-700 border-0 rounded-xl px-3 py-2 text-sm font-medium focus:ring-2 focus:ring-indigo-500">
+                        <select id="dict-category-filter" onchange="filterDictionary()" class="w-full lg:w-auto lg:max-w-xs bg-slate-100 dark:bg-slate-700 border-0 rounded-xl px-3 py-2 text-sm font-medium focus:ring-2 focus:ring-indigo-500">
                             <option value="all">Wszystkie kategorie</option>
                         </select>
                     </div>
@@ -912,6 +921,7 @@ function matchesEnglishAnswer(item, answer) {
         };
 
         function loadProgress() {
+            userProgress = {};
             const saved = localStorage.getItem('vocab_progress_unit4');
             if (saved) {
                 try { userProgress = JSON.parse(saved); } catch(e) { userProgress = {}; }
