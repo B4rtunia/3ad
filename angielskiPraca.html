@@ -1118,6 +1118,7 @@ function matchesEnglishAnswer(item, answer) {
             if (e.key === 'Enter' && !document.getElementById('tab-spelling').classList.contains('hidden')) {
                 const nextBtn = document.getElementById('spelling-next-btn');
                 if (!nextBtn.classList.contains('hidden')) {
+                    e.preventDefault();
                     nextSpellingQuestion();
                 }
             }

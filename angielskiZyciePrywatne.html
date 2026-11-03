@@ -865,7 +865,7 @@ function matchesEnglishAnswer(item, answer) {
 
         function loadProgress() {
             userProgress = {};
-            const saved = localStorage.getItem('vocab_progress_unit5') || localStorage.getItem('vocab_progress_unit4');
+            const saved = localStorage.getItem('vocab_progress_unit5');
             if (saved) {
                 try { userProgress = JSON.parse(saved); } catch(e) { userProgress = {}; }
             }
@@ -1061,6 +1061,7 @@ function matchesEnglishAnswer(item, answer) {
             if (e.key === 'Enter' && !document.getElementById('tab-spelling').classList.contains('hidden')) {
                 const nextBtn = document.getElementById('spelling-next-btn');
                 if (!nextBtn.classList.contains('hidden')) {
+                    e.preventDefault();
                     nextSpellingQuestion();
                 }
             }
@@ -1279,7 +1280,6 @@ function matchesEnglishAnswer(item, answer) {
         function closeModal() { document.getElementById('confirm-modal').classList.add('hidden'); }
         function confirmResetProgress() {
             localStorage.removeItem('vocab_progress_unit5');
-            localStorage.removeItem('vocab_progress_unit4');
             loadProgress();
             buildDeck();
             updateStats();
