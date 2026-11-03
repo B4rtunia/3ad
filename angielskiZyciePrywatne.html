@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+<html lang="pl" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit 5 "Życie prywatne" - Ultra-Szybka Nauka Słówek</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        #category-filter { min-width: 0; max-width: 100%; }
+        .perspective-1000 { perspective: 1000px; }
+        .transform-style-3d { transform-style: preserve-3d; }
+        .backface-hidden { backface-visibility: hidden; }
+        .flashcard-face { position: absolute; inset: 0; backface-visibility: hidden; }
+        .flashcard-back { transform: rotateY(180deg); }
+        @media (max-width: 639px) {
+            #tab-flashcards > .flashcard-toolbar { align-items: stretch; }
+            #tab-flashcards .flashcard-toolbar-controls,
+            #category-filter { width: 100%; }
+        }
+        @media (max-width: 359px) {
+            #tab-flashcards .leitner-count-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+    </style>
+</head>
+<body class="h-full bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 transition-colors duration-200 flex flex-col">
+
+    <!-- Header / Navigation -->
+    <header class="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-indigo-600 text-white p-2 rounded-xl shadow-md">
+                    <i class="fa-solid fa-house-user text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg leading-tight">Unit 5 "Życie prywatne"</h1>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">Pełna baza (Str. 74-75)</p>
+                </div>
+            </div>
+            
+            <!-- Navigation Tabs -->
+            <nav class="hidden md:flex space-x-1">
+                <button onclick="switchTab('flashcards')" id="nav-flashcards" class="tab-btn px-3 py-2 rounded-lg text-sm font-medium bg-indigo-50 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-300 transition">
+                    <i class="fa-solid fa-clone mr-1.5"></i> Fiszki (Leitner)
+                </button>
+                <button onclick="switchTab('spelling')" id="nav-spelling" class="tab-btn px-3 py-2 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition">
+                    <i class="fa-solid fa-keyboard mr-1.5"></i> Tryb Pisowni
+                </button>
+                <button onclick="switchTab('quiz')" id="nav-quiz" class="tab-btn px-3 py-2 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition">
+                    <i class="fa-solid fa-bolt mr-1.5"></i> Quiz na czas
+                </button>
+                <button onclick="switchTab('dictionary')" id="nav-dictionary" class="tab-btn px-3 py-2 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition">
+                    <i class="fa-solid fa-book mr-1.5"></i> Słownik
+                </button>
+                <button onclick="switchTab('stats')" id="nav-stats" class="tab-btn px-3 py-2 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition">
+                    <i class="fa-solid fa-chart-line mr-1.5"></i> Statystyki
+                </button>
+            </nav>
+
+            <!-- Right Controls -->
+            <div class="flex items-center space-x-2">
+                <button onclick="toggleDarkMode()" class="p-2 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 transition" title="Przełącz motyw">
+                    <i id="theme-icon" class="fa-solid fa-moon text-lg"></i>
+                </button>
+                <button onclick="resetProgressModal()" class="hidden sm:flex items-center px-3 py-1.5 text-xs font-medium text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800 rounded-lg hover:bg-red-50 dark:hover:bg-red-950/30 transition">
+                    <i class="fa-solid fa-rotate-right mr-1"></i> Reset
+                </button>
+                <button onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Nav Menu -->
+        <div id="mobile-menu" class="hidden md:hidden px-4 pt-2 pb-4 space-y-1 bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700">
+            <button onclick="switchTab('flashcards'); toggleMobileMenu();" class="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">Fiszki (Leitner)</button>
+            <button onclick="switchTab('spelling'); toggleMobileMenu();" class="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">Tryb Pisowni (Spelling)</button>
+            <button onclick="switchTab('quiz'); toggleMobileMenu();" class="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">Quiz na czas</button>
+            <button onclick="switchTab('dictionary'); toggleMobileMenu();" class="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">Słownik</button>
+            <button onclick="switchTab('stats'); toggleMobileMenu();" class="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">Statystyki</button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col">
+
+        <!-- TAB 1: FLASHCARDS (LEITNER SYSTEM) -->
+        <section id="tab-flashcards" class="tab-content flex-1 flex flex-col max-w-3xl mx-auto w-full">
+            <div class="flashcard-toolbar flex flex-wrap items-center justify-between gap-3 mb-6 bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700">
+                <div class="flex items-center space-x-2">
+                    <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-indigo-100 dark:bg-indigo-900/60 text-indigo-700 dark:text-indigo-300" id="card-category-badge">Kategoria</span>
+                    <span class="text-sm font-medium text-slate-500 dark:text-slate-400">Karta <span id="current-card-num">1</span> z <span id="total-cards-num">1</span></span>
+                </div>
+                <div class="flashcard-toolbar-controls flex items-center space-x-2">
+                    <select id="category-filter" onchange="changeCategory(this.value)" class="min-w-0 max-w-full bg-slate-100 dark:bg-slate-700 border-0 text-xs rounded-xl px-3 py-2 focus:ring-2 focus:ring-indigo-500 font-medium">
+                        <option value="all">Wszystkie kategorie (Cały Unit 5)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Leitner Boxes indicator -->
+            <div class="leitner-count-grid grid grid-cols-4 gap-2 mb-6">
+                <div class="bg-white dark:bg-slate-800 p-3 rounded-xl border border-slate-200 dark:border-slate-700 text-center shadow-xs">
+                    <div class="text-xs text-slate-500 dark:text-slate-400 font-medium">Poziom 1</div>
+                    <div class="text-lg font-bold text-red-500" id="box-1-count">0</div>
+                </div>
+                <div class="bg-white dark:bg-slate-800 p-3 rounded-xl border border-slate-200 dark:border-slate-700 text-center shadow-xs">
+                    <div class="text-xs text-slate-500 dark:text-slate-400 font-medium">Poziom 2</div>
+                    <div class="text-lg font-bold text-amber-500" id="box-2-count">0</div>
+                </div>
+                <div class="bg-white dark:bg-slate-800 p-3 rounded-xl border border-slate-200 dark:border-slate-700 text-center shadow-xs">
+                    <div class="text-xs text-slate-500 dark:text-slate-400 font-medium">Poziom 3</div>
+                    <div class="text-lg font-bold text-blue-500" id="box-3-count">0</div>
+                </div>
+                <div class="bg-white dark:bg-slate-800 p-3 rounded-xl border border-slate-200 dark:border-slate-700 text-center shadow-xs">
+                    <div class="text-xs text-slate-500 dark:text-slate-400 font-medium">Opanowane</div>
+                    <div class="text-lg font-bold text-emerald-500" id="box-4-count">0</div>
+                </div>
+            </div>
+
+            <!-- Flashcard Container -->
+            <div class="relative w-full aspect-[16/10] sm:aspect-[2/1] cursor-pointer perspective-1000 mb-6" onclick="flipCard()">
+                <div id="flashcard-inner" class="relative w-full h-full transform-style-3d transition-transform duration-300">
+                    <div class="flashcard-face flex flex-col justify-between rounded-3xl shadow-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-8">
+                        <div class="flex justify-between items-center">
+                            <span class="card-leitner-box text-xs uppercase tracking-wider font-bold text-indigo-600 dark:text-indigo-400">Pudełko 1</span>
+                            <div class="flex items-center space-x-2">
+                                <button onclick="event.stopPropagation(); speakCurrentWord();" class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-700 text-indigo-600 dark:text-indigo-400 transition" title="Wymów słówko (Audio)">
+                                    <i class="fa-solid fa-volume-high text-lg"></i>
+                                </button>
+                                <button onclick="event.stopPropagation(); toggleFavoriteCurrent();" class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-700 transition" title="Ulubione">
+                                    <i class="card-fav-icon fa-regular fa-star text-lg text-amber-400"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="text-center my-auto">
+                            <div id="card-front-text" class="text-2xl sm:text-4xl font-bold text-slate-800 dark:text-slate-100 mb-2">Ładowanie...</div>
+                            <div id="card-hint-text" class="text-xs text-slate-400 dark:text-slate-500 mt-2 italic">Kontekst</div>
+                        </div>
+
+                        <div class="text-center text-xs text-slate-400 dark:text-slate-500">
+                            Kliknij lub naciśnij <kbd class="px-1.5 py-0.5 bg-slate-100 dark:bg-slate-700 rounded border border-slate-300 dark:border-slate-600 font-mono">Spacja</kbd> aby odsłonić
+                        </div>
+                    </div>
+
+                    <div class="flashcard-face flashcard-back flex flex-col justify-between rounded-3xl shadow-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-8">
+                        <div class="flex justify-between items-center">
+                            <span class="card-leitner-box text-xs uppercase tracking-wider font-bold text-indigo-600 dark:text-indigo-400">Pudełko 1</span>
+                            <div class="flex items-center space-x-2">
+                                <button onclick="event.stopPropagation(); speakCurrentWord();" class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-700 text-indigo-600 dark:text-indigo-400 transition" title="Wymów słówko (Audio)">
+                                    <i class="fa-solid fa-volume-high text-lg"></i>
+                                </button>
+                                <button onclick="event.stopPropagation(); toggleFavoriteCurrent();" class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-700 transition" title="Ulubione">
+                                    <i class="card-fav-icon fa-regular fa-star text-lg text-amber-400"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="text-center my-auto">
+                            <div id="card-back-text" class="text-xl sm:text-2xl font-semibold text-indigo-600 dark:text-indigo-400">Tłumaczenie</div>
+                        </div>
+
+                        <div class="text-center text-xs text-slate-400 dark:text-slate-500">
+                            Kliknij lub naciśnij <kbd class="px-1.5 py-0.5 bg-slate-100 dark:bg-slate-700 rounded border border-slate-300 dark:border-slate-600 font-mono">Spacja</kbd> aby wrócić
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Leitner Buttons -->
+            <div id="flashcard-actions" class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <button onclick="rateCard(1)" class="p-3 bg-red-50 dark:bg-red-950/40 hover:bg-red-100 dark:hover:bg-red-900/40 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 rounded-xl font-semibold text-sm transition flex flex-col items-center justify-center">
+                    <span class="text-xs opacity-75 font-mono mb-0.5">[1] Nie znam</span>
+                    <span>Powtórz</span>
+                </button>
+                <button onclick="rateCard(2)" class="p-3 bg-amber-50 dark:bg-amber-950/40 hover:bg-amber-100 dark:hover:bg-amber-900/40 border border-amber-200 dark:border-amber-800 text-amber-700 dark:text-amber-300 rounded-xl font-semibold text-sm transition flex flex-col items-center justify-center">
+                    <span class="text-xs opacity-75 font-mono mb-0.5">[2] Trudne</span>
+                    <span>Słabo</span>
+                </button>
+                <button onclick="rateCard(3)" class="p-3 bg-blue-50 dark:bg-blue-950/40 hover:bg-blue-100 dark:hover:bg-blue-900/40 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 rounded-xl font-semibold text-sm transition flex flex-col items-center justify-center">
+                    <span class="text-xs opacity-75 font-mono mb-0.5">[3] Dobrze</span>
+                    <span>Umiem</span>
+                </button>
+                <button onclick="rateCard(4)" class="p-3 bg-emerald-50 dark:bg-emerald-950/40 hover:bg-emerald-100 dark:hover:bg-emerald-900/40 border border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300 rounded-xl font-semibold text-sm transition flex flex-col items-center justify-center">
+                    <span class="text-xs opacity-75 font-mono mb-0.5">[4] Znam świetnie</span>
+                    <span>Perfekcyjnie</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- TAB 2: SPELLING TEST (TRYB PISOWNI) -->
+        <section id="tab-spelling" class="tab-content hidden flex-1 flex flex-col max-w-2xl mx-auto w-full">
+            <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 p-6 sm:p-8 flex flex-col">
+                <div class="flex justify-between items-center mb-6">
+                    <div>
+                        <h2 class="text-xl font-bold flex items-center">
+                            <i class="fa-solid fa-keyboard text-indigo-600 mr-2"></i> Tryb Pisowni (Spelling)
+                        </h2>
+                        <p class="text-xs text-slate-500 dark:text-slate-400">Wpisz poprawnie angielskie słówko na podstawie polskiego tłumaczenia.</p>
+                    </div>
+                    <span id="spelling-counter" class="text-xs font-semibold px-3 py-1 rounded-full bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300">1 / 20</span>
+                </div>
+
+                <div id="spelling-box" class="bg-slate-50 dark:bg-slate-900/50 p-6 sm:p-8 rounded-2xl border border-slate-200 dark:border-slate-700 text-center mb-6">
+                    <div class="text-xs font-semibold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider mb-2" id="spelling-cat">Kategoria</div>
+                    <div id="spelling-prompt" class="text-2xl sm:text-3xl font-bold text-slate-800 dark:text-slate-100 mb-6">Tłumaczenie polskie</div>
+                    
+                    <form onsubmit="checkSpelling(event)" class="max-w-md mx-auto flex flex-col space-y-3">
+                        <div class="relative">
+                            <input type="text" id="spelling-input" autocomplete="off" spellcheck="false" placeholder="Wpisz po angielsku..." class="w-full px-4 py-3.5 bg-white dark:bg-slate-800 border-2 border-slate-300 dark:border-slate-600 rounded-xl text-center text-lg font-semibold focus:border-indigo-500 focus:outline-none shadow-xs">
+                        </div>
+                        <div class="flex space-x-2">
+                            <button type="submit" id="spelling-submit-btn" class="flex-1 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl shadow-md transition">
+                                Sprawdź [Enter]
+                            </button>
+                            <button type="button" onclick="nextSpellingQuestion()" id="spelling-next-btn" class="hidden flex-1 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-xl shadow-md transition">
+                                Następne <i class="fa-solid fa-arrow-right ml-1"></i>
+                            </button>
+                        </div>
+                    </form>
+
+                    <div id="spelling-feedback" class="mt-4 text-sm font-semibold hidden">
+                        <!-- Feedback message -->
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center text-xs text-slate-400">
+                    <span>Punkty: <strong id="spelling-score" class="text-indigo-600">0</strong></span>
+                    <button onclick="initSpellingTest()" class="text-indigo-600 dark:text-indigo-400 hover:underline font-medium">Zrestartuj test</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 3: QUIZ NA CZAS -->
+        <section id="tab-quiz" class="tab-content hidden flex-1 flex flex-col max-w-2xl mx-auto w-full">
+            <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 p-6 sm:p-8">
+                
+                <!-- Quiz Setup -->
+                <div id="quiz-setup" class="text-center py-6">
+                    <div class="w-16 h-16 bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl shadow-inner">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold mb-2">Quiz Szybkościowy Unit 5</h2>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm mb-6">Wybierz odpowiedź pod presją czasu z całej bazy podręcznika.</p>
+                    
+                    <div class="max-w-xs mx-auto mb-6 text-left">
+                        <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-2 uppercase tracking-wider">Kategoria</label>
+                        <select id="quiz-category-select" class="w-full bg-slate-100 dark:bg-slate-700 border-0 rounded-xl p-3 text-sm font-medium focus:ring-2 focus:ring-indigo-500">
+                            <option value="all">Wszystkie kategorie (Cały Unit 5)</option>
+                        </select>
+                    </div>
+
+                    <button onclick="startQuiz()" class="w-full sm:w-auto px-8 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-2xl shadow-lg shadow-indigo-600/30 transition">
+                        Rozpocznij Quiz <i class="fa-solid fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+
+                <!-- Quiz Active -->
+                <div id="quiz-active" class="hidden">
+                    <div class="flex justify-between items-center mb-6">
+                        <span class="text-xs font-semibold px-3 py-1 rounded-full bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300" id="quiz-progress-label">Pytanie 1 / 10</span>
+                        <div class="flex items-center space-x-3">
+                            <span class="text-sm font-bold text-indigo-600 dark:text-indigo-400"><i class="fa-solid fa-fire mr-1 text-amber-500"></i> Seria: <span id="quiz-streak">0</span></span>
+                            <span class="text-sm font-bold text-slate-700 dark:text-slate-200"><i class="fa-solid fa-clock mr-1 text-slate-400"></i> <span id="quiz-timer">15</span>s</span>
+                        </div>
+                    </div>
+
+                    <div class="w-full bg-slate-100 dark:bg-slate-700 h-2 rounded-full mb-6 overflow-hidden">
+                        <div id="quiz-timer-bar" class="bg-indigo-600 h-full transition-all duration-1000 w-full"></div>
+                    </div>
+
+                    <div class="text-center mb-8">
+                        <div class="text-xs text-slate-400 dark:text-slate-500 mb-1 uppercase tracking-wider font-semibold">Przetłumacz na polski</div>
+                        <h3 id="quiz-question" class="text-2xl sm:text-3xl font-bold text-slate-800 dark:text-slate-100">Word</h3>
+                    </div>
+
+                    <div id="quiz-options" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+                </div>
+
+                <!-- Quiz Results -->
+                <div id="quiz-results" class="hidden text-center py-6">
+                    <div class="w-20 h-20 bg-emerald-100 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 rounded-3xl flex items-center justify-center mx-auto mb-4 text-3xl shadow-inner">
+                        <i class="fa-solid fa-trophy"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold mb-1">Quiz Zakończony!</h2>
+                    <div class="bg-slate-50 dark:bg-slate-900/50 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 max-w-xs mx-auto mb-6">
+                        <div class="text-4xl font-extrabold text-indigo-600 dark:text-indigo-400 mb-1" id="quiz-final-score">8 / 10</div>
+                        <div class="text-xs text-slate-500 dark:text-slate-400 font-medium">Poprawnych odpowiedzi</div>
+                    </div>
+
+                    <div class="flex justify-center space-x-3">
+                        <button onclick="startQuiz()" class="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl shadow-md transition">
+                            <i class="fa-solid fa-rotate-right mr-2"></i> Jeszcze raz
+                        </button>
+                        <button onclick="switchTab('flashcards')" class="px-6 py-3 bg-slate-200 dark:bg-slate-700 font-semibold rounded-xl transition">
+                            Powrót
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 4: DICTIONARY -->
+        <section id="tab-dictionary" class="tab-content hidden flex-1 flex flex-col max-w-4xl mx-auto w-full">
+            <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 p-6 flex flex-col flex-1">
+                <div class="flex flex-col lg:flex-row justify-between items-stretch lg:items-center gap-4 mb-6">
+                    <h2 class="text-xl font-bold">Pełny Słownik Unit 5 (Str. 74-75)</h2>
+                    <div class="flex flex-col lg:flex-row gap-2 w-full lg:w-auto">
+                        <div class="relative flex-1 lg:w-64">
+                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                                <i class="fa-solid fa-search"></i>
+                            </span>
+                            <input type="text" id="dict-search" oninput="filterDictionary()" placeholder="Szukaj słówka..." class="w-full pl-9 pr-4 py-2 bg-slate-100 dark:bg-slate-700 border-0 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500">
+                        </div>
+                        <select id="dict-category-filter" onchange="filterDictionary()" class="w-full lg:w-auto lg:max-w-xs bg-slate-100 dark:bg-slate-700 border-0 rounded-xl px-3 py-2 text-sm font-medium focus:ring-2 focus:ring-indigo-500">
+                            <option value="all">Wszystkie kategorie</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto flex-1 border border-slate-100 dark:border-slate-700 rounded-2xl">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-50 dark:bg-slate-700/50 text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider border-b border-slate-200 dark:border-slate-700">
+                                <th class="p-3.5 font-semibold">Angielski</th>
+                                <th class="p-3.5 font-semibold">Polski (Podręcznik)</th>
+                                <th class="p-3.5 font-semibold hidden md:table-cell">Kategoria</th>
+                                <th class="p-3.5 font-semibold text-center">Poziom</th>
+                                <th class="p-3.5 font-semibold text-right">Akcje</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dictionary-table-body" class="divide-y divide-slate-100 dark:divide-slate-700 text-sm"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 5: STATS -->
+        <section id="tab-stats" class="tab-content hidden flex-1 flex flex-col max-w-3xl mx-auto w-full">
+            <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 p-6 sm:p-8">
+                <h2 class="text-2xl font-bold mb-6 flex items-center">
+                    <i class="fa-solid fa-chart-pie text-indigo-600 mr-3"></i> Statystyki Postępów
+                </h2>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+                    <div class="bg-indigo-50 dark:bg-indigo-950/40 p-5 rounded-2xl border border-indigo-100 dark:border-indigo-900/50">
+                        <div class="text-xs font-semibold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider mb-1">Wszystkie hasełka</div>
+                        <div class="text-3xl font-extrabold text-indigo-700 dark:text-indigo-300" id="stat-total-words">0</div>
+                    </div>
+                    <div class="bg-emerald-50 dark:bg-emerald-950/40 p-5 rounded-2xl border border-emerald-100 dark:border-emerald-900/50">
+                        <div class="text-xs font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider mb-1">Opanowane (Pudełko 4)</div>
+                        <div class="text-3xl font-extrabold text-emerald-700 dark:text-emerald-300" id="stat-mastered-words">0</div>
+                    </div>
+                    <div class="bg-amber-50 dark:bg-amber-950/40 p-5 rounded-2xl border border-amber-100 dark:border-amber-900/50">
+                        <div class="text-xs font-semibold text-amber-600 dark:text-amber-400 uppercase tracking-wider mb-1">Ulubione hasełka</div>
+                        <div class="text-3xl font-extrabold text-amber-700 dark:text-amber-300" id="stat-fav-words">0</div>
+                    </div>
+                </div>
+
+                <div class="space-y-4 mb-8">
+                    <h3 class="font-bold text-lg">Rozkład w Systemie Leitnera</h3>
+                    <div>
+                        <div class="flex justify-between text-sm font-medium mb-1"><span class="text-emerald-600">Opanowane (Poziom 4)</span><span id="prog-p4">0%</span></div>
+                        <div class="w-full bg-slate-100 dark:bg-slate-700 h-2.5 rounded-full overflow-hidden"><div id="bar-p4" class="bg-emerald-500 h-full w-0 transition-all"></div></div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-sm font-medium mb-1"><span class="text-blue-600">Poziom 3</span><span id="prog-p3">0%</span></div>
+                        <div class="w-full bg-slate-100 dark:bg-slate-700 h-2.5 rounded-full overflow-hidden"><div id="bar-p3" class="bg-blue-500 h-full w-0 transition-all"></div></div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-sm font-medium mb-1"><span class="text-amber-600">Poziom 2</span><span id="prog-p2">0%</span></div>
+                        <div class="w-full bg-slate-100 dark:bg-slate-700 h-2.5 rounded-full overflow-hidden"><div id="bar-p2" class="bg-amber-500 h-full w-0 transition-all"></div></div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-sm font-medium mb-1"><span class="text-red-600">Poziom 1 (Do powtórki)</span><span id="prog-p1">0%</span></div>
+                        <div class="w-full bg-slate-100 dark:bg-slate-700 h-2.5 rounded-full overflow-hidden"><div id="bar-p1" class="bg-red-500 h-full w-0 transition-all"></div></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Confirmation Modal -->
+    <div id="confirm-modal" class="fixed inset-0 bg-black/50 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-800 rounded-3xl p-6 max-w-sm w-full shadow-2xl border border-slate-200 dark:border-slate-700 text-center">
+            <div class="w-12 h-12 bg-red-100 dark:bg-red-950/50 text-red-600 dark:text-red-400 rounded-2xl flex items-center justify-center mx-auto mb-4 text-xl">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <h3 class="text-lg font-bold mb-2">Resetować postępy?</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mb-6">Wszystkie fiszki wrócą do pudełka 1.</p>
+            <div class="flex space-x-3">
+                <button onclick="closeModal()" class="flex-1 py-2.5 bg-slate-100 dark:bg-slate-700 font-semibold text-sm rounded-xl">Anuluj</button>
+                <button onclick="confirmResetProgress()" class="flex-1 py-2.5 bg-red-600 text-white font-semibold text-sm rounded-xl shadow-md">Resetuj</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 px-4 py-3 rounded-2xl shadow-xl text-sm font-medium flex items-center space-x-2">
+        <i class="fa-solid fa-check text-emerald-400"></i>
+        <span id="toast-msg">Komunikat</span>
+    </div>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+// PEŁNA BAZA SŁOWNICTWA - 100% DOKŁADNIE 1:1 Z KIĄŻKI (STRONY 92 I 93)
+const VOCABULARY = [
+  // FAMILY MEMBERS | CZŁONKOWIE RODZINY
+  { id: 1, category: "FAMILY MEMBERS", en: ["aunt/auntie", "aunt", "auntie"], pl: "ciocia" },
+  { id: 2, category: "FAMILY MEMBERS", en: ["brother"], pl: "brat" },
+  { id: 3, category: "FAMILY MEMBERS", en: ["brother-in-law"], pl: "szwagier" },
+  { id: 4, category: "FAMILY MEMBERS", en: ["cousin"], pl: "kuzyn, kuzynka" },
+  { id: 5, category: "FAMILY MEMBERS", en: ["dad/daddy", "dad", "daddy"], pl: "tata, tatuś" },
+  { id: 6, category: "FAMILY MEMBERS", en: ["daughter"], pl: "córka" },
+  { id: 7, category: "FAMILY MEMBERS", en: ["daughter-in-law"], pl: "synowa" },
+  { id: 8, category: "FAMILY MEMBERS", en: ["ex-husband/ex-wife", "ex-husband", "ex-wife"], pl: "były mąż / była żona" },
+  { id: 9, category: "FAMILY MEMBERS", en: ["father"], pl: "ojciec" },
+  { id: 10, category: "FAMILY MEMBERS", en: ["father-in-law"], pl: "teść" },
+  { id: 11, category: "FAMILY MEMBERS", en: ["grandchildren"], pl: "wnuki" },
+  { id: 12, category: "FAMILY MEMBERS", en: ["granddaughter"], pl: "wnuczka" },
+  { id: 13, category: "FAMILY MEMBERS", en: ["grandfather/grandad", "grandfather", "grandad"], pl: "dziadek" },
+  { id: 14, category: "FAMILY MEMBERS", en: ["grandmother/grandma", "grandmother", "grandma"], pl: "babcia" },
+  { id: 15, category: "FAMILY MEMBERS", en: ["grandpa"], pl: "dziadek" },
+  { id: 16, category: "FAMILY MEMBERS", en: ["grandparents"], pl: "dziadkowie" },
+  { id: 17, category: "FAMILY MEMBERS", en: ["grandson"], pl: "wnuk" },
+  { id: 18, category: "FAMILY MEMBERS", en: ["granny"], pl: "babcia" },
+  { id: 19, category: "FAMILY MEMBERS", en: ["great-grandchildren"], pl: "prawnuki" },
+  { id: 20, category: "FAMILY MEMBERS", en: ["great-granddaughter"], pl: "prawnuczka" },
+  { id: 21, category: "FAMILY MEMBERS", en: ["great-grandfather"], pl: "pradziadek" },
+  { id: 22, category: "FAMILY MEMBERS", en: ["great-grandmother"], pl: "prababcia" },
+  { id: 23, category: "FAMILY MEMBERS", en: ["great-grandparents"], pl: "pradziadkowie" },
+  { id: 24, category: "FAMILY MEMBERS", en: ["great-grandson"], pl: "prawnuk" },
+  { id: 25, category: "FAMILY MEMBERS", en: ["half-brother"], pl: "brat przyrodni" },
+  { id: 26, category: "FAMILY MEMBERS", en: ["half-sister"], pl: "siostra przyrodnia" },
+  { id: 27, category: "FAMILY MEMBERS", en: ["husband"], pl: "mąż" },
+  { id: 28, category: "FAMILY MEMBERS", en: ["mother"], pl: "matka" },
+  { id: 29, category: "FAMILY MEMBERS", en: ["mother-in-law"], pl: "teściowa" },
+  { id: 30, category: "FAMILY MEMBERS", en: ["mum/mummy", "mum", "mummy"], pl: "mama, mamusia" },
+  { id: 31, category: "FAMILY MEMBERS", en: ["nephew"], pl: "siostrzeniec, bratanek" },
+  { id: 32, category: "FAMILY MEMBERS", en: ["niece"], pl: "siostrzenica, bratanica" },
+  { id: 33, category: "FAMILY MEMBERS", en: ["only child"], pl: "jedynak, jedynaczka" },
+  { id: 34, category: "FAMILY MEMBERS", en: ["parents"], pl: "rodzice" },
+  { id: 35, category: "FAMILY MEMBERS", en: ["parents-in-law"], pl: "teściowie" },
+  { id: 36, category: "FAMILY MEMBERS", en: ["relative"], pl: "krewny" },
+  { id: 37, category: "FAMILY MEMBERS", en: ["sister"], pl: "siostra" },
+  { id: 38, category: "FAMILY MEMBERS", en: ["sister-in-law"], pl: "szwagierka, bratowa" },
+  { id: 39, category: "FAMILY MEMBERS", en: ["single father/mother", "single father", "single mother"], pl: "ojciec / matka samotnie wychowujący/wychowująca dziecko" },
+  { id: 40, category: "FAMILY MEMBERS", en: ["single parent"], pl: "rodzic samotnie wychowujący dziecko" },
+  { id: 41, category: "FAMILY MEMBERS", en: ["son"], pl: "syn" },
+  { id: 42, category: "FAMILY MEMBERS", en: ["son-in-law"], pl: "zięć" },
+  { id: 43, category: "FAMILY MEMBERS", en: ["twin brother/sister", "twin brother", "twin sister"], pl: "brat bliźniak / siostra bliźniaczka" },
+  { id: 44, category: "FAMILY MEMBERS", en: ["twins"], pl: "bliźniaki" },
+  { id: 45, category: "FAMILY MEMBERS", en: ["uncle"], pl: "wujek, stryjek" },
+  { id: 46, category: "FAMILY MEMBERS", en: ["wife"], pl: "żona" },
+  { id: 47, category: "FAMILY MEMBERS", en: ["adoptive parents"], pl: "rodzice adopcyjni" },
+  { id: 48, category: "FAMILY MEMBERS", en: ["ex"], pl: "były, była, eks" },
+  { id: 49, category: "FAMILY MEMBERS", en: ["extended family"], pl: "rodzina wielopokoleniowa" },
+  { id: 50, category: "FAMILY MEMBERS", en: ["generation"], pl: "pokolenie" },
+  { id: 51, category: "FAMILY MEMBERS", en: ["immediate family"], pl: "najbliższa rodzina" },
+  { id: 52, category: "FAMILY MEMBERS", en: ["in-laws"], pl: "teściowie" },
+  { id: 53, category: "FAMILY MEMBERS", en: ["orphan"], pl: "sierota" },
+  { id: 54, category: "FAMILY MEMBERS", en: ["parenting skills"], pl: "umiejętności rodzicielskie" },
+
+  // MARRIAGE | MAŁŻEŃSTWO
+  { id: 55, category: "MARRIAGE", en: ["be widowed"], pl: "być wdową, wdowcem" },
+  { id: 56, category: "MARRIAGE", en: ["divorce"], pl: "rozwieść się; rozwód" },
+  { id: 57, category: "MARRIAGE", en: ["engaged"], pl: "zaręczony, zaręczona" },
+  { id: 58, category: "MARRIAGE", en: ["become/get engaged", "become engaged", "get engaged"], pl: "zaręczyć się" },
+  { id: 59, category: "MARRIAGE", en: ["engagement"], pl: "zaręczyny" },
+  { id: 60, category: "MARRIAGE", en: ["get a divorce/divorced", "get a divorce", "get divorced"], pl: "rozwieść się" },
+  { id: 61, category: "MARRIAGE", en: ["get married to sb"], pl: "poślubić kogoś" },
+  { id: 62, category: "MARRIAGE", en: ["honeymoon"], pl: "miesiąc miodowy" },
+  { id: 63, category: "MARRIAGE", en: ["marriage"], pl: "małżeństwo (związek)" },
+  { id: 64, category: "MARRIAGE", en: ["married couple"], pl: "małżeństwo (para małżeńska)" },
+  { id: 65, category: "MARRIAGE", en: ["marry sb"], pl: "poślubić kogoś" },
+  { id: 66, category: "MARRIAGE", en: ["propose marriage"], pl: "oświadczyć się" },
+  { id: 67, category: "MARRIAGE", en: ["propose to sb"], pl: "oświadczyć się komuś" },
+  { id: 68, category: "MARRIAGE", en: ["remarry"], pl: "ponownie wyjść za mąż, ożenić się" },
+  { id: 69, category: "MARRIAGE", en: ["separation"], pl: "separacja" },
+  { id: 70, category: "MARRIAGE", en: ["stay single"], pl: "pozostać w stanie wolnym" },
+  { id: 71, category: "MARRIAGE", en: ["wedding"], pl: "ślub, wesele" },
+
+  // FAMILY LIFE - PHRASES | ŻYCIE RODZINNE - ZWROTY
+  { id: 72, category: "FAMILY LIFE - PHRASES", en: ["be a strict parent"], pl: "być surowym rodzicem" },
+  { id: 73, category: "FAMILY LIFE - PHRASES", en: ["be expecting a child"], pl: "spodziewać się dziecka" },
+  { id: 74, category: "FAMILY LIFE - PHRASES", en: ["be pregnant"], pl: "być w ciąży" },
+  { id: 75, category: "FAMILY LIFE - PHRASES", en: ["care for sb"], pl: "troszczyć się o kogoś" },
+  { id: 76, category: "FAMILY LIFE - PHRASES", en: ["get pregnant"], pl: "zajść w ciążę" },
+  { id: 77, category: "FAMILY LIFE - PHRASES", en: ["give birth to a child"], pl: "urodzić dziecko" },
+  { id: 78, category: "FAMILY LIFE - PHRASES", en: ["grow out of sth"], pl: "wyrosnąć z czegoś" },
+  { id: 79, category: "FAMILY LIFE - PHRASES", en: ["grow up"], pl: "dorastać" },
+  { id: 80, category: "FAMILY LIFE - PHRASES", en: ["have a baby"], pl: "urodzić dziecko" },
+  { id: 81, category: "FAMILY LIFE - PHRASES", en: ["look after sb"], pl: "opiekować się kimś" },
+  { id: 82, category: "FAMILY LIFE - PHRASES", en: ["look like"], pl: "wyglądać podobnie" },
+  { id: 83, category: "FAMILY LIFE - PHRASES", en: ["take care of sb"], pl: "opiekować się kimś" },
+  { id: 84, category: "FAMILY LIFE - PHRASES", en: ["be a lenient parent"], pl: "być łagodnym rodzicem" },
+  { id: 85, category: "FAMILY LIFE - PHRASES", en: ["be in foster care"], pl: "podlegać opiece zastępczej" },
+  { id: 86, category: "FAMILY LIFE - PHRASES", en: ["bring up"], pl: "wychowywać (dziecko)" },
+  { id: 87, category: "FAMILY LIFE - PHRASES", en: ["custody of a child"], pl: "prawo do opieki nad dzieckiem" },
+  { id: 88, category: "FAMILY LIFE - PHRASES", en: ["raise children"], pl: "wychowywać dzieci" },
+  { id: 89, category: "FAMILY LIFE - PHRASES", en: ["show obedience"], pl: "okazywać posłuszeństwo" },
+  { id: 90, category: "FAMILY LIFE - PHRASES", en: ["spoil sb"], pl: "rozpieszczać kogoś" },
+
+  // ACQUAINTANCES AND FRIENDS | ZNAJOMI I PRZYJACIELE
+  { id: 91, category: "ACQUAINTANCES AND FRIENDS", en: ["acquaintance"], pl: "znajomy, znajoma; znajomość" },
+  { id: 92, category: "ACQUAINTANCES AND FRIENDS", en: ["boyfriend"], pl: "chłopak (sympatia)" },
+  { id: 93, category: "ACQUAINTANCES AND FRIENDS", en: ["circle of friends"], pl: "grono przyjaciół" },
+  { id: 94, category: "ACQUAINTANCES AND FRIENDS", en: ["colleague"], pl: "kolega, koleżanka z pracy" },
+  { id: 95, category: "ACQUAINTANCES AND FRIENDS", en: ["date"], pl: "randka" },
+  { id: 96, category: "ACQUAINTANCES AND FRIENDS", en: ["fascination"], pl: "fascynacja, zauroczenie" },
+  { id: 97, category: "ACQUAINTANCES AND FRIENDS", en: ["friend"], pl: "przyjaciel, przyjaciółka" },
+  { id: 98, category: "ACQUAINTANCES AND FRIENDS", en: ["best friend"], pl: "najlepszy przyjaciel, najlepsza przyjaciółka" },
+  { id: 99, category: "ACQUAINTANCES AND FRIENDS", en: ["close friend"], pl: "bliski przyjaciel, bliska przyjaciółka" },
+  { id: 100, category: "ACQUAINTANCES AND FRIENDS", en: ["family"], pl: "przyjaciel, przyjaciółka rodziny" },
+  { id: 101, category: "ACQUAINTANCES AND FRIENDS", en: ["girlfriend"], pl: "dziewczyna (sympatia)" },
+  { id: 102, category: "ACQUAINTANCES AND FRIENDS", en: ["love at first sight"], pl: "miłość od pierwszego wejrzenia" },
+  { id: 103, category: "ACQUAINTANCES AND FRIENDS", en: ["mate"], pl: "kumpel, kumpelka" },
+  { id: 104, category: "ACQUAINTANCES AND FRIENDS", en: ["mutual"], pl: "wzajemny" },
+  { id: 105, category: "ACQUAINTANCES AND FRIENDS", en: ["schoolmate"], pl: "kolega, koleżanka ze szkoły" },
+  { id: 106, category: "ACQUAINTANCES AND FRIENDS", en: ["soulmate"], pl: "bratnia dusza" },
+  { id: 107, category: "ACQUAINTANCES AND FRIENDS", en: ["affection"], pl: "sympatia (uczucie)" },
+
+  // VERBS AND PHRASES | CZASOWNIKI I ZWROTY (Page 1)
+  { id: 108, category: "VERBS AND PHRASES", en: ["take it in turns to do sth"], pl: "wykonywać coś na zmianę" },
+  { id: 109, category: "VERBS AND PHRASES", en: ["take the children to school"], pl: "zaprowadzić/zawieźć dzieci do szkoły" },
+  { id: 110, category: "VERBS AND PHRASES", en: ["take the dog for a walk"], pl: "wyprowadzić psa na spacer" },
+  { id: 111, category: "VERBS AND PHRASES", en: ["undress"], pl: "rozbierać się" },
+  { id: 112, category: "VERBS AND PHRASES", en: ["wake up"], pl: "budzić się" },
+
+  // EXPRESSING TIME | OKREŚLANIE CZASU
+  { id: 113, category: "EXPRESSING TIME", en: ["ahead of time"], pl: "z wyprzedzeniem, przed czasem" },
+  { id: 114, category: "EXPRESSING TIME", en: ["any day now"], pl: "lada dzień, wkrótce" },
+  { id: 115, category: "EXPRESSING TIME", en: ["anytime soon"], pl: "w najbliższym czasie" },
+  { id: 116, category: "EXPRESSING TIME", en: ["as soon as"], pl: "jak tylko, kiedy tylko" },
+  { id: 117, category: "EXPRESSING TIME", en: ["at once"], pl: "natychmiast" },
+  { id: 118, category: "EXPRESSING TIME", en: ["at present"], pl: "obecnie" },
+  { id: 119, category: "EXPRESSING TIME", en: ["bad/right time", "bad time", "right time"], pl: "zły/odpowiedni moment" },
+  { id: 120, category: "EXPRESSING TIME", en: ["better late than never"], pl: "lepiej późno niż wcale" },
+  { id: 121, category: "EXPRESSING TIME", en: ["by the time"], pl: "do czasu gdy, zanim" },
+  { id: 122, category: "EXPRESSING TIME", en: ["currently"], pl: "obecnie" },
+  { id: 123, category: "EXPRESSING TIME", en: ["day by day"], pl: "z każdym dniem, stopniowo, powoli" },
+  { id: 124, category: "EXPRESSING TIME", en: ["day/time off", "day off", "time off"], pl: "dzień/czas wolny" },
+  { id: 125, category: "EXPRESSING TIME", en: ["every time"], pl: "za każdym razem" },
+  { id: 126, category: "EXPRESSING TIME", en: ["for a while/minute", "for a while", "for a minute"], pl: "przez chwilę" },
+  { id: 127, category: "EXPRESSING TIME", en: ["in a while/minute", "in a while", "in a minute"], pl: "za chwilę" },
+  { id: 128, category: "EXPRESSING TIME", en: ["in no time"], pl: "błyskawicznie, w mgnieniu oka" },
+  { id: 129, category: "EXPRESSING TIME", en: ["(just) in time", "just in time"], pl: "w samą porę" },
+  { id: 130, category: "EXPRESSING TIME", en: ["meanwhile"], pl: "tymczasem, w międzyczasie" },
+  { id: 131, category: "EXPRESSING TIME", en: ["never ever"], pl: "nigdy w życiu, przenigdy" },
+  { id: 132, category: "EXPRESSING TIME", en: ["no sooner"], pl: "ledwo, ledwie" },
+  { id: 133, category: "EXPRESSING TIME", en: ["nowadays"], pl: "w dzisiejszych czasach" },
+  { id: 134, category: "EXPRESSING TIME", en: ["on time"], pl: "punktualnie" },
+  { id: 135, category: "EXPRESSING TIME", en: ["once"], pl: "kiedyś, dawniej; raz, jednokrotnie" },
+  { id: 136, category: "EXPRESSING TIME", en: ["in a while"], pl: "raz na jakiś czas" },
+  { id: 137, category: "EXPRESSING TIME", en: ["upon a time"], pl: "dawno, dawno temu" },
+  { id: 138, category: "EXPRESSING TIME", en: ["once-in-a-lifetime opportunity"], pl: "jedyna w życiu okazja" },
+  { id: 139, category: "EXPRESSING TIME", en: ["pretty soon"], pl: "całkiem niedługo, wkrótce" },
+  { id: 140, category: "EXPRESSING TIME", en: ["soon afterwards"], pl: "niedługo potem" },
+  { id: 141, category: "EXPRESSING TIME", en: ["soon enough"], pl: "w porę" },
+  { id: 142, category: "EXPRESSING TIME", en: ["sooner or later"], pl: "prędzej czy później" },
+  { id: 143, category: "EXPRESSING TIME", en: ["the other day"], pl: "niedawno, kilka dni temu" },
+  { id: 144, category: "EXPRESSING TIME", en: ["the sooner the better"], pl: "im wcześniej, tym lepiej" },
+  { id: 145, category: "EXPRESSING TIME", en: ["to the minute"], pl: "co do minuty" },
+  { id: 146, category: "EXPRESSING TIME", en: ["with time"], pl: "z czasem, po czasie" },
+
+  // FREE-TIME ACTIVITIES | FORMY SPĘDZANIA CZASU WOLNEGO
+  { id: 147, category: "FREE-TIME ACTIVITIES", en: ["ball"], pl: "bal" },
+  { id: 148, category: "FREE-TIME ACTIVITIES", en: ["entertainment"], pl: "rozrywka" },
+  { id: 149, category: "FREE-TIME ACTIVITIES", en: ["free time"], pl: "czas wolny" },
+  { id: 150, category: "FREE-TIME ACTIVITIES", en: ["leisure activities"], pl: "zajęcia w czasie wolnym" },
+  { id: 151, category: "FREE-TIME ACTIVITIES", en: ["party"], pl: "impreza" },
+  { id: 152, category: "FREE-TIME ACTIVITIES", en: ["dance"], pl: "potańcówka" },
+  { id: 153, category: "FREE-TIME ACTIVITIES", en: ["fancy-dress"], pl: "bal kostiumowy" },
+  { id: 154, category: "FREE-TIME ACTIVITIES", en: ["house"], pl: "impreza w domu, domówka" },
+  { id: 155, category: "FREE-TIME ACTIVITIES", en: ["weekend plans"], pl: "plany na weekend" },
+
+  // PHRASES | ZWROTY (Page 2)
+  { id: 156, category: "PHRASES", en: ["do a (Spanish conversation) course", "do a course", "do a Spanish conversation course"], pl: "uczęszczać na kurs (konwersacyjny) języka hiszpańskiego" },
+  { id: 157, category: "PHRASES", en: ["do creative writing"], pl: "uczyć się kreatywnego pisania" },
+  { id: 158, category: "PHRASES", en: ["enjoy yourself"], pl: "dobrze się bawić" },
+  { id: 159, category: "PHRASES", en: ["go bowling"], pl: "iść na kręgle" },
+  { id: 160, category: "PHRASES", en: ["go cycling"], pl: "jeździć na rowerze" },
+  { id: 161, category: "PHRASES", en: ["go dancing"], pl: "iść potańczyć" },
+  { id: 162, category: "PHRASES", en: ["go for a walk"], pl: "iść na spacer" },
+  { id: 163, category: "PHRASES", en: ["go jogging"], pl: "iść pobiegać" },
+  { id: 164, category: "PHRASES", en: ["go kayaking"], pl: "pływać kajakiem" },
+  { id: 165, category: "PHRASES", en: ["go online"], pl: "spędzać czas w internecie" },
+  { id: 166, category: "PHRASES", en: ["go out"], pl: "wychodzić z domu (np. do kina, restauracji)" },
+  { id: 167, category: "PHRASES", en: ["for a meal"], pl: "iść do restauracji / na obiad" },
+  { id: 168, category: "PHRASES", en: ["go sightseeing"], pl: "zwiedzać" },
+  { id: 169, category: "PHRASES", en: ["go to a concert"], pl: "iść na koncert" },
+  { id: 170, category: "PHRASES", en: ["go to a disco"], pl: "iść na dyskotekę" },
+  { id: 171, category: "PHRASES", en: ["go to a party"], pl: "iść na przyjęcie" },
+  { id: 172, category: "PHRASES", en: ["go to the cinema"], pl: "iść do kina" },
+  { id: 173, category: "PHRASES", en: ["go to the gym"], pl: "iść na siłownię" },
+  { id: 174, category: "PHRASES", en: ["hang out with friends"], pl: "spędzać czas z przyjaciółmi" },
+  { id: 175, category: "PHRASES", en: ["have a good time"], pl: "dobrze się bawić" },
+  { id: 176, category: "PHRASES", en: ["have fun"], pl: "dobrze się bawić" },
+  { id: 177, category: "PHRASES", en: ["listen to music"], pl: "słuchać muzyki" },
+  { id: 178, category: "PHRASES", en: ["listen to the radio"], pl: "słuchać radia" },
+  { id: 179, category: "PHRASES", en: ["look forward to sth"], pl: "czekać na coś z niecierpliwością" },
+  { id: 180, category: "PHRASES", en: ["meet friends"], pl: "spotykać się z przyjaciółmi" },
+  { id: 181, category: "PHRASES", en: ["play badminton"], pl: "grać w badminton" },
+  { id: 182, category: "PHRASES", en: ["play cards"], pl: "grać w karty" },
+  { id: 183, category: "PHRASES", en: ["play chess"], pl: "grać w szachy" },
+  { id: 184, category: "PHRASES", en: ["play video games"], pl: "grać w gry komputerowe" },
+  { id: 185, category: "PHRASES", en: ["play sports"], pl: "uprawiać sport" },
+  { id: 186, category: "PHRASES", en: ["play the guitar/ukulele", "play the guitar", "play the ukulele"], pl: "grać na gitarze/ukulele" },
+  { id: 187, category: "PHRASES", en: ["read aloud (to sb)"], pl: "czytać komuś na głos" },
+  { id: 188, category: "PHRASES", en: ["spend time outdoors"], pl: "spędzać czas na świeżym powietrzu" },
+  { id: 189, category: "PHRASES", en: ["spend time together"], pl: "spędzać czas razem" },
+  { id: 190, category: "PHRASES", en: ["spend time with friends and family"], pl: "spędzać czas z rodziną i przyjaciółmi" },
+  { id: 191, category: "PHRASES", en: ["stay at home"], pl: "zostawać w domu" },
+  { id: 192, category: "PHRASES", en: ["watch a film"], pl: "oglądać film" },
+  { id: 193, category: "PHRASES", en: ["watch TV"], pl: "oglądać telewizję" },
+  { id: 194, category: "PHRASES", en: ["binge-watch"], pl: "oglądać kolejne odcinki serialu/programu jeden po drugim" },
+  { id: 195, category: "PHRASES", en: ["browse content (on the web)"], pl: "przeglądać treści (w sieci)" },
+  { id: 196, category: "PHRASES", en: ["go clubbing"], pl: "iść do klubu" },
+  { id: 197, category: "PHRASES", en: ["hit the town"], pl: "wyskoczyć na miasto" },
+  { id: 198, category: "PHRASES", en: ["lie in"], pl: "wylegiwać się" },
+  { id: 199, category: "PHRASES", en: ["play board games"], pl: "grać w gry planszowe" },
+  { id: 200, category: "PHRASES", en: ["practise sport"], pl: "uprawiać sport" },
+  { id: 201, category: "PHRASES", en: ["scan social media sites"], pl: "przeglądać media społecznościowe" },
+  { id: 202, category: "PHRASES", en: ["socialise"], pl: "prowadzić życie towarzyskie" },
+
+  // HOLIDAYS AND CELEBRATIONS | ŚWIĘTA I UROCZYSTOŚCI
+  { id: 203, category: "HOLIDAYS AND CELEBRATIONS", en: ["Boxing Day"], pl: "drugi dzień świąt Bożego Narodzenia" },
+  { id: 204, category: "HOLIDAYS AND CELEBRATIONS", en: ["Christmas"], pl: "Boże Narodzenie" },
+  { id: 205, category: "HOLIDAYS AND CELEBRATIONS", en: ["carol"], pl: "kolęda, pastoralka" },
+  { id: 206, category: "HOLIDAYS AND CELEBRATIONS", en: ["day"], pl: "pierwszy dzień świąt Bożego Narodzenia" },
+  { id: 207, category: "HOLIDAYS AND CELEBRATIONS", en: ["decorations"], pl: "ozdoby świąteczne" },
+  { id: 208, category: "HOLIDAYS AND CELEBRATIONS", en: ["Eve"], pl: "Wigilia" },
+  { id: 209, category: "HOLIDAYS AND CELEBRATIONS", en: ["fair"], pl: "targ, jarmark bożonarodzeniowy" },
+  { id: 210, category: "HOLIDAYS AND CELEBRATIONS", en: ["tree"], pl: "choinka" },
+  { id: 211, category: "HOLIDAYS AND CELEBRATIONS", en: ["break the wafer"], pl: "łamać się opłatkiem" },
+  { id: 212, category: "HOLIDAYS AND CELEBRATIONS", en: ["decorate the Christmas tree"], pl: "ubierać choinkę" },
+  { id: 213, category: "HOLIDAYS AND CELEBRATIONS", en: ["first star in the sky"], pl: "pierwsza gwiazda na niebie" },
+  { id: 214, category: "HOLIDAYS AND CELEBRATIONS", en: ["Santa (Claus)", "Santa", "Santa Claus"], pl: "Święty Mikołaj" },
+  { id: 215, category: "HOLIDAYS AND CELEBRATIONS", en: ["wrap/unwrap a present/gift", "wrap a present", "unwrap a present", "wrap a gift", "unwrap a gift"], pl: "zapakować/odpakować prezent" },
+  { id: 216, category: "HOLIDAYS AND CELEBRATIONS", en: ["festive season"], pl: "świąteczny czas w Boże Narodzenie" },
+  { id: 217, category: "HOLIDAYS AND CELEBRATIONS", en: ["make (New Year's) resolutions", "make New Year's resolutions", "make resolutions"], pl: "robić postanowienia (noworoczne)" },
+  { id: 218, category: "HOLIDAYS AND CELEBRATIONS", en: ["New Year's Day"], pl: "Nowy Rok" },
+  { id: 219, category: "HOLIDAYS AND CELEBRATIONS", en: ["New Year's Eve"], pl: "sylwester" },
+  { id: 220, category: "HOLIDAYS AND CELEBRATIONS", en: ["set off fireworks"], pl: "odpalać fajerwerki" },
+  { id: 221, category: "HOLIDAYS AND CELEBRATIONS", en: ["wait till midnight"], pl: "wyczekiwać północy" },
+  { id: 222, category: "HOLIDAYS AND CELEBRATIONS", en: ["carnival season"], pl: "okres karnawału" },
+  { id: 223, category: "HOLIDAYS AND CELEBRATIONS", en: ["Easter"], pl: "Wielkanoc" },
+  { id: 224, category: "HOLIDAYS AND CELEBRATIONS", en: ["basket"], pl: "święconka" },
+  { id: 225, category: "HOLIDAYS AND CELEBRATIONS", en: ["bunny"], pl: "zajączek wielkanocny" },
+  { id: 226, category: "HOLIDAYS AND CELEBRATIONS", en: ["egg"], pl: "pisanka" },
+  { id: 227, category: "HOLIDAYS AND CELEBRATIONS", en: ["Sunday/Monday", "Sunday", "Monday"], pl: "niedziela wielkanocna / poniedziałek wielkanocny" },
+  { id: 228, category: "HOLIDAYS AND CELEBRATIONS", en: ["go on an egg hunt"], pl: "szukać prezentów od „zajączka”" },
+  { id: 229, category: "HOLIDAYS AND CELEBRATIONS", en: ["paint eggs"], pl: "malować jajka" },
+  { id: 230, category: "HOLIDAYS AND CELEBRATIONS", en: ["Wet Monday"], pl: "lany poniedziałek" },
+  { id: 231, category: "HOLIDAYS AND CELEBRATIONS", en: ["bank holiday"], pl: "dzień ustawowo wolny od pracy" },
+  { id: 232, category: "HOLIDAYS AND CELEBRATIONS", en: ["Children's Day"], pl: "Dzień Dziecka" },
+  { id: 233, category: "HOLIDAYS AND CELEBRATIONS", en: ["Chinese New Year"], pl: "Chiński Nowy Rok" },
+  { id: 234, category: "HOLIDAYS AND CELEBRATIONS", en: ["Father's Day"], pl: "Dzień Ojca" },
+  { id: 235, category: "HOLIDAYS AND CELEBRATIONS", en: ["Halloween"], pl: "Halloween" },
+  { id: 236, category: "HOLIDAYS AND CELEBRATIONS", en: ["Independence Day"], pl: "Święto Niepodległości" },
+  { id: 237, category: "HOLIDAYS AND CELEBRATIONS", en: ["Labour Day"], pl: "Święto Pracy" },
+  { id: 238, category: "HOLIDAYS AND CELEBRATIONS", en: ["Mother's Day"], pl: "Dzień Matki" },
+  { id: 239, category: "HOLIDAYS AND CELEBRATIONS", en: ["public holiday"], pl: "dzień ustawowo wolny od pracy" },
+  { id: 240, category: "HOLIDAYS AND CELEBRATIONS", en: ["Valentine's Day"], pl: "walentynki" },
+  { id: 241, category: "HOLIDAYS AND CELEBRATIONS", en: ["Women's Day"], pl: "Dzień Kobiet" },
+  { id: 242, category: "HOLIDAYS AND CELEBRATIONS", en: ["Ash Wednesday"], pl: "Środa Popielcowa" },
+  { id: 243, category: "HOLIDAYS AND CELEBRATIONS", en: ["Fat Thursday"], pl: "tłusty czwartek" },
+  { id: 244, category: "HOLIDAYS AND CELEBRATIONS", en: ["Holy Week"], pl: "Wielki Tydzień" },
+  { id: 245, category: "HOLIDAYS AND CELEBRATIONS", en: ["Lent"], pl: "Wielki Post" },
+  { id: 246, category: "HOLIDAYS AND CELEBRATIONS", en: ["Mardi Gras"], pl: "ostatki, ostatni dzień karnawału" },
+  { id: 247, category: "HOLIDAYS AND CELEBRATIONS", en: ["Palm Sunday"], pl: "Niedziela Palmowa" },
+  { id: 248, category: "HOLIDAYS AND CELEBRATIONS", en: ["Passover"], pl: "Pascha, Pesach" },
+  { id: 249, category: "HOLIDAYS AND CELEBRATIONS", en: ["Ramadan"], pl: "Ramadan" },
+  { id: 250, category: "HOLIDAYS AND CELEBRATIONS", en: ["religious holiday"], pl: "święto religijne" },
+  { id: 251, category: "HOLIDAYS AND CELEBRATIONS", en: ["secular holiday"], pl: "święto świeckie" },
+  { id: 252, category: "HOLIDAYS AND CELEBRATIONS", en: ["Shrove Tuesday"], pl: "ostatki" },
+  { id: 253, category: "HOLIDAYS AND CELEBRATIONS", en: ["anniversary"], pl: "rocznica" },
+  { id: 254, category: "HOLIDAYS AND CELEBRATIONS", en: ["birthday"], pl: "urodziny" },
+  { id: 255, category: "HOLIDAYS AND CELEBRATIONS", en: ["cake"], pl: "tort urodzinowy" },
+  { id: 256, category: "HOLIDAYS AND CELEBRATIONS", en: ["present"], pl: "prezent urodzinowy" },
+  { id: 257, category: "HOLIDAYS AND CELEBRATIONS", en: ["party"], pl: "przyjęcie urodzinowe" },
+  { id: 258, category: "HOLIDAYS AND CELEBRATIONS", en: ["celebration"], pl: "uroczystość, obchody" },
+  { id: 259, category: "HOLIDAYS AND CELEBRATIONS", en: ["ceremony"], pl: "ceremonia, uroczystość" },
+  { id: 260, category: "HOLIDAYS AND CELEBRATIONS", en: ["festival"], pl: "festiwal, festyn" },
+  { id: 261, category: "HOLIDAYS AND CELEBRATIONS", en: ["funeral"], pl: "pogrzeb" },
+  { id: 262, category: "HOLIDAYS AND CELEBRATIONS", en: ["wedding"], pl: "ślub, wesele" },
+  { id: 263, category: "HOLIDAYS AND CELEBRATIONS", en: ["ceremony"], pl: "ceremonia zaślubin" },
+  { id: 264, category: "HOLIDAYS AND CELEBRATIONS", en: ["reception"], pl: "przyjęcie weselne" },
+  { id: 265, category: "HOLIDAYS AND CELEBRATIONS", en: ["hen party"], pl: "wieczór panieński" },
+  { id: 266, category: "HOLIDAYS AND CELEBRATIONS", en: ["stag party"], pl: "wieczór kawalerski" },
+
+  // VERBS AND PHRASES | CZASOWNIKI I ZWROTY (Page 2)
+  { id: 267, category: "VERBS AND PHRASES", en: ["blow out candles"], pl: "zdmuchnąć świeczki" },
+  { id: 268, category: "VERBS AND PHRASES", en: ["carve pumpkins"], pl: "wydrążać dynie (na Halloween)" },
+  { id: 269, category: "VERBS AND PHRASES", en: ["celebrate (sb's birthday)", "celebrate", "celebrate sb's birthday"], pl: "obchodzić / świętować (czyjeś urodziny)" },
+  { id: 270, category: "VERBS AND PHRASES", en: ["dress up as sb/sth", "dress up", "dress up as sb", "dress up as sth"], pl: "przebrać się za kogoś/coś" },
+  { id: 271, category: "VERBS AND PHRASES", en: ["express good wishes"], pl: "składać życzenia" },
+  { id: 272, category: "VERBS AND PHRASES", en: ["follow the custom"], pl: "przestrzegać zwyczaju, tradycji" },
+  { id: 273, category: "VERBS AND PHRASES", en: ["give a card"], pl: "podarować kartkę okolicznościową" },
+  { id: 274, category: "VERBS AND PHRASES", en: ["go trick-or-treating"], pl: "chodzić z cukierkiem lub psikusem (na Halloween)" },
+  { id: 275, category: "VERBS AND PHRASES", en: ["have a celebration"], pl: "świętować" },
+  { id: 276, category: "VERBS AND PHRASES", en: ["take part in a parade"], pl: "uczestniczyć w paradzie, pochodzić" },
+  { id: 277, category: "VERBS AND PHRASES", en: ["commemorate an event"], pl: "upamiętnić wydarzenie" },
+  { id: 278, category: "VERBS AND PHRASES", en: ["fast"], pl: "pościć" },
+  { id: 279, category: "VERBS AND PHRASES", en: ["feast"], pl: "świętować" },
+  { id: 280, category: "VERBS AND PHRASES", en: ["throw a party"], pl: "urządzać imprezę" },
+
+  // LIFESTYLE | STYL ŻYCIA
+  { id: 281, category: "LIFESTYLE", en: ["active"], pl: "aktywny" },
+  { id: 282, category: "LIFESTYLE", en: ["avoid stress"], pl: "unikać stresu" },
+  { id: 283, category: "LIFESTYLE", en: ["balanced diet"], pl: "zbilansowana dieta" },
+  { id: 284, category: "LIFESTYLE", en: ["busy"], pl: "aktywny; pracowity" },
+  { id: 285, category: "LIFESTYLE", en: ["schedule"], pl: "wypełniony harmonogram" },
+  { id: 286, category: "LIFESTYLE", en: ["do regular exercise"], pl: "ćwiczyć regularnie" },
+  { id: 287, category: "LIFESTYLE", en: ["habit"], pl: "nawyk" },
+  { id: 288, category: "LIFESTYLE", en: ["eating habits"], pl: "nawyki żywieniowe" },
+  { id: 289, category: "LIFESTYLE", en: ["keep fit"], pl: "utrzymywać formę" },
+  { id: 290, category: "LIFESTYLE", en: ["lifestyle change"], pl: "zmiana stylu życia" },
+  { id: 291, category: "LIFESTYLE", en: ["out of shape"], pl: "nie w formie" },
+  { id: 292, category: "LIFESTYLE", en: ["reduce stress"], pl: "ograniczyć stres" },
+  { id: 293, category: "LIFESTYLE", en: ["stressful"], pl: "stresujący" },
+  { id: 294, category: "LIFESTYLE", en: ["stressed"], pl: "zestresowany" },
+  { id: 295, category: "LIFESTYLE", en: ["tiring"], pl: "męczący" },
+
+  // CONFLICTS AND PROBLEMS | KONFLIKTY I PROBLEMY
+  { id: 296, category: "CONFLICTS AND PROBLEMS", en: ["argue"], pl: "kłócić się" },
+  { id: 297, category: "CONFLICTS AND PROBLEMS", en: ["argument"], pl: "kłótnia" },
+  { id: 298, category: "CONFLICTS AND PROBLEMS", en: ["break sb's heart"], pl: "złamać komuś serce" },
+  { id: 299, category: "CONFLICTS AND PROBLEMS", en: ["break up with sb"], pl: "zerwać z kimś" },
+  { id: 300, category: "CONFLICTS AND PROBLEMS", en: ["controlling"], pl: "kontrolujący" },
+  { id: 301, category: "CONFLICTS AND PROBLEMS", en: ["cross (personal) boundaries", "cross boundaries", "cross personal boundaries"], pl: "przekraczać granice (osobiste)" },
+  { id: 302, category: "CONFLICTS AND PROBLEMS", en: ["disagree"], pl: "nie zgadzać się" },
+  { id: 303, category: "CONFLICTS AND PROBLEMS", en: ["disagreement"], pl: "różnica zdań" },
+  { id: 304, category: "CONFLICTS AND PROBLEMS", en: ["divorce rate"], pl: "wskaźnik liczby rozwodów" },
+  { id: 305, category: "CONFLICTS AND PROBLEMS", en: ["end a relationship with sb"], pl: "zakończyć z kimś związek" },
+  { id: 306, category: "CONFLICTS AND PROBLEMS", en: ["fall out with sb"], pl: "pokłócić się z kimś" },
+  { id: 307, category: "CONFLICTS AND PROBLEMS", en: ["family values"], pl: "wartości rodzinne" },
+  { id: 308, category: "CONFLICTS AND PROBLEMS", en: ["generation gap"], pl: "konflikt pokoleń" },
+  { id: 309, category: "CONFLICTS AND PROBLEMS", en: ["have a bad relationship with sb"], pl: "być z kimś w złych stosunkach" },
+  { id: 310, category: "CONFLICTS AND PROBLEMS", en: ["have a row"], pl: "pokłócić się" },
+  { id: 311, category: "CONFLICTS AND PROBLEMS", en: ["have an argument"], pl: "pokłócić się" },
+  { id: 312, category: "CONFLICTS AND PROBLEMS", en: ["hurt sb"], pl: "zranić kogoś" },
+  { id: 313, category: "CONFLICTS AND PROBLEMS", en: ["jealous"], pl: "zazdrosny" },
+  { id: 314, category: "CONFLICTS AND PROBLEMS", en: ["let sb down"], pl: "zawieść kogoś" },
+  { id: 315, category: "CONFLICTS AND PROBLEMS", en: ["make it up to sb (after an argument)", "make it up to sb"], pl: "rekompensować komuś (kłótnię)" },
+  { id: 316, category: "CONFLICTS AND PROBLEMS", en: ["push the limits"], pl: "przesuwać granice" },
+  { id: 317, category: "CONFLICTS AND PROBLEMS", en: ["quarrel with sb"], pl: "pokłócić się z kimś" },
+  { id: 318, category: "CONFLICTS AND PROBLEMS", en: ["rebel"], pl: "buntować się" },
+  { id: 319, category: "CONFLICTS AND PROBLEMS", en: ["rebellion"], pl: "bunt" },
+  { id: 320, category: "CONFLICTS AND PROBLEMS", en: ["run away from home"], pl: "uciekać z domu" },
+  { id: 321, category: "CONFLICTS AND PROBLEMS", en: ["set boundaries"], pl: "ustalać granice" },
+  { id: 322, category: "CONFLICTS AND PROBLEMS", en: ["split-up"], pl: "rozstanie" },
+  { id: 323, category: "CONFLICTS AND PROBLEMS", en: ["talk sth through"], pl: "omówić coś" },
+  { id: 324, category: "CONFLICTS AND PROBLEMS", en: ["tell sb off"], pl: "ganić kogoś" },
+  { id: 325, category: "CONFLICTS AND PROBLEMS", en: ["be grounded"], pl: "mieć szlaban na wyjścia" },
+  { id: 326, category: "CONFLICTS AND PROBLEMS", en: ["cause emotional distress"], pl: "wywołać traumę emocjonalną" },
+  { id: 327, category: "CONFLICTS AND PROBLEMS", en: ["come to a mutual agreement"], pl: "dojść do obopólnej zgody" },
+  { id: 328, category: "CONFLICTS AND PROBLEMS", en: ["crash out of a relationship"], pl: "zakończyć związek" },
+  { id: 329, category: "CONFLICTS AND PROBLEMS", en: ["drive the split"], pl: "doprowadzić do rozstania" },
+  { id: 330, category: "CONFLICTS AND PROBLEMS", en: ["instigate a break-up"], pl: "zainicjować rozstanie" },
+  { id: 331, category: "CONFLICTS AND PROBLEMS", en: ["soften the blow"], pl: "złagodzić coś" },
+  { id: 332, category: "CONFLICTS AND PROBLEMS", en: ["take sb's side"], pl: "wziąć czyjąś stronę" }
+];
+
+
+
+
+
+
+// STRUKTURA ZESTAWU SŁÓWEK (podmieniaj wyłącznie elementy tablicy VOCABULARY):
+// { id: number, category: string, en: string[], pl: string }
+// - id: unikalny numer; category: nazwa kategorii (wspólna nazwa grupy słówek).
+// - en: niepusta tablica; pierwszy element to forma wyświetlana, kolejne to akceptowane odpowiedzi.
+// - pl: polskie tłumaczenie wyświetlane w fiszce, quizie i teście pisowni.
+// Przykład: { id: 1, category: "ZAWODY", en: ["actor/actress", "actor", "actress"], pl: "aktor/aktorka" }
+
+
+
+
+
+
+const vocabData = VOCABULARY;
+
+const vocabularyIds = new Set();
+vocabData.forEach((item, index) => {
+    if (!Number.isInteger(item.id) || vocabularyIds.has(item.id)) {
+        throw new Error(`VOCABULARY[${index}]: id musi być unikalną liczbą całkowitą.`);
+    }
+    if (typeof item.category !== 'string' || !item.category.trim()) {
+        throw new Error(`VOCABULARY[${index}]: category musi być niepustym tekstem.`);
+    }
+    if (!Array.isArray(item.en) || item.en.length === 0 || item.en.some(answer => typeof answer !== 'string' || !answer.trim())) {
+        throw new Error(`VOCABULARY[${index}]: en musi być niepustą tablicą niepustych odpowiedzi.`);
+    }
+    if (typeof item.pl !== 'string' || !item.pl.trim()) {
+        throw new Error(`VOCABULARY[${index}]: pl musi być niepustym tekstem.`);
+    }
+    vocabularyIds.add(item.id);
+});
+
+function getPrimaryEnglish(item) {
+    return item.en[0];
+}
+
+function matchesEnglishAnswer(item, answer) {
+    const normalizedAnswer = answer.trim().toLocaleLowerCase();
+    return item.en.some(accepted => accepted.trim().toLocaleLowerCase() === normalizedAnswer);
+}
+
+        // --- APP STATE ---
+        let userProgress = {};
+        let currentDeck = [];
+        let currentIndex = 0;
+        let isFlipped = false;
+        let currentCategory = 'all';
+
+        // Spelling Test State
+        let spellingPool = [];
+        let spellingIdx = 0;
+        let spellingScore = 0;
+        let currentSpellingItem = null;
+
+        // Quiz State
+        let quizTimerInterval = null;
+        let quizTimeLeft = 15;
+        let quizCurrentIdx = 0;
+        let quizScore = 0;
+        let quizStreak = 0;
+        let quizQuestions = [];
+
+        window.onload = function() {
+            loadProgress();
+            initCategories();
+            buildDeck();
+            updateStats();
+            renderDictionary();
+            initSpellingTest();
+            
+            if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+                document.getElementById('theme-icon').className = 'fa-solid fa-sun text-lg';
+            }
+
+            document.addEventListener('keydown', handleKeyPress);
+        };
+
+        function loadProgress() {
+            userProgress = {};
+            const saved = localStorage.getItem('vocab_progress_unit5') || localStorage.getItem('vocab_progress_unit4');
+            if (saved) {
+                try { userProgress = JSON.parse(saved); } catch(e) { userProgress = {}; }
+            }
+            vocabData.forEach(item => {
+                if (!userProgress[item.id]) {
+                    userProgress[item.id] = { box: 1, favorite: false };
+                }
+            });
+        }
+
+        function saveProgress() {
+            localStorage.setItem('vocab_progress_unit5', JSON.stringify(userProgress));
+            updateStats();
+            updateBoxesCount();
+        }
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(el => {
+                el.classList.remove('bg-indigo-50', 'dark:bg-indigo-900/40', 'text-indigo-600', 'dark:text-indigo-300');
+                el.classList.add('text-slate-600', 'dark:text-slate-300');
+            });
+
+            document.getElementById(`tab-${tabName}`).classList.remove('hidden');
+            const activeBtn = document.getElementById(`nav-${tabName}`);
+            if (activeBtn) {
+                activeBtn.classList.add('bg-indigo-50', 'dark:bg-indigo-900/40', 'text-indigo-600', 'dark:text-indigo-300');
+                activeBtn.classList.remove('text-slate-600', 'dark:text-slate-300');
+            }
+
+            if (tabName === 'dictionary') renderDictionary();
+            if (tabName === 'stats') updateStats();
+            if (tabName === 'spelling') initSpellingTest();
+        }
+
+        function toggleMobileMenu() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        }
+
+        function initCategories() {
+            const cats = [...new Set(vocabData.map(i => i.category))];
+            ['category-filter', 'quiz-category-select', 'dict-category-filter'].forEach(selId => {
+                const sel = document.getElementById(selId);
+                if (!sel) return;
+                const firstOpt = sel.children[0];
+                sel.innerHTML = '';
+                sel.appendChild(firstOpt);
+                cats.forEach(c => {
+                    const opt = document.createElement('option');
+                    opt.value = c;
+                    opt.textContent = c;
+                    sel.appendChild(opt);
+                });
+            });
+        }
+
+        function changeCategory(cat) {
+            currentCategory = cat;
+            buildDeck();
+        }
+
+        function buildDeck() {
+            currentDeck = currentCategory === 'all' ? [...vocabData] : vocabData.filter(i => i.category === currentCategory);
+            currentDeck.sort(() => Math.random() - 0.5);
+            currentIndex = 0;
+            isFlipped = false;
+            displayCard();
+            updateBoxesCount();
+        }
+
+        function displayCard() {
+            if (currentDeck.length === 0) return;
+            if (currentIndex >= currentDeck.length) {
+                currentIndex = 0;
+                currentDeck.sort(() => Math.random() - 0.5);
+            }
+            const card = currentDeck[currentIndex];
+            const prog = userProgress[card.id] || { box: 1, favorite: false };
+
+            document.getElementById('card-front-text').textContent = getPrimaryEnglish(card);
+            document.getElementById('card-back-text').textContent = card.pl;
+            document.getElementById('card-hint-text').textContent = `Kategoria: ${card.category}`;
+            document.getElementById('card-category-badge').textContent = card.category;
+            document.getElementById('current-card-num').textContent = currentIndex + 1;
+            document.getElementById('total-cards-num').textContent = currentDeck.length;
+            document.querySelectorAll('.card-leitner-box').forEach(label => {
+                label.textContent = `Pudełko ${prog.box}`;
+            });
+
+            document.querySelectorAll('.card-fav-icon').forEach(icon => {
+                icon.className = prog.favorite ? "card-fav-icon fa-solid fa-star text-lg text-amber-400" : "card-fav-icon fa-regular fa-star text-lg text-amber-400";
+            });
+
+            isFlipped = false;
+            document.getElementById('flashcard-inner').style.transform = 'rotateY(0deg)';
+        }
+
+        function flipCard() {
+            if (currentDeck.length === 0) return;
+            isFlipped = !isFlipped;
+            const inner = document.getElementById('flashcard-inner');
+            inner.style.transform = isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)';
+        }
+
+        function rateCard(rating) {
+            if (currentDeck.length === 0) return;
+            const card = currentDeck[currentIndex];
+            let prog = userProgress[card.id];
+            if (![1, 2, 3, 4].includes(rating)) return;
+            prog.box = rating;
+
+            saveProgress();
+            currentIndex++;
+            displayCard();
+        }
+
+        function toggleFavoriteCurrent() {
+            if (currentDeck.length === 0) return;
+            const card = currentDeck[currentIndex];
+            userProgress[card.id].favorite = !userProgress[card.id].favorite;
+            saveProgress();
+            displayCard();
+            showToast(userProgress[card.id].favorite ? "Dodano do ulubionych" : "Usunięto z ulubionych");
+        }
+
+        // --- SPELLING TEST ENGINE ---
+        function initSpellingTest() {
+            spellingPool = [...vocabData].sort(() => Math.random() - 0.5).slice(0, 20);
+            spellingIdx = 0;
+            spellingScore = 0;
+            loadSpellingQuestion();
+        }
+
+        function loadSpellingQuestion() {
+            if (spellingIdx >= spellingPool.length) {
+                document.getElementById('spelling-prompt').textContent = `Test ukończony! Wynik: ${spellingScore} / ${spellingPool.length}`;
+                document.getElementById('spelling-cat').textContent = "Gratulacje!";
+                document.getElementById('spelling-input').classList.add('hidden');
+                document.getElementById('spelling-submit-btn').classList.add('hidden');
+                document.getElementById('spelling-next-btn').classList.add('hidden');
+                return;
+            }
+
+            currentSpellingItem = spellingPool[spellingIdx];
+            document.getElementById('spelling-counter').textContent = `${spellingIdx + 1} / ${spellingPool.length}`;
+            document.getElementById('spelling-cat').textContent = currentSpellingItem.category;
+            document.getElementById('spelling-prompt').textContent = currentSpellingItem.pl;
+            
+            const input = document.getElementById('spelling-input');
+            input.value = '';
+            input.disabled = false;
+            input.classList.remove('border-emerald-500', 'border-red-500', 'bg-emerald-50', 'bg-red-50');
+            input.focus();
+
+            document.getElementById('spelling-submit-btn').classList.remove('hidden');
+            document.getElementById('spelling-next-btn').classList.add('hidden');
+            document.getElementById('spelling-feedback').classList.add('hidden');
+        }
+
+        function checkSpelling(e) {
+            e.preventDefault();
+            if (!currentSpellingItem) return;
+
+            const userVal = document.getElementById('spelling-input').value;
+            const input = document.getElementById('spelling-input');
+            const feedback = document.getElementById('spelling-feedback');
+
+            input.disabled = true;
+            document.getElementById('spelling-submit-btn').classList.add('hidden');
+            document.getElementById('spelling-next-btn').classList.remove('hidden');
+            feedback.classList.remove('hidden');
+
+            if (matchesEnglishAnswer(currentSpellingItem, userVal)) {
+                spellingScore++;
+                input.classList.add('border-emerald-500', 'bg-emerald-50', 'dark:bg-emerald-950/30');
+                feedback.className = "mt-4 text-sm font-semibold text-emerald-600 dark:text-emerald-400";
+                feedback.innerHTML = `<i class="fa-solid fa-check mr-1"></i> Poprawnie!`;
+            } else {
+                input.classList.add('border-red-500', 'bg-red-50', 'dark:bg-red-950/30');
+                feedback.className = "mt-4 text-sm font-semibold text-red-600 dark:text-red-400";
+                feedback.innerHTML = `<i class="fa-solid fa-xmark mr-1"></i> Błędnie. Prawidłowa odpowiedź: <strong class="underline">${getPrimaryEnglish(currentSpellingItem)}</strong>`;
+            }
+
+            document.getElementById('spelling-score').textContent = spellingScore;
+            spellingIdx++;
+            
+            // Focus next button
+            document.getElementById('spelling-next-btn').focus();
+        }
+
+        // Allow pressing Enter on next button to go to next question
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !document.getElementById('tab-spelling').classList.contains('hidden')) {
+                const nextBtn = document.getElementById('spelling-next-btn');
+                if (!nextBtn.classList.contains('hidden')) {
+                    nextSpellingQuestion();
+                }
+            }
+        });
+
+        function nextSpellingQuestion() {
+            loadSpellingQuestion();
+        }
+
+        // --- SPEECH ---
+        function speakCurrentWord() {
+            if (currentDeck.length === 0) return;
+            speakText(getPrimaryEnglish(currentDeck[currentIndex]));
+        }
+
+        function speakText(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-GB';
+                utterance.rate = 0.9;
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        function handleKeyPress(e) {
+            if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'SELECT') return;
+            if (!document.getElementById('tab-flashcards').classList.contains('hidden')) {
+                if (e.code === 'Space') { e.preventDefault(); flipCard(); }
+                else if (e.key === '1') rateCard(1);
+                else if (e.key === '2') rateCard(2);
+                else if (e.key === '3') rateCard(3);
+                else if (e.key === '4') rateCard(4);
+            }
+        }
+
+        // --- QUIZ ---
+        function startQuiz() {
+            const cat = document.getElementById('quiz-category-select').value;
+            let pool = cat === 'all' ? [...vocabData] : vocabData.filter(i => i.category === cat);
+            if (pool.length < 4) pool = [...vocabData];
+            pool.sort(() => Math.random() - 0.5);
+            quizQuestions = pool.slice(0, 10);
+            quizCurrentIdx = 0;
+            quizScore = 0;
+            quizStreak = 0;
+
+            document.getElementById('quiz-setup').classList.add('hidden');
+            document.getElementById('quiz-results').classList.add('hidden');
+            document.getElementById('quiz-active').classList.remove('hidden');
+            loadQuizQuestion();
+        }
+
+        function loadQuizQuestion() {
+            if (quizCurrentIdx >= quizQuestions.length) {
+                endQuiz();
+                return;
+            }
+            const currentQ = quizQuestions[quizCurrentIdx];
+            document.getElementById('quiz-progress-label').textContent = `Pytanie ${quizCurrentIdx + 1} / ${quizQuestions.length}`;
+            document.getElementById('quiz-streak').textContent = quizStreak;
+            document.getElementById('quiz-question').textContent = getPrimaryEnglish(currentQ);
+
+            let distractors = vocabData.filter(i => i.id !== currentQ.id).sort(() => Math.random() - 0.5);
+            let options = [currentQ, distractors[0], distractors[1], distractors[2]].sort(() => Math.random() - 0.5);
+
+            const container = document.getElementById('quiz-options');
+            container.innerHTML = '';
+            options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = "p-4 bg-slate-50 dark:bg-slate-700/50 hover:bg-indigo-50 dark:hover:bg-indigo-950/50 border border-slate-200 dark:border-slate-700 rounded-2xl font-medium text-left transition flex items-center justify-between";
+                btn.innerHTML = `<span>${opt.pl}</span>`;
+                btn.onclick = () => answerQuiz(opt.id === currentQ.id, btn);
+                container.appendChild(btn);
+            });
+            startQuizTimer();
+        }
+
+        function startQuizTimer() {
+            clearInterval(quizTimerInterval);
+            quizTimeLeft = 15;
+            document.getElementById('quiz-timer').textContent = quizTimeLeft;
+            const timerBar = document.getElementById('quiz-timer-bar');
+            timerBar.style.width = '100%';
+
+            quizTimerInterval = setInterval(() => {
+                quizTimeLeft--;
+                document.getElementById('quiz-timer').textContent = quizTimeLeft;
+                timerBar.style.width = `${(quizTimeLeft / 15) * 100}%`;
+                if (quizTimeLeft <= 0) {
+                    clearInterval(quizTimerInterval);
+                    answerQuiz(false, null);
+                }
+            }, 1000);
+        }
+
+        function answerQuiz(isCorrect, btnElement) {
+            clearInterval(quizTimerInterval);
+            const buttons = document.getElementById('quiz-options').getElementsByTagName('button');
+            if (isCorrect) {
+                quizScore++;
+                quizStreak++;
+                if (btnElement) btnElement.className = "p-4 bg-emerald-500 text-white rounded-2xl font-medium text-left flex items-center justify-between";
+            } else {
+                quizStreak = 0;
+                if (btnElement) btnElement.className = "p-4 bg-red-500 text-white rounded-2xl font-medium text-left flex items-center justify-between";
+            }
+            for (let b of buttons) b.disabled = true;
+            setTimeout(() => { quizCurrentIdx++; loadQuizQuestion(); }, 1000);
+        }
+
+        function endQuiz() {
+            clearInterval(quizTimerInterval);
+            document.getElementById('quiz-active').classList.add('hidden');
+            document.getElementById('quiz-results').classList.remove('hidden');
+            document.getElementById('quiz-final-score').textContent = `${quizScore} / ${quizQuestions.length}`;
+        }
+
+        // --- DICTIONARY ---
+        function renderDictionary() {
+            const tbody = document.getElementById('dictionary-table-body');
+            const search = document.getElementById('dict-search').value.toLowerCase();
+            const cat = document.getElementById('dict-category-filter').value;
+
+            let filtered = vocabData.filter(item => {
+                const matchSearch = item.en.some(answer => answer.toLowerCase().includes(search)) || item.pl.toLowerCase().includes(search);
+                const matchCat = cat === 'all' || item.category === cat;
+                return matchSearch && matchCat;
+            });
+
+            tbody.innerHTML = '';
+            if (filtered.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-slate-400">Brak wyników</td></tr>`;
+                return;
+            }
+
+            filtered.forEach(item => {
+                const prog = userProgress[item.id] || { box: 1, favorite: false };
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-50 dark:hover:bg-slate-700/30 transition";
+                let badge = "bg-red-100 text-red-700 dark:bg-red-950/60 dark:text-red-300";
+                if (prog.box === 2) badge = "bg-amber-100 text-amber-700 dark:bg-amber-950/60 dark:text-amber-300";
+                if (prog.box === 3) badge = "bg-blue-100 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300";
+                if (prog.box === 4) badge = "bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300";
+
+                tr.innerHTML = `
+                    <td class="p-3.5 font-semibold text-slate-800 dark:text-slate-200 flex items-center space-x-2">
+                        <span>${getPrimaryEnglish(item)}</span>
+                        <button class="dictionary-speak-btn text-indigo-600 hover:text-indigo-800 p-1"><i class="fa-solid fa-volume-high text-xs"></i></button>
+                    </td>
+                    <td class="p-3.5 text-slate-600 dark:text-slate-300">${item.pl}</td>
+                    <td class="p-3.5 text-slate-500 dark:text-slate-400 text-xs hidden md:table-cell">${item.category}</td>
+                    <td class="p-3.5 text-center"><span class="text-xs px-2 py-0.5 rounded-full font-bold ${badge}">P${prog.box}</span></td>
+                    <td class="p-3.5 text-right">
+                        <button onclick="toggleFavorite(${item.id})" class="p-1.5 text-amber-400 hover:scale-110 transition">
+                            <i class="${prog.favorite ? 'fa-solid' : 'fa-regular'} fa-star"></i>
+                        </button>
+                    </td>
+                `;
+                tr.querySelector('.dictionary-speak-btn').onclick = () => speakText(getPrimaryEnglish(item));
+                tbody.appendChild(tr);
+            });
+        }
+
+        function filterDictionary() { renderDictionary(); }
+
+        function toggleFavorite(id) {
+            userProgress[id].favorite = !userProgress[id].favorite;
+            saveProgress();
+            renderDictionary();
+        }
+
+        // --- STATS ---
+        function updateBoxesCount() {
+            let b1 = 0, b2 = 0, b3 = 0, b4 = 0;
+            Object.values(userProgress).forEach(p => {
+                if (p.box === 1) b1++;
+                else if (p.box === 2) b2++;
+                else if (p.box === 3) b3++;
+                else if (p.box === 4) b4++;
+            });
+            document.getElementById('box-1-count').textContent = b1;
+            document.getElementById('box-2-count').textContent = b2;
+            document.getElementById('box-3-count').textContent = b3;
+            document.getElementById('box-4-count').textContent = b4;
+        }
+
+        function updateStats() {
+            updateBoxesCount();
+            const total = vocabData.length;
+            let mastered = 0, favs = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0;
+            Object.values(userProgress).forEach(p => {
+                if (p.box === 4) mastered++;
+                if (p.favorite) favs++;
+                if (p.box === 1) b1++;
+                else if (p.box === 2) b2++;
+                else if (p.box === 3) b3++;
+                else if (p.box === 4) b4++;
+            });
+
+            document.getElementById('stat-total-words').textContent = total;
+            document.getElementById('stat-mastered-words').textContent = mastered;
+            document.getElementById('stat-fav-words').textContent = favs;
+
+            document.getElementById('prog-p4').textContent = `${Math.round((b4 / total) * 100)}%`;
+            document.getElementById('bar-p4').style.width = `${(b4 / total) * 100}%`;
+            document.getElementById('prog-p3').textContent = `${Math.round((b3 / total) * 100)}%`;
+            document.getElementById('bar-p3').style.width = `${(b3 / total) * 100}%`;
+            document.getElementById('prog-p2').textContent = `${Math.round((b2 / total) * 100)}%`;
+            document.getElementById('bar-p2').style.width = `${(b2 / total) * 100}%`;
+            document.getElementById('prog-p1').textContent = `${Math.round((b1 / total) * 100)}%`;
+            document.getElementById('bar-p1').style.width = `${(b1 / total) * 100}%`;
+        }
+
+        function resetProgressModal() { document.getElementById('confirm-modal').classList.remove('hidden'); }
+        function closeModal() { document.getElementById('confirm-modal').classList.add('hidden'); }
+        function confirmResetProgress() {
+            localStorage.removeItem('vocab_progress_unit5');
+            localStorage.removeItem('vocab_progress_unit4');
+            loadProgress();
+            buildDeck();
+            updateStats();
+            renderDictionary();
+            closeModal();
+            showToast("Zresetowano postępy");
+        }
+
+        function toggleDarkMode() {
+            const html = document.documentElement;
+            const icon = document.getElementById('theme-icon');
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+                icon.className = 'fa-solid fa-moon text-lg';
+            } else {
+                html.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+                icon.className = 'fa-solid fa-sun text-lg';
+            }
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-msg').textContent = msg;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 2500);
+        }
+    </script>
+</body>
+</html>
